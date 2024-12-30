@@ -1,0 +1,46 @@
+[Settings]
+  ID = "ees4760"
+
+[build]
+  publish = "public/"
+  command = "git submodule update --remote && cd themes/hugo-syllabus && git status && cd ../.. && hugo"
+
+[build.environment]
+  HUGO_VERSION = "0.136.2"
+
+[context.production]
+  branch = "main"
+
+[[redirects]]
+  from = "https://www.ees5891.jgilligan.org/*"
+  to   = "https://ees5891.jgilligan.org/:splat"
+  force = true
+  status = 301
+
+[[redirects]]
+  from = "http://www.ees5891.jgilligan.org/*"
+  to   = "https://ees5891.jgilligan.org/:splat"
+  force = true
+  status = 301
+
+[[redirects]]
+  from = "https://ees5891.netlify.com/*"
+  to   = "https://ees5891.jgilligan.org/:splat"
+  force = true
+  status = 301
+
+[[redirects]]
+  from = "http://ees5891.netlify.com/*"
+  to   = "https://ees5891.jgilligan.org/:splat"
+  force = true
+  status = 301
+
+[[redirects]]
+  from = "/static/*"
+  to = "https://static.jgilligan.org/ees5891/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
