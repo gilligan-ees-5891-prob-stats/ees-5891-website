@@ -1,7 +1,7 @@
 baseurl = "https://ees5891.jgilligan.org"
 languageCode = "en-us"
 defaultContentLanguage = "en-us"
-title = "EES 5891-03"
+title = "EES 5891-01"
 theme = "hugo-syllabus"
 # disqusShortname = ""
 enableRobotsTXT = true
