@@ -39,7 +39,7 @@ date: "2021-08-26T00:00:00"
 
 ## Catalog Description {#catalog-desc}
 
-**EES 5891-01 **
+**EES 4891/5891-01 **
 Fundamentals of probability and statistics for the Earth & Envirommental 
 Sciences, with applications in R. Probability distributions, descriptive 
 statistics, statistical testing, regression analysis, elements of time-series 
