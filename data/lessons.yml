@@ -1,6 +1,7 @@
 lessons:
 - date: '2025-01-07'
   title: Introduction
+  lecture: /slides/class_01
 - date: '2025-01-09'
   title: What is Probability?
   reading: /reading/reading_02

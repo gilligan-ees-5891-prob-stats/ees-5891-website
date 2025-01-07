@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<!-- JG Reveal.js Template --><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta name="author" content="Jonathan Gilligan">
+<title>First Day of Class</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reset.css">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reveal.min.css">
+<style type="text/css">
+      code{white-space: pre-wrap;}
+      .smallcaps{font-variant: small-caps;}
+      .line-block{white-space: pre-line;}
+      .column{display: inline-block;}  </style>
+<style type="text/css">
+    div.qrbox,
+    aside.qrbox {
+     text-align: left;
+     vertical-align: bottom;
+     width: 95%;
+     position: fixed;
+     left: 2.5%;
+     bottom: 1rem;
+     display: block;
+    }
+  </style>
+<!-- theme = solarized_jg --><link rel="stylesheet" href="../../lecture_lib/library/assets/css/theme/solarized_jg.css" id="theme">
+<!-- Printing and PDF exports --><script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../lecture_lib/library/reveal.js-3.8.0/css/print/pdf.css' : '../../lecture_lib/library/reveal.js-3.8.0/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><!--[if lt IE 9]>
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+  <![endif]--><script src="../../lecture_lib/library/header-attrs-2.29.1.9000/header-attrs.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+            <!-- start title slide -->
+<section class="center" id="title"><h1 class="title">First Day of Class</h1>
+    <h3 class="author">EES 4891/5891</h3>
+        <h3 class="author">Probability &amp; Statistics for
+Geosciences</h3>
+    <h3 class="author">Jonathan Gilligan</h3>
+    <h3 class="date">
+      Class #1:
+       Tuesday, January 07
+      2025
+    </h3>
+	<!-- end title slide -->
+</section><section><section id="introductions" class="title-slide slide level1 center"><h1 class="center">Introductions</h1>
+
+</section><section id="introduce-yourselves" class="slide level2"><h2>Introduce Yourselves</h2>
+<ol>
+<li>Name</li>
+<li>What are your Major or Program, and research interests?</li>
+<li>What’s your year or how long you’ve been in your graduate
+program?</li>
+<li>What previous math or stats have you taken?</li>
+<li>What do you hope to get from this class?</li>
+<li>Something interesting about yourself</li>
+<li>(Optional) Ask me a question about some aspect of probability or
+statistics</li>
+</ol></section></section><section><section id="what-are-probability-statistics" class="title-slide slide level1 center"><h1 class="center">What Are Probability &amp; Statistics?</h1>
+
+</section><section id="what-is-statistics" class="slide level2"><h2>What Is Statistics?</h2>
+<ul>
+<li>Define “statistics”</li>
+<li class="fragment">What do you use statistics for?</li>
+<li class="fragment">What kinds of questions do you expect statistics to answer?</li>
+<li class="fragment">Any questions for me?</li>
+</ul></section><section id="what-is-proability" class="slide level2"><h2>What Is Proability?</h2>
+<ul>
+<li>What is the probability the sun will rise tomorrow?</li>
+<li class="fragment">What is the probability that if I roll a fair die, it will come
+up 5</li>
+<li class="fragment">How would you know whether an answer to one of these questions
+is correct?</li>
+</ul></section></section><section><section id="applications" class="title-slide slide level1 center"><h1 class="center">Applications</h1>
+
+</section><section id="climate-change" class="slide level2"><h2>Climate Change</h2>
+<ul>
+<li>What do scientists mean when they say the earth is getting
+hotter?</li>
+<li class="fragment">How do we define the temperature of the earth?</li>
+<li class="fragment">How do we <em>measure</em> the temperature of the earth?</li>
+<li class="fragment">How do paleoclimatologists figure out what the earth’s
+temperature used to 1000 years ago?</li>
+</ul></section><section id="research-design" class="slide level2"><h2>Research Design</h2>
+<ul>
+<li>You are studying a species of snail that lives on two islands, about
+100 miles apart.</li>
+<li class="fragment">On each island, there is considerable variation in the size of
+the snails’ shells</li>
+<li class="fragment">You want to determine whether snails on island A are larger than
+snails on island B, and by how much.</li>
+<li class="fragment">How would you do this?</li>
+<li class="fragment">How many snails would you need to collect and measure from each
+island?</li>
+</ul></section></section><section><section id="a-statistical-conundrum" class="title-slide slide level1 center"><h1 class="center">A Statistical Conundrum</h1>
+
+</section><section id="marsha-blackburn" class="slide level2"><h2>Marsha Blackburn</h2>
+<video width="1800" height="900" controls><source src="/static/video/Blackburn_on_climate.mp4" type="video/mp4"><p>Video of Marsha Blackburn in 2016, saying, “The earth is no longer
+warming, and has not for the past 13 years. It has begun to cool.”
+</p></source></video></section><section id="hiatus-0" class="slide level2 ninety" data-transition="fade"><h2 class="ninety" data-transition="fade">Did temperatures stop rising
+18 years ago?</h2>
+<h3 id="look-at-19702014">Look at 1970–2014</h3>
+<p><img data-src="assets/fig/hiatus_0-1.png"><!-- --></p>
+</section><section id="hiatus-1" class="slide level2 ninety" data-transition="fade"><h2 class="ninety" data-transition="fade">Did temperatures stop
+rising?</h2>
+<p><img data-src="assets/fig/hiatus_1-1.png"><!-- --></p>
+</section><section id="hiatus-2" class="slide level2 ninety" data-transition="fade"><h2 class="ninety" data-transition="fade">Did temperatures stop
+rising?</h2>
+<p><img data-src="assets/fig/hiatus_2-1.png"><!-- --></p>
+</section><section id="scientists-worried" class="slide level2"><h2>Scientists worried</h2>
+<div class="columns mtop-5">
+<div class="column bare">
+<p><img data-src="assets/images/trenberth-paper.jpg" alt="Screenshot of paper “An Apparent hiatus in global warming,” by Kevin Trenberth and John Fasullo, Earth’s Future (2013)"></p>
+<div class="credit">
+<p>Trenberth, K.E., &amp; Fasullo, J.T. (2013). An apparent hiatus in
+global warming? <em>Earth’s Future</em>, <strong>1</strong>, 19. doi: <a href="https://doi.org/10.1002/2013EF000165">10.1002/2013EF000165</a></p>
+</div>
+</div>
+<div class="column bare">
+<p><img data-src="assets/images/held_paper.jpg" alt="Screenshot of paper, “The cause of the pause,” by Isaac Held, Nature (2013)"></p>
+<div class="credit">
+<p>Held, I.M. (2013). The cause of the pause. <em>Nature</em>,
+<strong>501</strong>, 318. doi: <a href="https://doi.org/10.1038/501318a">doi.org/10.1038/501318a</a></p>
+</div>
+</div>
+</div>
+</section><section id="hiatus-3" class="slide level2 ninety" data-transition="fade"><h2 class="ninety" data-transition="fade">Did temperatures really stop
+rising?</h2>
+<p><img data-src="assets/fig/hiatus_3-1.png"><!-- --></p>
+</section><section id="hiatus-4" class="slide level2 ninety" data-transition="fade"><h2 class="ninety" data-transition="fade">Did temperatures really stop
+rising?</h2>
+<p><img data-src="assets/fig/hiatus_4-1.png"><!-- --></p>
+</section><section id="hiatus-5" class="slide level2 ninety" data-transition="fade"><h2 class="ninety" data-transition="fade">Did temperatures really stop
+rising?</h2>
+<p><img data-src="assets/fig/hiatus_5-1.png"><!-- --></p>
+</section><section id="hiatus-6" class="slide level2 ninety" data-transition="fade"><h2 class="ninety" data-transition="fade">Did temperatures really stop
+rising?</h2>
+<p><img data-src="assets/fig/hiatus_6-1.png"><!-- --></p>
+</section><section id="hiatus-7" class="slide level2 ninety" data-transition="fade"><h2 class="ninety" data-transition="fade">Did temperatures really stop
+rising?</h2>
+<p><img data-src="assets/fig/hiatus_7-1.png"><!-- --></p>
+</section><section id="lessons" class="slide level2"><h2>Lessons</h2>
+<ul>
+<li>Many leading scientists underestimated how many years of data they
+needed to tell whether an apparent slowdown in a treand was real, or
+just a temporary statistical fluke.</li>
+</ul></section></section><section><section id="organization-of-the-course" class="title-slide slide level1 center"><h1 class="center">Organization of the Course</h1>
+
+</section><section id="organization-of-the-course-1" class="slide level2"><h2>Organization of the Course</h2>
+<ul>
+<li>The main course website is <a href="https://ees5891.jgilligan.org" class="uri">https://ees5891.jgilligan.org</a>
+<ul>
+<li>Information:
+<ul>
+<li>Syllabus</li>
+<li>Reading assignments</li>
+<li>Homework assignments</li>
+<li>Slides from class</li>
+<li>Instructions for installing coourse software on your computer</li>
+</ul>
+</li>
+<li>Links to helpful resources</li>
+<li>Slides:
+<ul>
+<li>Title slide has a QR code with link to online version</li>
+<li>I also post PDF versions</li>
+<li>Slides have two-dimensional navigation
+<ul>
+<li>Press “?” in your browser for help</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></section><section id="textbooks" class="slide level2"><h2>Textbooks</h2>
+</section><section id="section" class="slide level2" data-background="#FFF0F0"><h2 data-background="#FFF0F0"><!--- dummy for formatting ---></h2>
+<h3 id="textbooks-1">Textbooks</h3>
+<table>
+<tr style="vertical-align:middle; text-align:center">
+<td>
+<img src="assets/images/JEG-cover.jpg" height="360px" alt="_Data Analysis for Earth &amp; Environmental Science_,5th edition (USC, 2023)">
+</td>
+<td style="vertical-align:middle;">
+Julien Emile-Geay, <i><em>Data Analysis for Earth &amp; Environmental
+Science</em>,<br>5th edition (USC,
+2023)</i><br><strong>Required</strong> (Free to download PDF)
+</td>
+</tr>
+<tr style="vertical-align:middle; text-align:center">
+<td>
+<img src="assets/images/r4ds-cover.jpg" height="360px" alt="_R for Data Science_,2nd edition (O'Reilly, 2023)">
+</td>
+<td style="vertical-align:middle;">
+Hadley Wickham, Mina Çetinkaya-Rundel &amp; Garrett Grolemund, <i><em>R
+for Data Science</em>,<br>2nd edition (O’Reilly,
+2023)</i><br><strong>Required</strong> (Free web version online)
+</td>
+</tr>
+</table></section></section><section><section id="computing-sec" class="title-slide slide level1 center"><h1 class="center">Computational Resources</h1>
+
+</section><section id="r" class="slide level2"><h2>R</h2>
+<ul>
+<li>We will use the R for all the statistical analysis in this course
+<ul>
+<li>It is free and open source</li>
+<li>It is widely used and powerful</li>
+<li>It is written specifically for statistical analysis</li>
+<li>There is an extensive library of free packages people have written
+to extend it.</li>
+<li>You can find instructions for installing R and the other software
+for this course in the “<a href="https://ees5891.jgilligan.org/tools/">Tools</a>” page of the class
+web site and in the homework assignment for next Tuesday.</li>
+</ul>
+</li>
+</ul></section><section id="rstudio" class="slide level2"><h2>RStudio</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>We will use the RStudio integrated development environment for
+working with R.
+<ul>
+<li>RStudio combines an editor for writing code and an environment for
+running R scripts and also using R interactively, displaying graphics,
+etc.</li>
+<li>Like R, RStudio is free and open-source.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<p><img data-src="assets/images/rstudio-image.jpg" alt="Screenshot of RStudio"></p>
+</div>
+</div>
+</section></section><section><section id="reproducible-research" class="title-slide slide level1"><h1>Reproducible Research</h1>
+
+</section><section id="spreadsheets-for-data-analysis" class="slide level2"><h2>Spreadsheets for Data Analysis</h2>
+<div class="columns">
+<div class="column seventyfive">
+<ul>
+<li>Statistical analysis with spreadsheets
+<ul>
+<li class="fragment">
+<p>What happens if someone raises questions several years after
+you publish your research?</p>
+<ul>
+<li>Can you go back to your spreadsheet and understand everything you
+did in the analysis?</li>
+<li class="fragment">If you give the spreadsheet to someone else, can <em>they</em>
+understand your analysis by reading it?</li>
+</ul>
+</li>
+<li class="fragment"><p>If you make an error in a formula in one of the cells of a
+large spreadsheet, how hard would it be to find and correct the
+error?</p></li>
+<li class="fragment">
+<p>You have just finished a long analysis and find that some of
+the data was entereed incorrectly.</p>
+<p>How much work would it take to correct the error and update your
+report?</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<div class="fragment">
+<p><img data-src="assets/images/london-whale.jpg" alt="Case Study 18: How Excel Errors and Risk Oversights Cost JP Morgan $6 Billion"></p>
+<div class="credit">
+<p>Henrico Dolfing Case Studies, <a href="https://www.henricodolfing.com/2024/07/case-study-jp-morgan-chase-london-whale.html" class="uri">https://www.henricodolfing.com/2024/07/case-study-jp-morgan-chase-london-whale.html</a></p>
+</div>
+</div>
+</div>
+</div>
+</section><section id="scientific-research-with-spreadsheets" class="slide level2"><h2>Scientific Research with Spreadsheets</h2>
+<div class="columns">
+<div class="column">
+<p><img data-src="assets/images/appetitle-obesity-retraction.jpg" alt="Obesity paper retracted because of spredsheet error"></p>
+<div class="credit">
+<p>L. Hubbs-Tait et al. (2013) <em>Appetite</em>, <strong>71</strong>,
+126. doi: <a href="https://doi.org/10.1016/j.appet.2013.08.004">10.1016/j.appet.2013.08.004</a></p>
+</div>
+<div class="seventy">
+<blockquote>
+<p>I had found an error in the data for the manuscript and had tracked
+down the source of the error to a column switching mistake in copying
+data from one spreadsheet to another…. The error was difficult to detect
+because the coefficients for internal consistency of all measures were
+acceptable as were the descriptive statistics for all measures.</p>
+</blockquote>
+</div>
+</div>
+<div class="column">
+<p><img data-src="assets/images/bbc-covid-excel.jpg" alt="Excel spreadsheet error led to undercounting COVID cases"></p>
+</div>
+</div>
+</section><section id="reproducible-research-1" class="slide level2"><h2>Reproducible Research</h2>
+<ul>
+<li>All analysis is performed with computer scripts.
+<ul>
+<li>Plain text makes it easy to read, understand, and check for
+errors.</li>
+</ul>
+</li>
+<li>Revision control tracks all edits
+<ul>
+<li>Old versions can be recovered</li>
+</ul>
+</li>
+<li>Automate generating figures &amp; tables, inserting numbers into
+text.
+<ul>
+<li>If data changes, or errors are corrected in analysis scripts, press
+a button to automatically regenerate the report or manuscript.</li>
+</ul>
+</li>
+</ul></section><section id="tools" class="slide level2"><h2>Tools:</h2>
+<ul>
+<li>
+<code>git</code> for managing files, tracking edits and revisions.
+<ul>
+<li>
+<code>GitHub</code> service stores project in the cloud. Everything
+can be recovered if your computer dies.</li>
+</ul>
+</li>
+<li>
+<code>Quarto</code> or <code>RMarkdown</code> to automatically
+generate manuscripts, reports, websites, blog posts, and presentation
+slides from your data analysis.</li>
+</ul></section></section>
+</div>
+  </div>
+  <!--
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.js"></script>
+  <!-- -->
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.min.js"></script><!-- --><script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Display the page number of the current slide
+        showSlideNumber: 'speaker',
+        // Push each slide change to the browser history
+        history: true,
+        //  Enable hashing slide content to URL
+        hash: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Don't separate fragments in PDF rendering
+        pdfSeparateFragments: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+      
+        // Optional reveal.js plugins
+        dependencies: [
+                    { src: '../../lecture_lib/library/assets/plugin/chalkboard/chalkboard.js', async: true },
+                                        { src: '../../lecture_lib/library/assets/plugin/reveal-skip-fragments/skip-fragments.js', async: true },
+                    { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/notes/notes.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/math/math.js', async: true }
+        ],
+        shift_keyboard: {
+    	    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'C' is pressed
+    	    66: function() { RevealChalkboard.toggleChalkboard() },	  // toggle chalkboard when 'B' is pressed
+    	    88: function() { RevealChalkboard.clear() },	            // clear chalkboard when 'X' is pressed
+    	    82: function() { RevealChalkboard.reset() },	            // reset chalkboard data on current slide when 'R' is pressed
+    	    68: function() { RevealChalkboard.download() },	          // downlad recorded chalkboard drawing when 'D' is pressed
+        },
+              	// Shortcut for showing all fragments
+      	skipFragmentsShowShortcut: 'S',
+
+      	// Shortcut for hiding all fragments
+      	skipFragmentsHideShortcut: 'H',
+      	      });
+    </script><script>
+  	function createSingletonNodejg( container, tagname, classname, innerHTML ) {
+
+		// Find all nodes matching the description
+		var nodes = container.querySelectorAll( '.' + classname );
+
+		// Check all matches to find one which is a direct child of
+		// the specified container
+		for( var i = 0; i < nodes.length; i++ ) {
+			var testNode = nodes[i];
+			if( testNode.parentNode === container ) {
+				return testNode;
+			}
+		}
+
+		// If no node was found, create it now
+		var node = document.createElement( tagname );
+		node.className = classname;
+		if( typeof innerHTML === 'string' ) {
+			node.innerHTML = innerHTML;
+		}
+		container.appendChild( node );
+
+		return node;
+
+	}
+
+  var dom_wrapper = document.querySelector('.reveal');
+  createSingletonNodejg(dom_wrapper, 'div', 'qrbox',
+  '<div class="qrbox" id="qrbox" style="font-size:90%;">' + '\n' +
+  '<div style="font-size:30%;width:100%;">' + '\n' +
+      '<a href="https://ees5891.jgilligan.org/slides/class_01">' +
+  	'<img src="qrcode.png" alt="https://ees5891.jgilligan.org/slides/class_01"/>' +
+  	'</a>' + '\n' +
+	  '</div>' + '\n' +
+  '<div style="font-size:30%;width:100%;vertical-align:top;">' + '\n' +
+    '<span style="display:inline-block;text-align:left;margin-left:0">' + '\n' +
+        'Live web page: <a href="https://ees5891.jgilligan.org/slides/class_01">https://ees5891.jgilligan.org/slides/class_01</a>' + '\n' +
+              '<br/>' + '\n' +
+        'PDF: <a href="https://ees5891.jgilligan.org/slides/class_01/EES_4891_5891_class_01_slides.pdf" target="_blank">https://ees5891.jgilligan.org/slides/class_01/EES_4891_5891_class_01_slides.pdf</a>' + '\n' +
+          	'</span>' + '\n' +
+  	'<span style="display:inline-block;text-align:right;vertical-align:top;position:absolute;right:0;bottom:0;">' + '\n' +
+  	  'Navigate slides: next: N or &lt;space&gt;; previous: P or &lt;backspace&gt;<br/>' + '\n' +
+  	  'Also: up, down, left, right arrows; overview: o; help: ?' + '\n' +
+  	'</span>' + '\n' +
+	'</div>' + '\n' +
+  '</div>' + '\n'
+  );
+</script><script>
+var MathJax = { jax: ["input/TeX", "output/HTML-CSS"],
+                TeX: {extensions: ["color.js", "mhchem.js"],
+                Macros: {
+                  COO: "\\ce{CO2}",
+                  methane: "\\ce{CH4}",
+                  degC: "^\\circ \\mathrm{C}",
+                  degF: "^\\circ \\mathrm{F}",
+                  water: "\\ce{H2O}",
+                  carb: "\\ce{CO3^2-}",
+                  bicarb: "\\ce{HCO3-}",
+                  carbonic: "\\ce{H2CO3}",
+                  Hplus: "\\ce{H+}",
+                  OH: "\\ce{OH-}",
+                  silica: "\\ce{SiO2}",
+                  calcite: "\\ce{CaCO3}",
+                  Caplus: "\\ce{Ca^2+}",
+                  silicate: "\\ce{SiO3^2-}",
+                  CaSi: "\\ce{CaSiO3}",
+                  pH: "p\\ce{H}",
+                  permil: "\\unicode{x2030}",
+                  pCOO: "\\ce{	ext{p}CO2}",
+                  pwater: "\\ce{	ext{p}H2O}"
+                },
+                  },
+                "HTML-CSS" : {scale: 100 }};
+</script><!-- dynamically load mathjax for compatibility with self-contained --><script type="text/x-mathjax-config">
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["SVG"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+    displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
+    processEscapes: true
+  }
+})
+  </script><script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script><script>
+  var qrbox = document.querySelector("#qrbox");
+  var advance_fragment = 0;
+
+	function isPrintingPDF() {
+	  let printing = ( /print-pdf/gi ).test( window.location.search );
+	  console.log("printing test: " + printing);
+	  return printing;
+	}
+
+
+  if ( qrbox.hasAttribute('qr-box-hide') || Reveal.isOverview() ||
+      ! Reveal.isFirstSlide() || isPrintingPDF()) {
+    console.log("Initializing");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }
+
+  Reveal.addEventListener('overviewshown', function() {
+      console.log("Overview shown");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }, false);
+
+  Reveal.addEventListener('overviewhidden', function() {
+    if (Reveal.isFirstSlide() && ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Overview hidden");
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    console.log("Slide changed...");
+    if (Reveal.isFirstSlide() && ! Reveal.isOverview() &&
+        ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    } else {
+      console.log("Hiding QR box");
+      qrbox.style.visibility="hidden";
+      qrbox.style.display="none";
+    }
+  }, false);
+
+  Reveal.addEventListener('pdf-ready', function() {
+    console.log("hiding qrbox for printing");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+    qrbox.setAttribute('qr-box-hide', 'true');
+  });
+
+  </script><script>
+  Reveal.addEventListener('slidechanged', function() {
+    while (advance_fragment > 0) {
+      // console.log('advancing fragment');
+      Reveal.nextFragment();
+      advance_fragment--;
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    if ( Reveal.getCurrentSlide().hasAttribute('data-skip')) {
+      // console.log("going to next slide...");
+      Reveal.next();
+    }
+  }, false);
+
+  Reveal.addEventListener('skip_slide', function() {
+    Reveal.next();
+  }, false);
+
+  Reveal.addEventListener('advance_fragment', function() {
+    // console.log("setting advance fragment");
+    advance_fragment++;
+    }, false);
+  </script>
+</body>
+</html>
