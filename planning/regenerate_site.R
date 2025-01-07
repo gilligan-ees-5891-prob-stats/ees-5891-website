@@ -25,7 +25,7 @@ new_update_site <- function(root = NULL, force = FALSE) {
   message("Setting working directory to ", getwd())
   update_site(force = force)
   out_opts = list(md_extensions = semestr:::get_md_extensions(), toc = TRUE,
-                  includes = list(in_header = "ees4760.sty"))
+                  includes = list(in_header = "ees5891.sty"))
   update_pdfs(force_dest = TRUE, force = force, output_options = out_opts)
 }
 

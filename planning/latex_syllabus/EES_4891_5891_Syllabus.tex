@@ -84,6 +84,8 @@
 
 \fancyhead[L]{\bfseries\scshape \ShortCourseNumber\ Syllabus}
 
+\fancyhead[R]{\scshape \nouppercase\firstleftmark}%
+
 %
 %
 %
@@ -150,7 +152,7 @@ instructions I may not notice your email.
 \section[Description]{Course Description}
 
 \textbf{\ShortCourseName.}
-Fundamentals of probability and statistics for the Earth & Envirommental
+Fundamentals of probability and statistics for the Earth \& Envirommental
 Sciences, with applications in \Rstats. Probability distributions, descriptive
 statistics, statistical testing, regression analysis, elements of time-series
 analysis and multivariate statistics, principal components analysis,
@@ -244,7 +246,7 @@ central place to keep up with material for the course during the semester.
 This web site will direct you to Brightspace if there is anything you need to
 find there.
 
-## Computer Software {#software}
+\subsection[Software]{Computer Software}
 
 For this class, we will work in \Rstats,
 and I strongly recommend that you install
@@ -293,7 +295,7 @@ last week of the semester and turn in a written report about your project.
 You may examine data from a research project you're working on, or it can be data
 from a public data source that you are interested in understanding better.
 
-\subsubsection[Tests \& Exams}{Tests and Examinations}
+\subsubsection[Tests \& Exams]{Tests and Examinations}
 
 There will not be any tests or examinations in this course. Your grade will be
 based on class participation, homework, modeling projects, and in-class
@@ -314,4 +316,123 @@ Research Project    & 50\% \\
 This is the first time I have taught this course, and during the term, I will
 assess how things are going, and may change the assignments and sequence of
 readings to help you get the most out of it.
+%
+%
+\iftrue
+% \pagebreak
+\include*{MeetYourProf}
+\fi
+%
+%
+%
+%
+%
+%
+%
+%\end{document}
 
+\cleardoublepage
+\clearpage
+\appendix
+\setcounter{secnumdepth}{0}
+\newcommand{\maybehline}{\hline}%
+\setlength\extrarowheight{4pt}
+\section[Class Schedule]{Schedule of Classes
+\ifrevised
+	(Revised \RevisionDate)%
+\else
+	(Subject to Change)%
+\fi}
+
+\textbf{\scshape Important Note:} This schedule gives a rough indication of the
+reading for each day. See the assignment sheets posted on Brightspace
+and the course web site for the detailed daily assignments.
+
+\setlength{\aboverulesep}{0.2ex}
+\setlength{\belowrulesep}{0.2ex}
+\setlength{\extrarowheight}{0.1ex}
+\setlength{\heavyrulewidth}{0.5pt}
+\setlength{\lightrulewidth}{0.05pt}
+\begin{center}
+% latex table generated in R 4.4.2 by xtable 1.8-4 package
+% Mon Jan  6 23:51:48 2025
+\begin{tabular}{l@{~}c@{~}r>{\raggedright}m{2.6in}>{\centering}m{2in}c}
+  \toprule
+  \multicolumn{3}{c}{\bfseries Date} & \multicolumn{1}{c}{\bfseries Topic} &\multicolumn{1}{c}{\bfseries Reading} &\\
+ \midrule
+Tue., & Jan. &   7 & Introduction & No reading &  \\ 
+   \midrule
+Thu., & Jan. &   9 & What is Probability? & \emph{Emile-Geay\/} Ch.~1, \emph{Emile-Geay\/} Ch.~2 pp.~15--22 &  \\ 
+   \midrule
+Tue., & Jan. &  14 & The R Statistical Programming Language & \emph{Wickham\/} Intro \& Ch.~1 &  \\ 
+   \midrule
+Thu., & Jan. &  16 & Mathematics of Probability & \emph{Emile-Geay\/} Ch.~2 pp.~22--30 &  \\ 
+   \midrule
+Tue., & Jan. &  21 & Reproducible Research in R & No reading &  \\ 
+   \midrule
+Thu., & Jan. &  23 & Probability Distributions & \emph{Emile-Geay\/} Ch.~3 &  \\ 
+   \midrule
+Tue., & Jan. &  28 & Transforming Data in R & \emph{Wickham\/} Ch.~2--3 &  \\ 
+   \midrule
+Thu., & Jan. &  30 & Working with Data in R & No reading &  \\ 
+   \midrule
+Tue., & Feb. &   4 & Importing Data into R & \emph{Wickham\/} Ch.~7--8 &  \\ 
+   \midrule
+Thu., & Feb. &   6 & The Normal Distribution & \emph{Emile-Geay\/} Ch.~4 focus on pp.~51--59 &  \\ 
+   \midrule
+Tue., & Feb. &  11 & Error Theory & \emph{Emile-Geay\/} Ch.~4 focus on pp, 60--62 &  \\ 
+   \midrule
+Thu., & Feb. &  13 & Exercises with Normality & No reading &  \\ 
+   \midrule
+Tue., & Feb. &  18 & Statistical Estimation & \emph{Emile-Geay\/} Ch.~5 pp.~63--76, \emph{Emile-Geay\/} Ch.~5 pp.~76--80 &  \\ 
+   \midrule
+Thu., & Feb. &  20 & Exercises with Estimation & No reading &  \\ 
+   \midrule
+Tue., & Feb. &  25 & Confirmatory Data Analysis & \emph{Emile-Geay\/} Ch.~6 sections I--IV &  \\ 
+   \midrule
+Thu., & Feb. &  27 & Statistical Testing & \emph{Emile-Geay\/} Ch.~6 sections V--IX &  \\ 
+   \midrule
+Tue., & Mar. &   4 & Review & No reading &  \\ 
+   \midrule
+Thu., & Mar. &   6 & Exercises with Hypothesis Testing & No reading &  \\ 
+   \midrule
+Tue., & Mar. &  11 & \multicolumn{2}{l}{\multirow{2}{*}{\bfseries\scshape\Large Spring Break}} & \\% &  &  \\ 
+  Thu., & Mar. &  13 &  &  &  \\ 
+   \bottomrule
+\end{tabular}
+
+\end{center}
+\clearpage
+
+\begin{center}
+% latex table generated in R 4.4.2 by xtable 1.8-4 package
+% Mon Jan  6 23:51:48 2025
+\begin{tabular}{l@{~}c@{~}r>{\raggedright}m{2.6in}>{\centering}m{2in}c}
+  \toprule
+  \multicolumn{3}{c}{\bfseries Date} & \multicolumn{1}{c}{\bfseries Topic} &\multicolumn{1}{c}{\bfseries Reading} &\\
+ \midrule
+Tue., & Mar. &  18 & Multivariate Analysis & \emph{Emile-Geay\/} Ch.~11 &  \\ 
+   \midrule
+Thu., & Mar. &  20 & Least Squares Analysis & \emph{Emile-Geay\/} Ch.~13 &  \\ 
+   \midrule
+Tue., & Mar. &  25 & Linear Regression & No reading &  \\ 
+   \midrule
+Thu., & Mar. &  27 & Regression with Discrete vs. Continuous Variables & No reading &  \\ 
+   \midrule
+Tue., & Apr. &   1 & Principal Components Analysis & No reading &  \\ 
+   \midrule
+Thu., & Apr. &   3 & Exercises with Regression & No reading &  \\ 
+   \midrule
+Tue., & Apr. &   8 & Time Series Data: Fourier Analysis & \emph{Emile-Geay\/} Ch.~7 &  \\ 
+   \midrule
+Thu., & Apr. &  10 & Modeling Time Series & \emph{Emile-Geay\/} Ch.~8 &  \\ 
+   \midrule
+Tue., & Apr. &  15 & Exercises in Time Series Analysis & No reading &  \\ 
+   \midrule
+Thu., & Apr. &  17 & Review of the Semester & No reading &  \\ 
+   \bottomrule
+\end{tabular}
+
+\end{center}
+%
+\end{document}

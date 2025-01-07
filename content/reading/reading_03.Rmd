@@ -15,5 +15,5 @@ pdf_url: /files/reading_asgts/reading_03.pdf
 
 ### Required Reading (everyone):
 
-* R for Data Science, Intro & Ch. 1.
+* R for Data Science, Intro \& Ch. 1.
 
