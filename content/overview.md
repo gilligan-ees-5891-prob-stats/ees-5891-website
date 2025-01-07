@@ -90,7 +90,7 @@ There are two required textbooks:
    This will be the main textbook for most of the semester. The book is
    published open-access and you can download the PDF for free from 
    <{{% JEG_URL %}}>, Brightspace, or this website, at
-   [{{% absolute_url "/files/course_files/ProbStatEarthEnvironmentalSci_2023.pdf" %}}](/files/course_files/ProbStatEarthEnvironmentalSci_2023.pdf "Download the textbook")
+   [{{% absolute_url "/files/course_files/DataAnalysisEarthEnvironmentalSci_2023.pdf" %}}](/files/course_files/DataAnalysisEarthEnvironmentalSci_2023.pdf "Download the textbook")
 
 
 2. {{% LONG_R4DS %}}

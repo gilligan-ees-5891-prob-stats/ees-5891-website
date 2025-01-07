@@ -21,6 +21,7 @@ lessons:
   reading: /reading/reading_07
 - date: '2025-01-30'
   title: Working with Data in R
+  reading: /reading/reading_08
 - date: '2025-02-04'
   title: Importing Data into R
   reading: /reading/reading_09
