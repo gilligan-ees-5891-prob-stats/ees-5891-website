@@ -1,0 +1,19 @@
+---
+title: Modeling Time Series
+class_date: '2025-04-10'
+class_number: 26
+weight: 26
+slug: reading_26
+pubdate: '2024-12-31'
+date: '2025-04-10'
+output:
+  blogdown::html_page:
+    md_extensions: +tex_math_single_backslash+compact_definition_lists
+pdf_url: /files/reading_asgts/reading_26.pdf
+---
+## Reading:
+
+### Required Reading (everyone):
+
+* Data Analysis for the Earth & Environmental Sciences, Ch. 8.
+

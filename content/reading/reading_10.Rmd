@@ -1,0 +1,22 @@
+---
+title: The Normal Distribution
+class_date: '2025-02-06'
+class_number: 10
+weight: 10
+slug: reading_10
+pubdate: '2024-12-31'
+date: '2025-02-06'
+output:
+  blogdown::html_page:
+    md_extensions: +tex_math_single_backslash+compact_definition_lists
+pdf_url: /files/reading_asgts/reading_10.pdf
+---
+## Reading:
+
+### Required Reading (everyone):
+
+* Data Analysis for the Earth & Environmental Sciences, Ch. 4, focus on pp. 51--59.
+
+### Reading Notes:
+
+Read the whole chapter, but focus on pp. 51--59.

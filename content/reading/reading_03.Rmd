@@ -1,0 +1,19 @@
+---
+title: The R Statistical Programming Language
+class_date: '2025-01-14'
+class_number: 3
+weight: 3
+slug: reading_03
+pubdate: '2024-12-31'
+date: '2025-01-14'
+output:
+  blogdown::html_page:
+    md_extensions: +tex_math_single_backslash+compact_definition_lists
+pdf_url: /files/reading_asgts/reading_03.pdf
+---
+## Reading:
+
+### Required Reading (everyone):
+
+* R for Data Science, Intro & Ch. 1.
+

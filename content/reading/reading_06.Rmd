@@ -1,0 +1,22 @@
+---
+title: Probability Distributions
+class_date: '2025-01-23'
+class_number: 6
+weight: 6
+slug: reading_06
+pubdate: '2024-12-31'
+date: '2025-01-23'
+output:
+  blogdown::html_page:
+    md_extensions: +tex_math_single_backslash+compact_definition_lists
+pdf_url: /files/reading_asgts/reading_06.pdf
+---
+## Reading:
+
+### Required Reading (everyone):
+
+* Data Analysis for the Earth & Environmental Sciences, Ch. 3,.
+
+### Reading Notes:
+
+Reading handouts, TBD

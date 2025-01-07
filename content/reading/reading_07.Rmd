@@ -1,0 +1,19 @@
+---
+title: Transforming Data in R
+class_date: '2025-01-28'
+class_number: 7
+weight: 7
+slug: reading_07
+pubdate: '2024-12-31'
+date: '2025-01-28'
+output:
+  blogdown::html_page:
+    md_extensions: +tex_math_single_backslash+compact_definition_lists
+pdf_url: /files/reading_asgts/reading_07.pdf
+---
+## Reading:
+
+### Required Reading (everyone):
+
+* R for Data Science, Ch. 2--3.
+

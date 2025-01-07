@@ -1,0 +1,19 @@
+---
+title: Mathematics of Probability
+class_date: '2025-01-16'
+class_number: 4
+weight: 4
+slug: reading_04
+pubdate: '2024-12-31'
+date: '2025-01-16'
+output:
+  blogdown::html_page:
+    md_extensions: +tex_math_single_backslash+compact_definition_lists
+pdf_url: /files/reading_asgts/reading_04.pdf
+---
+## Reading:
+
+### Required Reading (everyone):
+
+* Data Analysis for the Earth & Environmental Sciences, Ch. 2, pp. 22--30.
+

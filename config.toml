@@ -108,12 +108,12 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$", "_scripts$", "_
   name = "Schedule"
   pre = "<i class=\"sidebar-button-icon fal fa-lg fa-calendar-alt\"></i> "
   url = "/schedule"
-[[menu.main]]
-  weight = 4
-  identifier = "projects"
-  name = "Projects"
-  pre = "<i class=\"material-icons\">near_me</i>"
-  url = "/projects"
+# [[menu.main]]
+#   weight = 4
+#   identifier = "projects"
+#   name = "Projects"
+#   pre = "<i class=\"material-icons\">near_me</i>"
+#   url = "/projects"
 [[menu.main]]
   weight = 5
   identifier = "policies"
@@ -153,7 +153,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$", "_scripts$", "_
   shortCourseName = "EES 5891-01"
   fullCourseName = "EES 5891-01: Probability and Statistics for the Geosciences"
   semester = "Spring 2025"
-  courseCatalogEntry = " Applications in natural, social, and behavioral sciences and engineering. Designing, programming, and documenting models. Using models for experiments. Examples from environmental science, ecology, economics, urban planning, and medicine. Familiarity with basic statistics and proficiency in algebra are expected. [3] (MNS)"
+  courseCatalogEntry = "Fundamentals of probability and statistics for the Earth & Envirommental Sciences, with applications in R. Probability distributions, descriptive statistics, statistical testing, regression analysis, elements of time-series analysis and multivariate statistics, principal components analysis, reproducible research methods, principles of statistical computing using R. Familiarity with calculus and linear algebra is assumed. [3] (MNS)"
   siteGitHub = "https://github.com/gilligan-ees-5891-prob-stats/ees-5891-website.git"
 
   [params.author]

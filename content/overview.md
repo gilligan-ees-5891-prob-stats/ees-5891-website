@@ -2,13 +2,28 @@
 title: "Course Description"
 date: "2021-08-26T00:00:00"
 ---
-#### <a href="/files/EES_4760_5760_Syllabus.pdf" target="_blank"><i class="fa fa-file-pdf-o" style="margin-right:0.25em;"></i> **Printable syllabus**</a>
+#### <a href="/files/EES_5891-01_Syllabus.pdf" target="_blank"><i class="fa fa-file-pdf-o" style="margin-right:0.25em;"></i> **Printable syllabus**</a>
 
-# **Course Description**
+# Contents
 
-## Basic Info:
+* [Overview](#desc)
+  * [Catalog description](#catalog-desc)
+  * [Prerequisites](#prereqs)
+  * [Narrative description](#narrative-desc)
+  * [Goals for the course](#goals)
+* [Course Structure](#structure)
+  * [Reading material](#reading)
+  * [Graded assignments](#graded-work)
+    * [Homework](#homework)
+    * [Research project](#project)
+    * [Basis of semester grade](#grades)
 
-#### Professor
+
+# **Overview of the Course** {#desc}
+
+## Basic Info: {#basic-info}
+
+#### Professor {#prof}
 
 {{< PROF_INFO >}}
 
@@ -18,225 +33,154 @@ date: "2021-08-26T00:00:00"
 {{< TA_INFO >}}
 {{< /IF_TA >}}
 
-#### Schedule
+#### Schedule {#schedule}
 
 {{% CLASS_MEETINGS %}}
 
-## Catalog Description
+## Catalog Description {#catalog-desc}
 
-**EES 4760/5760 Agent- and Individual-Based Computational Modeling** 
-Applications in natural, social, and behavioral sciences and engineering. 
-Designing, programming, and documenting models. Using models for experiments. 
-Examples from environmental science, ecology, economics, urban planning, and 
-medicine. Familiarity with basic statistics and proficiency in algebra are 
-expected. \[3\] \(MNS\)
+**EES 5891-01 **
+Fundamentals of probability and statistics for the Earth & Envirommental 
+Sciences, with applications in R. Probability distributions, descriptive 
+statistics, statistical testing, regression analysis, elements of time-series 
+analysis and multivariate statistics, principal components analysis, 
+reproducible research methods, principles of statistical computing using R. 
 
-### Prerequisites
+### Prerequisites {#prereqs}
 
-You should be generally numerically literate and I will assume that you are
-familiar and comfortable with basic algebra and statistics.
-Prior programming experience is not required. 
-Students with significant experience in programming and statistical analysis
-should find themselves well prepared but should find plenty still to learn
-throughout the semester.
+You should be comfortable with differential calculus and linear algebra.
+I will review basic concepts, but the course will be difficult for you if you
+are completely unfamiliar with these areas of math.
 
-## Narrative Description
+This course will be mathematical and will make extensive use of the R
+software system, but I do not assume that you already know R or advanced 
+mathematics beyond calculus and linear algebra.
 
-Agent-based and individual-based modeling has become a powerful tool for 
-research in many fields, including anthropology, civil engineering, computer 
-science, ecology, economics, epidemiology, marketing, medicine, political 
-science, public policy, robotics, sociology, transportation, and urban planning.
+## Goals for the Course {#goals}
 
-Agent-based modeling is used to study how individual agents (which can represent
-a wide range of things, such as people, animals, plants, cars, robots,
-or packets of information in a communications network)
-that make simple decisions or execute simple behaviors, can produce complex and
-unexpected collective behavior through their interactions. Agent-based models
-have been used to investigate racial segregation in American cities, traffic
-jams, adaptation to global warming, disease outbreaks, inflammatory response to
-wound infections, ecosystem dynamics, impacts of changing land-use on tropical
-rain forests, political instability, and market penetration of home solar-energy
-systems.
+By the end of the semester, you will:
 
-This course will provide an introduction to agent and individual-based modeling. 
-You will learn how to design, program, and document agent-based computational 
-models using the free open-source {{% NETLOGO %}} environment. You will use 
-these models scientifically to perform computational experiments and interpret 
-the results.
+* Understand theories of probability and be familiar with the properties of
+  discrete and continuous probability distributions
+* Understand what the Normal probability distribution is, and why it plays
+  a central role in probability and statistics
+* Understand how to perform descriptive statistical analyses of data
+* How to use statistical tests to test propositions about data, such as 
+  identifying differences between data collected from different sources.
+* How to estimate the parameters of probability distributions from observed
+  data.
+* How to analyze time-series data.
+* How to analyze sets of multiple variables, such as measurements of multiple
+  elements or isotopes from each of a number of samples.
+* How to organize any data analysis project using Reproducible Research 
+  methods. Increasingly, journals and funding agencies require researchers to
+  use reproducible research methods, so that other people can easily review
+  and understand how the analysis was conducted, and so that if questions arise,
+  even years later, it will be possible to go back and understand exactly how
+  the analysis was conducted.
 
-You do not need to have any prior knowledge of computer programming, but I do 
-expect that you are familiar with basic statistics and algebra.
-We will use the {{% NETLOGO %}} environment for writing and running agent-based 
-models. 
-{{% NETLOGO %}} is a widely used system that is both powerful and easy to learn, 
-so you can quickly start to program your own models.
+## Reading Material {#reading}
 
-# **Goals for the Course**
+There are two required textbooks:
 
-My goals for this course are that at the end of the semester:
-* You will understand what scientific modeling is, including
-  mathematical and computational modeling.
-* You will become skilled with the {{% NETLOGO %}} programming language and
-  be able to use it for coding complete agent-based models.
-* You will be able to use the ODD (Overview, Design concepts, and
-  Details) method to document your own agent-based models and to understand
-  how other people's models work.
-* You will be able to use computational models scientifically,
-  performing experiments and interpreting their results in order to learn
-  about the causes and mechanisms of complex systems phenomena in the real
-  world.
-* You will understand the Pattern Oriented Modeling methodology and be
-  able to use it to design, conduct, and interpret experiments with
-  agent-based models.
+### Textbooks
 
-# **Structure of the Course:**
+1. {{% LONG_JEG %}}
 
-I divide the semester into three parts:
-
-* **Introduction to Agent-Based Models and {{% NETLOGO %}}:** 
-  The first part of the course introduces the basic concepts of computer 
-  modeling, what agent-based models are, and how to use the NetLogo environment 
-  to write and run simple agent based models.
-  I do not assume any prior experience with programming or computer modeling, 
-  so this part of the course will give you everything you need to get started.
-
-* **Designing Agent-Based Models:** 
-  Next, we study the essential components of agent-based models and develop a 
-  systematic approach to designing and implementing agent-based models that will 
-  be suitable for doing real science. This section will use examples of real 
-  agent-based models that have been used for published research.
-
-* **Using Models for Serious Research:**
-  After mastering the components that good models should have, we step back from 
-  the details and work at a more strategic level to consider how we can design 
-  and use models to answer research questions in social and natural sciences.
+   This will be the main textbook for most of the semester. The book is
+   published open-access and you can download the PDF for free from 
+   <{{% JEG_URL %}}>, Brightspace, or this website, at
+   [{{% absolute_url "/files/course_files/ProbStatEarthEnvironmentalSci_2023.pdf" %}}](/files/course_files/ProbStatEarthEnvironmentalSci_2023.pdf "Download the textbook")
 
 
-## Reading Material
+2. {{% LONG_R4DS %}}
 
-There is one required textbook and one optional one, which I recommend primarily
-to students who are interested in social-science applications of agent-based
-modeling.
-From time to time during the term, I will assign supplementary reading on the
-Internet or in handouts that I will post to the class web site.
-
-### Textbooks 
-
-* **Required:**
-  * {{% LONG_RAILSBACK %}}
-
-    There is a companion web site to the book,
-    <https://railsback-grimm-abm-book.com/>
-    where you can find errata in the textbook and download supporting data files 
-    and {{% NETLOGO %}} models for some of the exercises.
-
-* **Recommended (optional):**
-  * {{% LONG_SMALDINO %}}
-
-## Additional Resources
-
-This course only scratches the surface of what is possible with agent-based 
-models, and what researchers are doing with them.
-I have prepared a separate handout on additional reading and computational 
-resources for doing research with agent-based models.
-This handout lists a number of helpful books, journals, web sites, and software 
-tools that you may find useful or interesting if your want to learn more.
+   This book is the best practical introduction I have found for getting started
+   with R and getting things done in data analysis. The author is the chief data
+   scientist as the Posit company and wrote a huge number of widely used free
+   packages to extend and enrich R. This book follows his philosophy of how to 
+   organize data sensibly for analyzing and presenting it.
+   
+   You can buy a paper copy, if you wish, but the full text is available for
+   free online at [{{% R4DS_URL %}}]({{% R4DS_URL %}} "Free online version of R for Data Science")
 
 ## Class Web Site
 
-In addition to Brightspace, I have set up a server at 
-<https://ees4760.jgilligan.org>, 
-where I post the web versions of class slides and interactive web-based 
-applications to that can be useful for working with data output from agent-based 
-modeling experiments.
+In addition to {{% BRIGHTSPACE %}}, I have set up a companion web site for this
+course at
+<https://ees5891.jgilligan.org>,
+where I post the reading and homework assignments,
+my slides from class, and other useful material. That web site will be the
+central place to keep up with material for the course during the semester.
+This web site will direct you to Brightspace if there is anything you need to
+find there.
 
-## Computer Software
+## Computer Software {#software}
 
-For this class, we will write and execute agent-based models using the NetLogo 
-modeling system. NetLogo is free software developed at Northwestern University. 
-You can download it from {{% NETLOGO_URL %}}.
-NetLogo is available for Windows, Mac OS X, and Linux.
-I have chosen it for this course because it is free, it runs on all the major 
-operating systems, its programming language is very easy to learn; and it 
-allows you to easily create a visual representation of your model.
+For this class, we will work in R, and I strongly recommend that you install
+the free version of RStudio Desktop for working with R. All the software we will
+use this semester is free and can be downloaded and installed on Windows,
+Mac, and Linux systems. You can find details at the 
+[tools page]({{% TOOLS_PAGE_URL %}}) of the course web site at
+{{% CLASS_WEB_SITE %}}
 
-You should download {{% NETLOGO %}} version {{% NETLOGO_VERSION %}} from 
-{{% NETLOGO_DOWNLOAD_URL %}}
-and install it on your computer.
+We will also use the {{% GIT %}} revision control software as part of our
+Reproducible Research practice. You will use this to manage files
+for assignments and the semester research project.
+I will spend a class explaining why we use {{% GIT %}}, and how
+to use it effectively for your homework and other projects.
 
-{{% NETLOGO %}} has been used widely both for education and also for 
-research-grade modeling. However, no computer software is perfect and for some 
-large or complicated models, {{% NETLOGO %}} may be inadequate. There are a 
-number of open-source agent-based modeling systems that are more powerful than 
-{{% NETLOGO %}} and are better suited for large and complex models. However, 
-these systems are much harder to learn and much harder for even experts to write 
-models in. My experience is that for most modeling projects, you can get more 
-done in a week with {{% NETLOGO %}} than in a month or more with the other 
-systems I know of.
-
-Optionally, you may want to install {{% RSTATS %}} statistical software, 
-which can help with analyzing data from {{% NETLOGO %}} computational 
-experiments. 
-There is more information bout downloading and installing R on the
-[Tools](/tools) page on the
-[class website](/).
-
-# **Assignments**
+# **Assignments** {#assignments}
  
-### Overview of reading assignments
+### Overview of reading assignments {#reading-asgts}
 
-I will give out detailed reading that give specific pages to read for each class 
+I will post detailed reading assignments to the course website
+{{% CLASS_WEB_SITE %}} 
+that give specific pages to read for each class 
 and notes on important things you should understand.
 **I expect you to complete the reading before you come to class on the day 
 for which the reading is assigned**, 
 so you can participate in discussions of the 
 assigned material and ask questions if there are things you don't understand.
 
-## **Graded Work**
+## **Graded Work** {#graded-work}
 
-### Homework
+### Homework {#homework}
 
-Homework must be turned in electronically to Brightspace by 11:59 pm on the 
-day it is due.
+Homework assignments will be posted on the course web site, and must be 
+submitted by the beginning of class on the day it's due.
 
-### Projects
+You will submit your homework to {{% BRIGHTSPACE %}} or {{% GITHUB %}}
+as indicated on the assignment.
 
-You will do one assigned team project and one research project.
-On the team project you will work with a partner to program and work with a 
-model from the textbook,
-run experiments with the model, write up the results, 
-and make a short presentation to the class.
+### Project {#project}
 
-For your research project, you will study an existing model, adapt it to 
-investigate a new research question, run and analyze experiments using the 
-model, write up the results, and make a presentation to the class.
+In the second half of the semester, you will do a research project, in which you
+will choose a data set that's interesting to you and apply statistical methods to 
+analyze it. You will present the results of your project in class during the
+last week of the semester and turn in a written report about your project.
 
-**{{% small_caps "Note:" %}}** 
-Graduate student research projects will involve additional requirements and a 
-longer final report than undergraduate projects, and graduate students will be 
-assigned more homework exercises.
+You may examine data from a research project you're working on, or it can be data
+from a public data source that you are interested in understanding better.
 
-### Tests and Examinations
+### Tests and Examinations {#tests}
 
 There will not be any tests or examinations in this course. Your grade will be 
 based on class participation, homework, modeling projects, and in-class 
 presentations.
 
-## **Basis for Grading**
+## **Basis for Grading** {#grades}
 
 |                            |       |      |
 |:--------------------------:|------:|-----:|
 | Class participation        |  5%   |      |
-| Homework                   | 30%   |      |
-| Team Project               | 25%   |      |
-| Research Project           | 40%   |      |
+| Homework                   | 45%   |      |
+| Research Project           | 50%   |      |
 
 
 # **Final Note:**
 
-I have made every effort to plan a busy, exciting, and instructive semester.
-I may find during the term that I need to revise the syllabus to give more time
-to some subjects or to pass more quickly over others rather than covering them
-in depth.
-Thus, while I will attempt to follow this syllabus as closely as I can,
-you should realize that it is subject to change during the semester.
+This is the first time I have taught this course, and during the term, I will
+assess how things are going, and may change the assignments and sequence of 
+readings to help you get the most out of it.
+

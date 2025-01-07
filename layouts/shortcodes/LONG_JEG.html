@@ -1,0 +1,10 @@
+{{-
+(fmt.Print "Julien Emile-Geay, [_Data Analysis for the Earth & Environmental Sciences_]({{"
+  (partial "JEG_URL")
+  "}}), 5^th^ Edition (USC, 2023), "
+  "doi: ["
+  (partial "JEG_DOI")
+  "]("
+  (partial "JEG_URL")
+  ")") | transform.Markdownify
+-}}

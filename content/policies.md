@@ -9,9 +9,9 @@ date: "2017-04-13T00:00:00"
 **I expect you to complete the assigned reading before class on the day
 for which it is assigned.**
 
-**Homework will be due by 11:59 PM on the due date.** 
-You will turn in homework to Brightspace.
-
+**Homework will be due by the time class starts on the due date.** 
+You will turn in homework to {{% BRIGHTSPACE %}} or {{% GITHUB %}} classroom,
+as specified in the assignment.
 
 ### General instructions for reading assignments
 
@@ -62,8 +62,9 @@ in this course, please ask me.
 # **Final Note:**
 
 I have made every effort to plan a busy, exciting, and instructive semester.
-I may find during the term that I need to revise the syllabus to give more time
-to some subjects or to pass more quickly over others rather than covering them
-in depth.
+Because this is the first time I have taught this course, 
+I will check in with you during the semester and may revise the syllabus to 
+give more time to some subjects or to pass more quickly over others.
 Thus, while I will attempt to follow this syllabus as closely as I can,
-you should realize that it is subject to change during the semester.
+you should realize that it is subject to change during the semester in order
+to help you get the most out of this course.

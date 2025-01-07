@@ -1,0 +1,19 @@
+---
+title: Importing Data into R
+class_date: '2025-02-04'
+class_number: 9
+weight: 9
+slug: reading_09
+pubdate: '2024-12-31'
+date: '2025-02-04'
+output:
+  blogdown::html_page:
+    md_extensions: +tex_math_single_backslash+compact_definition_lists
+pdf_url: /files/reading_asgts/reading_09.pdf
+---
+## Reading:
+
+### Required Reading (everyone):
+
+* R for Data Science, Ch. 7--8.
+

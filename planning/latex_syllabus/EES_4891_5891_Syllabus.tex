@@ -1,0 +1,317 @@
+\documentclass[11pt,twoside]{jgsyllabus}\usepackage[]{graphicx}\usepackage[]{xcolor}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlsng}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hldef}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{booktabs}
+%\usepackage{tabularx}
+\usepackage{multirow}
+
+\makeatletter
+\g@addto@macro{\UrlBreaks}{\UrlOrds}
+\makeatother
+
+\setlength{\aboverulesep}{0.2ex}
+\setlength{\belowrulesep}{0.2ex}
+\setlength{\extrarowheight}{0.1ex}
+\setlength{\heavyrulewidth}{1pt}
+\setlength{\lightrulewidth}{0.05pt}
+
+\newif\ifreading
+\readingtrue
+
+\iffalse
+\include{CourseInfo}
+\fi
+
+
+
+
+
+\SetupHandout
+\isbntrue
+
+\renewcommand{\LongCourseName}{\ShortCourseName}%
+
+\title{Syllabus\\
+\ShortCourseNumber: \LongCourseName}
+
+\fancyhead[L]{\bfseries\scshape \ShortCourseNumber\ Syllabus}
+
+%
+%
+%
+%
+%
+%
+
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+\maketitle
+
+\iffalse
+\noindent
+\textbf{\large \textsc{Note:} This is a draft syllabus, subject to change.}
+
+\fi
+\section[Nuts \& Bolts]{Nuts and Bolts}
+\label{sec:NutsAndBolts}
+\subsection{Class Meetings}
+\ClassMeetings
+\subsection{Professor}
+\label{sec:Professor}
+\ProfName\ (\ProfPronouns)\\
+\ProfDescr\\
+\ProfOffice\\
+\ProfEmail\\
+\ProfOfficeHours
+%
+\ifTA
+\subsection{Teaching Assistant}
+\label{sec:TA}
+\TaName\ (\TaPronouns)\\
+\TaOfficeLoc\ifTaPhone , \TaPhone\fi\\
+\TaEmail\\
+\TaOfficeHours
+\medskip
+
+\noindent
+\TaTitle\ will be grading homework, so address questions about your homework grades
+to \TaAccusative.
+\fi
+
+\subsection{Email}
+\textbf{%
+If you want to communicate with
+\ifTA
+Professor Gilligan or \TaTitle,
+\else
+me,
+\fi
+be sure to begin the
+subject line of your email with ``{\scshape EES 4670}'' or ``{\scshape EES 5670}''.
+}%
+This helps assure
+that \ifTA we\else I\fi\ will see your message quickly and respond to it.
+
+I have set my email reader to flag all messages like this as important, so I
+will read them first. This also assures that I do not mistake your email for
+spam. I typically receive over 100 emails per day, so if you do not follow these
+instructions I may not notice your email.
+
+\medskip
+%\clearpage
+\section[Description]{Course Description}
+
+\textbf{\ShortCourseName.}
+Fundamentals of probability and statistics for the Earth & Envirommental
+Sciences, with applications in \Rstats. Probability distributions, descriptive
+statistics, statistical testing, regression analysis, elements of time-series
+analysis and multivariate statistics, principal components analysis,
+reproducible research methods, principles of statistical computing using \Rstats.
+[3](MNS)
+
+\subsection{Prerequisites}
+
+You should be familiar with differential calculus and linear algebra.
+I will review basic concepts, but the course will be difficult for you if you
+are completely unfamiliar with these areas of math.
+
+This course will be mathematical and will make extensive use of the \Rstats\
+software system, but
+\textbf{I do not assume} that you already know \Rstats\ or advanced
+mathematics beyond calculus and linear algebra.
+
+\iftrue
+\section[Goals]{Goals for the Course}
+My goals for this course are that at the end of the semester:
+\begin{itemize}
+\item You will understand theories of probability and be familiar with the
+  properties of discrete and continuous probability distributions.
+\item You will understand what the Normal probability distribution is, and why
+  it plays a central role in probability and statistics.
+\item You will be able to perform descriptive statistical analyses of data.
+\item You will be able to use statistical tests to test propositions about data,
+  such as identifying differences between data collected from different sources
+  or under different conditions.
+\item You will be able to estimate the parameters of probability distributions
+  from observed data.
+\item You will be able to analyze time-series data.
+\item You will be able to analyze sets of multiple variables,
+  such as measurements of multiple elements or isotopes from each of a number
+  of samples.
+\item You will be skilled at organizing and managing your data analysis projects
+  using Reproducible Research methods.
+
+  Increasingly, journals and funding agencies require researchers to use
+  reproducible research methods, so that other people can easily review and
+  understand how the analysis was conducted, and so that if questions
+  arise---even years later---it will be straightforward to go back and
+  understand exactly how the analysis was conducted.
+\end{itemize}
+\fi
+%
+%
+%
+% \clearpage
+%
+%
+%
+% \pagebreak
+\subsection{Reading Material}
+There are two required textbooks:
+
+From time to time during the term, I will assign supplementary reading on the
+Internet or in handouts that I will post to the class web site.
+
+\subsubsection{Textbooks}
+\begin{itemize}
+	 %
+	 \item \LongJEGbook.
+
+     This will be the main textbook for most of the semester. The book is
+     published open-access and you can download the PDF for free from
+     \url{\JEGurl}, Brightspace, or the course web site, at \url{\altJEGurl}.
+
+
+  \item \LongWickham.
+
+    This book is the best practical introduction I have found for getting
+    started with \Rstats\ and getting things done in data analysis.
+    The author is the chief data scientist as the Posit company and wrote a huge
+    number of widely used free packages to extend and enrich \Rstats.
+    This book follows his philosophy of how to organize data sensibly for
+    analyzing and presenting it.
+
+    You can buy a paper copy, if you wish, but the full text is available for
+    free online at \url{\WickhamURL}
+
+\end{itemize}
+
+\subsubsection{Course Web Site}
+
+In addition to Brightspace, I have set up a companion web site for this
+course at \url{\classURL},
+where I post the reading and homework assignments,
+my slides from class, and other useful material. That web site will be the
+central place to keep up with material for the course during the semester.
+This web site will direct you to Brightspace if there is anything you need to
+find there.
+
+## Computer Software {#software}
+
+For this class, we will work in \Rstats,
+and I strongly recommend that you install
+the free version of RStudio Desktop for working with \Rstats.
+All the software we will use this semester is free and can be downloaded and
+installed on Windows, Mac, and Linux systems. You can find details at the
+\href{\classURL/tools/}{"Tools" page} of the course web site at
+\url{\classURL}.
+
+We will also use the \git\ revision control software as part of our
+Reproducible Research practice. You will use this to manage files
+for assignments and the semester research project.
+I will spend a class explaining why we use \git, and how
+to use it effectively for your homework and other projects.
+
+\section{Assignments}
+
+\subsection[Reading assignments]{Overview of reading assignments}
+
+I will post detailed reading assignments to the course website
+\url{\classURL}
+that give specific pages to read for each class
+and notes on important things you should understand.
+**I expect you to complete the reading before you come to class on the day
+for which the reading is assigned**,
+so you can participate in discussions of the
+assigned material and ask questions if there are things you don't understand.
+
+\subsection{Graded Work}
+
+\subsubsection{Homework}
+
+Homework assignments will be posted on the course web site, and must be
+submitted by the beginning of class on the day it's due.
+
+You will turn in homework to Brightspace or \GitHub\ as indicated on the
+assignment.
+
+\subsubsection{Project}
+
+In the second half of the semester, you will do a research project, in which you
+will choose a data set that's interesting to you and apply statistical methods to
+analyze it. You will present the results of your project in class during the
+last week of the semester and turn in a written report about your project.
+
+You may examine data from a research project you're working on, or it can be data
+from a public data source that you are interested in understanding better.
+
+\subsubsection[Tests \& Exams}{Tests and Examinations}
+
+There will not be any tests or examinations in this course. Your grade will be
+based on class participation, homework, modeling projects, and in-class
+presentations.
+
+\subsection[Grades]{Basis for Grading}
+
+\begin{tabular}{|lr|}
+\hline
+Class participation &  5\% \\
+Homework            & 45\% \\
+Research Project    & 50\% \\
+\hline
+\end{tabular}
+
+\section{Final Note}
+
+This is the first time I have taught this course, and during the term, I will
+assess how things are going, and may change the assignments and sequence of
+readings to help you get the most out of it.
+

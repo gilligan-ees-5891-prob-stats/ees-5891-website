@@ -1,0 +1,19 @@
+---
+title: Least Squares Analysis
+class_date: '2025-03-20'
+class_number: 20
+weight: 20
+slug: reading_20
+pubdate: '2024-12-31'
+date: '2025-03-20'
+output:
+  blogdown::html_page:
+    md_extensions: +tex_math_single_backslash+compact_definition_lists
+pdf_url: /files/reading_asgts/reading_20.pdf
+---
+## Reading:
+
+### Required Reading (everyone):
+
+* Data Analysis for the Earth & Environmental Sciences, Ch. 13.
+

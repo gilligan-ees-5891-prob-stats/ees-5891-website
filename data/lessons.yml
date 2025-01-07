@@ -1,0 +1,75 @@
+lessons:
+- date: '2025-01-07'
+  title: Introduction
+- date: '2025-01-09'
+  title: What is Probability?
+  reading: /reading/reading_02
+- date: '2025-01-14'
+  title: The R Statistical Programming Language
+  reading: /reading/reading_03
+- date: '2025-01-16'
+  title: Mathematics of Probability
+  reading: /reading/reading_04
+- date: '2025-01-21'
+  title: Reproducible Research in R
+  reading: /reading/reading_05
+- date: '2025-01-23'
+  title: Probability Distributions
+  reading: /reading/reading_06
+- date: '2025-01-28'
+  title: Transforming Data in R
+  reading: /reading/reading_07
+- date: '2025-01-30'
+  title: Working with Data in R
+- date: '2025-02-04'
+  title: Importing Data into R
+  reading: /reading/reading_09
+- date: '2025-02-06'
+  title: The Normal Distribution
+  reading: /reading/reading_10
+- date: '2025-02-11'
+  title: Error Theory
+  reading: /reading/reading_11
+- date: '2025-02-13'
+  title: Exercises with Normality
+- date: '2025-02-18'
+  title: Statistical Estimation
+  reading: /reading/reading_13
+- date: '2025-02-20'
+  title: Exercises with Estimation
+- date: '2025-02-25'
+  title: Confirmatory Data Analysis
+  reading: /reading/reading_15
+- date: '2025-02-27'
+  title: Statistical Testing
+  reading: /reading/reading_16
+- date: '2025-03-04'
+  title: Review
+- date: '2025-03-06'
+  title: Exercises with Hypothesis Testing
+- date: '2025-03-11'
+- date: '2025-03-13'
+- date: '2025-03-18'
+  title: Multivariate Analysis
+  reading: /reading/reading_19
+- date: '2025-03-20'
+  title: Least Squares Analysis
+  reading: /reading/reading_20
+- date: '2025-03-25'
+  title: Linear Regression
+- date: '2025-03-27'
+  title: Regression with Discrete vs. Continuous Variables
+- date: '2025-04-01'
+  title: Principal Components Analysis
+- date: '2025-04-03'
+  title: Exercises with Regression
+- date: '2025-04-08'
+  title: 'Time Series Data: Fourier Analysis'
+  reading: /reading/reading_25
+- date: '2025-04-10'
+  title: Modeling Time Series
+  reading: /reading/reading_26
+- date: '2025-04-15'
+  title: Exercises in Time Series Analysis
+- date: '2025-04-17'
+  title: Review of the Semester
