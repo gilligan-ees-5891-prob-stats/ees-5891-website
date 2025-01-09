@@ -5,9 +5,11 @@ lessons:
 - date: '2025-01-09'
   title: What is Probability?
   reading: /reading/reading_02
+  lecture: /slides/class_02
 - date: '2025-01-14'
   title: The R Statistical Programming Language
   reading: /reading/reading_03
+  assignment: homework_01
 - date: '2025-01-16'
   title: Mathematics of Probability
   reading: /reading/reading_04

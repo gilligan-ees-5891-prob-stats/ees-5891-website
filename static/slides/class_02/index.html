@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<!-- JG Reveal.js Template --><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta name="author" content="Jonathan Gilligan">
+<title>What Is Probability?</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reset.css">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reveal.min.css">
+<style type="text/css">
+      code{white-space: pre-wrap;}
+      .smallcaps{font-variant: small-caps;}
+      .line-block{white-space: pre-line;}
+      .column{display: inline-block;}  </style>
+<style type="text/css">
+    div.qrbox,
+    aside.qrbox {
+     text-align: left;
+     vertical-align: bottom;
+     width: 95%;
+     position: fixed;
+     left: 2.5%;
+     bottom: 1rem;
+     display: block;
+    }
+  </style>
+<!-- theme = solarized_jg --><link rel="stylesheet" href="../../lecture_lib/library/assets/css/theme/solarized_jg.css" id="theme">
+<!-- Printing and PDF exports --><script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../lecture_lib/library/reveal.js-3.8.0/css/print/pdf.css' : '../../lecture_lib/library/reveal.js-3.8.0/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><!--[if lt IE 9]>
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+  <![endif]--><script src="../../lecture_lib/library/header-attrs-2.29.1.9000/header-attrs.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+            <!-- start title slide -->
+<section class="center" id="title"><h1 class="title">What Is Probability?</h1>
+    <h3 class="author">EES 4891/5891</h3>
+        <h3 class="author">Probability &amp; Statistics for
+Geosciences</h3>
+    <h3 class="author">Jonathan Gilligan</h3>
+    <h3 class="date">
+      Class #2:
+       Thursday, January 09
+      2025
+    </h3>
+	<!-- end title slide -->
+</section><section><section id="review-of-mathematical-notation" class="title-slide slide level1 center"><h1 class="center">Review of Mathematical Notation</h1>
+
+</section><section id="review-of-mathematical-notation-1" class="slide level2"><h2>Review of Mathematical Notation</h2>
+<ul>
+<li>
+<p>Logic:</p>
+<p><span class="math inline">\(E\)</span>, <span class="math inline">\(F\)</span>: Propositions that are either true or
+false</p>
+<p><span class="math inline">\(\bar{E}, \bar{F}\)</span>: Negations: the
+opposites of <span class="math inline">\(E\)</span> and <span class="math inline">\(F\)</span>.</p>
+<p><span class="math inline">\(E \cup F\)</span>: <span class="math inline">\(E\)</span> or <span class="math inline">\(F\)</span> is true (includes both true)</p>
+<p><span class="math inline">\(E \cap F\)</span>: <span class="math inline">\(E\)</span> and <span class="math inline">\(F\)</span> are both true</p>
+<p><span class="math inline">\(E | F\)</span>: The truth of <span class="math inline">\(E\)</span> if <span class="math inline">\(F\)</span> is known to be true</p>
+</li>
+<li>
+<p>Probability:</p>
+<p>$ P(E) $: The probability that <span class="math inline">\(E\)</span>
+is true</p>
+<p>$ P(E | F)$: The probability that <span class="math inline">\(E\)</span> is true, given that we know <span class="math inline">\(F\)</span> is true</p>
+</li>
+</ul></section></section><section><section id="what-is-probability" class="title-slide slide level1 center"><h1 class="center">What Is Probability?</h1>
+
+</section><section id="what-is-probability-1" class="slide level2"><h2>What Is Probability?</h2>
+<ul>
+<li>
+<p>What does it mean to say that the probability of something has
+some value?</p>
+<ul>
+<li class="fragment">The probability of a coin coming up “heads” is 0.5 (50%)</li>
+<li class="fragment">The probability of a die coming up “5” is 0.17 (17%, or 1 in
+6)</li>
+<li class="fragment">The probability that it will snow in Nashville tomorrow is 0.97
+(97%)</li>
+<li class="fragment">Nate Silver’s prediction in 2016 that the probability of Hillary
+Clinton winning the election was 0.714 (71.4%)</li>
+<li class="fragment">The probability that there will be a caldera-forming
+supereruption at Yellowstone in 2025 is one in 730,000 (according to
+USGS)</li>
+<li class="fragment">The probability of a nuclear war in the next ten years is around
+0.1 (10%) (according to international security expert Martin
+Hellman)</li>
+</ul>
+</li>
+</ul></section><section id="two-schools-of-thought" class="slide level2"><h2>Two schools of thought:</h2>
+<ul>
+<li>
+<strong>Frequentist:</strong> Probability is about averages for
+repeated identical events:
+<ul>
+<li>If I toss a coin many times, it will come up “heads” 0.5 of the
+time</li>
+<li>If I look at all the days the weather forecast said 97% probability
+of snow, it would snow on 97% of those days</li>
+</ul>
+</li>
+<li>
+<strong>Bayesian:</strong> Probability reflects my degree of
+confidence that something is true:
+<ul>
+<li>It makes no sense to think about repeating the 2016 election
+thousands of times and counting the number of times Clinton won.</li>
+<li>Assigning a 71.4% probability that Clinton would win reflected what
+Silver knew at the time.</li>
+</ul>
+</li>
+</ul></section><section id="frequentist-interpretation" class="slide level2"><h2>Frequentist Interpretation</h2>
+<ul>
+<li>For <strong>frequentists</strong>, probabilities are about
+frequencies, not about truth.
+<ul>
+<li class="fragment">
+<p>Frequentist statistical tests report confidence with a <span class="math inline">\(p\)</span> value:</p>
+<blockquote>
+<p>A clinical trial found that patients taking the experimental drug
+lived longer than patients taking a placebo, with <span class="math inline">\(p = 0.001\)</span></p>
+</blockquote>
+<ul>
+<li class="fragment"><p>This means that if the drug doesn’t actually cause patients
+to live longer, if you repeated the clinical trial many times, about one
+time in 1000, purely by chance, the patients taking the drug would live
+longer than those who didn’t.</p></li>
+<li class="fragment"><p>This doesn’t mean there’s 99.9% confidence that the drug
+works.</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></section><section id="bayesian-interpretation" class="slide level2"><h2>Bayesian Interpretation</h2>
+<ul>
+<li>
+<p>For <strong>Bayesians</strong>, probabilities are about
+knowledge. Every time you make a new measurement, you learn something,
+and update the probability to reflect the new state of your
+knowledge.</p>
+<ul>
+<li class="fragment">
+<p>Suppose you begin life not knowing whether the sun will ever
+rise again, after it sets.</p>
+<ul>
+<li class="fragment">After the first day, you might assume there’s a 50% probability
+that the sun will rise again.</li>
+<li class="fragment">After the sun rises on the second day, you update the
+probability to reflect your new knowledge that you’ve seen it rise
+twice.</li>
+<li class="fragment">After thousands of sunrises, your updated knowledge gives a very
+high probability that it will continue to rise every day.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></section><section id="mathematical-treatment" class="slide level2"><h2>Mathematical treatment</h2>
+<ul>
+<li>
+<p>Let <span class="math inline">\(H\)</span> be a hypothesis that
+is either true or false, and <span class="math inline">\(H_0\)</span> is
+an alternate <em>null hypothesis</em>.</p>
+<ul>
+<li>
+<span class="math inline">\(H\)</span> says patients who take the
+drug live longer, and <span class="math inline">\(H_0\)</span> says
+there is no difference between those who take the drug and those who
+don’t.</li>
+</ul>
+</li>
+<li><p>Let <span class="math inline">\(x\)</span> be the evidence
+collected in an experiment</p></li>
+<li class="fragment" data-fragment-index="1"><p>Frequentists consider likelihood: <span class="math inline">\(P(x | H_0)\)</span>: the probability that you’d
+see the evidence from the experiment if the null hypothesis were
+true</p></li>
+<li class="fragment" data-fragment-index="1"><p>Bayesians consider <span class="math inline">\(P(H |
+x)\)</span>: the probability that the hypothesis is true, based on the
+evidence from the experiment.</p></li>
+</ul></section><section id="bayess-theorem" class="slide level2 ninety"><h2 class="ninety">Bayes’s Theorem</h2>
+<ul>
+<li><p>Suppose there are <span class="math inline">\(N\)</span> possible
+hypotheses, <span class="math inline">\(H_1\)</span>, <span class="math inline">\(H_2\)</span>, … <span class="math inline">\(H_N\)</span>.</p></li>
+<li>
+<p>Initially, you assign probabilities <span class="math inline">\(P(H_1)\)</span>, <span class="math inline">\(P(H_2)\)</span>, …, <span class="math inline">\(P(H_N)\)</span>.</p>
+<ul>
+<li>These are called <strong><em>prior probabilities</em></strong>. If
+you don’t know anything, you might choose a <strong>uniform
+prior</strong>, giving each hypothesis the probability <span class="math inline">\(1/N\)</span>.</li>
+</ul>
+</li>
+<li>
+<p>You observe new data <span class="math inline">\(D\)</span>, and
+want to update your estimates of the probability for each
+hypothesis:</p>
+<p><span class="math display">\[ P(H_i | x) = \frac{P(x | H_i)
+P(H_j)}{\sum_{j = 1}^N P(x | H_j) P(H_j)} \]</span></p>
+</li>
+</ul></section><section id="bayess-theorem-contd." class="slide level2"><h2>Bayes’s Theorem (contd.)</h2>
+<p><span class="math display">\[ P(H_i | x) = \frac{P(x | H_i)
+P(H_j)}{\sum_{j = 1}^N P(x | H_j) P(H_j)} \]</span></p>
+<ul>
+<li>
+<span class="math inline">\(P(H_i | x)\)</span> is called the
+<strong><em>posterior probability</em></strong> of <span class="math inline">\(H_i\)</span>, after updating it to account for the
+new data</li>
+<li>
+<span class="math inline">\(P(H_i)\)</span> is called the
+<strong>prior probability_</strong> of <span class="math inline">\(H_i\)</span>, before observing the data</li>
+<li>
+<span class="math inline">\(D\)</span> is the new data</li>
+<li>
+<span class="math inline">\(P(D | H_i)\)</span> is the likelihood of
+observing <span class="math inline">\(D\)</span>, if <span class="math inline">\(H_i\)</span> is true</li>
+<li>
+<span class="math inline">\(\sum_{j=1}^N P(D | H_j) P(H_j)\)</span>,
+is equal to <span class="math inline">\(P(D)\)</span>, the probability
+of observing <span class="math inline">\(D\)</span> regardless which
+hypothesis is true, and it’s called the
+<strong><em>evidence</em></strong>.</li>
+</ul>
+<p><span class="math display">\[ \text{posterior} =
+\frac{\text{likelihood} \times \text{prior}}{\text{evidence}}
+\]</span></p>
+</section></section><section><section id="worked-examples" class="title-slide slide level1 center"><h1 class="center">Worked Examples</h1>
+
+</section><section id="prosecutors-fallacy" class="slide level2 eighty"><h2 class="eighty">Prosecutor’s fallacy</h2>
+<ul>
+<li>A crime has been committed in Nashville, and the person who
+committed it left a smudged, partial fingerprint at the scene.</li>
+<li>A suspect is apprehended.
+<ul>
+<li>
+<span class="math inline">\(H\)</span> is the hypothesis that the
+suspect committed the crime</li>
+<li>
+<span class="math inline">\(H_0\)</span> is the null hypothesis,
+that the suspect is innocent</li>
+</ul>
+</li>
+<li class="fragment">Fingerprint experts: the suspect’s fingerprint matches the
+partial closely enough that there is only one chance in 100,000 an
+innocent person would match it that well: <span class="math display">\[
+P(x | H_0) = 0.001% \]</span>
+</li>
+<li class="fragment">Does this mean there is a 99.999% chance that the suspect is the
+criminal?</li>
+<li class="fragment">There are over 700,000 people in Nashville.
+<ul>
+<li class="fragment">How many innocent people in Nashville would match the partial
+fingerprint? <span class="fragment medbluetext">7</span>
+</li>
+<li class="fragment">How many criminals are there? <span class="fragment darkredtext">1</span>
+</li>
+<li class="fragment"><span class="darkredtext">1</span> criminal and <span class="medbluetext">7</span> innocents.
+<ul>
+<li>
+<span class="math inline">\(P(H) = 1/8\)</span>, and there’s a <span class="math inline">\(7/8\)</span> probability the suspect is
+innocent.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></section><section id="the-game-show-problem" class="slide level2" data-transition="fade-out"><h2 data-transition="fade-out">The Game Show Problem</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>On the old game show, “Let’s Make A Deal,” a contestant would face
+three doors.
+<ul>
+<li>Behind one would be a valuable prize, such as a car</li>
+<li>Behind the other two would be joke prizes or nothing at all</li>
+</ul>
+</li>
+</ul>
+<p><img data-src="assets/images/doors-1-2-3.jpg" height="450" alt="Let’s Make A Deal doors"></p>
+</div>
+<div class="column">
+<p><img data-src="assets/images/monty-hall.jpg" alt="Monty Hall"></p>
+</div>
+</div>
+</section><section id="the-game-show-problem-1" class="slide level2" data-transition="fade-in"><h2 data-transition="fade-in">The Game Show Problem</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>After the contestant chose a door, the host, Monty Hall, would often
+open one of the other doors, to reveal a goat, and ask the contestant,
+“would you like to switch your choice?”</li>
+<li class="fragment">What should the contestant do?</li>
+</ul>
+<p><img data-src="assets/images/doors-1-2-3.jpg" height="450" alt="Let’s Make A Deal doors"></p>
+</div>
+<div class="column">
+<p><img data-src="assets/images/monty-hall.jpg" alt="Monty Hall"></p>
+</div>
+</div>
+</section><section id="frequentist-solution" class="slide level2"><h2>Frequentist solution</h2>
+<ul>
+<li>The contestant picks door 1, and there’s a 1/3 chance there’s a car
+behind it.</li>
+<li class="fragment">There’s a 2/3 chance the car is behind doors 2 or 3.</li>
+<li class="fragment">Monty Hall opens door 2 to reveal a goat.</li>
+<li class="fragment">There’s still a 1/3 chance the car is behind door 1, which means
+there’s a 2/3 chance it’s behind door 3.
+<ul>
+<li>The contestant should take the offer and pick door 3 instead.</li>
+</ul>
+</li>
+<li class="fragment">This logic is very confusing and many experts get it wrong.</li>
+</ul></section><section id="bayesian-solution" class="slide level2 seventy"><h2 class="seventy">Bayesian solution</h2>
+<ul>
+<li>3 possibilities for which door the car is behind: <span class="math inline">\(H_1\)</span>, <span class="math inline">\(H_2\)</span>, <span class="math inline">\(H_3\)</span>.</li>
+<li>At first, you don’t know anything, so <span class="math inline">\(P(H_1) = P(H_2) = P(H_3) = 1/3\)</span>.</li>
+<li>Let’s say you pick door 1, and Monty Hall opens door 2 to reveal a
+goat.</li>
+<li>
+<span class="math inline">\(D\)</span> is the observation that Monty
+Hall opens door 2 to reveal a goat.
+<ul>
+<li><p>You know that he will never open the door with the car, so he’s
+not opening doors at random.</p></li>
+<li><p>If the car is behind door 1, he could open doors 2 or 3 to reveal
+a goat so <span class="math inline">\(P(D | H_1) = 1/2\)</span></p></li>
+<li><p>The car can’t be behind door 2, so <span class="math inline">\(P(D | H_2) = 0\)</span></p></li>
+<li>
+<p>If the car is behind door 3, he could only open door 2, so <span class="math inline">\(P(D | H_3) = 1\)</span></p>
+<p><span class="math display">\[
+\begin{aligned}
+P(H_1 | D) &amp;= \frac{P(D | H_1) P(H_1)}{\sum_{i = 1}^3 P(D | H_i)
+P(H_i)} \\
+           &amp;= \frac{1/2 \times 1/3}{1/2 \times 1/3 + 0 + 1 \times
+1/3} \\
+           &amp;= \frac{1/6}{1/6 + 1/3} = 1/3
+\end{aligned}
+\]</span></p>
+</li>
+<li><p>So after door 2 is opened, there is a 1/3 chance the car is beind
+door 1, and 2/3 chance it’s behind door 3.</p></li>
+</ul>
+</li>
+</ul></section><section id="bayess-theorem-in-context" class="slide level2"><h2>Bayes’s Theorem in Context</h2>
+<ul>
+<li class="fragment">Traditionally, most statistics has followed frequentist methods
+and interpretations
+<ul>
+<li class="fragment">Many people get confused because it can’t tell you the
+probability that a hypothesis is true</li>
+</ul>
+</li>
+<li class="fragment">Bayes’s theorem offers a straightforward way to update
+probabilities when new knowledge becomes available.
+<ul>
+<li class="fragment">It can be confusing to choose priors if you don’t already know
+much about the thing you’re studying</li>
+<li class="fragment">It can be difficult and computationally expensive to do the
+necessary calculations.</li>
+</ul>
+</li>
+<li class="fragment">Despite the difficulties, Bayesian methods are becoming widely
+used in geosciences.</li>
+</ul></section></section><section><section id="probabilities-and-coin-tosses" class="title-slide slide level1"><h1>Probabilities and Coin Tosses</h1>
+
+</section><section id="rosencrantz-guildenstern-are-dead" class="slide level2"><h2>Rosencrantz &amp; Guildenstern are Dead</h2>
+<iframe width="1420" height="800" src="https://www.youtube.com/embed/gOwLEVQGbrM?si=8uJKAOo8ZY767rzU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+</iframe>
+<div class="credit">
+<p>Tom Stoppard, <em>Rosencrantz and Guildenstern Are Dead</em>
+(1990)</p>
+</div>
+</section></section><section><section id="mathematical-treatment-1" class="title-slide slide level1 center"><h1 class="center">Mathematical treatment</h1>
+
+</section><section id="is-the-coin-fair" class="slide level2"><h2>Is the Coin Fair</h2>
+<ul>
+<li>If you toss a coin many times and it comes up heads a certain
+fraction of the time, what is the probability that it’s fair (50%
+probability)?</li>
+<li class="fragment">A <strong><em>frequentist</em></strong> can only tell you the
+probability that the coin would come up heads that many times if it were
+fair.</li>
+<li class="fragment">A Bayesian can tell you the probability that the coin is fair,
+and can give detailed information about the probability it will come up
+heads, and the uncertainty about that probability.</li>
+<li class="fragment">We’ll analyze coin tosses using Bayes’s theorem in Chapter
+5.</li>
+<li class="fragment">Sophisticated use of Bayesian analysis is beyond the scope of
+this course, so we’ll still mostly be using frequentist methods.</li>
+</ul></section></section><section><section id="calculating-probabilities" class="title-slide slide level1 center"><h1 class="center">Calculating Probabilities</h1>
+
+</section><section id="calculating-probabilities-1" class="slide level2"><h2>Calculating Probabilities</h2>
+<ul>
+<li>Break down complex problems to simpler ones</li>
+<li class="fragment">DeMorgan’s Laws: <span class="math display">\[
+\begin{aligned}
+\bar{E \cap F} &amp;= \bar E \cup \bar F \\
+\bar{E \cup F} &amp;= \bar E \cap \bar F
+\end{aligned}
+\]</span>
+</li>
+<li class="fragment">For independent, identically distributed samples:
+<ul>
+<li>
+<strong>And rule:</strong> The probability of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> both happening: <span class="math display">\[ P(A \cap B) = P(A) \times P(B) \]</span>
+</li>
+<li>
+<strong>Or rule:</strong> The probability of <span class="math inline">\(A\)</span> or <span class="math inline">\(B\)</span> happening, _if <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are mutually exclusive: <span class="math display">\[ P(A \cup B) = P(A) + P(B)\]</span>
+</li>
+</ul>
+</li>
+</ul></section><section id="examples" class="slide level2"><h2>Examples</h2>
+<ul>
+<li>Easy: What is the probability that if I toss a coin 10 times, it
+will come up heads all 10 times?
+<ul>
+<li class="fragment">Apply the and rule: <span class="math display">\[0.5 \times 0.5
+\times 0.5 \times \cdots \times 0.5 = 0.5^{10} = 1/1024\]</span>
+</li>
+</ul>
+</li>
+</ul></section><section id="trickier-example" class="slide level2 eighty"><h2 class="eighty">Trickier Example:</h2>
+<ul>
+<li>Trickier: A plot of land near a river floods on average once every
+hundred years. What is the probability that it will flood at least once
+in the next 30 years?
+<ul>
+<li class="fragment">
+<p>Either it will flood, or it won’t, so use the or rule:</p>
+<p><span class="math display">\[P(\text{flood at least once}) = 1 -
+P(\text{doesn't flood}).\]</span></p>
+</li>
+<li class="fragment">
+<p>And we can solve <span class="math inline">\(P(\text{doesn't flood})\)</span> using the and
+rule:</p>
+<p><span class="math display">\[
+\small{
+\begin{aligned}
+\text{Doesn't flood in 30 years} =~&amp; \text{Doesn't flood
+this year} \cap
+  \text{Doesn't flood next year} \cap {\text{}} \cdots \\
+  &amp; \cdots \text{Doesn't flood 30 years from now}
+\end{aligned}
+}
+\]</span></p>
+</li>
+<li class="fragment">
+<p>so the probability of not flooding in the next 30 years
+is</p>
+<p><span class="math display">\[ P(\text{doesn't flood in one
+year})^{30} = (1 - 0.01)^{30} = 0.99^{30} = 0.74 \]</span></p>
+</li>
+<li class="fragment">
+<p>And the probability of flooding at least once in 30 years
+is</p>
+<p><span class="math display">\[ P(\text{floods}) = 1 -
+P(\text{doesn't flood}) = 1 - 0.74 = 0.26 \]</span></p>
+</li>
+</ul>
+</li>
+</ul></section></section>
+</div>
+  </div>
+  <!--
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.js"></script>
+  <!-- -->
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.min.js"></script><!-- --><script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Display the page number of the current slide
+        showSlideNumber: 'speaker',
+        // Push each slide change to the browser history
+        history: true,
+        //  Enable hashing slide content to URL
+        hash: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Don't separate fragments in PDF rendering
+        pdfSeparateFragments: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+      
+        // Optional reveal.js plugins
+        dependencies: [
+                    { src: '../../lecture_lib/library/assets/plugin/chalkboard/chalkboard.js', async: true },
+                                        { src: '../../lecture_lib/library/assets/plugin/reveal-skip-fragments/skip-fragments.js', async: true },
+                    { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/notes/notes.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/math/math.js', async: true }
+        ],
+        shift_keyboard: {
+    	    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'C' is pressed
+    	    66: function() { RevealChalkboard.toggleChalkboard() },	  // toggle chalkboard when 'B' is pressed
+    	    88: function() { RevealChalkboard.clear() },	            // clear chalkboard when 'X' is pressed
+    	    82: function() { RevealChalkboard.reset() },	            // reset chalkboard data on current slide when 'R' is pressed
+    	    68: function() { RevealChalkboard.download() },	          // downlad recorded chalkboard drawing when 'D' is pressed
+        },
+              	// Shortcut for showing all fragments
+      	skipFragmentsShowShortcut: 'S',
+
+      	// Shortcut for hiding all fragments
+      	skipFragmentsHideShortcut: 'H',
+      	      });
+    </script><script>
+  	function createSingletonNodejg( container, tagname, classname, innerHTML ) {
+
+		// Find all nodes matching the description
+		var nodes = container.querySelectorAll( '.' + classname );
+
+		// Check all matches to find one which is a direct child of
+		// the specified container
+		for( var i = 0; i < nodes.length; i++ ) {
+			var testNode = nodes[i];
+			if( testNode.parentNode === container ) {
+				return testNode;
+			}
+		}
+
+		// If no node was found, create it now
+		var node = document.createElement( tagname );
+		node.className = classname;
+		if( typeof innerHTML === 'string' ) {
+			node.innerHTML = innerHTML;
+		}
+		container.appendChild( node );
+
+		return node;
+
+	}
+
+  var dom_wrapper = document.querySelector('.reveal');
+  createSingletonNodejg(dom_wrapper, 'div', 'qrbox',
+  '<div class="qrbox" id="qrbox" style="font-size:90%;">' + '\n' +
+  '<div style="font-size:30%;width:100%;">' + '\n' +
+      '<a href="https://ees5891.jgilligan.org/slides/class_02">' +
+  	'<img src="qrcode.png" alt="https://ees5891.jgilligan.org/slides/class_02"/>' +
+  	'</a>' + '\n' +
+	  '</div>' + '\n' +
+  '<div style="font-size:30%;width:100%;vertical-align:top;">' + '\n' +
+    '<span style="display:inline-block;text-align:left;margin-left:0">' + '\n' +
+        'Live web page: <a href="https://ees5891.jgilligan.org/slides/class_02">https://ees5891.jgilligan.org/slides/class_02</a>' + '\n' +
+              '<br/>' + '\n' +
+        'PDF: <a href="https://ees5891.jgilligan.org/slides/class_02/EES_4891_5891_class_02_slides.pdf" target="_blank">https://ees5891.jgilligan.org/slides/class_02/EES_4891_5891_class_02_slides.pdf</a>' + '\n' +
+          	'</span>' + '\n' +
+  	'<span style="display:inline-block;text-align:right;vertical-align:top;position:absolute;right:0;bottom:0;">' + '\n' +
+  	  'Navigate slides: next: N or &lt;space&gt;; previous: P or &lt;backspace&gt;<br/>' + '\n' +
+  	  'Also: up, down, left, right arrows; overview: o; help: ?' + '\n' +
+  	'</span>' + '\n' +
+	'</div>' + '\n' +
+  '</div>' + '\n'
+  );
+</script><script>
+var MathJax = { jax: ["input/TeX", "output/HTML-CSS"],
+                TeX: {extensions: ["color.js", "mhchem.js"],
+                Macros: {
+                  COO: "\\ce{CO2}",
+                  methane: "\\ce{CH4}",
+                  degC: "^\\circ \\mathrm{C}",
+                  degF: "^\\circ \\mathrm{F}",
+                  water: "\\ce{H2O}",
+                  carb: "\\ce{CO3^2-}",
+                  bicarb: "\\ce{HCO3-}",
+                  carbonic: "\\ce{H2CO3}",
+                  Hplus: "\\ce{H+}",
+                  OH: "\\ce{OH-}",
+                  silica: "\\ce{SiO2}",
+                  calcite: "\\ce{CaCO3}",
+                  Caplus: "\\ce{Ca^2+}",
+                  silicate: "\\ce{SiO3^2-}",
+                  CaSi: "\\ce{CaSiO3}",
+                  pH: "p\\ce{H}",
+                  permil: "\\unicode{x2030}",
+                  pCOO: "\\ce{	ext{p}CO2}",
+                  pwater: "\\ce{	ext{p}H2O}"
+                },
+                  },
+                "HTML-CSS" : {scale: 100 }};
+</script><!-- dynamically load mathjax for compatibility with self-contained --><script type="text/x-mathjax-config">
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["SVG"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+    displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
+    processEscapes: true
+  }
+})
+  </script><script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script><script>
+  var qrbox = document.querySelector("#qrbox");
+  var advance_fragment = 0;
+
+	function isPrintingPDF() {
+	  let printing = ( /print-pdf/gi ).test( window.location.search );
+	  console.log("printing test: " + printing);
+	  return printing;
+	}
+
+
+  if ( qrbox.hasAttribute('qr-box-hide') || Reveal.isOverview() ||
+      ! Reveal.isFirstSlide() || isPrintingPDF()) {
+    console.log("Initializing");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }
+
+  Reveal.addEventListener('overviewshown', function() {
+      console.log("Overview shown");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }, false);
+
+  Reveal.addEventListener('overviewhidden', function() {
+    if (Reveal.isFirstSlide() && ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Overview hidden");
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    console.log("Slide changed...");
+    if (Reveal.isFirstSlide() && ! Reveal.isOverview() &&
+        ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    } else {
+      console.log("Hiding QR box");
+      qrbox.style.visibility="hidden";
+      qrbox.style.display="none";
+    }
+  }, false);
+
+  Reveal.addEventListener('pdf-ready', function() {
+    console.log("hiding qrbox for printing");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+    qrbox.setAttribute('qr-box-hide', 'true');
+  });
+
+  </script><script>
+  Reveal.addEventListener('slidechanged', function() {
+    while (advance_fragment > 0) {
+      // console.log('advancing fragment');
+      Reveal.nextFragment();
+      advance_fragment--;
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    if ( Reveal.getCurrentSlide().hasAttribute('data-skip')) {
+      // console.log("going to next slide...");
+      Reveal.next();
+    }
+  }, false);
+
+  Reveal.addEventListener('skip_slide', function() {
+    Reveal.next();
+  }, false);
+
+  Reveal.addEventListener('advance_fragment', function() {
+    // console.log("setting advance fragment");
+    advance_fragment++;
+    }, false);
+  </script>
+</body>
+</html>
