@@ -63,8 +63,9 @@ Geosciences</h3>
 <p>Logic:</p>
 <p><span class="math inline">\(E\)</span>, <span class="math inline">\(F\)</span>: Propositions that are either true or
 false</p>
-<p><span class="math inline">\(\bar{E}, \bar{F}\)</span>: Negations: the
-opposites of <span class="math inline">\(E\)</span> and <span class="math inline">\(F\)</span>.</p>
+<p><span class="math inline">\(\overline{E}, \overline{F}\)</span>:
+Negations: the opposites of <span class="math inline">\(E\)</span> and
+<span class="math inline">\(F\)</span>.</p>
 <p><span class="math inline">\(E \cup F\)</span>: <span class="math inline">\(E\)</span> or <span class="math inline">\(F\)</span> is true (includes both true)</p>
 <p><span class="math inline">\(E \cap F\)</span>: <span class="math inline">\(E\)</span> and <span class="math inline">\(F\)</span> are both true</p>
 <p><span class="math inline">\(E | F\)</span>: The truth of <span class="math inline">\(E\)</span> if <span class="math inline">\(F\)</span> is known to be true</p>
@@ -179,13 +180,13 @@ there is no difference between those who take the drug and those who
 don’t.</li>
 </ul>
 </li>
-<li><p>Let <span class="math inline">\(x\)</span> be the evidence
+<li><p>Let <span class="math inline">\(D\)</span> be the new data
 collected in an experiment</p></li>
-<li class="fragment" data-fragment-index="1"><p>Frequentists consider likelihood: <span class="math inline">\(P(x | H_0)\)</span>: the probability that you’d
-see the evidence from the experiment if the null hypothesis were
-true</p></li>
+<li class="fragment" data-fragment-index="1"><p>Frequentists consider likelihood: <span class="math inline">\(P(D | H_0)\)</span>: the probability that you’d
+observe <span class="math inline">\(D\)</span> in the experiment if the
+null hypothesis were true</p></li>
 <li class="fragment" data-fragment-index="1"><p>Bayesians consider <span class="math inline">\(P(H |
-x)\)</span>: the probability that the hypothesis is true, based on the
+D)\)</span>: the probability that the hypothesis is true, based on the
 evidence from the experiment.</p></li>
 </ul></section><section id="bayess-theorem" class="slide level2 ninety"><h2 class="ninety">Bayes’s Theorem</h2>
 <ul>
@@ -203,12 +204,12 @@ prior</strong>, giving each hypothesis the probability <span class="math inline"
 <p>You observe new data <span class="math inline">\(D\)</span>, and
 want to update your estimates of the probability for each
 hypothesis:</p>
-<p><span class="math display">\[ P(H_i | x) = \frac{P(x | H_i)
-P(H_j)}{\sum_{j = 1}^N P(x | H_j) P(H_j)} \]</span></p>
+<p><span class="math display">\[ P(H_i | D) = \frac{P(D | H_i)
+P(H_i)}{\sum_{j = 1}^N P(D | H_j) P(H_j)} \]</span></p>
 </li>
 </ul></section><section id="bayess-theorem-contd." class="slide level2"><h2>Bayes’s Theorem (contd.)</h2>
-<p><span class="math display">\[ P(H_i | x) = \frac{P(x | H_i)
-P(H_j)}{\sum_{j = 1}^N P(x | H_j) P(H_j)} \]</span></p>
+<p><span class="math display">\[ P(H_i | D) = \frac{P(D | H_i)
+P(H_i)}{\sum_{j = 1}^N P(D | H_j) P(H_j)} \]</span></p>
 <ul>
 <li>
 <span class="math inline">\(P(H_i | x)\)</span> is called the
@@ -236,9 +237,10 @@ hypothesis is true, and it’s called the
 
 </section><section id="prosecutors-fallacy" class="slide level2 eighty"><h2 class="eighty">Prosecutor’s fallacy</h2>
 <ul>
-<li>A crime has been committed in Nashville, and the person who
-committed it left a smudged, partial fingerprint at the scene.</li>
-<li>A suspect is apprehended.
+<li><p>A crime has been committed in Nashville, and the person who
+committed it left a smudged, partial fingerprint at the scene.</p></li>
+<li>
+<p>A suspect is apprehended.</p>
 <ul>
 <li>
 <span class="math inline">\(H\)</span> is the hypothesis that the
@@ -248,14 +250,16 @@ suspect committed the crime</li>
 that the suspect is innocent</li>
 </ul>
 </li>
-<li class="fragment">Fingerprint experts: the suspect’s fingerprint matches the
+<li class="fragment">
+<p>Fingerprint experts: the suspect’s fingerprint matches the
 partial closely enough that there is only one chance in 100,000 an
-innocent person would match it that well: <span class="math display">\[
-P(x | H_0) = 0.001% \]</span>
+innocent person would match it that well:</p>
+<p><span class="math display">\[ P(x | H_0) = 0.001\% \]</span></p>
 </li>
-<li class="fragment">Does this mean there is a 99.999% chance that the suspect is the
-criminal?</li>
-<li class="fragment">There are over 700,000 people in Nashville.
+<li class="fragment"><p>Does this mean there is a 99.999% chance that the suspect is
+the criminal?</p></li>
+<li class="fragment">
+<p>There are over 700,000 people in Nashville.</p>
 <ul>
 <li class="fragment">How many innocent people in Nashville would match the partial
 fingerprint? <span class="fragment medbluetext">7</span>
@@ -271,7 +275,70 @@ innocent.</li>
 </li>
 </ul>
 </li>
-</ul></section><section id="the-game-show-problem" class="slide level2" data-transition="fade-out"><h2 data-transition="fade-out">The Game Show Problem</h2>
+</ul></section><section id="real-world-2004-madrid-bombing" class="slide level2"><h2>Real World: 2004 Madrid Bombing</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>March 11 2004: terrorist bombs exploded during rush hour in four
+commuter trains in Madrid
+<ul>
+<li>200 people died</li>
+</ul>
+</li>
+<li class="fragment">Police found a van parked outside the train station, containing
+detonators and other incriminating evidence.
+<ul>
+<li>They found partial fingerprints on the bag containing the
+detonators</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column bare">
+<p><img data-src="assets/images/madrid-bombing.jpg"></p>
+<div class="credit">
+<p>Photo: Christophe Simon/AFP</p>
+</div>
+</div>
+</div>
+</section><section id="brandon-mayfield" class="slide level2"><h2>Brandon Mayfield</h2>
+<div class="columns">
+<div class="column ninety" style="width:60%;">
+<ul>
+<li>The FBI reported a match between the terrorist’s fingerprint and
+Brandon Mayfield, an attorney in Oregon.
+<ul>
+<li class="fragment">FBI reported that there was very little chance that the
+fingerprint could have matched if it did not belong to Mayfield.</li>
+<li class="fragment">FBI arrested Mayfield</li>
+</ul>
+</li>
+<li class="fragment">Mayfield insisted that he was innocent, and Spanish authorities
+did not believe he was the terrorist.
+<ul>
+<li class="fragment">A few weeks later, Spanish authorities identified Ouhane Daoud,
+a known Algerian terrorist, as the true match to the fingerprint.</li>
+</ul>
+</li>
+<li class="fragment">Mayfield was eventually freed and successfully sued the FBI for
+$2 million and received a formal apology.</li>
+</ul>
+</div>
+<div class="column bare" style="width:39%;">
+<p><img data-src="assets/images/brandon-mayfield.jpg" alt="Brandon Mayfield"></p>
+<div class="credit">
+<p>Photo: AP</p>
+</div>
+<div class="ptop-2">
+<p><img data-src="assets/images/fingerprints.jpg" height="400" alt="Fingerprints from terrorist and Mayfield"></p>
+</div>
+<div class="credit">
+<p>Images: E. German, <em><a href="https://onin.com/fp/problemidents.html#madrid">Problem
+Idents</a></em> web site.</p>
+</div>
+</div>
+</div>
+</section><section id="the-game-show-problem" class="slide level2" data-transition="fade-out"><h2 data-transition="fade-out">The Game Show Problem</h2>
 <div class="columns">
 <div class="column">
 <ul>
@@ -368,7 +435,7 @@ necessary calculations.</li>
 </li>
 <li class="fragment">Despite the difficulties, Bayesian methods are becoming widely
 used in geosciences.</li>
-</ul></section></section><section><section id="probabilities-and-coin-tosses" class="title-slide slide level1"><h1>Probabilities and Coin Tosses</h1>
+</ul></section></section><section><section id="probabilities-and-coin-tosses" class="title-slide slide level1 center"><h1 class="center">Probabilities and Coin Tosses</h1>
 
 </section><section id="rosencrantz-guildenstern-are-dead" class="slide level2"><h2>Rosencrantz &amp; Guildenstern are Dead</h2>
 <iframe width="1420" height="800" src="https://www.youtube.com/embed/gOwLEVQGbrM?si=8uJKAOo8ZY767rzU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
@@ -398,21 +465,24 @@ this course, so we’ll still mostly be using frequentist methods.</li>
 
 </section><section id="calculating-probabilities-1" class="slide level2"><h2>Calculating Probabilities</h2>
 <ul>
-<li>Break down complex problems to simpler ones</li>
-<li class="fragment">DeMorgan’s Laws: <span class="math display">\[
+<li><p>Break down complex problems to simpler ones</p></li>
+<li class="fragment">
+<p>DeMorgan’s Laws:</p>
+<p><span class="math display">\[
 \begin{aligned}
-\bar{E \cap F} &amp;= \bar E \cup \bar F \\
-\bar{E \cup F} &amp;= \bar E \cap \bar F
+\overline{{E \cap F}} &amp;= \overline E \cup \overline F \\
+\overline{E \cup F} &amp;= \overline E \cap \overline F
 \end{aligned}
-\]</span>
+\]</span></p>
 </li>
-<li class="fragment">For independent, identically distributed samples:
+<li class="fragment">
+<p>For combinations of two events, <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span></p>
 <ul>
 <li>
-<strong>And rule:</strong> The probability of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> both happening: <span class="math display">\[ P(A \cap B) = P(A) \times P(B) \]</span>
+<strong>And rule:</strong> The probability of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> both happening, _if <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent: <span class="math display">\[ P(A \cap B) = P(A) \times P(B) \]</span>
 </li>
 <li>
-<strong>Or rule:</strong> The probability of <span class="math inline">\(A\)</span> or <span class="math inline">\(B\)</span> happening, _if <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are mutually exclusive: <span class="math display">\[ P(A \cup B) = P(A) + P(B)\]</span>
+<strong>Or rule:</strong> The probability of <span class="math inline">\(A\)</span> or <span class="math inline">\(B\)</span> happening, <em>if <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are mutually exclusive</em>: <span class="math display">\[ P(A \cup B) = P(A) + P(B)\]</span>
 </li>
 </ul>
 </li>
