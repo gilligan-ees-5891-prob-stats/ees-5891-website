@@ -2,7 +2,7 @@
 title: "Course Description"
 date: "2021-08-26T00:00:00"
 ---
-#### <a href="/files/EES_5891-01_Syllabus.pdf" target="_blank"><i class="fa fa-file-pdf-o" style="margin-right:0.25em;"></i> **Printable syllabus**</a>
+#### <a href="/files/course_files/EES_4891_5891_Syllabus.pdf" target="_blank"><i class="fa fa-file-pdf-o" style="margin-right:0.25em;"></i> **Printable syllabus**</a>
 
 # Contents
 
