@@ -549,7 +549,7 @@ Professor Gilligan or \TaTitle,
 me,
 \fi
 be sure to begin the
-subject line of your email with ``{\scshape EES 4670}'' or ``{\scshape EES 5670}''.
+subject line of your email with ``{\scshape EES 4891}'' or ``{\scshape EES 5891}''.
 }%
 This helps assure
 that \ifTA we\else I\fi\ will see your message quickly and respond to it.
