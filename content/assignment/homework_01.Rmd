@@ -87,16 +87,16 @@ which of you edited what.
 
 ## Install RStudio
 
-* Go to the download page for the free desktop edition of {{< RSTUDIO >}} at 
+* Go to the download page for the free desktop edition of RStudio at 
   [https://posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/ "Download RStudio") and
   download the installer for your operating system. Windows, MacOS, 
   and several editions of Linux (Debian, Ubuntu, Fedora, RedHat, and openSUSE) are supported.
   
-  There are other versions of {{< RSTUDIO >}} (an expensive professional edition and a server edition). You
+  There are other versions of RStudio (an expensive professional edition and a server edition). You
   want the **free desktop edition**.
 * Run the installer. 
-* After the installer finishes running, run {{< RSTUDIO >}}.
-  * When {{< RSTUDIO >}} starts up, the lower left part of the screen should have
+* After the installer finishes running, run RStudio.
+  * When RStudio starts up, the lower left part of the screen should have
     a window that displays the R version, saying something like this:
       
     ```
@@ -119,21 +119,26 @@ which of you edited what.
     Type 'q()' to quit R.
     ```
     The details will be different depending on your operating system, but
-    if you see something like this, {{< RSTUDIO >}} correctly found R on your 
+    if you see something like this, RStudio correctly found R on your 
     computer.
   * Open the "Tools" menu,   and click on the "Global Options" choice.
-    * Go to the "Git/SVN" tab and click "enable version control interface 
-      for {{< RSTUDIO >}} projects". If {{< RSTUDIO >}} can find the git program on your
-      computer, it will appear in the "git executable" field. If {{< RSTUDIO >}}
+    * Go to the "Git/SVN" tab and click "enable version control interface for 
+      RStudio projects". If RStudio can find the git program on your
+      computer, it will appear in the "git executable" field. If RStudio
       can't find it, you can help it by browsing to the git program.
-    * If you have installed {{< LATEX_LOGO >}} on your computer (remember that this is
-      optional), click on the SWeave tab, and select "knitr" for weaving
-      `.Rnw` files, and choose `pdfLaTeX` for typesetting {{< LATEX_LOGO >}} files into
-      PDF.
+    * Click on the SWeave tab, and select "knitr" for weaving `.Rnw` files
+      * If you have installed LaTeX on your computer (remember that 
+        this is optional), then also choose `pdfLaTeX` for typesetting 
+        LaTeX files into PDF.
 
 # Sign up for a free GitHub account
 
-    **Before class on Tuesday Jan 14** please sign up for a free account on GitHub at <https://github.com>. I also recommend that after you sign up, you then request a student account 
-    at <https://education.github.com/students>. A student account gives you access to a bunch of free extras, such as the ability to set up private projects on GitHub.
+**Before class on Tuesday Jan 14** please sign up for a free account on GitHub 
+at <https://github.com>. I also recommend that after you sign up, you then 
+request a student account at <https://education.github.com/students>. 
+A student account gives you access to a bunch of free extras, such as the 
+ability to set up private projects on GitHub.
 
-    We will use an educational feature of GitHub called GitHub Classroom to distribute the lab assignments and for you to turn them in when you have completed them.
+We will use an educational feature of GitHub called GitHub Classroom to 
+distribute the lab assignments and for you to turn them in when you have 
+completed them.
