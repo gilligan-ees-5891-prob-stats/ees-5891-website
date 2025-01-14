@@ -10,6 +10,7 @@ lessons:
   title: The R Statistical Programming Language
   reading: /reading/reading_03
   assignment: homework_01
+  lecture: /slides/class_03
 - date: '2025-01-16'
   title: Mathematics of Probability
   reading: /reading/reading_04
