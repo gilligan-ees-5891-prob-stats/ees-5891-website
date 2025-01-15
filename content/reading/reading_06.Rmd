@@ -17,6 +17,3 @@ pdf_url: /files/reading_asgts/reading_06.pdf
 
 * Data Analysis for the Earth & Environmental Sciences, Ch. 3,.
 
-### Reading Notes:
-
-Reading handouts, TBD
