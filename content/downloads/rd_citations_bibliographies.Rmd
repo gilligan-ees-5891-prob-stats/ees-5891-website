@@ -1,11 +1,9 @@
 ---
 title: Citations and Bibliographies
 author: Jonathan Gilligan
-lab_number: 8
-lab_date: '2022-03-21'
 pubdate: '2021-12-31'
-date: '2022-03-21'
-bibliography: lab-08.bib
+date: '2025-01-21'
+bibliography: cite-bib.bib
 pdf_url: /files/lab_docs/lab_08/citations_bibliographies.pdf
 slug: lab_08_citations_bibliographies
 output:
@@ -20,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 # Introduction
 
 
-The simplest way to do citations and bibliographies in RMarkdown is simply
+The simplest way to do citations and bibliographies in Quarto is simply
 to use author-date citation like this:
 
 > The Urey reaction (Archer 2011, p. 98) shows how silicate weathering can
@@ -40,41 +38,45 @@ And then just manually enter a bibliography at the end of the document:
 ## Getting fancy with citations and bibliographies
 
 However, if you want to experiment with something fancier, 
-RMarkdown has the ability to automatically format bibliographic information and
+Quarto has the ability to automatically format bibliographic information and
 manage citations. Using this is a little complicated because you need to have
 file with your bibliographic information entered in a certain format. 
 
 Everything that follows describes how to do citations and bibliographies
-with RMarkdown using bibliography files. If you wish, you may ignore the
+with Quarto using bibliography files. If you wish, you may ignore the
 rest of this document and manage your citations and bibliographies manually,
 as described at the top of this file.
 
-RMarkdown can work with a wide variety of file formats for bibliographies, 
+Quarto can work with a wide variety of file formats for bibliographies, 
 including those produced by many common software packages, such as 
 EndNote, Zotero, and Mendeley.
+Quarto integrates especially well with Zotero.
 You can find further documentation about bibliographies and citations
-at <http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html>
+at <https://quarto.org/docs/visual-editor/technical.html#citations>
 
 
 # Bibliography Files
 
-RMarkdown reads bibliography entries from an external bibliography file.
+Quarto reads bibliography entries from an external bibliography file.
 To specify the bibloography file, you would 
-just add a line to the header of your RMarkdown document: for instance,
+just add a line to the header of your Quarto document.
+You can optionally add an additional line `link_citations: true` to 
+create hyperlinks from citations in the text of your document to the 
+corresponding bibliography entry. Here's an example:
 
 ```
 ---
-title: "My Lab Report"
-subtitle: "EES 3310: Global Climate Change"
+title: "My Manuscript"
+subtitle: "How I Learned to Stop Worrying and Love Statistical Analysis"
 author: "Jonathan Gilligan"
 date: "Sept. 27, 2018"
 bibliography: "my-bibliography.bib"
+link_citations: true
 ---
 ```
 
-RMarkdown can figure out the kind of bibliography file it is from the file 
-extension (`.bib`, etc.). I have provided an example BibTeX file, `lab-05.bib` 
-that has examples of entries.
+Quarto can figure out the kind of bibliography file it is from the file 
+extension (`.bib`, etc.).
 
 For the examples here, I will work with a format called BibTeX because most
 common software packages can export bibliographies in BibTeX format, and 
@@ -92,7 +94,7 @@ If you prefer, you can also use bibliographic software, such as
 Zotero,[^2] Mendeley, or EndNote, and export your bibliography in
 RIS format (as a `.ris` file), BibTeX format (as a `.bib` file),
 or BibLaTeX format (as a `.biblatex` file).
-RMarkdown claims to support the following file types as well, but I 
+Quarto claims to support the following file types as well, but I 
 have not tried them, so I would not be able to provide much help if you
 try them and run into trouble.
 
@@ -115,17 +117,17 @@ other people.
 
 \clearpage
 
-| Format | File extension |
-|:-------|:--------------|
-| EndNote | `.enl` |
-| EndNote XML | `.xml` |
-| RIS | `.ris` |
-| BibTeX | `.bib` |
-| ISI | `.wos` |
-| MEDLINE | `.medline` |
-| MODS | `.mods` |
-| Copac | `.copac` |
-| JSON citeproc | `.json` |
+| Format        | File extension |
+|:--------------|:---------------|
+| EndNote       | `.enl`         |
+| EndNote XML   | `.xml`         |
+| RIS           | `.ris`         |
+| BibTeX        | `.bib`         |
+| ISI           | `.wos`         |
+| MEDLINE       | `.medline`     |
+| MODS          | `.mods`        |
+| Copac         | `.copac`       |
+| JSON citeproc | `.json`        |
 
 You can export files in many of these formats (especially RIS and BibTeX) from
 most bibliographic software packages, such as EndNote, Mendeley, and Zotero.
@@ -134,7 +136,19 @@ most bibliographic software packages, such as EndNote, Mendeley, and Zotero.
 
 In your document, you can cite books, articles, etc. by the identifiers, or 
 _keys_, that appear in the database.[^3] 
-If you open the bibliography file in RStudio, you will see that all references
+
+There are two ways you can insert citations: Manually, or using the 
+"Insert Citation" tool in the Visual editor in RStudio. 
+
+* **Using the Insert Citation tool:** 
+  You can bring up the Insert Citation tool by clicking on the "Insert" button 
+  on the toolbar, or pressing $\Uparrow \hat{} \text{F8}$ (`Ctrl-Shift-F8`) on 
+  your keyboard. This will bring up a dialog box where you can look up references
+  in your personal bibliography (including Zotero), via a 
+  DOI (digital object identifier) code, or from public bibliographic databases
+  such as CrossRef or PubMed.
+
+If you open a BibTeX bibliography file in RStudio, you will see that all references
 begin with a reference type, starting with `@` (e.g., `@book` for a book,
 `@article` for an article in a journal, etc.) and then all the data for the 
 reference is contained between a pair of braces `{...}`.
@@ -168,7 +182,7 @@ be any sequence of letters, numbers, and any of the following punctuation:
 '`_`', '`.`', '`:`', and '`;`'.
 
 
-I can insert citations in an RMarkdown document by putting them inside
+I can insert citations in an Quarto document by putting them inside
 square brackets (`[...]`) and putting an `@` in front of the citation key:
 `[@archer.forecast.2011]` will become [@archer.forecast.2011].
 I can cite a specific page with 
@@ -224,7 +238,7 @@ becomes
 
 # The Bibliography
 
-RMarkdown will insert a formatted bibliography at the end of your document.
+Quarto will insert a formatted bibliography at the end of your document.
 It will not automatically put a section heading, so you probably want to put
 a section heading called "Bibliography" or "Works Cited" to set this off
 from your text. 

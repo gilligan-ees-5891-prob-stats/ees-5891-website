@@ -4,6 +4,7 @@ author: Jonathan Gilligan
 pubdate: '2021-12-31'
 date: '2025-01-21'
 bibliography: reproducible-research.bib
+link_citations: true
 pdf_url: /files//reproducible_research.pdf
 slug: reproducible_research
 output:
