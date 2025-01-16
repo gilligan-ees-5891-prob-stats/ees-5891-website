@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<!-- JG Reveal.js Template --><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta name="author" content="Jonathan Gilligan">
+<title>Calculus of Probabilities</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reset.css">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reveal.min.css">
+<style type="text/css">
+      code{white-space: pre-wrap;}
+      .smallcaps{font-variant: small-caps;}
+      .line-block{white-space: pre-line;}
+      .column{display: inline-block;}  </style>
+<style type="text/css">
+    div.qrbox,
+    aside.qrbox {
+     text-align: left;
+     vertical-align: bottom;
+     width: 95%;
+     position: fixed;
+     left: 2.5%;
+     bottom: 1rem;
+     display: block;
+    }
+  </style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { font-weight: bold; } /* Alert */
+code span.an { font-style: italic; } /* Annotation */
+code span.cf { font-weight: bold; } /* ControlFlow */
+code span.co { font-style: italic; } /* Comment */
+code span.cv { font-style: italic; } /* CommentVar */
+code span.do { font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.er { font-weight: bold; } /* Error */
+code span.in { font-style: italic; } /* Information */
+code span.kw { font-weight: bold; } /* Keyword */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.wa { font-style: italic; } /* Warning */
+  </style>
+<!-- theme = solarized_jg --><link rel="stylesheet" href="../../lecture_lib/library/assets/css/theme/solarized_jg.css" id="theme">
+<!-- Printing and PDF exports --><script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../lecture_lib/library/reveal.js-3.8.0/css/print/pdf.css' : '../../lecture_lib/library/reveal.js-3.8.0/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><!--[if lt IE 9]>
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+  <![endif]--><script src="../../lecture_lib/library/header-attrs-2.29.1.9000/header-attrs.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+            <!-- start title slide -->
+<section class="center" id="title"><h1 class="title">Calculus of Probabilities</h1>
+    <h3 class="author">EES 4891/5891</h3>
+        <h3 class="author">Probability &amp; Statistics for
+Geosciences</h3>
+    <h3 class="author">Jonathan Gilligan</h3>
+    <h3 class="date">
+      Class #4:
+       Thursday, January 16
+      2025
+    </h3>
+	<!-- end title slide -->
+</section><section><section id="learning-goals" class="title-slide slide level1 center"><h1 class="center">Learning Goals</h1>
+
+</section><section id="learning-goals-for-today" class="slide level2"><h2>Learning Goals for Today</h2>
+<ol>
+<li>Philosophical context of what is probability?
+<ul>
+<li>Familiarity with Polya-Cox approach and Kolmogorov approach</li>
+<li>Detailed mathematical understanding is not necessary</li>
+</ul>
+</li>
+<li>Axomatic definition of probability
+<ul>
+<li>Familiarity with how probability can by described systematically by
+a collection of mathematical axioms</li>
+<li>Understand why the three axioms are important</li>
+<li>You don’t need to be master the formal logic</li>
+</ul>
+</li>
+<li>Calculus of Probabilities
+<ul>
+<li>Be familiar with the basic rules</li>
+<li>Understand how to use them to calculate probabilities</li>
+<li>Informal understanding is fine; you don’t need to master formal
+logic</li>
+<li>Be able to calculate using rules.</li>
+</ul>
+</li>
+</ol></section></section><section><section id="nomenclature" class="title-slide slide level1 center"><h1 class="center">Nomenclature</h1>
+
+</section><section id="nomenclature-1" class="slide level2"><h2>Nomenclature</h2>
+<ul>
+<li>
+<span class="math inline">\(\mathbb{P}(x)\)</span>: The
+<strong>probability</strong> of <span class="math inline">\(x\)</span>
+</li>
+<li>
+<span class="math inline">\(\mathbb{R}\)</span>: the set of
+<strong>real numbers</strong>
+</li>
+<li>
+<span class="math inline">\(\forall x\)</span>: For all possible
+values of <span class="math inline">\(x\)</span>
+</li>
+<li>
+<span class="math inline">\(\overline{E}\)</span>: Logical
+<strong>not</strong>, or the complement of <span class="math inline">\(E\)</span>, everything that’s not in set <span class="math inline">\(E\)</span>
+</li>
+<li>
+<span class="math inline">\(A \cap B\)</span>: Logical
+<strong>and</strong>, or intersection of two sets: <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are both true, or everything thats in
+both set <span class="math inline">\(A\)</span> and set <span class="math inline">\(B\)</span>
+</li>
+<li>
+<span class="math inline">\(A \cup B\)</span>: Logical
+<strong>or</strong>, or union of two sets: Either or both of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are true, or everything that’s in set
+<span class="math inline">\(A\)</span> or set <span class="math inline">\(B\)</span> or both</li>
+<li>
+<span class="math inline">\(A \subseteq B\)</span>:
+<strong>Subset</strong>: Everything in <span class="math inline">\(A\)</span> is also in <span class="math inline">\(B\)</span>
+</li>
+<li>
+<span class="math inline">\(A \subset B\)</span>: <strong>Proper
+subset</strong>: Everything in <span class="math inline">\(A\)</span> is
+also in <span class="math inline">\(B\)</span>, but not everything in
+<span class="math inline">\(B\)</span> is in <span class="math inline">\(A\)</span>.</li>
+<li>
+<span class="math inline">\(\emptyset\)</span>: The <strong>null
+set</strong>, or <strong>empty set</strong>, which contains nothing</li>
+</ul></section></section><section><section id="what-is-probability" class="title-slide slide level1 center"><h1 class="center">What Is Probability</h1>
+
+</section><section id="polya-cox-account" class="slide level2"><h2>Polya-Cox Account</h2>
+<ul>
+<li>Reasoning about plausibility:
+<ul>
+<li>
+<span class="math inline">\(\mathbb{P}(E)\)</span> tells us how
+confident we are that <span class="math inline">\(E\)</span> is
+true</li>
+<li>If <span class="math inline">\(E\)</span> is a logical proposition
+relating <span class="math inline">\(F\)</span> and <span class="math inline">\(G\)</span>, then we can calculate <span class="math inline">\(\mathbb{P}(E)\)</span> from <span class="math inline">\(\mathbb{P}(F)\)</span> and <span class="math inline">\(\mathbb{P}(G)\)</span>
+</li>
+</ul>
+</li>
+<li class="fragment">Polya-Cox rules:
+<ul>
+<li class="fragment"><span class="math inline">\(\mathbb{P}(E)\)</span> is a real
+number between 0 and 1</li>
+<li class="fragment">Rules of probability must conform with common-sense reasoning:
+<ul>
+<li>If new knowledge makes <span class="math inline">\(E\)</span> more
+plausible and doesn’t change the plausibility of <span class="math inline">\(F\)</span>, then <span class="math inline">\(E
+\cap F\)</span> can’t become less plausible.</li>
+</ul>
+</li>
+<li class="fragment">Rules of probability must be consistent:
+<ul>
+<li>If there are two valid ways to calculate probability, they must both
+give the same answer.</li>
+</ul>
+</li>
+<li class="fragment">Cox theorem: <em>A robot could use these principles to reason
+scientifically about the world.</em>
+</li>
+</ul>
+</li>
+</ul></section><section id="kolmogorov-account" class="slide level2 eighty"><h2 class="eighty">Kolmogorov Account</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Base probability on set theory
+<ul>
+<li class="fragment">The <strong>universe</strong>, or <strong>sample space</strong>
+<span class="math inline">\(\Omega\)</span> is the set of all possible
+outcomes of a measurement or experiment
+<ul>
+<li>Discrete: 6 possible outcomes for rolling a die</li>
+<li>Continuous: Weight could be any real number <span class="math inline">\(\ge 0\)</span>
+</li>
+</ul>
+</li>
+<li class="fragment"><strong>Events</strong> are subsets of the universe.
+<ul>
+<li>A die can be even and greater than 3</li>
+<li>
+<strong>Mutually exclusive events</strong> cannot occur
+simultaneously.
+<ul>
+<li>A die cannot be odd and greater than 5</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column fragment">
+<ul>
+<li>A <strong>partition</strong> is a way of dividing a set (such as
+<span class="math inline">\(\Omega\)</span>) into multiple subsets that
+are
+<ul>
+<li>mutually exclusive</li>
+<li>not empty</li>
+<li>add up to cover the complete set <img data-src="assets/images/set-partition.svg" height="400" alt="POartition">
+</li>
+</ul>
+</li>
+<li>The possible mutually-exclusive events form a partition of <span class="math inline">\(\Omega\)</span>
+<ul>
+<li>1, 2, 3, 4, 5, and 6 form a partition of results from rolling a
+die.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="kolmogorov-axioms-of-probability" class="slide level2"><h2>Kolmogorov Axioms of Probability</h2>
+<ul>
+<li>Kolmogorov defined probability in terms of three axioms:
+<ol>
+<li>
+<strong>Positivity:</strong> The probability <span class="math inline">\(\mathbb{P}(E)\)</span> must be a real number and
+<span class="math inline">\(\mathbb{P}(E)\ge 0\)</span>.</li>
+<li>
+<strong>Unitarity:</strong> If <span class="math inline">\(\Omega\)</span> is the set of all possible
+outcomes, then <span class="math inline">\(\mathbb{P}(\Omega) =
+1\)</span>
+</li>
+<li>
+<strong>Additivity:</strong> If <span class="math inline">\(E_1\)</span>, <span class="math inline">\(E_2\)</span>, …, <span class="math inline">\(E_N\)</span> are mutually exclusive, then <span class="math inline">\(\mathbb{P}(E_1 \cup E_2 \cup \ldots \cup E_N) =
+\sum_{i = 1}^N \mathbb{P}(E_i)\)</span>
+</li>
+</ol>
+</li>
+<li class="fragment">Don’t sweat all the set theory.
+<ul>
+<li>This is just background to show that there are different ways to
+define probability using rigorous math, but Polya-Cox’s and Kolmogorov’s
+formulations are equivalent.</li>
+</ul>
+</li>
+<li class="fragment">The important thing for you to take away from this is:
+<ul>
+<li><em>There are methods of using formal math and logic to reason about
+probability</em></li>
+</ul>
+</li>
+</ul></section></section><section><section id="calculating-probabilities" class="title-slide slide level1 center"><h1 class="center">Calculating Probabilities</h1>
+
+</section><section id="calculating-probabilities-1" class="slide level2"><h2>Calculating Probabilities</h2>
+<ul>
+<li>This is where things become more important:</li>
+<li>Use the rules we’ve seen above to calculate probabilities:
+<ul>
+<li class="fragment" data-fragment-index="1"><strong>Basic Properties:</strong>
+</li>
+</ul>
+</li>
+</ul>
+<div class="columns mtop-1 fragment" data-fragment-index="1">
+<div class="column">
+<ul>
+<li>If <span class="math inline">\(A \subseteq B\)</span>, then <span class="math inline">\(\mathbb{P}(A) \le \mathbb{P}(B)\)</span>
+</li>
+<li>
+<span class="math inline">\(\forall A\)</span>, <span class="math inline">\(0 \le \mathbb{P}(A) \le 1\)</span>
+</li>
+<li><span class="math inline">\(\mathbb{P}(\bar{A}) = 1 -
+\mathbb{P}(A)\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(\emptyset) = 0\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(A \cup B) = \mathbb{P}(A)+
+\mathbb{P}(B) - \mathbb{P}(A \cap B)\)</span></li>
+</ul>
+</div>
+<div class="column">
+<p><img data-src="assets/fig/unnamed-chunk-1-1.png"><!-- --></p>
+</div>
+</div>
+</section><section id="conditional-probabilities" class="slide level2"><h2>Conditional Probabilities</h2>
+<div class="columns">
+<div class="column eighty">
+<ul>
+<li>
+<p>Probability that <span class="math inline">\(A\)</span> is true
+<em>if</em> <span class="math inline">\(B\)</span> is true</p>
+<p><span class="math display">\[
+\mathbb{P}(A | B) = \frac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)}
+\]</span></p>
+<p>or (equivalently)</p>
+<p><span class="math display">\[
+\mathbb{P}(A \cap B) = \mathbb{P}(A | B) \times \mathbb{P}(B)
+\]</span></p>
+</li>
+<li class="fragment">
+<p>This gives us a definition of independence:</p>
+<ul>
+<li>
+<span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are <strong>independent</strong> if and
+only if:</li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{P}(A|B) &amp;= \mathbb{P}(A)\\
+\text{and}\\
+\mathbb{P}(B|A) &amp;= \mathbb{P}(B)
+\end{aligned}
+\]</span></p>
+</li>
+</ul>
+</div>
+<div class="column">
+<p><img data-src="assets/fig/unnamed-chunk-2-1.png"><!-- --></p>
+</div>
+</div>
+</section></section><section><section id="worked-examples" class="title-slide slide level1 center"><h1 class="center">Worked Examples</h1>
+
+</section><section id="two-dice" class="slide level2 eighty"><h2 class="eighty">Two Dice</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>We roll two dice.</p>
+<ul>
+<li>
+<span class="math inline">\(X_1\)</span> is the result of the first
+and <span class="math inline">\(X_2\)</span> is the result of the
+second</li>
+</ul>
+</li>
+<li>
+<p>Define the events</p>
+<ul>
+<li>
+<span class="math inline">\(A\)</span>: the sum of the two dice is
+<span class="math inline">\(&gt; 8\)</span>
+</li>
+<li>
+<span class="math inline">\(B\)</span>: <span class="math inline">\(X_1 = 6\)</span>
+</li>
+</ul>
+</li>
+<li>
+<p>Calculate</p>
+<p><span class="math display">\[
+\mathbb{P}(A|B) = \mathbb{P}(X_1 + X_2 &gt; 8 | X_1 = 6)
+\]</span></p>
+</li>
+<li class="fragment">
+<p>Compute the intersection:</p>
+<div class="fragment">
+<p><span class="math display">\[
+\begin{aligned}
+A \cap B &amp;= (X_1 + X_2 &gt; 8) \text{ and } (X_1 = 6)\\
+&amp;= \{(6,3), (6,4), (6,5), (6,6)\}
+\end{aligned}
+\]</span></p>
+</div>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">So there are four possibilities where <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> can both be true.
+<ul>
+<li>How many total results are possible for two dice?
+<ul>
+<li class="fragment">36</li>
+</ul>
+</li>
+</ul>
+<div class="fragment">
+<p><span class="math display">\[
+\mathbb{P}(A \cap B) = \frac{4}{36}
+\]</span></p>
+</div>
+<ul>
+<li class="fragment">How many ways are there for <span class="math inline">\(B\)</span> to be true?
+<ul>
+<li class="fragment">6: <span class="math inline">\(\{(6,1), (6,2), (6,3), \ldots,
+(6,6)\}\)</span>
+</li>
+<li class="fragment">So <span class="math inline">\(\mathbb{P}(B) =
+6/36\)</span>
+</li>
+</ul>
+</li>
+<li class="fragment">Put this together to calculate <span class="math inline">\(\mathbb{P}(A | B)\)</span>: <span class="math display">\[
+P(A|B) = \frac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)} = \frac{4/36}{6/36}
+= \frac{4}{6} = \frac{2}{3}
+\]</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="alternate-method" class="slide level2"><h2>Alternate method</h2>
+<ul>
+<li>Once we know that <span class="math inline">\(X_1\)</span> is 6,
+there are four values for <span class="math inline">\(X_2\)</span> that
+make <span class="math inline">\(X_1 + X_2 &gt; 8\)</span>, and there
+are six possible results for <span class="math inline">\(X_2\)</span>,
+so <span class="math inline">\(\mathbb{P}(A | B) = 4/6 = 2/3\)</span>.
+<ul>
+<li class="fragment">Both ways of calculating are equivalent.</li>
+</ul>
+</li>
+</ul></section><section id="another-example" class="slide level2"><h2>Another example</h2>
+<ul>
+<li>Calculate the probability that <span class="math inline">\(X_1 =
+2\)</span> and <span class="math inline">\(X_2 = 3\)</span>:
+<ul>
+<li class="fragment">Both events are independent, so <span class="math display">\[
+\begin{aligned}
+\mathbb{P}(X_1 = 2 \cap X_)2 = 3) &amp;= \mathbb{P}(X_1 = 2) \times
+\mathbb{P}(X_2 = 3)\\
+&amp;= \frac{1}{6} \times \frac{1}{6} \\
+&amp;= \frac{1}{36}
+\end{aligned}
+\]</span>
+</li>
+</ul>
+</li>
+</ul></section><section id="and-and-or-rules" class="slide level2"><h2>And and Or Rules</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>The last example used the Kolmogorov axioms for calculating
+probabilities to derive the “and rule” that I mentioned last week:
+<ul>
+<li>If events <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are independent, then <span class="math display">\[ \mathbb{P}(A \cap B) = \mathbb{P}(A) \times
+\mathbb{P}(B) \]</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column fragment">
+<ul>
+<li>The textbook also uses the Law of Total Probabilities to prove the
+“or rule” for mutually exclusive outcomes:
+<ul>
+<li><p>If <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are mutually exclusive, then <span class="math display">\[
+\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B)
+\]</span></p></li>
+<li class="fragment">
+<p>Example:</p>
+<div class="eighty">
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{P}(X_1 = 2 \cup X_1 = 3) &amp;= \mathbb{P}(X_1 = 2) +
+\mathbb{P}(X_1 = 3)\\
+&amp;= \frac{1}{6} + \frac{1}{6} = \frac{2}{6} = \frac{1}{3}
+\end{aligned}
+\]</span></p>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="the-birthday-problem" class="title-slide slide level1 center"><h1 class="center">The Birthday Problem</h1>
+
+</section><section id="the-birthday-problem-1" class="slide level2"><h2>The Birthday Problem</h2>
+<ul>
+<li>In a room of <span class="math inline">\(N\)</span> people, what is
+the probability that at least two of them have the same birthday (month
+and day)?
+<ul>
+<li>Assumptions:
+<ul>
+<li>Ignore leap years and assume there are 365 possible birthdays</li>
+<li>Assume each day has the same probablity</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></section><section id="solution" class="slide level2 eighty"><h2 class="eighty">Solution</h2>
+<ul>
+<li>Let event <span class="math inline">\(E\)</span> be at least two
+people share a birthday</li>
+<li class="fragment"><span class="math inline">\(\mathbb{P}(E) = 1 -
+\mathbb{P}(\overline{E})\)</span>
+</li>
+<li class="fragment">How many ways are there for <span class="math inline">\(N\)</span> people to all have different birthdays?
+<ul>
+<li class="fragment">1 person: 365 possible values for <span class="math inline">\(X_1\)</span>
+</li>
+<li class="fragment">2 people: 365 possible values for <span class="math inline">\(X_1\)</span>
+<ul>
+<li>For value of <span class="math inline">\(X_1\)</span>, there is one
+value of <span class="math inline">\(X_2\)</span> that shares the
+birthday</li>
+<li>So given <span class="math inline">\(X_1\)</span>, there are <span class="math inline">\(365 - 1 = 364\)</span> values of <span class="math inline">\(X_2 \neq X_1\)</span>
+</li>
+<li>So there are <span class="math inline">\(365 \times 364\)</span>
+total combinations of <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> for two people to not share a
+birthday.</li>
+</ul>
+</li>
+<li class="fragment">3 people: There are <span class="math inline">\(365 \times
+364\)</span> combinations of <span class="math inline">\(X_1\)</span>
+and <span class="math inline">\(X_2\)</span> where <span class="math inline">\(X_1 \neq X_2\)</span>,
+<ul>
+<li>and for each of these, there are <span class="math inline">\(363\)</span> ways for <span class="math inline">\(X_3 \neq X_1\)</span> and <span class="math inline">\(X_3 \neq X_2\)</span>,</li>
+<li>so <span class="math inline">\(365 \times 364 \times 363\)</span>
+ways for 3 people to not share a birthday</li>
+</ul>
+</li>
+<li class="fragment">For <span class="math inline">\(N\)</span> people, there are
+<span class="math inline">\(365 \times 364 \times \dots \times (365 - N
++ 1)\)</span> ways for <span class="math inline">\(X_1\)</span>, <span class="math inline">\(X_2\)</span>, … <span class="math inline">\(X_N\)</span> to all be different. We can also
+write this as <span class="math display">\[\frac{365!}{(365 -
+N)!}\]</span>
+</li>
+</ul>
+</li>
+</ul></section><section id="solution-cont." class="slide level2 eighty"><h2 class="eighty">Solution (cont.)</h2>
+<ul>
+<li class="fragment">We’ve calculated the number of ways that <span class="math inline">\(N\)</span> people can all have different
+birthdays. Now what is the total number of possible combinations of
+birthdays for <span class="math inline">\(N\)</span> people?
+<ul>
+<li class="fragment">Each person is independent and has 365 possible birthdays, so
+<span class="math display">\[365 \times 365 \times 365 \times \dots
+\times 365 = 365^N\]</span>
+</li>
+</ul>
+</li>
+<li class="fragment">The probability is the ratio of the number of ways <span class="math inline">\(N\)</span> people can all have different birthdays
+to the total number of combinations: <span class="math display">\[\mathbb{P}(\overline{E}) =
+\frac{\frac{365!}{(365-N)!}}{365^N} = \frac{365!}{(365-N)! \times
+365^N}\]</span>
+</li>
+<li class="fragment">And, finally, the probability that at least two <em>do</em>
+share a birthday: <span class="math display">\[\mathbb{P}(E) = 1 -
+\mathbb{P}(\overline{E}) = 1 - \frac{365!}{(365-N)! \times
+365^N}\]</span>
+</li>
+</ul></section><section id="calculating-with-r" class="slide level2"><h2>Calculating with R</h2>
+<ul>
+<li>
+<p>Factorials get big quickly, and become too large for R to
+calculate with, so we can calculate more accurately if we use the
+logarithm of the factorials. R has a built-in function
+<code>lfactorial</code> that returns the logarithm.</p>
+<p><span class="math display">\[
+\log\left(\frac{365!}{(365 - N)! \times 365^N}\right)
+= \log(365!) - \log((365 - N)!) - N \times \log 365
+\]</span></p>
+<ul>
+<li class="fragment">
+<p>Once we calculate this sum, the log of 365 and the log of
+<span class="math inline">\((365 - N)!\)</span> will mostly cancel out,
+so we can use the <span class="math inline">\(exp\)</span> function to
+take the inverse logarithm</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">=</span> <span class="cf">function</span>(N) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>( <span class="fu">lfactorial</span>(<span class="dv">365</span>) <span class="sc">-</span> <span class="fu">lfactorial</span>(<span class="dv">365</span> <span class="sc">-</span> N) <span class="sc">-</span> N <span class="sc">*</span> <span class="fu">log</span>(<span class="dv">365</span>) )</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</li>
+</ul>
+</li>
+</ul></section><section id="examining-the-probabilities" class="slide level2 eighty"><h2 class="eighty">Examining the probabilities:</h2>
+<div class="columns bare">
+<div class="column eighty">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">tibble</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">70</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_e =</span> <span class="fu">f</span>(N)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df, <span class="dv">24</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 24 × 2
+##        N      p_e
+##    &lt;int&gt;    &lt;dbl&gt;
+##  1     1 2.73e-13
+##  2     2 2.74e- 3
+##  3     3 8.20e- 3
+##  4     4 1.64e- 2
+##  5     5 2.71e- 2
+##  6     6 4.05e- 2
+##  7     7 5.62e- 2
+##  8     8 7.43e- 2
+##  9     9 9.46e- 2
+## 10    10 1.17e- 1
+## 11    11 1.41e- 1
+## 12    12 1.67e- 1
+## 13    13 1.94e- 1
+## 14    14 2.23e- 1
+## 15    15 2.53e- 1
+## 16    16 2.84e- 1
+## 17    17 3.15e- 1
+## 18    18 3.47e- 1
+## 19    19 3.79e- 1
+## 20    20 4.11e- 1
+## 21    21 4.44e- 1
+## 22    22 4.76e- 1
+## 23    23 5.07e- 1
+## 24    24 5.38e- 1</code></pre>
+</div>
+<div class="column" style="width:50%;">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> N, <span class="at">y =</span> p_e)) <span class="sc">+</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_percent</span>()) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"N"</span>, <span class="at">y =</span> <span class="st">"P(shared birthdays)"</span>, </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Probability of shared birthdays"</span>) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">20</span>)</span></code></pre></div>
+<p><img data-src="assets/fig/plot_data-1.png"><!-- --></p>
+</div>
+</div>
+</section></section><section><section id="wrapping-up" class="title-slide slide level1 center"><h1 class="center">Wrapping Up</h1>
+
+</section><section id="wrapping-up-1" class="slide level2"><h2>Wrapping Up</h2>
+<ul>
+<li>These exercises were to demonstrate how you can use the principles
+of probability to calculate probabilities.</li>
+<li>I won’t expect you to solve problems as complicated as the Birthday
+problem,
+<ul>
+<li>but it’s useful for you to see how these principles can apply in a
+complicated example.</li>
+</ul>
+</li>
+</ul></section></section>
+</div>
+  </div>
+  <!--
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.js"></script>
+  <!-- -->
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.min.js"></script><!-- --><script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Display the page number of the current slide
+        showSlideNumber: 'speaker',
+        // Push each slide change to the browser history
+        history: true,
+        //  Enable hashing slide content to URL
+        hash: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Don't separate fragments in PDF rendering
+        pdfSeparateFragments: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+      
+        // Optional reveal.js plugins
+        dependencies: [
+                    { src: '../../lecture_lib/library/assets/plugin/chalkboard/chalkboard.js', async: true },
+                                        { src: '../../lecture_lib/library/assets/plugin/reveal-skip-fragments/skip-fragments.js', async: true },
+                    { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/notes/notes.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/math/math.js', async: true }
+        ],
+        shift_keyboard: {
+    	    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'C' is pressed
+    	    66: function() { RevealChalkboard.toggleChalkboard() },	  // toggle chalkboard when 'B' is pressed
+    	    88: function() { RevealChalkboard.clear() },	            // clear chalkboard when 'X' is pressed
+    	    82: function() { RevealChalkboard.reset() },	            // reset chalkboard data on current slide when 'R' is pressed
+    	    68: function() { RevealChalkboard.download() },	          // downlad recorded chalkboard drawing when 'D' is pressed
+        },
+              	// Shortcut for showing all fragments
+      	skipFragmentsShowShortcut: 'S',
+
+      	// Shortcut for hiding all fragments
+      	skipFragmentsHideShortcut: 'H',
+      	      });
+    </script><script>
+  	function createSingletonNodejg( container, tagname, classname, innerHTML ) {
+
+		// Find all nodes matching the description
+		var nodes = container.querySelectorAll( '.' + classname );
+
+		// Check all matches to find one which is a direct child of
+		// the specified container
+		for( var i = 0; i < nodes.length; i++ ) {
+			var testNode = nodes[i];
+			if( testNode.parentNode === container ) {
+				return testNode;
+			}
+		}
+
+		// If no node was found, create it now
+		var node = document.createElement( tagname );
+		node.className = classname;
+		if( typeof innerHTML === 'string' ) {
+			node.innerHTML = innerHTML;
+		}
+		container.appendChild( node );
+
+		return node;
+
+	}
+
+  var dom_wrapper = document.querySelector('.reveal');
+  createSingletonNodejg(dom_wrapper, 'div', 'qrbox',
+  '<div class="qrbox" id="qrbox" style="font-size:90%;">' + '\n' +
+  '<div style="font-size:30%;width:100%;">' + '\n' +
+      '<a href="https://ees5891.jgilligan.org/slides/class_04">' +
+  	'<img src="qrcode.png" alt="https://ees5891.jgilligan.org/slides/class_04"/>' +
+  	'</a>' + '\n' +
+	  '</div>' + '\n' +
+  '<div style="font-size:30%;width:100%;vertical-align:top;">' + '\n' +
+    '<span style="display:inline-block;text-align:left;margin-left:0">' + '\n' +
+        'Live web page: <a href="https://ees5891.jgilligan.org/slides/class_04">https://ees5891.jgilligan.org/slides/class_04</a>' + '\n' +
+              '<br/>' + '\n' +
+        'PDF: <a href="https://ees5891.jgilligan.org/slides/class_04/EES_4891_5891_class_04_slides.pdf" target="_blank">https://ees5891.jgilligan.org/slides/class_04/EES_4891_5891_class_04_slides.pdf</a>' + '\n' +
+          	'</span>' + '\n' +
+  	'<span style="display:inline-block;text-align:right;vertical-align:top;position:absolute;right:0;bottom:0;">' + '\n' +
+  	  'Navigate slides: next: N or &lt;space&gt;; previous: P or &lt;backspace&gt;<br/>' + '\n' +
+  	  'Also: up, down, left, right arrows; overview: o; help: ?' + '\n' +
+  	'</span>' + '\n' +
+	'</div>' + '\n' +
+  '</div>' + '\n'
+  );
+</script><script>
+var MathJax = { jax: ["input/TeX", "output/HTML-CSS"],
+                TeX: {extensions: ["color.js", "mhchem.js"],
+                Macros: {
+                  COO: "\\ce{CO2}",
+                  methane: "\\ce{CH4}",
+                  degC: "^\\circ \\mathrm{C}",
+                  degF: "^\\circ \\mathrm{F}",
+                  water: "\\ce{H2O}",
+                  carb: "\\ce{CO3^2-}",
+                  bicarb: "\\ce{HCO3-}",
+                  carbonic: "\\ce{H2CO3}",
+                  Hplus: "\\ce{H+}",
+                  OH: "\\ce{OH-}",
+                  silica: "\\ce{SiO2}",
+                  calcite: "\\ce{CaCO3}",
+                  Caplus: "\\ce{Ca^2+}",
+                  silicate: "\\ce{SiO3^2-}",
+                  CaSi: "\\ce{CaSiO3}",
+                  pH: "p\\ce{H}",
+                  permil: "\\unicode{x2030}",
+                  pCOO: "\\ce{	ext{p}CO2}",
+                  pwater: "\\ce{	ext{p}H2O}"
+                },
+                  },
+                "HTML-CSS" : {scale: 100 }};
+</script><!-- dynamically load mathjax for compatibility with self-contained --><script type="text/x-mathjax-config">
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["SVG"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+    displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
+    processEscapes: true
+  }
+})
+  </script><script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script><script>
+  var qrbox = document.querySelector("#qrbox");
+  var advance_fragment = 0;
+
+	function isPrintingPDF() {
+	  let printing = ( /print-pdf/gi ).test( window.location.search );
+	  console.log("printing test: " + printing);
+	  return printing;
+	}
+
+
+  if ( qrbox.hasAttribute('qr-box-hide') || Reveal.isOverview() ||
+      ! Reveal.isFirstSlide() || isPrintingPDF()) {
+    console.log("Initializing");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }
+
+  Reveal.addEventListener('overviewshown', function() {
+      console.log("Overview shown");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }, false);
+
+  Reveal.addEventListener('overviewhidden', function() {
+    if (Reveal.isFirstSlide() && ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Overview hidden");
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    console.log("Slide changed...");
+    if (Reveal.isFirstSlide() && ! Reveal.isOverview() &&
+        ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    } else {
+      console.log("Hiding QR box");
+      qrbox.style.visibility="hidden";
+      qrbox.style.display="none";
+    }
+  }, false);
+
+  Reveal.addEventListener('pdf-ready', function() {
+    console.log("hiding qrbox for printing");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+    qrbox.setAttribute('qr-box-hide', 'true');
+  });
+
+  </script><script>
+  Reveal.addEventListener('slidechanged', function() {
+    while (advance_fragment > 0) {
+      // console.log('advancing fragment');
+      Reveal.nextFragment();
+      advance_fragment--;
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    if ( Reveal.getCurrentSlide().hasAttribute('data-skip')) {
+      // console.log("going to next slide...");
+      Reveal.next();
+    }
+  }, false);
+
+  Reveal.addEventListener('skip_slide', function() {
+    Reveal.next();
+  }, false);
+
+  Reveal.addEventListener('advance_fragment', function() {
+    // console.log("setting advance fragment");
+    advance_fragment++;
+    }, false);
+  </script>
+</body>
+</html>

@@ -2,8 +2,9 @@
 title: Introduction to R and RMarkdown
 author: Jonathan Gilligan
 lab_number: 1
+draft: true
 lab_date: '2022-01-24'
-pubdate: '2021-12-31'
+pubdate: '2025-01-17'
 date: '2022-01-24'
 pdf_url: /files/lab_docs/lab_01/rmarkdown_intro.pdf
 slug: lab_01_rmarkdown_intro
@@ -507,7 +508,6 @@ following code into your RMarkdown document:
 
 ```{r load_scripts}
 source("_scripts/format_md.R")
-source("_scripts/layer_diagram.R")
 ```
 
 ### Useful Scripts for the Labs:
@@ -524,12 +524,3 @@ inserting commas to separate thousands, millions, etc.
 
 `format_md(pi * 1E6, digits = 3, comma = TRUE)` will produce 
 `r format_md(pi * 1E6, digits = 3, comma = TRUE)`
-
-### Script for Layer Diagrams
-
-The other script allows you to produce a layer diagram, similar to the ones in 
-Chapter 3 of _Global Warming: Understanding the Forecast_.
-
-```{r example_layer_diagram}
-make_layer_diagram(2)
-```

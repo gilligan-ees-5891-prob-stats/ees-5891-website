@@ -37,212 +37,108 @@ Accept the homework assignment at GitHub Classroom at <https://classroom.github.
 ### Notes on Homework:
 
 
-On Tuesday, bring your computer to class and I will get you started using R, RStudio, and `git` software. 
-
-
-
-Before coming to class, install the software listed on this homework assignment. If you have any trouble, I will be able to help you either in class on Tuesday or at my office hours.
-
-
-
-# Install Software on Your Computer
-
-
-
-## Install R
-
-
-
-* Download and install R
-
-  * **Windows:** 
-
-    * Download and install the ["base distribution" of R 4.4.2](https://cran.rstudio.org/bin/windows/base/ "Download R for Windows").
-
-  * **MacOS:**
-
-    * Download and install [R version 4.4.2](https://cran.rstudio.org/bin/macosx/ "Download R for MacOS")
-
-  * **Linux:**
-
-    * You should be able to install R from your Linux distribution's package manager:
-
-      * `sudo apt-get install r-base r-base-dev` for Debian or Ubuntu
-
-      * `sudo yum install R` or `sudo dnf install git` for Fedora, 
-
-        Red Hat, and related distributions.
-
-
-
-## Install `git`
-
-
-
-* If your computer is a Mac or runs Linux, Git may already be installed. You can check 
-
-  by opening a terminal window and typing `which git`. If the computer responds with something
-
-  like `/usr/bin/git`, then Git is already installed. Otherwise, follow the instructions below.
-
-* For Windows and MacOS, you can download Git from <https://git-scm.com/> and install it on your computer.
-
-* If you use a software installation system like chocolatey (on Windows) or homebrew (on Mac), you can install `git`
-
-  by opening a terminal window and typing "`choco install git`" or "`brew install git`"
-
-* For Linux computers, you can install Git from a terminal window as follows:
-
-    * For Debian or Ubuntu, `sudo apt-get install git`
-
-    * For Fedora or other RedHat-type distributions, `sudo yum install git` or `sudo dnf install git`.
-
-
-
-After you install Git, it is important to run two commands:
-
-
-
-* Open a git command window:
-
-
-
-    * On Windows, open the Start menu, go to "Git" and click on "Git Bash"
-
-    * On a Mac, open a terminal window
-
-    
-
-* Run the two following commands:
-
-
-
-    * `git config --global user.name "Your Name"` (using your own name instead of "Your Name")
-
-    * `git config --global user.email "your.email.address@vanderbilt.edu"` (using your own email address)
-
-    
-
-Git uses information to keep track of who makes changes to a file. If you are editing a file on your 
-
-computer and a friend is editing it on her computer, git uses this user information to keep track of 
-
-who made each change. Then when you and your friend merge your changes, git will be able to tell you
-
-which of you edited what.
-
-
-
-## Install RStudio
-
-
-
-* Go to the download page for the free desktop edition of RStudio at 
-
-  [https://posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/ "Download RStudio") and
-
-  download the installer for your operating system. Windows, MacOS, 
-
-  and several editions of Linux (Debian, Ubuntu, Fedora, RedHat, and openSUSE) are supported.
-
-  
-
-  There are other versions of RStudio (an expensive professional edition and a server edition). You
-
-  want the **free desktop edition**.
-
-* Run the installer. 
-
-* After the installer finishes running, run RStudio.
-
-  * When RStudio starts up, the lower left part of the screen should have
-
-    a window that displays the R version, saying something like this:
-
-      
-
-    ```
-
-    R version 4.4.2 (2024-10-31 ucrt) -- "Pile of Leaves"
-
-    Copyright (C) 2024 The R Foundation for Statistical Computing
-
-    Platform: x86_64-w64-mingw32/x64
-
-
-
-    R is free software and comes with ABSOLUTELY NO WARRANTY.
-
-    You are welcome to redistribute it under certain conditions.
-
-    Type 'license()' or 'licence()' for distribution details.
-
-
-
-      Natural language support but running in an English locale
-
-
-
-    R is a collaborative project with many contributors.
-
-    Type 'contributors()' for more information and
-
-    'citation()' on how to cite R or R packages in publications.
-
-
-
-    Type 'demo()' for some demos, 'help()' for on-line help, or
-
-    'help.start()' for an HTML browser interface to help.
-
-    Type 'q()' to quit R.
-
-    ```
-
-    The details will be different depending on your operating system, but
-
-    if you see something like this, RStudio correctly found R on your 
-
-    computer.
-
-  * Open the "Tools" menu,   and click on the "Global Options" choice.
-
-    * Go to the "Git/SVN" tab and click "enable version control interface for 
-
-      RStudio projects". If RStudio can find the git program on your
-
-      computer, it will appear in the "git executable" field. If RStudio
-
-      can't find it, you can help it by browsing to the git program.
-
-    * Click on the SWeave tab, and select "knitr" for weaving `.Rnw` files
-
-      * If you have installed LaTeX on your computer (remember that 
-
-        this is optional), then also choose `pdfLaTeX` for typesetting 
-
-        LaTeX files into PDF.
-
-
-
-# Sign up for a free GitHub account
-
-
-
-**Before class on Tuesday Jan 14** please sign up for a free account on GitHub 
-
-at <https://github.com>. I also recommend that after you sign up, you then 
-
-request a student account at <https://education.github.com/students>. 
-
-A student account gives you access to a bunch of free extras, such as the 
-
-ability to set up private projects on GitHub.
-
-
-
-We will use an educational feature of GitHub called GitHub Classroom to 
-
-distribute the lab assignments and for you to turn them in when you have 
-
+On Tuesday, bring your computer to class and I will get you started using R, RStudio, and `git` software. 
+
+Before coming to class, install the software listed on this homework assignment. If you have any trouble, I will be able to help you either in class on Tuesday or at my office hours.
+
+# Install Software on Your Computer
+
+## Install R
+
+* Download and install R
+  * **Windows:** 
+    * Download and install the ["base distribution" of R 4.4.2](https://cran.rstudio.org/bin/windows/base/ "Download R for Windows").
+  * **MacOS:**
+    * Download and install [R version 4.4.2](https://cran.rstudio.org/bin/macosx/ "Download R for MacOS")
+  * **Linux:**
+    * You should be able to install R from your Linux distribution's package manager:
+      * `sudo apt-get install r-base r-base-dev` for Debian or Ubuntu
+      * `sudo yum install R` or `sudo dnf install git` for Fedora, 
+        Red Hat, and related distributions.
+
+## Install `git`
+
+* If your computer is a Mac or runs Linux, Git may already be installed. You can check 
+  by opening a terminal window and typing `which git`. If the computer responds with something
+  like `/usr/bin/git`, then Git is already installed. Otherwise, follow the instructions below.
+* For Windows and MacOS, you can download Git from <https://git-scm.com/> and install it on your computer.
+* If you use a software installation system like chocolatey (on Windows) or homebrew (on Mac), you can install `git`
+  by opening a terminal window and typing "`choco install git`" or "`brew install git`"
+* For Linux computers, you can install Git from a terminal window as follows:
+    * For Debian or Ubuntu, `sudo apt-get install git`
+    * For Fedora or other RedHat-type distributions, `sudo yum install git` or `sudo dnf install git`.
+
+After you install Git, it is important to run two commands:
+
+* Open a git command window:
+
+    * On Windows, open the Start menu, go to "Git" and click on "Git Bash"
+    * On a Mac, open a terminal window
+    
+* Run the two following commands:
+
+    * `git config --global user.name "Your Name"` (using your own name instead of "Your Name")
+    * `git config --global user.email "your.email.address@vanderbilt.edu"` (using your own email address)
+    
+Git uses information to keep track of who makes changes to a file. If you are editing a file on your 
+computer and a friend is editing it on her computer, git uses this user information to keep track of 
+who made each change. Then when you and your friend merge your changes, git will be able to tell you
+which of you edited what.
+
+## Install RStudio
+
+* Go to the download page for the free desktop edition of RStudio at 
+  [https://posit.co/download/rstudio-desktop/](https://posit.co/download/rstudio-desktop/ "Download RStudio") and
+  download the installer for your operating system. Windows, MacOS, 
+  and several editions of Linux (Debian, Ubuntu, Fedora, RedHat, and openSUSE) are supported.
+  
+  There are other versions of RStudio (an expensive professional edition and a server edition). You
+  want the **free desktop edition**.
+* Run the installer. 
+* After the installer finishes running, run RStudio.
+  * When RStudio starts up, the lower left part of the screen should have
+    a window that displays the R version, saying something like this:
+      
+    ```
+    R version 4.4.2 (2024-10-31 ucrt) -- "Pile of Leaves"
+    Copyright (C) 2024 The R Foundation for Statistical Computing
+    Platform: x86_64-w64-mingw32/x64
+
+    R is free software and comes with ABSOLUTELY NO WARRANTY.
+    You are welcome to redistribute it under certain conditions.
+    Type 'license()' or 'licence()' for distribution details.
+
+      Natural language support but running in an English locale
+
+    R is a collaborative project with many contributors.
+    Type 'contributors()' for more information and
+    'citation()' on how to cite R or R packages in publications.
+
+    Type 'demo()' for some demos, 'help()' for on-line help, or
+    'help.start()' for an HTML browser interface to help.
+    Type 'q()' to quit R.
+    ```
+    The details will be different depending on your operating system, but
+    if you see something like this, RStudio correctly found R on your 
+    computer.
+  * Open the "Tools" menu,   and click on the "Global Options" choice.
+    * Go to the "Git/SVN" tab and click "enable version control interface for 
+      RStudio projects". If RStudio can find the git program on your
+      computer, it will appear in the "git executable" field. If RStudio
+      can't find it, you can help it by browsing to the git program.
+    * Click on the SWeave tab, and select "knitr" for weaving `.Rnw` files
+      * If you have installed LaTeX on your computer (remember that 
+        this is optional), then also choose `pdfLaTeX` for typesetting 
+        LaTeX files into PDF.
+
+# Sign up for a free GitHub account
+
+**Before class on Tuesday Jan 14** please sign up for a free account on GitHub 
+at <https://github.com>. I also recommend that after you sign up, you then 
+request a student account at <https://education.github.com/students>. 
+A student account gives you access to a bunch of free extras, such as the 
+ability to set up private projects on GitHub.
+
+We will use an educational feature of GitHub called GitHub Classroom to 
+distribute the lab assignments and for you to turn them in when you have 
 completed them.

@@ -1,7 +1,8 @@
 ---
 title: Citations and Bibliographies
 author: Jonathan Gilligan
-pubdate: '2021-12-31'
+draft: true
+pubdate: '2025-01-17'
 date: '2025-01-21'
 bibliography: cite-bib.bib
 pdf_url: /files/lab_docs/lab_08/citations_bibliographies.pdf

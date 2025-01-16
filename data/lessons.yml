@@ -14,6 +14,7 @@ lessons:
 - date: '2025-01-16'
   title: Mathematics of Probability
   reading: /reading/reading_04
+  lecture: /slides/class_04
 - date: '2025-01-21'
   title: Reproducible Research in R
   reading: /reading/reading_05
