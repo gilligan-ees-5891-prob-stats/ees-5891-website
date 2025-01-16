@@ -13,8 +13,19 @@ pdf_url: /files/reading_asgts/reading_05.pdf
 ---
 ## Reading:
 
-No new reading for today.
+### Required Reading (everyone):
 
-### Notes:
+* Handout: [Jonathan Gilligan, "Introduction to Reproducible Research"](/downloads/reproducible_research/index.html){target="_blank"}.
+* Handout: [Jonathan Gilligan, "Citations and Bibliographies in Quarto"](/downloads/cite-bib-quarto/index.html){target="_blank"}.
+
+### Optional Extra Reading:
+
+* Handout: [Lenny Teytelman, "No More Excuses for Non-Reproducible Methods," _Nature_ **560**, 411 (2018), [doi:10.1038/d41586-018-06008-w](https://doi.org/10.1038/d41586-018-06008-w)](/downloads/no-more-excuses/index.html){target="_blank"}.
+
+### Reading Notes:
 
 Read the following handouts
+
+Introduction to Reproducible Research is a key reading for today
+
+Citations and Bibliographies is a reference that you will mostly use int he future. Don't feel like you have to digest everything today.

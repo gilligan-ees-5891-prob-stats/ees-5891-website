@@ -1,12 +1,13 @@
 ---
 title: Citations and Bibliographies
 author: Jonathan Gilligan
-draft: true
-pubdate: '2025-01-17'
+draft: false
+pubdate: '2025-01-16'
 date: '2025-01-21'
 bibliography: cite-bib.bib
+link_citations: true
 pdf_url: /files/lab_docs/lab_08/citations_bibliographies.pdf
-slug: lab_08_citations_bibliographies
+slug: 'cite-bib-quarto'
 output:
   blogdown::html_page:
     md_extensions: +tex_math_single_backslash+compact_definition_lists
@@ -22,47 +23,48 @@ knitr::opts_chunk$set(echo = TRUE)
 The simplest way to do citations and bibliographies in Quarto is simply
 to use author-date citation like this:
 
-> The Urey reaction (Archer 2011, p. 98) shows how silicate weathering can
-> convert atmospheric carbon (in the form of CO~2~) into rocks at the bottom
-> of the ocean (in the form of CaCO~3~).
+> The Urey reaction (Archer 2011, p. 98) shows how silicate weathering
+> can convert atmospheric carbon (in the form of CO~2~) into rocks at
+> the bottom of the ocean (in the form of CaCO~3~).
 
-And then just manually enter a bibliography at the end of the document:
+And then just manually enter a bibliography at the end of the 
+document:
 
 > * Archer, David (2011). _Global Warming: Understanding the Forecast_
 >   (Wiley)
 >
-> * Rogelj, Joeri, McCollum, David L., Reisinger, Andy, Meinshausen, Malte,
->   and Riahi, Keywan (2013). 
+> * Rogelj, Joeri, McCollum, David L., Reisinger, Andy, 
+>   Meinshausen, Malte, and Riahi, Keywan (2013). 
 >   Probabilistic cost estimates for climate change mitigation,
 >   _Nature_ **493**, 79--83.
 
 ## Getting fancy with citations and bibliographies
 
-However, if you want to experiment with something fancier, 
-Quarto has the ability to automatically format bibliographic information and
-manage citations. Using this is a little complicated because you need to have
-file with your bibliographic information entered in a certain format. 
+However, if you want to experiment with something fancier, Quarto has
+the ability to automatically format bibliographic information and
+manage citations. Using this is a little complicated because you need
+to have file with your bibliographic information entered in a certain
+format.
 
-Everything that follows describes how to do citations and bibliographies
-with Quarto using bibliography files. If you wish, you may ignore the
-rest of this document and manage your citations and bibliographies manually,
-as described at the top of this file.
+Everything that follows describes how to do citations and 
+bibliographies with Quarto using bibliography files. If you wish, you
+may ignore the rest of this document and manage your citations and
+bibliographies manually, as described at the top of this file.
 
-Quarto can work with a wide variety of file formats for bibliographies, 
-including those produced by many common software packages, such as 
-EndNote, Zotero, and Mendeley.
+Quarto can work with a wide variety of file formats for
+bibliographies, including those produced by many common software
+packages, such as EndNote, Zotero, and Mendeley.
 Quarto integrates especially well with Zotero.
 You can find further documentation about bibliographies and citations
 at <https://quarto.org/docs/visual-editor/technical.html#citations>
 
-
 # Bibliography Files
 
 Quarto reads bibliography entries from an external bibliography file.
-To specify the bibloography file, you would 
-just add a line to the header of your Quarto document.
-You can optionally add an additional line `link_citations: true` to 
-create hyperlinks from citations in the text of your document to the 
+To specify the bibloography file, you would just add a line to the
+header of your Quarto document.
+You can optionally add an additional line `link_citations: true` to
+create hyperlinks from citations in the text of your document to the
 corresponding bibliography entry. Here's an example:
 
 ```
@@ -76,12 +78,13 @@ link_citations: true
 ---
 ```
 
-Quarto can figure out the kind of bibliography file it is from the file 
+Quarto can figure out the kind of bibliography file it is from the file
 extension (`.bib`, etc.).
 
-For the examples here, I will work with a format called BibTeX because most
-common software packages can export bibliographies in BibTeX format, and 
-Google Scholar can also provide citations in BibTeX format that you can copy 
+For the examples here, I will work with a format called BibTeX because
+most common software packages can export bibliographies in BibTeX 
+format, and Google Scholar can also provide citations in BibTeX format
+that you can copy 
 and past from a browser. BibTeX files are plain text and you can edit them in
 RStudio.[^1]
 
