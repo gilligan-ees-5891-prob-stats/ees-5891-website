@@ -4,6 +4,7 @@ author: Jonathan Gilligan
 draft: true
 pubdate: '2025-01-16'
 date: '2025-01-21'
+weight: 4
 bibliography: cite-bib.bib
 link_citations: true
 pdf_url: /files/lab_docs/lab_08/citations_bibliographies.pdf

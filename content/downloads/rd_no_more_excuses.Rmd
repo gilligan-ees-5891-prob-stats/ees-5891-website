@@ -4,6 +4,7 @@ author: |
   "Lenny Teytelman"
 pubdate: '2025-01-16'
 date: '2025-01-16'
+weight: 3
 slug: 'no-more-excuses'
 output:
   blogdown::html_page:
