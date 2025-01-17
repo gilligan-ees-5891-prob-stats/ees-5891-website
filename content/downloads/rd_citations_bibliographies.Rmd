@@ -1,7 +1,7 @@
 ---
 title: Citations and Bibliographies
 author: Jonathan Gilligan
-draft: false
+draft: true
 pubdate: '2025-01-16'
 date: '2025-01-21'
 bibliography: cite-bib.bib
@@ -149,13 +149,16 @@ or *keys*, that appear in the database.[^3]
 There are two ways you can insert citations: Manually, or using the
 "Insert Citation" tool in the Visual editor in RStudio.
 
--   **Using the Insert Citation tool:** You can bring up the Insert
-    Citation tool by clicking on the "Insert" button on the toolbar, or
-    pressing $\Uparrow \hat{} \text{F8}$ (`Ctrl-Shift-F8`) on your
-    keyboard. This will bring up a dialog box where you can look up
-    references in your personal bibliography (including Zotero), via a
-    DOI (digital object identifier) code, or from public bibliographic
-    databases such as CrossRef or PubMed.
+## Using the Insert Citation Tool
+
+You can bring up the Insert Citation tool by clicking on the "Insert"
+button on the toolbar, or pressing $\Uparrow \hat{} \text{F8}$
+(`Ctrl-Shift-F8`) on your keyboard. This will bring up a dialog box
+where you can look up references in your personal bibliography
+(including Zotero), via a DOI (digital object identifier) code, or
+from public bibliographic databases such as CrossRef or PubMed.
+  
+  
 
 If you open a BibTeX bibliography file in RStudio, you will see that all
 references begin with a reference type, starting with `@` (e.g., `@book`

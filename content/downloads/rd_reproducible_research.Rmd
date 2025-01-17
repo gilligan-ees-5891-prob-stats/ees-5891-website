@@ -5,8 +5,8 @@ pubdate: '2025-01-16'
 date: '2025-01-21'
 bibliography: reproducible-research.bib
 link_citations: true
-pdf_url: /files//reproducible_research.pdf
-slug: reproducible_research
+pdf_url: '/files/downloads/reproducible-research/reproducible-research.pdf'
+slug: 'reproducible-research'
 output:
   blogdown::html_page:
     md_extensions: +tex_math_single_backslash+compact_definition_lists
