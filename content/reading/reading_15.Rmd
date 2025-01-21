@@ -6,10 +6,10 @@ weight: 15
 slug: reading_15
 pubdate: '2024-12-31'
 date: '2025-02-25'
+pdf_url: /files/reading_asgts/reading_15.pdf
 output:
   blogdown::html_page:
     md_extensions: +tex_math_single_backslash+compact_definition_lists
-pdf_url: /files/reading_asgts/reading_15.pdf
 ---
 ## Reading:
 
