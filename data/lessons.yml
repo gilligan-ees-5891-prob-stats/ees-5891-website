@@ -18,6 +18,7 @@ lessons:
 - date: '2025-01-21'
   title: Reproducible Research in R
   reading: /reading/reading_05
+  lecture: /slides/class_05
 - date: '2025-01-23'
   title: Probability Distributions
   reading: /reading/reading_06

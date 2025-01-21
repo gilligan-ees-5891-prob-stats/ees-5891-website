@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<!-- JG Reveal.js Template --><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta name="author" content="Jonathan Gilligan">
+<title>Reproducible Research</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reset.css">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reveal.min.css">
+<style type="text/css">
+      code{white-space: pre-wrap;}
+      .smallcaps{font-variant: small-caps;}
+      .line-block{white-space: pre-line;}
+      .column{display: inline-block;}  </style>
+<style type="text/css">
+    div.qrbox,
+    aside.qrbox {
+     text-align: left;
+     vertical-align: bottom;
+     width: 95%;
+     position: fixed;
+     left: 2.5%;
+     bottom: 1rem;
+     display: block;
+    }
+  </style>
+<!-- theme = solarized_jg --><link rel="stylesheet" href="../../lecture_lib/library/assets/css/theme/solarized_jg.css" id="theme">
+<!-- Printing and PDF exports --><script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../lecture_lib/library/reveal.js-3.8.0/css/print/pdf.css' : '../../lecture_lib/library/reveal.js-3.8.0/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><!--[if lt IE 9]>
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+  <![endif]--><script src="../../lecture_lib/library/header-attrs-2.29.1.9000/header-attrs.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+            <!-- start title slide -->
+<section class="center" id="title"><h1 class="title">Reproducible Research</h1>
+    <h3 class="author">EES 4891/5891</h3>
+        <h3 class="author">Probability &amp; Statistics for
+Geosciences</h3>
+    <h3 class="author">Jonathan Gilligan</h3>
+    <h3 class="date">
+      Class #5:
+       Tuesday, January 21
+      2025
+    </h3>
+	<!-- end title slide -->
+</section><section><section id="learning-goals" class="title-slide slide level1 center"><h1 class="center">Learning Goals</h1>
+
+</section><section id="learning-goals-for-today" class="slide level2"><h2>Learning Goals for Today</h2>
+<ul>
+<li>Understand what reproducible research is, and why it’s
+important</li>
+<li>Learn about version control
+<ul>
+<li>Know how to manage revisions with <code>git</code> and
+<code>GitHub</code>
+</li>
+</ul>
+</li>
+<li>Understand how to use <code>Git</code> in RStudio projects</li>
+<li>Learn about using <code>RMarkdown</code> and <code>Quarto</code> for
+literate programming and reproducible research methods.</li>
+</ul></section></section><section id="getting-started" class="title-slide slide level1"><h1>Getting Started</h1>
+<p>Go to GitHub Classroom and accept the project at <a href="https://classroom.github.com/a/Hg3m9DoE" class="uri">https://classroom.github.com/a/Hg3m9DoE</a></p>
+<p><img data-src="assets/images/asgt_qr.svg" height="400" alt="https://classroom.github.com/a/Hg3m9DoE"></p>
+</section><section><section id="reproducible-research" class="title-slide slide level1 center"><h1 class="center">Reproducible Research</h1>
+
+</section><section id="reproducible-research-1" class="slide level2 ninety"><h2 class="ninety">Reproducible Research</h2>
+<ul>
+<li class="fragment">Science is supposed to be reproducible
+<ul>
+<li class="fragment">Scientific laws assume that anyone testing them will observe
+consistent results
+<ul>
+<li class="fragment">Radioactive decay of <span class="math inline">\(^{14}\mathrm{C}\)</span> occurs at the same rate
+in every laboratory.</li>
+<li class="fragment">Melting point of pure quartz is the same in every
+laboratory.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="fragment">Engineering, medecine, economics, business, … are less precise.
+<ul>
+<li class="fragment">But reproducibie analyses are important:
+<ul>
+<li class="fragment">Research should reproduce statistical patterns.</li>
+<li class="fragment">Applied work (clinical medicine, engineering designs, business
+records) should be accurate.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="fragment">Clarity &amp; Transparency
+<ul>
+<li>Build trust by sharing all the steps of the work</li>
+<li>Avoid errors by making it easy to check your work</li>
+<li>Simplify correcting errors, by automating analysis and
+reporting</li>
+<li>Speed up routine analysis and reports</li>
+</ul>
+</li>
+</ul></section><section id="urgency-of-reproducible-methods" class="slide level2"><h2>Urgency of Reproducible Methods</h2>
+<ul>
+<li>Fraud thrives where methods and details are secret</li>
+</ul>
+<div class="columns fragment" data-fragment-index="1">
+<div class="column eighty" style="width:40%;">
+<ul>
+<li>Jan Hendrik Schön</li>
+<li>Physicist at AT&amp;T Bell Labs 1997–2002</li>
+<li class="fragment" data-fragment-index="2">Published dozens of papers per year
+<ul>
+<li>Claimed many major breakthroughs</li>
+</ul>
+</li>
+<li class="fragment" data-fragment-index="3">No one else could reproduce his results</li>
+<li class="fragment" data-fragment-index="4">2002: Researchers discovered he was re-using graphs
+<ul>
+<li class="fragment" data-fragment-index="5">An investigation revealed massive fraud</li>
+</ul>
+</li>
+<li class="fragment" data-fragment-index="6">None of the other scientists working with him asked to witness
+his experiments or review his analyses.</li>
+</ul>
+</div>
+<div class="column" style="width:23%;">
+<p><img data-src="assets/images/jh-schoen.jpg" alt="Jan Hendrik Schön"></p>
+</div>
+<div class="column" style="width:35%;">
+<p><img data-src="assets/images/schoen-fraud-fig-2.jpg" class="fragment" data-fragment-index="4" alt="Figures from three different papers, claiming to describe three very different experiments, showing identical graphs"></p>
+</div>
+</div>
+</section><section id="honest-error" class="slide level2"><h2>Honest Error</h2>
+<ul>
+<li class="fragment">London Whale: JP Morgan-Chase lost $6.2 billion because of a
+spreadsheet error.</li>
+<li class="fragment">UK Public Health Service undercounted 16,000 COVID cases.</li>
+<li class="fragment">Many European countries made policy based on a flawed economics
+analysis.</li>
+<li class="fragment">16% of papers in 8 top medical journals have strong indications
+of fraud or incompetent analysis.</li>
+<li class="fragment">Errors in computer code led scientists to think satellites
+showed global cooling.</li>
+<li class="fragment">Psychology has been experiencing a “crisis of replication” where
+many major results can’t be reproduced.</li>
+</ul></section><section id="response-reproducible-research" class="slide level2"><h2>Response: Reproducible Research</h2>
+<ul>
+<li>To restore trust and confidence in research:
+<ol type="1">
+<li class="fragment">Document everything clearly:
+<ul>
+<li>Methods for collecting data</li>
+<li>Methods for analyzing data</li>
+<li class="fragment">Make sure everything is clear and detailed</li>
+</ul>
+</li>
+<li class="fragment">Make code and data publicly available</li>
+<li class="fragment">Archive code and data to keep it available over time</li>
+</ol>
+</li>
+<li class="fragment">Reproducibility doesn’t just mean reproducing the exact result:
+<ul>
+<li>It’s also being able to make changes and exploring their
+consequences</li>
+</ul>
+</li>
+</ul></section><section id="reproducibility-spectrum" class="slide level2"><h2>Reproducibility Spectrum</h2>
+<div class="ptop-3">
+<p><img data-src="assets/images/reproducibility-spectrum.jpg" width="1800"></p>
+</div>
+</section><section id="literate-programming" class="slide level2"><h2>Literate Programming</h2>
+<ul>
+<li>
+<p>Reading &amp; understanding someone else’s computer code is
+difficult</p>
+<p><img data-src="assets/images/phd-comics-old-code.jpg" height="300"></p>
+</li>
+<li class="fragment">
+<p>Literate programming (D. Knuth, 1984)</p>
+<ul>
+<li>Integrate code with text that clearly explains it</li>
+<li class="fragment">Explanations:
+<ul>
+<li>How it works</li>
+<li>What it does</li>
+<li>How to use it</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></section><section id="testing-code" class="slide level2"><h2>Testing Code</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li class="fragment">Unit testing
+<ul>
+<li class="fragment">
+<p>Assume your code has errors</p>
+<p><img data-src="assets/images/garfield-nobodys-perfect.jpg" height="300" alt="Garfield saying, “Nobody’s perfect”"></p>
+</li>
+<li class="fragment"><p>Write tests to catch errors</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">Fake Data (Gelman, 2009)
+<ul>
+<li class="fragment">Before analyzing research data, test your analysis with “fake
+data”</li>
+<li class="fragment">Generate data where you know what the result should be</li>
+<li class="fragment">Test whether your analysis code gets the right answer</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="using-git-and-github" class="title-slide slide level1 center"><h1 class="center">Using <code>git</code> and <code>GitHub</code>
+</h1>
+
+</section><section id="tracking-changes" class="slide level2 ninety"><h2 class="ninety">Tracking Changes</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Your data-analysis code works, and you edit it to add some new
+capabilities, and it breaks down.</li>
+</ul>
+<p><img data-src="assets/images/yesterday-it-worked.jpg"></p>
+</div>
+<div class="column">
+<ul>
+<li class="fragment"><code>git</code> can remember all the changes you make.
+<ul>
+<li>If you edit your code and it breaks, you can see what you
+changed.</li>
+<li class="fragment">You publish a paper using your code
+<ul>
+<li class="fragment">You keep working on the code, adding new features.</li>
+<li class="fragment">Two years later, someone asks a question about the paper.</li>
+<li class="fragment">Can you recreate the code from that paper, to answer their
+question?</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="what-git-does" class="slide level2 ninety"><h2 class="ninety">What <code>git</code> does</h2>
+<ul>
+<li>Organize each project in a folder &amp; subfolders</li>
+<li>
+<strong>Workspace:</strong> The files and folders in your
+project</li>
+<li class="fragment"><strong>Repository:</strong> The records <code>git</code> keeps
+of your changes
+<ul>
+<li class="fragment">You decide when to record changes
+<ul>
+<li class="fragment"><strong>Stage:</strong> select changed files that you want to
+track</li>
+<li class="fragment"><strong>Commit:</strong> <code>git</code> makes a snapshot of
+the changes in all the <em>staged</em> files and records it in the
+repository
+<ul>
+<li>A <strong>commit</strong> records changes in multiple files</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="fragment">The repository contains a record of the current state of your
+project (as of the last commit), and all the previous commits.</li>
+<li class="fragment">You can easily recover all the files the way they were at any
+previous commit</li>
+</ul>
+</li>
+<li class="fragment">You can <strong>push</strong> or <strong>pull</strong> commits
+to synchronize two different repositories
+<ul>
+<li class="fragment">A local repository on your computer and a remote repository
+somewhere else (e.g., on GitHub)</li>
+</ul>
+</li>
+</ul></section><section id="git-structure" class="slide level2"><h2>Git structure</h2>
+<p><img data-src="assets/images/git-structure.jpg" height="900"></p>
+</section><section id="git-process" class="slide level2"><h2>Git Process</h2>
+<p><img data-src="assets/images/git-process.jpg" height="900"></p>
+</section></section><section><section id="working-with-git-and-rstudio" class="title-slide slide level1 center"><h1 class="center">Working with <code>git</code> and RStudio</h1>
+<ul>
+<li>RStudio works with <strong>projects</strong>: Collections of files
+in a folder and subfulders</li>
+<li class="fragment">Each project you work on should be in an RStudio project
+<ul>
+<li>Use RStudio’s “New Project” commant to make a new project</li>
+</ul>
+</li>
+<li class="fragment">If you’re creating a project from a GitHub repository, use the
+RStudio “New Project” and choose “Version Control”, and then put the URL
+for the GitHub project into the box</li>
+</ul></section><section id="creating-a-new-project" class="slide level2"><h2>Creating a New Project</h2>
+<p><img data-src="assets/images/RStudio-new-project-1.jpg" height="900"></p>
+</section><section id="creating-a-new-project-1" class="slide level2"><h2>Creating a New Project</h2>
+<p><img data-src="assets/images/RStudio-new-project-2.jpg" height="900"></p>
+</section><section id="creating-an-rstudio-project-from-github" class="slide level2"><h2>Creating an RStudio Project from GitHub</h2>
+<div class="columns">
+<div class="column">
+<p><img data-src="assets/images/RStudio-new-project-version-control.jpg"></p>
+<p><img data-src="assets/images/RStudio-new-project-git.jpg"></p>
+</div>
+<div class="column">
+<p><img data-src="assets/images/github-clone-repo.jpg" height="500"></p>
+<p><img data-src="assets/images/RStudio-new-project-git-details-2.jpg"></p>
+</div>
+</div>
+</section><section id="working-with-git-in-rstudio-projects" class="slide level2"><h2>Working with Git in RStudio Projects</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>The <code>git</code> panel shows which files have been changed:
+<ul>
+<li>
+<img data-src="assets/images/RStudio-git-added.jpg"> New (added)
+file</li>
+<li>
+<img data-src="assets/images/RStudio-git-modified.jpg"> Modified
+file</li>
+<li>
+<img data-src="assets/images/RStudio-git-deleted.jpg"> Deleted
+file</li>
+<li>
+<img data-src="assets/images/RStudio-git-renamed.jpg"> Renamed or
+moved file</li>
+</ul>
+</li>
+<li class="fragment">The “Diff” button examines changes in text files</li>
+<li class="fragment">The “Commit” button lets you stage and commit changes</li>
+</ul>
+</div>
+<div class="column">
+<p><img data-src="assets/images/RStudio-git-panel.jpg"></p>
+</div>
+</div>
+</section><section id="viewing-file-differences" class="slide level2"><h2>Viewing File Differences</h2>
+<p><img data-src="assets/images/RStudio-diff-window.jpg" height="900"></p>
+</section><section id="staging-and-committing-changes" class="slide level2 eighty"><h2 class="eighty">Staging and Committing Changes</h2>
+<div class="columns">
+<div class="column bare">
+<ul>
+<li><p>Stage individual files by checking boxes</p></li>
+<li class="fragment">
+<p>When you’re ready to commit:</p>
+<ul>
+<li>Write a comment in the comment box, describing the commit.</li>
+<li>Click the “Commit” button</li>
+</ul>
+</li>
+<li class="fragment">
+<p>After you commit, RStudio will remind you that your local
+repository is out of sync with GitHub</p>
+<p><img data-src="assets/images/RStudio-ready-to-push.jpg" class="bare" height="200"></p>
+<ul>
+<li class="fragment">Click on the “Push” button to send your recent commits to
+GitHub</li>
+<li class="fragment">The “Pull” button will check whether GitHub has commits that
+aren’t on your computer, and pull them down.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<p><img data-src="assets/images/RStudio-ready-to-commit.jpg" height="800"></p>
+</div>
+</div>
+</section></section><section><section id="using-quarto-and-rmarkdown" class="title-slide slide level1 center"><h1 class="center">Using <code>Quarto</code> and
+<code>RMarkdown</code>
+</h1>
+<ul>
+<li>Based on the Markdown standard for formatting with plain text.</li>
+<li class="fragment">RStudio has added a visual WSYWIG editor that lets you format
+without knowing Markdown codes.
+<ul>
+<li class="fragment">You can toggle back and forth between “Code” and “Visual”
+modes.</li>
+</ul>
+</li>
+<li class="fragment">Click on “Render” to turn your Quarto document into a formatted
+HTML or PDF document.
+<ul>
+<li class="fragment">It can also export to Word, Powerpoint, and other formats.</li>
+</ul>
+</li>
+</ul></section><section id="history" class="slide level2"><h2>History:</h2>
+<ul>
+<li>Yihui Xie, a graduate student in statistics. got interested in
+reproducible research and developed <code>knitr</code> to integrate
+different kinds of textual markup with R to make reproducible
+documents.</li>
+<li class="fragment">Later, he was hired by RStudio and developed the
+<code>RMarkdown</code>, which allowed sophisticated integration of R
+into producing many kinds of documents.</li>
+<li class="fragment">Many people wanted to use RMarkdown with other languages, such
+as Python and Julia,
+<ul>
+<li class="fragment">and there was also interest in integrating RMarkdown with the
+Jupyter notebook system</li>
+</ul>
+</li>
+<li>Quarto combined features of Jupyter, RMarkdown, and other systems.
+<ul>
+<li class="fragment">It is very powerful and customizable</li>
+</ul>
+</li>
+</ul></section><section id="some-basic-rmarkdown" class="slide level2 eighty"><h2 class="eighty">Some basic RMarkdown:</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Headings: <code>#</code>, <code>##</code>, <code>###</code>, …</li>
+<li>Lists:
+<ul>
+<li>
+<p>Bulleted:</p>
+<pre><code>* blah blah blah
+* blah blah blah
+  * foo foo foo
+* blah blah blah</code></pre>
+</li>
+<li>
+<p>Numbered:</p>
+<pre><code>1. first item
+2. second item
+   a. Multiple levels
+   b. And so forth
+   b. Labels increment 
+      automatically
+#. third item
+#. fourth item</code></pre>
+</li>
+</ul>
+</li>
+<li>Text formatting:
+<ul>
+<li>
+<code>**bold**</code> = <strong>bold</strong>
+</li>
+<li>
+<code>_italic_</code> = <em>italic</em>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>
+<p>Block quotations:</p>
+<pre><code>&gt; This is a block quotation
+&gt; that goes on for several 
+&gt; lines
+&gt; 
+&gt; With multiple paragraphs</code></pre>
+</li>
+<li><p>inline R code `<code>r sqrt(2)</code>`</p></li>
+<li>
+<p>Hyperlinks:</p>
+<ul>
+<li>
+<code>&lt;https://vanderbilt.edu&gt;</code> makes <a href="https://www.vanderbilt.edu" class="uri">https://www.vanderbilt.edu</a>
+</li>
+<li>
+<code>[Vanderbilt](https://www.vanderbilt.edu)</code> makes <a href="https://www.vanderbilt.edu">Vanderbilt</a>
+</li>
+</ul>
+</li>
+<li>
+<p>Images:</p>
+<ul>
+<li><code>![alt text](/path/to/image.jpg)</code></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section id="trying-it-out" class="title-slide slide level1 center"><h1 class="center">Trying It Out</h1>
+
+</section>
+</div>
+  </div>
+  <!--
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.js"></script>
+  <!-- -->
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.min.js"></script><!-- --><script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Display the page number of the current slide
+        showSlideNumber: 'speaker',
+        // Push each slide change to the browser history
+        history: true,
+        //  Enable hashing slide content to URL
+        hash: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Don't separate fragments in PDF rendering
+        pdfSeparateFragments: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+      
+        // Optional reveal.js plugins
+        dependencies: [
+                    { src: '../../lecture_lib/library/assets/plugin/chalkboard/chalkboard.js', async: true },
+                                        { src: '../../lecture_lib/library/assets/plugin/reveal-skip-fragments/skip-fragments.js', async: true },
+                    { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/notes/notes.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/math/math.js', async: true }
+        ],
+        shift_keyboard: {
+    	    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'C' is pressed
+    	    66: function() { RevealChalkboard.toggleChalkboard() },	  // toggle chalkboard when 'B' is pressed
+    	    88: function() { RevealChalkboard.clear() },	            // clear chalkboard when 'X' is pressed
+    	    82: function() { RevealChalkboard.reset() },	            // reset chalkboard data on current slide when 'R' is pressed
+    	    68: function() { RevealChalkboard.download() },	          // downlad recorded chalkboard drawing when 'D' is pressed
+        },
+              	// Shortcut for showing all fragments
+      	skipFragmentsShowShortcut: 'S',
+
+      	// Shortcut for hiding all fragments
+      	skipFragmentsHideShortcut: 'H',
+      	      });
+    </script><script>
+  	function createSingletonNodejg( container, tagname, classname, innerHTML ) {
+
+		// Find all nodes matching the description
+		var nodes = container.querySelectorAll( '.' + classname );
+
+		// Check all matches to find one which is a direct child of
+		// the specified container
+		for( var i = 0; i < nodes.length; i++ ) {
+			var testNode = nodes[i];
+			if( testNode.parentNode === container ) {
+				return testNode;
+			}
+		}
+
+		// If no node was found, create it now
+		var node = document.createElement( tagname );
+		node.className = classname;
+		if( typeof innerHTML === 'string' ) {
+			node.innerHTML = innerHTML;
+		}
+		container.appendChild( node );
+
+		return node;
+
+	}
+
+  var dom_wrapper = document.querySelector('.reveal');
+  createSingletonNodejg(dom_wrapper, 'div', 'qrbox',
+  '<div class="qrbox" id="qrbox" style="font-size:90%;">' + '\n' +
+  '<div style="font-size:30%;width:100%;">' + '\n' +
+      '<a href="https://ees5891.jgilligan.org/slides/class_05">' +
+  	'<img src="qrcode.png" alt="https://ees5891.jgilligan.org/slides/class_05"/>' +
+  	'</a>' + '\n' +
+	  '</div>' + '\n' +
+  '<div style="font-size:30%;width:100%;vertical-align:top;">' + '\n' +
+    '<span style="display:inline-block;text-align:left;margin-left:0">' + '\n' +
+        'Live web page: <a href="https://ees5891.jgilligan.org/slides/class_05">https://ees5891.jgilligan.org/slides/class_05</a>' + '\n' +
+              '<br/>' + '\n' +
+        'PDF: <a href="https://ees5891.jgilligan.org/slides/class_05/EES_4891_5891_class_05_slides.pdf" target="_blank">https://ees5891.jgilligan.org/slides/class_05/EES_4891_5891_class_05_slides.pdf</a>' + '\n' +
+          	'</span>' + '\n' +
+  	'<span style="display:inline-block;text-align:right;vertical-align:top;position:absolute;right:0;bottom:0;">' + '\n' +
+  	  'Navigate slides: next: N or &lt;space&gt;; previous: P or &lt;backspace&gt;<br/>' + '\n' +
+  	  'Also: up, down, left, right arrows; overview: o; help: ?' + '\n' +
+  	'</span>' + '\n' +
+	'</div>' + '\n' +
+  '</div>' + '\n'
+  );
+</script><script>
+var MathJax = { jax: ["input/TeX", "output/HTML-CSS"],
+                TeX: {extensions: ["color.js", "mhchem.js"],
+                Macros: {
+                  COO: "\\ce{CO2}",
+                  methane: "\\ce{CH4}",
+                  degC: "^\\circ \\mathrm{C}",
+                  degF: "^\\circ \\mathrm{F}",
+                  water: "\\ce{H2O}",
+                  carb: "\\ce{CO3^2-}",
+                  bicarb: "\\ce{HCO3-}",
+                  carbonic: "\\ce{H2CO3}",
+                  Hplus: "\\ce{H+}",
+                  OH: "\\ce{OH-}",
+                  silica: "\\ce{SiO2}",
+                  calcite: "\\ce{CaCO3}",
+                  Caplus: "\\ce{Ca^2+}",
+                  silicate: "\\ce{SiO3^2-}",
+                  CaSi: "\\ce{CaSiO3}",
+                  pH: "p\\ce{H}",
+                  permil: "\\unicode{x2030}",
+                  pCOO: "\\ce{	ext{p}CO2}",
+                  pwater: "\\ce{	ext{p}H2O}"
+                },
+                  },
+                "HTML-CSS" : {scale: 100 }};
+</script><!-- dynamically load mathjax for compatibility with self-contained --><script type="text/x-mathjax-config">
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["SVG"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+    displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
+    processEscapes: true
+  }
+})
+  </script><script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script><script>
+  var qrbox = document.querySelector("#qrbox");
+  var advance_fragment = 0;
+
+	function isPrintingPDF() {
+	  let printing = ( /print-pdf/gi ).test( window.location.search );
+	  console.log("printing test: " + printing);
+	  return printing;
+	}
+
+
+  if ( qrbox.hasAttribute('qr-box-hide') || Reveal.isOverview() ||
+      ! Reveal.isFirstSlide() || isPrintingPDF()) {
+    console.log("Initializing");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }
+
+  Reveal.addEventListener('overviewshown', function() {
+      console.log("Overview shown");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }, false);
+
+  Reveal.addEventListener('overviewhidden', function() {
+    if (Reveal.isFirstSlide() && ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Overview hidden");
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    console.log("Slide changed...");
+    if (Reveal.isFirstSlide() && ! Reveal.isOverview() &&
+        ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    } else {
+      console.log("Hiding QR box");
+      qrbox.style.visibility="hidden";
+      qrbox.style.display="none";
+    }
+  }, false);
+
+  Reveal.addEventListener('pdf-ready', function() {
+    console.log("hiding qrbox for printing");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+    qrbox.setAttribute('qr-box-hide', 'true');
+  });
+
+  </script><script>
+  Reveal.addEventListener('slidechanged', function() {
+    while (advance_fragment > 0) {
+      // console.log('advancing fragment');
+      Reveal.nextFragment();
+      advance_fragment--;
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    if ( Reveal.getCurrentSlide().hasAttribute('data-skip')) {
+      // console.log("going to next slide...");
+      Reveal.next();
+    }
+  }, false);
+
+  Reveal.addEventListener('skip_slide', function() {
+    Reveal.next();
+  }, false);
+
+  Reveal.addEventListener('advance_fragment', function() {
+    // console.log("setting advance fragment");
+    advance_fragment++;
+    }, false);
+  </script>
+</body>
+</html>
