@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<!-- JG Reveal.js Template --><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta name="author" content="Jonathan Gilligan">
+<title>Probability Distributions</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reset.css">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reveal.min.css">
+<style type="text/css">
+      code{white-space: pre-wrap;}
+      .smallcaps{font-variant: small-caps;}
+      .line-block{white-space: pre-line;}
+      .column{display: inline-block;}  </style>
+<style type="text/css">
+    div.qrbox,
+    aside.qrbox {
+     text-align: left;
+     vertical-align: bottom;
+     width: 95%;
+     position: fixed;
+     left: 2.5%;
+     bottom: 1rem;
+     display: block;
+    }
+  </style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { font-weight: bold; } /* Alert */
+code span.an { font-style: italic; } /* Annotation */
+code span.cf { font-weight: bold; } /* ControlFlow */
+code span.co { font-style: italic; } /* Comment */
+code span.cv { font-style: italic; } /* CommentVar */
+code span.do { font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.er { font-weight: bold; } /* Error */
+code span.in { font-style: italic; } /* Information */
+code span.kw { font-weight: bold; } /* Keyword */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.wa { font-style: italic; } /* Warning */
+  </style>
+<!-- theme = solarized_jg --><link rel="stylesheet" href="../../lecture_lib/library/assets/css/theme/solarized_jg.css" id="theme">
+<!-- Printing and PDF exports --><script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../lecture_lib/library/reveal.js-3.8.0/css/print/pdf.css' : '../../lecture_lib/library/reveal.js-3.8.0/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><!--[if lt IE 9]>
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+  <![endif]--><script src="../../lecture_lib/library/header-attrs-2.29.1.9000/header-attrs.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+            <!-- start title slide -->
+<section class="center" id="title"><h1 class="title">Probability Distributions</h1>
+    <h3 class="author">EES 4891/5891</h3>
+        <h3 class="author">Probability &amp; Statistics for
+Geosciences</h3>
+    <h3 class="author">Jonathan Gilligan</h3>
+    <h3 class="date">
+      Class #6:
+       Thursday, January 23
+      2025
+    </h3>
+	<!-- end title slide -->
+</section><section><section id="learning-goals" class="title-slide slide level1 center"><h1 class="center">Learning Goals</h1>
+
+</section><section id="learning-goals-1" class="slide level2"><h2>Learning Goals</h2>
+<ul>
+<li>Learn what probability distributions are
+<ul>
+<li>Continuous and discrete distributions</li>
+</ul>
+</li>
+<li>Learn how we characterize probability distributions
+<ul>
+<li>Moments of a distribution</li>
+<li>Graphical summaries</li>
+</ul>
+</li>
+<li>Learn the difference between exploratory and confirmatory data
+analysis</li>
+<li>Learn practices for avoiding mistakes in statistical analysis</li>
+<li>Learn about exploratory data analysis
+<ul>
+<li>
+<strong>Robustness</strong> and <strong>Resiliance</strong>
+</li>
+</ul>
+</li>
+<li>Learn about exploratory analysis of multivariate data</li>
+<li>Learn about pitfalls of relying too much on numerical summaries of
+statistical data</li>
+</ul></section></section><section><section id="homework" class="title-slide slide level1 center"><h1 class="center">Homework</h1>
+
+</section><section id="homework-1" class="slide level2"><h2>Homework</h2>
+<ul>
+<li>I will post a homework assignment tomorrow</li>
+<li>It will cover data wrangling in R, focusing on selected exercises in
+<em>R for Data Science</em>.</li>
+<li>Start working on it before Tuesday, but it will not be due until the
+following week.</li>
+<li>Come to class Tuesday with questions about the exercises from the
+reading for Tuesday (these will be clearly indicated in the assignment)
+<ul>
+<li>We will discuss them and prepare you to compelete them after
+class.</li>
+</ul>
+</li>
+<li>You do not need to do all the exercises in <em>R for Data
+Science</em>. Only the ones in the homework.</li>
+</ul></section></section><section><section id="probability-distributions" class="title-slide slide level1 center"><h1 class="center">Probability Distributions</h1>
+
+</section><section id="probability-distributions-1" class="slide level2"><h2>Probability Distributions</h2>
+<h3 id="discrete-vs.-continuous">Discrete vs. Continuous</h3>
+<div class="columns">
+<div class="column">
+<ul>
+<li class="fragment">Discrete:
+<ul>
+<li>Examples:
+<ul>
+<li>Counts: how many earthquakes happen in a year?</li>
+<li>Discrete outcomes: Dice rolls, mineral types</li>
+<li>Ranges: group grain sizes into ranges (Wentworth classes)</li>
+</ul>
+</li>
+<li class="fragment">Distribution:
+<ul>
+<li>Probability Mass Function (PMF) <span class="math display">\[P(X =
+x_i)\]</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">Continuous:
+<ul>
+<li>Examples:
+<ul>
+<li>Weights</li>
+<li>Ages</li>
+<li>Temperatures</li>
+</ul>
+</li>
+<li class="fragment">Distributions:
+<ul>
+<li>Probability Distribution Function (PDF): <span class="math display">\[ P(X = x) \]</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="discrete-probability-ranges" class="slide level2"><h2>Discrete Probability Ranges</h2>
+<p><img data-src="assets/images/Wentworth_scale.png" height="750" alt="Wentworkth grain-size classification"></p>
+<p><img data-src="assets/images/geologic-epochs.png" alt="Geologic epochs"></p>
+</section><section id="probability-distributions-2" class="slide level2 ninety"><h2 class="ninety">Probability Distributions</h2>
+<h3 id="discrete-vs.-continuous-1">Discrete vs. Continuous</h3>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Discrete:
+<ul>
+<li>Probability Mass Function (PMF) <span class="math display">\[P(X =
+x_i)\]</span>
+</li>
+<li class="fragment">Cumulative Distribution Function <span class="math display">\[F(x) = P(X \le x) = \sum_{i=1}^N P(X =
+x_i),\]</span> where <span class="math inline">\(x_i \le x\)</span> for
+<span class="math inline">\(i = 1, \ldots, N\)</span>
+</li>
+<li class="fragment">Survival Function <span class="math display">\[P(X &gt; x) = 1 -
+F(x)\]</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>Contiunous:
+<ul>
+<li>Probability Distribution Function (PDF): <span class="math display">\[ P(X = x) \]</span>
+</li>
+<li class="fragment">Cumulative Distribution Function <span class="math display">\[F(x) = P(X \le x) = \int_{z=-\infty}^x P(X = z)
+dz\]</span>
+</li>
+<li class="fragment">Survival Function <span class="math display">\[P(X &gt; x) = 1 -
+F(x)\]</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="empirical-probability-distributions" class="title-slide slide level1 center"><h1 class="center">Empirical Probability Distributions</h1>
+
+</section><section id="empirical-probability-distributions-1" class="slide level2 seventy"><h2 class="seventy">Empirical Probability Distributions</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Discrete PMF:
+<ul>
+<li>Histograms</li>
+</ul>
+</li>
+<li>Continuous PDF:
+<ul>
+<li>Kernel-Density Estimation (KDE)
+<ul>
+<li class="fragment">You choose the <em>kernel</em> function and the
+<em>bandwidth</em>.
+<ul>
+<li>It’s usually fine to just use the defaults for the KDE function
+<ul>
+<li>There’s not much difference</li>
+</ul>
+</li>
+<li>But you may want to manually adjust the <em>bandwidth</em> if your
+data set is unusual.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="fragment">The figure shows four different kernel density estimates for the
+data, and they are all almost identical.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<p><img data-src="assets/images/boulder_monthly_precip.jpg" height="900"></p>
+</div>
+</div>
+</section><section id="describing-an-empirical-distribution" class="slide level2"><h2>Describing an Empirical Distribution</h2>
+<ul>
+<li>Quantiles and Percentiles
+<ul>
+<li>A <em>quantile</em> describes a value of <span class="math inline">\(x\)</span> such that a certain fraction of the
+data <span class="math inline">\(x_i\)</span> are less than <span class="math inline">\(x\)</span>
+<ul>
+<li>
+<strong>median:</strong> what value has exactly 50% of the points
+below it?</li>
+<li>
+<strong>quartiles:</strong> what values of <span class="math inline">\(x\)</span> have exactly 25%, 50%, and 75% of the
+data below them?</li>
+<li>
+<strong>deciles:</strong> 10%, 20%, … 90%</li>
+<li>
+<strong>percentiles:</strong> 1%, 2%, …, 98%, 99%</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></section><section id="parametric-distributions" class="slide level2"><h2>Parametric Distributions</h2>
+<ul>
+<li>Functions like the normal distribution, which are defined by
+parameters (mean, standard deviation), which we try to estimate from the
+data.
+<ul>
+<li>We’ll look at this in more detail in Chapter 5</li>
+</ul>
+</li>
+</ul></section></section><section><section id="moments-of-a-distribution" class="title-slide slide level1 center"><h1 class="center">Moments of a Distribution</h1>
+
+</section><section id="moments-of-a-distribution-1" class="slide level2 ninety"><h2 class="ninety">Moments of a Distribution</h2>
+<ul>
+<li>
+<p><strong>Expected Value:</strong> On average, what value do we
+expect?</p>
+<p><span class="math display">\[
+E(X) = \mu = \begin{cases}
+\sum_{i = 1}^N x_i P(X = x_i) &amp; \text{Discrete}\\
+\int_{-\infty}^{\infty} x P(x) dx &amp; \text{Continuous}
+\end{cases}
+\]</span></p>
+<ul>
+<li class="fragment">This is the <em>first moment</em> of <span class="math inline">\(P\)</span>, and it’s equivalent to the
+<em>mean</em> of <span class="math inline">\(P\)</span>.</li>
+</ul>
+</li>
+<li class="fragment">
+<p><strong>Higher moments:</strong></p>
+<ul>
+<li class="fragment">The second moment is the <em>variance</em> of <span class="math inline">\(P\)</span>
+</li>
+<li class="fragment">The third moment is related to the <em>skewness</em>, or
+asymmetry, of <span class="math inline">\(P\)</span>
+</li>
+<li class="fragment">The fourth moment is related to the <em>kurtosis</em>, or how
+sharply peaked, versus spread out, <span class="math inline">\(P\)</span> is.</li>
+<li class="fragment">The textbook gives the mathematical formulas for a generic <span class="math inline">\(n\)</span>-th order moment</li>
+<li class="fragment">If you know all the moments (up to <span class="math inline">\(n
+= \infty\)</span>), you know everything about <span class="math inline">\(P\)</span>.</li>
+</ul>
+</li>
+</ul></section><section id="practical-application-climate-change" class="slide level2"><h2>Practical Application: Climate Change</h2>
+<p><img data-src="assets/images/climate-change-fig-3.5.jpg" height="900"></p>
+</section><section id="caution" class="slide level2"><h2>Caution</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Francis J. Anscombe data sets:
+<ul>
+<li>4 sets of 11 data points in <span class="math inline">\(x\)</span>
+and <span class="math inline">\(y\)</span>
+</li>
+<li>Identical means and standard deviations</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead><tr class="header">
+<th style="text-align: left;">set</th>
+<th style="text-align: right;">mean_x</th>
+<th style="text-align: right;">mean_y</th>
+<th style="text-align: right;">sd_x</th>
+<th style="text-align: right;">sd_y</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">7.501</td>
+<td style="text-align: right;">3.317</td>
+<td style="text-align: right;">2.032</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">7.501</td>
+<td style="text-align: right;">3.317</td>
+<td style="text-align: right;">2.032</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">7.500</td>
+<td style="text-align: right;">3.317</td>
+<td style="text-align: right;">2.030</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">7.501</td>
+<td style="text-align: right;">3.317</td>
+<td style="text-align: right;">2.031</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="column">
+<p><img data-src="assets/fig/plot_anscombe-1.png"><!-- --></p>
+</div>
+</div>
+</section></section><section><section id="exploratory-data-analysis" class="title-slide slide level1 center"><h1 class="center">Exploratory Data Analysis</h1>
+
+</section><section id="data-analysis" class="slide level2"><h2>Data Analysis</h2>
+<ul>
+<li class="fragment"><strong>Exploratory data analysis:</strong> examines data to try
+to find patterns and develop hypotheses about it.</li>
+<li class="fragment"><strong>Confirmatory data analysis:</strong> examines data to
+test previously developed hypotheses.</li>
+<li class="fragment">Scientific Process:
+<ul>
+<li class="fragment">If you use the same data for <em>exploratory</em> and
+<em>confirmatory</em> analysis, you are likely to fool yourself and make
+errors.
+<ul>
+<li class="fragment"><strong>Overfitting data:</strong> Your data may not be
+perfectly representative of all possible measurements. the hypothesis
+that best describes your data may not describe newer data very
+well.</li>
+</ul>
+</li>
+<li class="fragment">It’s important to <em>test</em> hypotheses with different,
+independent data to the data you used to <em>generate</em> the
+hypothesis.</li>
+</ul>
+</li>
+</ul></section><section id="avoiding-mistakes-in-exploratory-analysis" class="slide level2"><h2>Avoiding Mistakes in Exploratory Analysis</h2>
+<ul>
+<li class="fragment">For <em>exploratory analysis</em>, we want to use methods that
+are <em>robust</em> and <em>resistant</em>
+<ul>
+<li>
+<strong>robust</strong> methods are not sensitive to assumptions
+about the data (e.g., assuming the data are normally distributed)</li>
+<li>
+<strong>resistant</strong> methods are not sensitive to small
+numbers of unsual observations (outliers).
+<ul>
+<li class="fragment">If there are 100 ordinary people in a coffee shop, and Elon Musk
+walks in, suddenly the <em>mean</em> wealth of people in the coffee shop
+is several billion dollars.
+<ul>
+<li class="fragment">But the <em>median</em> wealth doesn’t change very much</li>
+</ul>
+</li>
+<li class="fragment">The <em>median</em> is much more <em>resistant</em> than the
+<em>mean</em> for describing average properties of observations</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></section><section id="numerical-summaries" class="slide level2"><h2>Numerical Summaries</h2>
+<ul>
+<li>
+<strong>Range:</strong> difference between largest and smallest</li>
+<li>
+<strong>Location:</strong>
+<ul>
+<li><em>mean</em></li>
+<li>
+<em>median</em>: If the <em>mean</em> and <em>median</em> are
+different, the distribution must have <em>skewness</em>
+</li>
+<li>Other measures <em>trimean</em>, <em>trimmed mean</em> are rarely
+used</li>
+</ul>
+</li>
+</ul></section><section id="numerical-summaries-1" class="slide level2"><h2>Numerical Summaries</h2>
+<ul>
+<li>
+<strong>Spread:</strong>
+<ul>
+<li>
+<em>standard deviation</em> <span class="math display">\[s =  \sqrt{
+E( (X - E(X))^2 ) } = \sqrt{ E( (X - \text{mean})^2 )}\]</span>
+<ul>
+<li>Not very <em>reistant</em>
+</li>
+<li>The <em>variance</em> <span class="math inline">\(v =
+s^2\)</span>
+</li>
+</ul>
+</li>
+<li>
+<em>interquartile range</em> <span class="math inline">\(\text{IQR}
+= q_{0.75} - q_{0.25}\)</span> is much more <em>resistant</em> than
+standard deviation
+<ul>
+<li>Difference between 1st and 3rd quartiles (25th and 75th
+percentiles)</li>
+</ul>
+</li>
+<li>
+<em>mean absolute deviation</em> MAD is also <em>resisant</em>.
+<span class="math display">\[\text{MAD} = E( | X - q_{0.50} | ) = E( | X
+- \text{median} | )\]</span>
+</li>
+</ul>
+</li>
+</ul></section><section id="examples" class="slide level2"><h2>Examples:</h2>
+<div class="columns">
+<div class="column">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">2</span>)</span></code></pre></div>
+<ul>
+<li>Mean: <code>mean(data)</code> = -0.049</li>
+<li>Median: <code>median(data)</code> = 0.028</li>
+<li>Standard deviation:<br><code>sd(data)</code> = 1.737</li>
+<li>Interquartile range:<br><code>IQR(data)</code> = 2.398</li>
+<li>Mean absolute range:<br><code>mad(data)</code> = 1.896</li>
+</ul>
+</div>
+<div class="column">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data_2 <span class="ot">=</span> <span class="fu">c</span>(data, <span class="dv">10</span>)</span></code></pre></div>
+<ul>
+<li>Mean: <code>mean(data_2)</code> = 0.148</li>
+<li>Median: <code>median(data_2)</code> = 0.071</li>
+<li>Standard deviation:<br><code>sd(data_2)</code> = 2.222</li>
+<li>Interquartile range:<br><code>IQR(data_2)</code> = 2.482</li>
+<li>Mean absolute range:<br><code>mad(data_2)</code> = 1.906</li>
+</ul>
+</div>
+</div>
+</section><section id="example-cont." class="slide level2"><h2>Example (cont.)</h2>
+<p><img data-src="assets/fig/unnamed-chunk-4-1.png"><!-- --></p>
+</section><section id="graphical-summaries" class="slide level2"><h2>Graphical Summaries</h2>
+<div class="mtop-3">
+<p><img data-src="assets/images/box-plot-iqr.jpg" height="600"></p>
+</div>
+</section></section><section><section id="multivariate-data" class="title-slide slide level1 center"><h1 class="center">Multivariate Data</h1>
+
+</section><section id="multivariate-data-1" class="slide level2 eighty"><h2 class="eighty">Multivariate Data</h2>
+<ul>
+<li><p>So far we’ve looked at observations of one variable at a
+time.</p></li>
+<li class="fragment"><p>What do we do if we measure several variables for each
+observation?</p></li>
+<li class="fragment">
+<p>Covariance:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\text{Cov}(X, Y) &amp;= E(\;(X - E(X))\; (Y - E(Y))\;) \\
+           &amp;= E(XY) - E(X)E(Y)
+\end{aligned}
+\]</span></p>
+<ul>
+<li class="fragment"><p>If there is no relationship between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, <span class="math inline">\(\text{Cov}(X,Y) = 0\)</span></p></li>
+<li class="fragment">
+<p>Standardized data: mean = 0, sd = 1</p>
+<p><span class="math display">\[ X_{\text{std}} = \frac{X -
+E(X)}{\sigma_X} \]</span></p>
+</li>
+<li class="fragment">
+<p>Correlation coefficient <span class="math inline">\(\rho\)</span> is the covariance of standardized
+variables</p>
+<p><span class="math display">\[ \rho_{XY} = \text{Cov}( X_{\text{std}},
+Y_{\text{std}} ) \]</span></p>
+</li>
+</ul>
+</li>
+</ul></section><section id="correlation" class="slide level2"><h2>Correlation</h2>
+<ul>
+<li class="fragment"><span class="math inline">\(\rho_{XY} = 0\)</span>: There is no
+relationshp between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>
+</li>
+<li class="fragment"><span class="math inline">\(|\rho_{XY}| &gt; 0\)</span>: The
+value of <span class="math inline">\(X\)</span> tells us something about
+<span class="math inline">\(Y\)</span>
+</li>
+<li class="fragment"><span class="math inline">\(|\rho_{XY}| = 1\)</span>: The values
+of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> lie exactly on a line</li>
+</ul>
+<div class="fragment">
+<p><img data-src="assets/images/correlations.jpg" height="600"></p>
+</div>
+</section><section id="caution-1" class="slide level2"><h2>Caution</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Anscombe data</li>
+</ul>
+<table>
+<thead><tr class="header">
+<th style="text-align: left;">set</th>
+<th style="text-align: right;">mean_x</th>
+<th style="text-align: right;">mean_y</th>
+<th style="text-align: right;">sd_x</th>
+<th style="text-align: right;">sd_y</th>
+<th style="text-align: right;">cor</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">7.501</td>
+<td style="text-align: right;">3.317</td>
+<td style="text-align: right;">2.032</td>
+<td style="text-align: right;">0.816</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">7.501</td>
+<td style="text-align: right;">3.317</td>
+<td style="text-align: right;">2.032</td>
+<td style="text-align: right;">0.816</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">7.500</td>
+<td style="text-align: right;">3.317</td>
+<td style="text-align: right;">2.030</td>
+<td style="text-align: right;">0.816</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">7.501</td>
+<td style="text-align: right;">3.317</td>
+<td style="text-align: right;">2.031</td>
+<td style="text-align: right;">0.817</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="column">
+<p><img data-src="assets/fig/unnamed-chunk-6-1.png"><!-- --></p>
+</div>
+</div>
+</section><section id="more-fun-with-correlations" class="slide level2 eighty"><h2 class="eighty">More Fun with Correlations</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>“Datasaurus” data set</li>
+</ul>
+<table>
+<thead><tr class="header">
+<th style="text-align: left;">dataset</th>
+<th style="text-align: right;">mean_x</th>
+<th style="text-align: right;">mean_y</th>
+<th style="text-align: right;">sd_x</th>
+<th style="text-align: right;">sd_y</th>
+<th style="text-align: right;">cor</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">dino</td>
+<td style="text-align: right;">54.263</td>
+<td style="text-align: right;">47.832</td>
+<td style="text-align: right;">16.765</td>
+<td style="text-align: right;">26.935</td>
+<td style="text-align: right;">-0.064</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">away</td>
+<td style="text-align: right;">54.266</td>
+<td style="text-align: right;">47.835</td>
+<td style="text-align: right;">16.770</td>
+<td style="text-align: right;">26.940</td>
+<td style="text-align: right;">-0.064</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">h_lines</td>
+<td style="text-align: right;">54.261</td>
+<td style="text-align: right;">47.830</td>
+<td style="text-align: right;">16.766</td>
+<td style="text-align: right;">26.940</td>
+<td style="text-align: right;">-0.062</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">v_lines</td>
+<td style="text-align: right;">54.270</td>
+<td style="text-align: right;">47.837</td>
+<td style="text-align: right;">16.770</td>
+<td style="text-align: right;">26.938</td>
+<td style="text-align: right;">-0.069</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">x_shape</td>
+<td style="text-align: right;">54.260</td>
+<td style="text-align: right;">47.840</td>
+<td style="text-align: right;">16.770</td>
+<td style="text-align: right;">26.930</td>
+<td style="text-align: right;">-0.066</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">star</td>
+<td style="text-align: right;">54.267</td>
+<td style="text-align: right;">47.840</td>
+<td style="text-align: right;">16.769</td>
+<td style="text-align: right;">26.930</td>
+<td style="text-align: right;">-0.063</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">high_lines</td>
+<td style="text-align: right;">54.269</td>
+<td style="text-align: right;">47.835</td>
+<td style="text-align: right;">16.767</td>
+<td style="text-align: right;">26.940</td>
+<td style="text-align: right;">-0.069</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">dots</td>
+<td style="text-align: right;">54.260</td>
+<td style="text-align: right;">47.840</td>
+<td style="text-align: right;">16.768</td>
+<td style="text-align: right;">26.930</td>
+<td style="text-align: right;">-0.060</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">circle</td>
+<td style="text-align: right;">54.267</td>
+<td style="text-align: right;">47.838</td>
+<td style="text-align: right;">16.760</td>
+<td style="text-align: right;">26.930</td>
+<td style="text-align: right;">-0.068</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">bullseye</td>
+<td style="text-align: right;">54.269</td>
+<td style="text-align: right;">47.831</td>
+<td style="text-align: right;">16.769</td>
+<td style="text-align: right;">26.936</td>
+<td style="text-align: right;">-0.069</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">slant_up</td>
+<td style="text-align: right;">54.266</td>
+<td style="text-align: right;">47.831</td>
+<td style="text-align: right;">16.769</td>
+<td style="text-align: right;">26.939</td>
+<td style="text-align: right;">-0.069</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">slant_down</td>
+<td style="text-align: right;">54.268</td>
+<td style="text-align: right;">47.836</td>
+<td style="text-align: right;">16.767</td>
+<td style="text-align: right;">26.936</td>
+<td style="text-align: right;">-0.069</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">wide_lines</td>
+<td style="text-align: right;">54.267</td>
+<td style="text-align: right;">47.832</td>
+<td style="text-align: right;">16.770</td>
+<td style="text-align: right;">26.938</td>
+<td style="text-align: right;">-0.067</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="column">
+<p><img data-src="assets/fig/unnamed-chunk-8-1.png"><!-- --></p>
+</div>
+</div>
+</section><section id="lesson" class="slide level2"><h2>Lesson</h2>
+<ul>
+<li>Numerical summaries are useful, but limited</li>
+<li>Summary graphs are better, but still limited</li>
+<li><strong>Always plot your data</strong></li>
+</ul></section><section id="bivariate-plots" class="slide level2"><h2>Bivariate Plots</h2>
+<h3 id="scatterplots">Scatterplots</h3>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Old Faithful geyser in Yellowstone National Park is known for
+regular eruptions.
+<ul>
+<li class="fragment">Plot the eruption duration versus the waiting time between
+eruptions</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<p><img data-src="assets/fig/plot_faithful-1.png"><!-- --></p>
+</div>
+</div>
+</section><section id="bivariate-histograms" class="slide level2"><h2>Bivariate Histograms</h2>
+<div class="columns">
+<div class="column">
+<p><img data-src="assets/fig/unnamed-chunk-9-1.png"><!-- --></p>
+</div>
+<div class="column">
+<p><img data-src="assets/fig/plot_faithful_hex-1.png"><!-- --></p>
+</div>
+</div>
+</section></section><section><section id="bonus-how-to-make-the-plots" class="title-slide slide level1 center"><h1 class="center">Bonus: How to Make the Plots</h1>
+
+</section><section id="scatterplot" class="slide level2"><h2>Scatterplot</h2>
+<div class="columns">
+<div class="column eighty">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">=</span> <span class="fu">ggplot</span>(faithful, </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>           <span class="fu">aes</span>(<span class="at">x =</span> waiting, </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">y =</span> eruptions)) <span class="sc">+</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour_filled</span>(<span class="at">data =</span> faithfuld, </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">aes</span>(<span class="at">z =</span> density), </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"darkgreen"</span>) <span class="sc">+</span> </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"waiting time (minutes)"</span>, </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"eruption duration (minutes)"</span>) <span class="sc">+</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">20</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>pm <span class="ot">=</span> <span class="fu">ggMarginal</span>(p, <span class="at">type =</span> <span class="st">"density"</span>, </span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">"purple"</span>, </span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>                <span class="at">fill =</span> <span class="st">"purple"</span>, </span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>                <span class="at">alpha =</span> <span class="fl">0.3</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>pm</span></code></pre></div>
+</div>
+<div class="column">
+<p><img data-src="assets/fig/unnamed-chunk-11-1.png"><!-- --></p>
+</div>
+</div>
+</section><section id="hexagon-plot" class="slide level2"><h2>Hexagon Plot</h2>
+<div class="columns">
+<div class="column eighty">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">=</span> <span class="fu">ggplot</span>(faithful, </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">x =</span> waiting, </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> eruptions)) <span class="sc">+</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hex</span>(<span class="at">bins =</span> <span class="dv">20</span>) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_distiller</span>(<span class="at">palette =</span> <span class="st">"Greens"</span>, </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">direction =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"waiting time (minutes)"</span>, </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"eruption duration (minutes)"</span>) <span class="sc">+</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">20</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>p2m <span class="ot">=</span> <span class="fu">ggMarginal</span>(p2, </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">type =</span> <span class="st">"histogram"</span>, </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">bins =</span> <span class="dv">20</span>,</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"darkgreen"</span>, </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill =</span> <span class="st">"darkgreen"</span>, </span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>                 <span class="at">alpha =</span> <span class="fl">0.3</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>p2m</span></code></pre></div>
+</div>
+<div class="column">
+<p><img data-src="assets/fig/unnamed-chunk-13-1.png"><!-- --></p>
+</div>
+</div>
+</section></section>
+</div>
+  </div>
+  <!--
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.js"></script>
+  <!-- -->
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.min.js"></script><!-- --><script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Display the page number of the current slide
+        showSlideNumber: 'speaker',
+        // Push each slide change to the browser history
+        history: true,
+        //  Enable hashing slide content to URL
+        hash: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Don't separate fragments in PDF rendering
+        pdfSeparateFragments: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+      
+        // Optional reveal.js plugins
+        dependencies: [
+                    { src: '../../lecture_lib/library/assets/plugin/chalkboard/chalkboard.js', async: true },
+                                        { src: '../../lecture_lib/library/assets/plugin/reveal-skip-fragments/skip-fragments.js', async: true },
+                    { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/notes/notes.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/math/math.js', async: true }
+        ],
+        shift_keyboard: {
+    	    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'C' is pressed
+    	    66: function() { RevealChalkboard.toggleChalkboard() },	  // toggle chalkboard when 'B' is pressed
+    	    88: function() { RevealChalkboard.clear() },	            // clear chalkboard when 'X' is pressed
+    	    82: function() { RevealChalkboard.reset() },	            // reset chalkboard data on current slide when 'R' is pressed
+    	    68: function() { RevealChalkboard.download() },	          // downlad recorded chalkboard drawing when 'D' is pressed
+        },
+              	// Shortcut for showing all fragments
+      	skipFragmentsShowShortcut: 'S',
+
+      	// Shortcut for hiding all fragments
+      	skipFragmentsHideShortcut: 'H',
+      	      });
+    </script><script>
+  	function createSingletonNodejg( container, tagname, classname, innerHTML ) {
+
+		// Find all nodes matching the description
+		var nodes = container.querySelectorAll( '.' + classname );
+
+		// Check all matches to find one which is a direct child of
+		// the specified container
+		for( var i = 0; i < nodes.length; i++ ) {
+			var testNode = nodes[i];
+			if( testNode.parentNode === container ) {
+				return testNode;
+			}
+		}
+
+		// If no node was found, create it now
+		var node = document.createElement( tagname );
+		node.className = classname;
+		if( typeof innerHTML === 'string' ) {
+			node.innerHTML = innerHTML;
+		}
+		container.appendChild( node );
+
+		return node;
+
+	}
+
+  var dom_wrapper = document.querySelector('.reveal');
+  createSingletonNodejg(dom_wrapper, 'div', 'qrbox',
+  '<div class="qrbox" id="qrbox" style="font-size:90%;">' + '\n' +
+  '<div style="font-size:30%;width:100%;">' + '\n' +
+      '<a href="https://ees5891.jgilligan.org/slides/class_06">' +
+  	'<img src="qrcode.png" alt="https://ees5891.jgilligan.org/slides/class_06"/>' +
+  	'</a>' + '\n' +
+	  '</div>' + '\n' +
+  '<div style="font-size:30%;width:100%;vertical-align:top;">' + '\n' +
+    '<span style="display:inline-block;text-align:left;margin-left:0">' + '\n' +
+        'Live web page: <a href="https://ees5891.jgilligan.org/slides/class_06">https://ees5891.jgilligan.org/slides/class_06</a>' + '\n' +
+              '<br/>' + '\n' +
+        'PDF: <a href="https://ees5891.jgilligan.org/slides/class_06/EES_4891_5891_class_06_slides.pdf" target="_blank">https://ees5891.jgilligan.org/slides/class_06/EES_4891_5891_class_06_slides.pdf</a>' + '\n' +
+          	'</span>' + '\n' +
+  	'<span style="display:inline-block;text-align:right;vertical-align:top;position:absolute;right:0;bottom:0;">' + '\n' +
+  	  'Navigate slides: next: N or &lt;space&gt;; previous: P or &lt;backspace&gt;<br/>' + '\n' +
+  	  'Also: up, down, left, right arrows; overview: o; help: ?' + '\n' +
+  	'</span>' + '\n' +
+	'</div>' + '\n' +
+  '</div>' + '\n'
+  );
+</script><script>
+var MathJax = { jax: ["input/TeX", "output/HTML-CSS"],
+                TeX: {extensions: ["color.js", "mhchem.js"],
+                Macros: {
+                  COO: "\\ce{CO2}",
+                  methane: "\\ce{CH4}",
+                  degC: "^\\circ \\mathrm{C}",
+                  degF: "^\\circ \\mathrm{F}",
+                  water: "\\ce{H2O}",
+                  carb: "\\ce{CO3^2-}",
+                  bicarb: "\\ce{HCO3-}",
+                  carbonic: "\\ce{H2CO3}",
+                  Hplus: "\\ce{H+}",
+                  OH: "\\ce{OH-}",
+                  silica: "\\ce{SiO2}",
+                  calcite: "\\ce{CaCO3}",
+                  Caplus: "\\ce{Ca^2+}",
+                  silicate: "\\ce{SiO3^2-}",
+                  CaSi: "\\ce{CaSiO3}",
+                  pH: "p\\ce{H}",
+                  permil: "\\unicode{x2030}",
+                  pCOO: "\\ce{	ext{p}CO2}",
+                  pwater: "\\ce{	ext{p}H2O}"
+                },
+                  },
+                "HTML-CSS" : {scale: 100 }};
+</script><!-- dynamically load mathjax for compatibility with self-contained --><script type="text/x-mathjax-config">
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["SVG"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+    displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
+    processEscapes: true
+  }
+})
+  </script><script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script><script>
+  var qrbox = document.querySelector("#qrbox");
+  var advance_fragment = 0;
+
+	function isPrintingPDF() {
+	  let printing = ( /print-pdf/gi ).test( window.location.search );
+	  console.log("printing test: " + printing);
+	  return printing;
+	}
+
+
+  if ( qrbox.hasAttribute('qr-box-hide') || Reveal.isOverview() ||
+      ! Reveal.isFirstSlide() || isPrintingPDF()) {
+    console.log("Initializing");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }
+
+  Reveal.addEventListener('overviewshown', function() {
+      console.log("Overview shown");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }, false);
+
+  Reveal.addEventListener('overviewhidden', function() {
+    if (Reveal.isFirstSlide() && ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Overview hidden");
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    console.log("Slide changed...");
+    if (Reveal.isFirstSlide() && ! Reveal.isOverview() &&
+        ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    } else {
+      console.log("Hiding QR box");
+      qrbox.style.visibility="hidden";
+      qrbox.style.display="none";
+    }
+  }, false);
+
+  Reveal.addEventListener('pdf-ready', function() {
+    console.log("hiding qrbox for printing");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+    qrbox.setAttribute('qr-box-hide', 'true');
+  });
+
+  </script><script>
+  Reveal.addEventListener('slidechanged', function() {
+    while (advance_fragment > 0) {
+      // console.log('advancing fragment');
+      Reveal.nextFragment();
+      advance_fragment--;
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    if ( Reveal.getCurrentSlide().hasAttribute('data-skip')) {
+      // console.log("going to next slide...");
+      Reveal.next();
+    }
+  }, false);
+
+  Reveal.addEventListener('skip_slide', function() {
+    Reveal.next();
+  }, false);
+
+  Reveal.addEventListener('advance_fragment', function() {
+    // console.log("setting advance fragment");
+    advance_fragment++;
+    }, false);
+  </script>
+</body>
+</html>

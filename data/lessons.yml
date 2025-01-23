@@ -22,6 +22,7 @@ lessons:
 - date: '2025-01-23'
   title: Probability Distributions
   reading: /reading/reading_06
+  lecture: /slides/class_06
 - date: '2025-01-28'
   title: Transforming Data in R
   reading: /reading/reading_07
