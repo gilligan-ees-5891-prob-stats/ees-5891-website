@@ -35,6 +35,7 @@ lessons:
 - date: '2025-02-06'
   title: The Normal Distribution
   reading: /reading/reading_10
+  assignment: /assignment/homework_02
 - date: '2025-02-11'
   title: Error Theory
   reading: /reading/reading_11

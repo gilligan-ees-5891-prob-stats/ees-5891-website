@@ -6,6 +6,12 @@ pacman::p_load_gh("jonathan-g/semestr")
 library(gert)
 # library(git2r)
 
+if (file.exists("fix_image_refs.R")) {
+  source("fix_image_refs.R")
+} else {
+  source("planning/fix_image_refs.R")
+}
+
 regenerate_site <- function(root = NULL, force = FALSE) {
   if (is.null(root)) {
     root = find_root(criterion = has_file(".semestr.here"))
@@ -15,6 +21,7 @@ regenerate_site <- function(root = NULL, force = FALSE) {
   message("Setting working directory to ", getwd())
   semester <- load_semester_db("planning/EES-5891.sqlite3")
   generate_assignments(semester)
+  fix_image_refs(list.dirs("content", recursive = FALSE))
   new_update_site(root = getwd(), force = force)
 }
 

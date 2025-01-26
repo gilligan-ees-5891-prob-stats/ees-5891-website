@@ -1,0 +1,78 @@
+---
+title: Transforming and Wrangling Data
+due_date: '2025-02-06'
+assignment_type: Homework
+short_assignment_type: HW
+assignment_number: 2
+weight: 3
+github_classroom_assignment_url: https://classroom.github.com/a/HR7yOrTo
+slug: homework_02
+pubdate: '2024-12-31'
+date: '2025-02-06'
+pdf_url: /files/homework_asgts/homework_02.pdf
+output:
+  blogdown::html_page:
+    md_extensions: +tex_math_single_backslash+compact_definition_lists
+  pdf_document:
+    toc: yes
+    toc_depth: 3
+---
+## Homework
+
+### Assignment
+Accept the homework assignment at GitHub Classroom at <https://classroom.github.com/a/HR7yOrTo>.
+
+### Homework Exercises:
+
+
+
+* Accept the assignment on GitHub Classroom, create an RSTudio project using
+  New Project/Version Control/Git and use the URL that GitHub Classroom gave you
+  for your project.
+
+  You will find instructions in the file `README.md` in your project directory.
+
+  After you finish the assignment, stage and commit the changed files, and push your commit6 to GitHub.
+
+### Notes on Homework:
+
+
+## Due Dates
+
+The final homework is due on GitHub on
+Feb.  6, but you should start working
+on it before
+Tue. Jan. 28 
+so you can ask questions about places where you find the homework
+confusing or where you get stuck.
+
+We'll talk about the homework and the reading in class, so bring your
+computer to class on 
+Tuesday.
+
+## Instructions
+
+These instructions also appear in `README.md` in the project directory, 
+so you can read them in RStudio.
+
+This homework is a Quarto notebook. It mixes text and R code.
+
+In RStudio, open `hw-02.qmd` and edit it to answer the homework 
+exercises. Follow the directions to fill it out and complete the 
+homework.
+
+You can open the outline for the document in the RStudio editor (click 
+on the button that says "Outline" on the top right of the editor window
+with your `hw-02.qmd` document. Clicking on the section titles will 
+jump to that part of the document.
+
+When you're done, do the following steps:
+
+1.  Render the document, which will create `hw-02.html` and open this 
+    document in the "Viewer" panel in RStrudio.
+2.  Read the rendered document and make sure it has the content you want 
+    for answering the exercises.
+3.  Stage and commit all the changed files using Git
+4.  Push your changes to GitHub.
+5.  Go to the GitHub website for your project and check that the most 
+    recent commit shows up there.

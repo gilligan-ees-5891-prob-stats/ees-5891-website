@@ -22,4 +22,69 @@ output:
 <li>R for Data Science, Ch. 2–3.</li>
 </ul>
 </div>
+<div id="reading-notes" class="section level3">
+<h3>Reading Notes:</h3>
+</div>
+</div>
+<div id="overview-of-the-reading" class="section level2">
+<h2>Overview of the reading</h2>
+<ul>
+<li>See the homework assignment for the exercises you whould do.</li>
+</ul>
+<div id="chapter-2" class="section level3">
+<h3>Chapter 2</h3>
+<p>This very short chapter goes over the basics of coding in R.
+It discusses creating variables to store data or other information,
+and calling functions to transform data.</p>
+</div>
+<div id="chapter-3" class="section level3">
+<h3>Chapter 3</h3>
+<p>This chapter is longer and gets into how we organize data in R.
+There are many ways to organize and work with data, and for this
+book and this course, we will follow Hadley Wickham’s principles
+of tidy data. The principles of tidy data are explained in section 5.2,
+which we will read
+for
+Thu., Jan. 30.</p>
+<p>This chapter focuses on the <code>dplyr</code> package, which is part of the
+larger <code>tidyverse</code> package.</p>
+<p>The <code>dplyr</code> package (pronounced “Dee-Plier”, like “pliers”) defines a
+data structure called a <code>tibble</code> (which stands for “Tidy Table”), and
+a suite of functions for transforming <code>tibble</code>s.
+A <code>tibble</code> is a variation on an R <code>data.frame</code>, and you can mostly
+consider the two to be the same.</p>
+<p>In a <code>tibble</code>, each row represents a different measurement or observation,
+and it contains columns, which represent the different variables you
+record for each observation:</p>
+<div class="float">
+<img src="_images/tidy-1.png" alt="Diagram showing the structure of a tibble" />
+<div class="figcaption">Diagram showing the structure of a <code>tibble</code></div>
+</div>
+<p>The <code>dplyr</code> package defines many functions to manipulate and transform
+<code>tibble</code>s. The most important for this chapter are:
+* <code>filter</code> to create a new <code>tibble</code> by choosing certain rows that match
+conditions given in <code>filter</code>.
+* <code>arrange</code> to rearrange a tibble by putting the rows in order of
+different columns, from smallest to largest or largest to smallest.
+* <code>select</code> to create a new <code>tibble</code> by selecting a subset of the
+columns, and optionally renaming and re-ordering them.
+* <code>rename</code> and <code>rerlocate</code> can change the names of columns or the order
+of columns in the table.
+* <code>mutate</code> to change the values of certain columns or create new columns.
+You can use other columns to set the value of the new column to things
+like the sum, difference, product, ratio, or other functions of other
+columns.
+* The pipe <code>|&gt;</code> lets you easily connect multiple functions to create
+a new <code>tibble</code> from a combination of these functions.
+* <code>group_by</code> and <code>ungroup</code> let you perform operations on groups of
+rows in a <code>tibble</code>. For instance, if a <code>tibble</code> contains measurements
+of rocks retrieved from five different sites, you can use <code>group_by</code>
+to report the average silica content of rocks at each site.
+* <code>summarize</code> lets you generate summary statistics, such as mean,
+median, standard deviation, maximum, or minimum, for selected
+columns.
+* <code>slice</code> functions let you select certain rows from a <code>tibble</code>, such
+as the 5 rows with the greatest values for a certain column.</p>
+<p>There is a lot more to <code>dplyr</code>, but this will get us started.</p>
+</div>
 </div>
