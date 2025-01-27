@@ -22,4 +22,72 @@ output:
 <li>R for Data Science, Ch. 4–6.</li>
 </ul>
 </div>
+<div id="reading-notes" class="section level3">
+<h3>Reading Notes:</h3>
+</div>
+</div>
+<div id="overview-of-the-reading" class="section level1">
+<h1>Overview of the reading</h1>
+<ul>
+<li>See the homework assignment for the exercises you whould do.</li>
+</ul>
+<div id="chapter-4" class="section level2">
+<h2>Chapter 4</h2>
+<p>This very short chapter goes over guidance on style for naming variables
+and functions and formatting your code to make it easy to read and keep
+it organized.</p>
+</div>
+<div id="chapter-5" class="section level2">
+<h2>Chapter 5</h2>
+<p>This chapter introduces principles of tidy data and tools in R for
+organizing your data into tidy formats.</p>
+<div id="principles-of-tidy-data" class="section level3">
+<h3>Principles of Tidy Data</h3>
+<p>The fundamental idea is that there are many ways to organize a data set
+in a table with rows and columns. Different kinds of analysis call for
+different ways of organizing your data. However, for all these ways
+of organizing, there is an overarching principle, illustrated in the
+figure below:</p>
+<ol style="list-style-type: decimal">
+<li>Each variable is a column and each column is a variable</li>
+<li>Each observation is a row, and each row is an observation</li>
+<li>Each value is a cell and each cell is a value</li>
+</ol>
+<div class="float">
+<img src="_images/tidy-1.png" alt="Three rules for making a data set tidy" />
+<div class="figcaption">Three rules for making a data set tidy</div>
+</div>
+</div>
+<div id="pivoting-data" class="section level3">
+<h3>Pivoting Data</h3>
+<p>The chapter has two principle parts, each of which focuses on a
+different aspect of <em>pivoting</em> data by rearranging rows and columns.</p>
+<div id="lengthening-data" class="section level4">
+<h4>Lengthening Data</h4>
+<p>The first part looks at tools for <em>lengthening</em> data by combining many
+columns into a single column and adding another column to indicate what
+each row signifies.</p>
+<div class="float">
+<img src="_images/column-names.png" alt="Pivoting to lengthen a data frame by combining two columns into one" />
+<div class="figcaption">Pivoting to lengthen a data frame by combining two columns into one</div>
+</div>
+<p>The key thing to pay attention to in this reading is the
+<code>pivot_longer()</code> function. The <code>distinct()</code> function is also important,
+because it helps us eliminate redundant rows.</p>
+<p>Focus on sections 5.3.1 and 5.3.2.</p>
+<p>Section 5.3.3 gets into fancier ways to lengthen data, which you will
+probably not need, so you can skim this section lightly.</p>
+<p>However, do pay enough attention to section 5.3.3 that you will know
+what is possible and can return to it later if you’re reading in
+complicated data and need the more powerful tools to organize it.</p>
+</div>
+<div id="widening-data" class="section level4">
+<h4>Widening Data</h4>
+<p>The second part looks at tools for <em>widening</em> data by splitting up
+one column into multiple columns. <em>Widening</em> is much simpler than
+<em>lengthening</em> data, so this section is shorter. The key thing here
+is to become familiar with the <code>pivot_wider()</code> function.</p>
+</div>
+</div>
+</div>
 </div>

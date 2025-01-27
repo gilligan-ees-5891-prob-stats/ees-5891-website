@@ -1,0 +1,51 @@
+---
+title: Tidy Data
+due_date: '2025-02-07'
+assignment_type: Homework
+short_assignment_type: HW
+assignment_number: 3
+weight: 4
+github_classroom_assignment_url: https://classroom.github.com/a/BU2BnPVP
+slug: homework_03
+pubdate: '2024-12-31'
+date: '2025-02-07'
+pdf_url: /files/homework_asgts/homework_03.pdf
+output:
+  blogdown::html_page:
+    md_extensions: +tex_math_single_backslash+compact_definition_lists
+  pdf_document:
+    toc: yes
+    toc_depth: 3
+---
+## Homework
+
+### Assignment
+Accept the homework assignment at GitHub Classroom at <https://classroom.github.com/a/BU2BnPVP>.
+
+### Homework Exercises:
+
+
+
+* Accept the assignment on GitHub Classroom, create an RSTudio project using
+  New Project/Version Control/Git and use the URL that GitHub Classroom gave you
+  for your project.
+
+  You will find instructions in the file `README.md` in your project directory.
+
+  After you finish the assignment, stage and commit the changed files, and push your commit6 to GitHub.
+
+### Notes on Homework:
+
+
+## Due Dates
+
+The final homework is due on GitHub on
+Feb.  7, but you should start working
+on it before
+Thu. Jan. 30 
+so you can ask questions about places where you find the homework
+confusing or where you get stuck.
+
+We'll talk about the homework and the reading in class, so bring your
+computer to class on 
+Thursday.
