@@ -26,6 +26,7 @@ lessons:
 - date: '2025-01-28'
   title: Transforming Data in R
   reading: /reading/reading_07
+  lecture: /slides/class_07
 - date: '2025-01-30'
   title: Working with Data in R
   reading: /reading/reading_08

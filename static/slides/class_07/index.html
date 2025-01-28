@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<!-- JG Reveal.js Template --><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta name="author" content="Jonathan Gilligan">
+<title>Transforming Data in R</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reset.css">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reveal.min.css">
+<style type="text/css">
+      code{white-space: pre-wrap;}
+      .smallcaps{font-variant: small-caps;}
+      .line-block{white-space: pre-line;}
+      .column{display: inline-block;}  </style>
+<style type="text/css">
+    div.qrbox,
+    aside.qrbox {
+     text-align: left;
+     vertical-align: bottom;
+     width: 95%;
+     position: fixed;
+     left: 2.5%;
+     bottom: 1rem;
+     display: block;
+    }
+  </style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { font-weight: bold; } /* Alert */
+code span.an { font-style: italic; } /* Annotation */
+code span.cf { font-weight: bold; } /* ControlFlow */
+code span.co { font-style: italic; } /* Comment */
+code span.cv { font-style: italic; } /* CommentVar */
+code span.do { font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.er { font-weight: bold; } /* Error */
+code span.in { font-style: italic; } /* Information */
+code span.kw { font-weight: bold; } /* Keyword */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.wa { font-style: italic; } /* Warning */
+  </style>
+<!-- theme = solarized_jg --><link rel="stylesheet" href="../../lecture_lib/library/assets/css/theme/solarized_jg.css" id="theme">
+<!-- Printing and PDF exports --><script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../lecture_lib/library/reveal.js-3.8.0/css/print/pdf.css' : '../../lecture_lib/library/reveal.js-3.8.0/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><!--[if lt IE 9]>
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+  <![endif]--><script src="../../lecture_lib/library/header-attrs-2.29.1.9000/header-attrs.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+            <!-- start title slide -->
+<section class="center" id="title"><h1 class="title">Transforming Data in R</h1>
+    <h3 class="author">EES 4891/5891</h3>
+        <h3 class="author">Probability &amp; Statistics for
+Geosciences</h3>
+    <h3 class="author">Jonathan Gilligan</h3>
+    <h3 class="date">
+      Class #7:
+       Tuesday, January 28
+      2025
+    </h3>
+	<!-- end title slide -->
+</section><section><section id="learning-goals" class="title-slide slide level1 center"><h1 class="center">Learning Goals</h1>
+
+</section><section id="learning-goals-1" class="slide level2 ninety"><h2 class="ninety">Learning Goals</h2>
+<ol>
+<li>Basics of writing code in R
+<ol type="a">
+<li>Naming variables and assigning values</li>
+<li>Calling functions</li>
+</ol>
+</li>
+<li>Working with Data in R
+<ol type="a">
+<li>Know what data frames are and how they’re structures</li>
+<li>Know how to manipulate the rows of a data frame
+<ul>
+<li>Sorting (<code>arrange</code>)</li>
+<li>Selecting (<code>filter</code>, <code>distinct</code>,
+<code>slice_</code>)</li>
+<li>Summarizing (<code>summarize</code>, <code>count</code>)</li>
+</ul>
+</li>
+<li>Know how to manipulate the columns of a data frame
+<ul>
+<li>Creating or changing columns (<code>mutate</code>)</li>
+<li>Choosing, renaming, and rearrranging: (<code>select</code>,
+<code>rename</code>, <code>relocate</code>)
+<ul>
+<li>Auxiliary functions (<code>any_of</code>, <code>starts_with</code>,
+<code>ends_with</code>, …)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Know how to use pipes to combine transformations
+(<code>|&gt;</code>)</li>
+<li>Know how to apply transformations to groups of rows
+(<code>group_by</code>, <code>ungroup</code>, <code>.by</code>)</li>
+</ol>
+</li>
+</ol></section></section><section><section id="r-workflow" class="title-slide slide level1 center"><h1 class="center">R Workflow</h1>
+
+</section><section id="r-workflow-1" class="slide level2 ninety"><h2 class="ninety">R Workflow</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Scripts vs. Notebooks
+<ul>
+<li class="fragment">Scripts: R code that you can run on its own
+<ul>
+<li>
+<code>.R</code> or <code>.r</code> files</li>
+</ul>
+</li>
+<li class="fragment">Notebooks: R code integrated with text that you <em>render</em>
+to produce a document (web page, report, book, presentation, etc.)
+<ul>
+<li><p><code>.Rmd</code> or <code>.qmd</code> files</p></li>
+<li>
+<p>Code blocks look like</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="in">```{r block_name}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="in"># R code goes here.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">Parts of an R script or code block:
+<ul>
+<li>Variables: name starts with <code>.</code>, <code>_</code>, or a
+letter, followed by any combination of letters, digits, <code>.</code>,
+or <code>_</code>.
+<ul>
+<li>e.g., <code>sample_12.3_weight</code> or <code>s_12.3_wt</code>
+</li>
+<li class="fragment">Assign values with <code>=</code> or <code>&lt;-</code>
+</li>
+</ul>
+</li>
+<li class="fragment">Functions:
+<ul>
+<li><code>seq(0, 10, 2)</code></li>
+<li><code>seq(from = 0, to = 10, by = 2)</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="transforming-data" class="title-slide slide level1 center"><h1 class="center">Transforming Data</h1>
+
+</section><section id="transforming-data-1" class="slide level2"><h2>Transforming Data</h2>
+<div class="columns">
+<div class="column bare">
+<ul>
+<li>
+<p><code>data.frame</code> and <code>tibble</code> objects</p>
+<p><img data-src="assets/images/tidy-1.png" height="200"></p>
+</li>
+<li class="fragment">
+<p>Example</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fossil)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(fdata.list)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>fdata <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(fdata.list)</span></code></pre></div>
+<ul>
+<li>You may need to run <code>install.packages("fossil")</code> in the
+RStudio console.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column fragment eighty">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fdata)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 5
+##   locality species abundance longitude latitude
+##   &lt;fct&gt;    &lt;fct&gt;       &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 locA     spp1            1      -109       47
+## 2 locA     spp8            1      -109       47
+## 3 locA     spp12           1      -109       47
+## 4 locB     spp5            1       -90       45
+## 5 locB     spp6            5       -90       45
+## 6 locB     spp8            5       -90       45</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(fdata)</span></code></pre></div>
+<pre><code>## Rows: 52
+## Columns: 5
+## $ locality  &lt;fct&gt; locA, locA, locA, locB, locB, …
+## $ species   &lt;fct&gt; spp1, spp8, spp12, spp5, spp6,…
+## $ abundance &lt;int&gt; 1, 1, 1, 1, 5, 5, 1, 4, 1, 1, …
+## $ longitude &lt;dbl&gt; -109, -109, -109, -90, -90, -9…
+## $ latitude  &lt;dbl&gt; 47, 47, 47, 45, 45, 45, 45, 45…</code></pre>
+</div>
+</div>
+</section></section><section><section id="jura-data-set" class="title-slide slide level1 center"><h1 class="center">Jura Data Set</h1>
+
+</section><section id="jura-data-set-1" class="slide level2 eighty"><h2 class="eighty">Jura Data Set</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Survey of soil contamination in the Swiss Jura
+<ul>
+<li>O. Attela, J.-P. Dubois, &amp; R. Webster. 1994. <em>Environ.
+Pollution</em> <strong>86</strong>, 315.</li>
+</ul>
+</li>
+</ul>
+<div class="fragment">
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gstat)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(jura)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>jura <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(jura.val) <span class="sc">|&gt;</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>(Xloc<span class="sc">:</span>Yloc))</span></code></pre></div>
+<ul>
+<li>You may need to run <code>install.packages("gstat")</code> in the
+RStudio console.</li>
+</ul>
+</div>
+</div>
+<div class="column fragment">
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(jura)</span></code></pre></div>
+<pre><code>## Rows: 100
+## Columns: 13
+## $ Xloc    &lt;dbl&gt; 2.672, 3.589, 4.010, 2.942, 1.40…
+## $ Yloc    &lt;dbl&gt; 3.558, 4.443, 4.713, 3.137, 2.74…
+## $ long    &lt;dbl&gt; 6.854080, 6.865951, 6.871425, 6.…
+## $ lat     &lt;dbl&gt; 47.14342, 47.15144, 47.15390, 47…
+## $ Landuse &lt;fct&gt; Meadow, Meadow, Pasture, Pasture…
+## $ Rock    &lt;fct&gt; Quaternary, Argovian, Argovian, …
+## $ Cd      &lt;dbl&gt; 1.570, 2.045, 1.203, 0.490, 0.69…
+## $ Co      &lt;dbl&gt; 8.28, 10.80, 12.00, 10.92, 8.12,…
+## $ Cr      &lt;dbl&gt; 37.12, 40.80, 53.20, 23.40, 27.1…
+## $ Cu      &lt;dbl&gt; 18.600, 11.480, 13.040, 5.640, 1…
+## $ Ni      &lt;dbl&gt; 18.60, 21.52, 23.92, 14.60, 14.6…
+## $ Pb      &lt;dbl&gt; 38.20, 33.36, 26.56, 25.88, 31.1…
+## $ Zn      &lt;dbl&gt; 65.20, 112.80, 91.60, 41.20, 50.…</code></pre>
+</div>
+</div>
+</section></section><section><section id="transforming-rows" class="title-slide slide level1 center"><h1 class="center">Transforming Rows</h1>
+
+</section><section id="transforming-rows-1" class="slide level2 eighty"><h2 class="eighty">Transforming Rows</h2>
+<div class="bare">
+<ul>
+<li>
+<p>Selecting:</p>
+<div style="width:1200px;">
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(jura, Landuse <span class="sc">==</span> <span class="st">"Meadow"</span>) <span class="sc">|&gt;</span> <span class="fu">head</span>()</span></code></pre></div>
+<pre class="seventy"><code>## # A tibble: 6 × 11
+##    long   lat Landuse Rock            Cd    Co    Cr    Cu    Ni    Pb    Zn
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1  6.85  47.1 Meadow  Quaternary   1.57   8.28  37.1  18.6  18.6  38.2  65.2
+## 2  6.87  47.2 Meadow  Argovian     2.04  10.8   40.8  11.5  21.5  33.4 113. 
+## 3  6.84  47.1 Meadow  Sequanian    0.692  8.12  27.2  10.3  14.6  31.2  50.4
+## 4  6.85  47.1 Meadow  Kimmeridgian 0.92  10.6   49.0  30.3  31.5  68.1 103. 
+## 5  6.85  47.1 Meadow  Argovian     0.495  8.52  31.4  17.1  16.1  46.8  57.6
+## 6  6.84  47.1 Meadow  Sequanian    1.19   9.68  37.4  31.4  22.4  72.4 108.</code></pre>
+</div>
+</li>
+<li>
+<p>Sorting:</p>
+<div style="width:1200px;">
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(jura, Landuse <span class="sc">==</span> <span class="st">"Meadow"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Rock, long, lat) <span class="sc">|&gt;</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+<pre class="seventy"><code>## # A tibble: 6 × 11
+##    long   lat Landuse Rock        Cd    Co    Cr    Cu    Ni    Pb    Zn
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1  6.83  47.1 Meadow  Argovian 0.475  3.96  22.2  22.7  7.92  55.2  46.8
+## 2  6.84  47.1 Meadow  Argovian 3.78   9.68  42.8  32.8 23.5   94.4 175. 
+## 3  6.84  47.1 Meadow  Argovian 0.585  5.8   39.9  15.2 13.2   56.4  51.2
+## 4  6.84  47.1 Meadow  Argovian 0.57   4.08  24.9  21.4  9.68  67.2  56.8
+## 5  6.84  47.1 Meadow  Argovian 0.545  4.24  21.8  33.1  8.88  58    47.2
+## 6  6.84  47.1 Meadow  Argovian 0.5    4.8   23.1  16.7  9.36  39.8  46.4</code></pre>
+</div>
+</li>
+</ul>
+</div>
+</section><section id="transforming-rows-2" class="slide level2 eighty"><h2 class="eighty">Transforming Rows</h2>
+<ul>
+<li>
+<p>Selecting on multiple criteria:</p>
+<div style="width:1200px;">
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(jura, Landuse <span class="sc">==</span> <span class="st">"Meadow"</span>, Rock <span class="sc">==</span> <span class="st">"Quaternary"</span>, Cd <span class="sc">&gt;</span> <span class="fl">1.3</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>()</span></code></pre></div>
+<pre class="seventy"><code>## # A tibble: 5 × 11
+##    long   lat Landuse Rock          Cd    Co    Cr    Cu    Ni    Pb    Zn
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1  6.85  47.1 Meadow  Quaternary  1.57  8.28  37.1  18.6  18.6  38.2  65.2
+## 2  6.86  47.2 Meadow  Quaternary  1.58  5.8   40.4  56.4  22.5  93.6 109. 
+## 3  6.88  47.1 Meadow  Quaternary  1.42 11.1   27.5  18.8  20.6  36.5  63.2
+## 4  6.86  47.1 Meadow  Quaternary  2.08 13.2   45.9  39    26.4  52.4 104  
+## 5  6.88  47.1 Meadow  Quaternary  2.61 20.6   37.2  24    29.4  47.2  86.4</code></pre>
+</div>
+</li>
+</ul></section></section><section><section id="transforming-columns" class="title-slide slide level1 center"><h1 class="center">Transforming Columns</h1>
+
+</section><section id="transforming-columns-1" class="slide level2 eighty"><h2 class="eighty">Transforming Columns</h2>
+<div class="bare">
+<div style="width:1500px;">
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(jura, <span class="at">CuNi =</span> Cu <span class="sc">/</span> Ni, <span class="at">PbZn =</span> Pb<span class="sc">/</span>Zn) <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">longitude =</span> long, <span class="at">latitude =</span> lat) <span class="sc">|&gt;</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>()</span></code></pre></div>
+<pre class="seventy"><code>## # A tibble: 6 × 13
+##   longitude latitude Landuse Rock            Cd    Co    Cr    Cu    Ni    Pb    Zn  CuNi  PbZn
+##       &lt;dbl&gt;    &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1      6.85     47.1 Meadow  Quaternary   1.57   8.28  37.1 18.6   18.6  38.2  65.2 1     0.586
+## 2      6.87     47.2 Meadow  Argovian     2.04  10.8   40.8 11.5   21.5  33.4 113.  0.533 0.296
+## 3      6.87     47.2 Pasture Argovian     1.20  12     53.2 13.0   23.9  26.6  91.6 0.545 0.290
+## 4      6.86     47.1 Pasture Quaternary   0.49  10.9   23.4  5.64  14.6  25.9  41.2 0.386 0.628
+## 5      6.84     47.1 Meadow  Sequanian    0.692  8.12  27.2 10.3   14.6  31.2  50.4 0.705 0.618
+## 6      6.87     47.1 Forest  Kimmeridgian 1.75   9.12  35.5  8.36  26.4  37.7  63.2 0.317 0.597</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(jura, <span class="at">CuNi =</span> Cu <span class="sc">/</span> Ni, <span class="at">PbZn =</span> Pb<span class="sc">/</span>Zn) <span class="sc">|&gt;</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">longitude =</span> long, <span class="at">latitude =</span> lat) <span class="sc">|&gt;</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(CuNi<span class="sc">:</span>PbZn, <span class="at">.before =</span> Cd) <span class="sc">|&gt;</span> </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>()</span></code></pre></div>
+<pre class="seventy"><code>## # A tibble: 6 × 13
+##   longitude latitude Landuse Rock          CuNi  PbZn    Cd    Co    Cr    Cu    Ni    Pb    Zn
+##       &lt;dbl&gt;    &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1      6.85     47.1 Meadow  Quaternary   1     0.586 1.57   8.28  37.1 18.6   18.6  38.2  65.2
+## 2      6.87     47.2 Meadow  Argovian     0.533 0.296 2.04  10.8   40.8 11.5   21.5  33.4 113. 
+## 3      6.87     47.2 Pasture Argovian     0.545 0.290 1.20  12     53.2 13.0   23.9  26.6  91.6
+## 4      6.86     47.1 Pasture Quaternary   0.386 0.628 0.49  10.9   23.4  5.64  14.6  25.9  41.2
+## 5      6.84     47.1 Meadow  Sequanian    0.705 0.618 0.692  8.12  27.2 10.3   14.6  31.2  50.4
+## 6      6.87     47.1 Forest  Kimmeridgian 0.317 0.597 1.75   9.12  35.5  8.36  26.4  37.7  63.2</code></pre>
+</div>
+</div>
+</section></section><section><section id="pipes" class="title-slide slide level1 center"><h1 class="center">Pipes</h1>
+
+</section><section id="pipes-1" class="slide level2"><h2>Pipes</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li><p>The pipe <code>|&gt;</code> sends the output from one function
+into another.</p></li>
+<li class="fragment">
+<p>This code is hard to read:</p>
+<div class="eightyfive bare">
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">relocate</span>( <span class="fu">rename</span>( <span class="fu">mutate</span>( jura, </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">CuNi =</span> Cu <span class="sc">/</span> Ni, </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">PbZn =</span> Pb<span class="sc">/</span>Zn),</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">longitude =</span> long, </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">latitude =</span> lat),</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>          CuNi<span class="sc">:</span>PbZn, <span class="at">.before =</span> Cd)</span></code></pre></div>
+</div>
+</li>
+<li class="fragment">
+<p>This code is much easier to read</p>
+<div class="eightyfive bare">
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>jura <span class="sc">|&gt;</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">CuNi =</span> Cu <span class="sc">/</span> Ni, <span class="at">PbZn =</span> Pb<span class="sc">/</span>Zn) <span class="sc">|&gt;</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">longitude =</span> long, <span class="at">latitude =</span> lat) <span class="sc">|&gt;</span> </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(CuNi<span class="sc">:</span>PbZn, <span class="at">.before =</span> Cd)</span></code></pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>We could also write</p>
+<div class="eightyfive bare max-listing">
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">mutate</span>(jura, <span class="at">CuNi =</span> Cu <span class="sc">/</span> Ni, <span class="at">PbZn =</span> Pb<span class="sc">/</span>Zn)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>tmp <span class="ot">&lt;-</span> <span class="fu">rename</span>(tmp, <span class="at">longitude =</span> long, </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">latitude =</span> lat)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">relocate</span>(tmp, CuNi<span class="sc">:</span>PbZn, <span class="at">.before =</span> Cd)</span></code></pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="summarizing-and-grouping" class="title-slide slide level1 center"><h1 class="center">Summarizing and Grouping</h1>
+
+</section><section id="summarizing-and-grouping-1" class="slide level2"><h2>Summarizing and Grouping</h2>
+<div class="columns ninety">
+<div class="column">
+<ul>
+<li>
+<p>Average lead content:</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>jura <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">mean_Pb =</span> <span class="fu">mean</span>(Pb), </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">sd_Pb =</span> <span class="fu">sd</span>(Pb),</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">count =</span> <span class="fu">n</span>())</span></code></pre></div>
+<pre class="seventy"><code>## # A tibble: 1 × 3
+##   mean_Pb sd_Pb count
+##     &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
+## 1    56.5  40.5   100</code></pre>
+</div>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Grouped Summaries:</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>jura <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Landuse, Rock) <span class="sc">|&gt;</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_Pb =</span> <span class="fu">mean</span>(Pb), </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_Pb =</span> <span class="fu">sd</span>(Pb), <span class="at">count =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span></code></pre></div>
+<pre class="seventy"><code>## # A tibble: 15 × 5
+##    Landuse Rock         mean_Pb sd_Pb count
+##    &lt;fct&gt;   &lt;fct&gt;          &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
+##  1 Forest  Argovian        33.9  3.21     4
+##  2 Forest  Kimmeridgian    53.6 15.3     10
+##  3 Forest  Sequanian       57.9 13.4      2
+##  4 Forest  Portlandian     42.0  9.56     2
+##  5 Pasture Argovian        28.5 11.4      4
+##  6 Pasture Kimmeridgian    60.9 69.4     14
+##  7 Pasture Sequanian       42.1 11.5      6
+##  8 Pasture Quaternary      37.1 15.9      2
+##  9 Meadow  Argovian        53.1 25.3     14
+## 10 Meadow  Kimmeridgian    50.1 11.9     13
+## 11 Meadow  Sequanian       73.1 54.1     18
+## 12 Meadow  Portlandian    109.  NA        1
+## 13 Meadow  Quaternary      60.8 41.5      7
+## 14 Tillage Argovian       153.  NA        1
+## 15 Tillage Kimmeridgian    42.3  5.77     2</code></pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="more-grouping" class="slide level2"><h2>More Grouping</h2>
+<div class="columns ninety">
+<div class="column">
+<ul>
+<li>
+<p>Counting combinations:</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>jura <span class="sc">|&gt;</span> <span class="fu">count</span>(Landuse, Rock)</span></code></pre></div>
+<pre class="seventy"><code>## # A tibble: 15 × 3
+##    Landuse Rock             n
+##    &lt;fct&gt;   &lt;fct&gt;        &lt;int&gt;
+##  1 Forest  Argovian         4
+##  2 Forest  Kimmeridgian    10
+##  3 Forest  Sequanian        2
+##  4 Forest  Portlandian      2
+##  5 Pasture Argovian         4
+##  6 Pasture Kimmeridgian    14
+##  7 Pasture Sequanian        6
+##  8 Pasture Quaternary       2
+##  9 Meadow  Argovian        14
+## 10 Meadow  Kimmeridgian    13
+## 11 Meadow  Sequanian       18
+## 12 Meadow  Portlandian      1
+## 13 Meadow  Quaternary       7
+## 14 Tillage Argovian         1
+## 15 Tillage Kimmeridgian     2</code></pre>
+</div>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Alternate Grouping:</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>jura <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">mean_Pb =</span> <span class="fu">mean</span>(Pb), </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">sd_Pb =</span> <span class="fu">sd</span>(Pb), </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">count =</span> <span class="fu">n</span>(),</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">.by =</span> <span class="fu">c</span>(<span class="st">"Landuse"</span>, <span class="st">"Rock"</span>))</span></code></pre></div>
+<pre class="seventy"><code>## # A tibble: 15 × 5
+##    Landuse Rock         mean_Pb sd_Pb count
+##    &lt;fct&gt;   &lt;fct&gt;          &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
+##  1 Meadow  Quaternary      60.8 41.5      7
+##  2 Meadow  Argovian        53.1 25.3     14
+##  3 Pasture Argovian        28.5 11.4      4
+##  4 Pasture Quaternary      37.1 15.9      2
+##  5 Meadow  Sequanian       73.1 54.1     18
+##  6 Forest  Kimmeridgian    53.6 15.3     10
+##  7 Pasture Sequanian       42.1 11.5      6
+##  8 Meadow  Kimmeridgian    50.1 11.9     13
+##  9 Pasture Kimmeridgian    60.9 69.4     14
+## 10 Forest  Portlandian     42.0  9.56     2
+## 11 Forest  Argovian        33.9  3.21     4
+## 12 Meadow  Portlandian    109.  NA        1
+## 13 Tillage Kimmeridgian    42.3  5.77     2
+## 14 Forest  Sequanian       57.9 13.4      2
+## 15 Tillage Argovian       153.  NA        1</code></pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="slicing" class="slide level2 eighty"><h2 class="eighty">Slicing</h2>
+<div class="columns bare max-listing">
+<div class="column">
+<ul>
+<li>
+<p>Selecting:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>  jura <span class="sc">|&gt;</span> <span class="fu">group_by</span>(Landuse, Rock) <span class="sc">|&gt;</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">slice_max</span>(Pb, <span class="at">n =</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre class="sixty"><code>## # A tibble: 15 × 11
+## # Groups:   Landuse, Rock [15]
+##     long   lat Landuse Rock            Cd    Co    Cr     Cu    Ni    Pb    Zn
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1  6.86  47.2 Forest  Argovian     1.32   3.74  27.6   5.4  14.4   37.5  46.4
+##  2  6.86  47.1 Forest  Kimmeridgian 1.25   8.08  39.6  13.1  18.6   88    86.8
+##  3  6.85  47.1 Forest  Sequanian    1.01   9.96  28.7   5.96 17.4   67.4  52.5
+##  4  6.87  47.1 Forest  Portlandian  1.22   5.24  27.0   5.52 21.0   48.8  46.4
+##  5  6.85  47.1 Pasture Argovian     0.375 12.0   34.1  19.4  16.4   45.2  70  
+##  6  6.86  47.1 Pasture Kimmeridgian 1.76  10.3   40.5 127    30.8  300   192  
+##  7  6.83  47.1 Pasture Sequanian    2.54  12.6   70     8.72 26.2   55.6  71.6
+##  8  6.88  47.1 Pasture Quaternary   1.31  12.7   34.8  17.7  19.6   48.4  80.4
+##  9  6.85  47.1 Meadow  Argovian     0.394  4.44  21.6  39.6   8.92 106.   72.4
+## 10  6.85  47.1 Meadow  Kimmeridgian 0.825 15.3   36.5  31.2  25.4   70.4  75.4
+## 11  6.86  47.1 Meadow  Sequanian    1.78  11.4   41   155.   24.5  240.  260. 
+## 12  6.88  47.1 Meadow  Portlandian  1.62  12.0   34.6  91.2  30.2  109.  157. 
+## 13  6.85  47.1 Meadow  Quaternary   0.75  15.6   29.8  73.1  20.2  139.   95.7
+## 14  6.85  47.1 Tillage Argovian     1.31   8.44  41.6 118.   20.4  153.  145. 
+## 15  6.87  47.1 Tillage Kimmeridgian 1.93  13.8   45    19.3  35.7   46.4  90</code></pre>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Random Sampling</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>  jura <span class="sc">|&gt;</span> <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">5</span>)</span></code></pre></div>
+<pre class="sixty"><code>## # A tibble: 5 × 11
+##    long   lat Landuse Rock            Cd    Co    Cr    Cu    Ni    Pb    Zn
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1  6.87  47.1 Meadow  Kimmeridgian 0.855 12.4  32.9  25.5  22.3   51.6  80.4
+## 2  6.85  47.1 Meadow  Argovian     0.495  8.52 31.4  17.1  16.1   46.8  57.6
+## 3  6.88  47.1 Meadow  Quaternary   2.61  20.6  37.2  24    29.4   47.2  86.4
+## 4  6.87  47.1 Forest  Kimmeridgian 0.51   1.65  3.32  5.96  1.98  62.4  60.4
+## 5  6.85  47.1 Pasture Sequanian    1.66  14.8  40.3  37    30.1   43.8  87.8</code></pre>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section id="discuss-homework" class="title-slide slide level1 center"><h1 class="center">Discuss Homework</h1>
+
+</section>
+</div>
+  </div>
+  <!--
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.js"></script>
+  <!-- -->
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.min.js"></script><!-- --><script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Display the page number of the current slide
+        showSlideNumber: 'speaker',
+        // Push each slide change to the browser history
+        history: true,
+        //  Enable hashing slide content to URL
+        hash: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Don't separate fragments in PDF rendering
+        pdfSeparateFragments: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+      
+        // Optional reveal.js plugins
+        dependencies: [
+                    { src: '../../lecture_lib/library/assets/plugin/chalkboard/chalkboard.js', async: true },
+                                        { src: '../../lecture_lib/library/assets/plugin/reveal-skip-fragments/skip-fragments.js', async: true },
+                    { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/notes/notes.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/math/math.js', async: true }
+        ],
+        shift_keyboard: {
+    	    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'C' is pressed
+    	    66: function() { RevealChalkboard.toggleChalkboard() },	  // toggle chalkboard when 'B' is pressed
+    	    88: function() { RevealChalkboard.clear() },	            // clear chalkboard when 'X' is pressed
+    	    82: function() { RevealChalkboard.reset() },	            // reset chalkboard data on current slide when 'R' is pressed
+    	    68: function() { RevealChalkboard.download() },	          // downlad recorded chalkboard drawing when 'D' is pressed
+        },
+              	// Shortcut for showing all fragments
+      	skipFragmentsShowShortcut: 'S',
+
+      	// Shortcut for hiding all fragments
+      	skipFragmentsHideShortcut: 'H',
+      	      });
+    </script><script>
+  	function createSingletonNodejg( container, tagname, classname, innerHTML ) {
+
+		// Find all nodes matching the description
+		var nodes = container.querySelectorAll( '.' + classname );
+
+		// Check all matches to find one which is a direct child of
+		// the specified container
+		for( var i = 0; i < nodes.length; i++ ) {
+			var testNode = nodes[i];
+			if( testNode.parentNode === container ) {
+				return testNode;
+			}
+		}
+
+		// If no node was found, create it now
+		var node = document.createElement( tagname );
+		node.className = classname;
+		if( typeof innerHTML === 'string' ) {
+			node.innerHTML = innerHTML;
+		}
+		container.appendChild( node );
+
+		return node;
+
+	}
+
+  var dom_wrapper = document.querySelector('.reveal');
+  createSingletonNodejg(dom_wrapper, 'div', 'qrbox',
+  '<div class="qrbox" id="qrbox" style="font-size:90%;">' + '\n' +
+  '<div style="font-size:30%;width:100%;">' + '\n' +
+      '<a href="https://ees5891.jgilligan.org/slides/class_07">' +
+  	'<img src="qrcode.png" alt="https://ees5891.jgilligan.org/slides/class_07"/>' +
+  	'</a>' + '\n' +
+	  '</div>' + '\n' +
+  '<div style="font-size:30%;width:100%;vertical-align:top;">' + '\n' +
+    '<span style="display:inline-block;text-align:left;margin-left:0">' + '\n' +
+        'Live web page: <a href="https://ees5891.jgilligan.org/slides/class_07">https://ees5891.jgilligan.org/slides/class_07</a>' + '\n' +
+              '<br/>' + '\n' +
+        'PDF: <a href="https://ees5891.jgilligan.org/slides/class_07/EES_4891_5891_class_07_slides.pdf" target="_blank">https://ees5891.jgilligan.org/slides/class_07/EES_4891_5891_class_07_slides.pdf</a>' + '\n' +
+          	'</span>' + '\n' +
+  	'<span style="display:inline-block;text-align:right;vertical-align:top;position:absolute;right:0;bottom:0;">' + '\n' +
+  	  'Navigate slides: next: N or &lt;space&gt;; previous: P or &lt;backspace&gt;<br/>' + '\n' +
+  	  'Also: up, down, left, right arrows; overview: o; help: ?' + '\n' +
+  	'</span>' + '\n' +
+	'</div>' + '\n' +
+  '</div>' + '\n'
+  );
+</script><script>
+var MathJax = { jax: ["input/TeX", "output/HTML-CSS"],
+                TeX: {extensions: ["color.js", "mhchem.js"],
+                Macros: {
+                  COO: "\\ce{CO2}",
+                  methane: "\\ce{CH4}",
+                  degC: "^\\circ \\mathrm{C}",
+                  degF: "^\\circ \\mathrm{F}",
+                  water: "\\ce{H2O}",
+                  carb: "\\ce{CO3^2-}",
+                  bicarb: "\\ce{HCO3-}",
+                  carbonic: "\\ce{H2CO3}",
+                  Hplus: "\\ce{H+}",
+                  OH: "\\ce{OH-}",
+                  silica: "\\ce{SiO2}",
+                  calcite: "\\ce{CaCO3}",
+                  Caplus: "\\ce{Ca^2+}",
+                  silicate: "\\ce{SiO3^2-}",
+                  CaSi: "\\ce{CaSiO3}",
+                  pH: "p\\ce{H}",
+                  permil: "\\unicode{x2030}",
+                  pCOO: "\\ce{	ext{p}CO2}",
+                  pwater: "\\ce{	ext{p}H2O}"
+                },
+                  },
+                "HTML-CSS" : {scale: 100 }};
+</script><!-- dynamically load mathjax for compatibility with self-contained --><script type="text/x-mathjax-config">
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["SVG"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+    displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
+    processEscapes: true
+  }
+})
+  </script><script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script><script>
+  var qrbox = document.querySelector("#qrbox");
+  var advance_fragment = 0;
+
+	function isPrintingPDF() {
+	  let printing = ( /print-pdf/gi ).test( window.location.search );
+	  console.log("printing test: " + printing);
+	  return printing;
+	}
+
+
+  if ( qrbox.hasAttribute('qr-box-hide') || Reveal.isOverview() ||
+      ! Reveal.isFirstSlide() || isPrintingPDF()) {
+    console.log("Initializing");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }
+
+  Reveal.addEventListener('overviewshown', function() {
+      console.log("Overview shown");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }, false);
+
+  Reveal.addEventListener('overviewhidden', function() {
+    if (Reveal.isFirstSlide() && ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Overview hidden");
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    console.log("Slide changed...");
+    if (Reveal.isFirstSlide() && ! Reveal.isOverview() &&
+        ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    } else {
+      console.log("Hiding QR box");
+      qrbox.style.visibility="hidden";
+      qrbox.style.display="none";
+    }
+  }, false);
+
+  Reveal.addEventListener('pdf-ready', function() {
+    console.log("hiding qrbox for printing");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+    qrbox.setAttribute('qr-box-hide', 'true');
+  });
+
+  </script><script>
+  Reveal.addEventListener('slidechanged', function() {
+    while (advance_fragment > 0) {
+      // console.log('advancing fragment');
+      Reveal.nextFragment();
+      advance_fragment--;
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    if ( Reveal.getCurrentSlide().hasAttribute('data-skip')) {
+      // console.log("going to next slide...");
+      Reveal.next();
+    }
+  }, false);
+
+  Reveal.addEventListener('skip_slide', function() {
+    Reveal.next();
+  }, false);
+
+  Reveal.addEventListener('advance_fragment', function() {
+    // console.log("setting advance fragment");
+    advance_fragment++;
+    }, false);
+  </script>
+</body>
+</html>
