@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<!-- JG Reveal.js Template --><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta name="author" content="Jonathan Gilligan">
+<title>Tidy Data</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reset.css">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reveal.min.css">
+<style type="text/css">
+      code{white-space: pre-wrap;}
+      .smallcaps{font-variant: small-caps;}
+      .line-block{white-space: pre-line;}
+      .column{display: inline-block;}  </style>
+<style type="text/css">
+    div.qrbox,
+    aside.qrbox {
+     text-align: left;
+     vertical-align: bottom;
+     width: 95%;
+     position: fixed;
+     left: 2.5%;
+     bottom: 1rem;
+     display: block;
+    }
+  </style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { font-weight: bold; } /* Alert */
+code span.an { font-style: italic; } /* Annotation */
+code span.cf { font-weight: bold; } /* ControlFlow */
+code span.co { font-style: italic; } /* Comment */
+code span.cv { font-style: italic; } /* CommentVar */
+code span.do { font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.er { font-weight: bold; } /* Error */
+code span.in { font-style: italic; } /* Information */
+code span.kw { font-weight: bold; } /* Keyword */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.wa { font-style: italic; } /* Warning */
+  </style>
+<!-- theme = solarized_jg --><link rel="stylesheet" href="../../lecture_lib/library/assets/css/theme/solarized_jg.css" id="theme">
+<!-- Printing and PDF exports --><script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../lecture_lib/library/reveal.js-3.8.0/css/print/pdf.css' : '../../lecture_lib/library/reveal.js-3.8.0/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><!--[if lt IE 9]>
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+  <![endif]--><script src="../../lecture_lib/library/header-attrs-2.29.1.9000/header-attrs.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+            <!-- start title slide -->
+<section class="center" id="title"><h1 class="title">Tidy Data</h1>
+    <h3 class="author">EES 4891/5891</h3>
+        <h3 class="author">Probability &amp; Statistics for
+Geosciences</h3>
+    <h3 class="author">Jonathan Gilligan</h3>
+    <h3 class="date">
+      Class #8:
+       Thursday, January 30
+      2025
+    </h3>
+	<!-- end title slide -->
+</section><section><section id="learning-goals" class="title-slide slide level1 center"><h1 class="center">Learning Goals</h1>
+
+</section><section id="learning-goals-1" class="slide level2"><h2>Learning Goals</h2>
+<ul>
+<li>Understand the principles of tidy data</li>
+<li>Learn about <em>cleaning</em> and <em>tidying</em> data</li>
+<li>Learn about <em>pivoting</em> data:
+<ul>
+<li>
+<em>Lengthening</em> data</li>
+<li>
+<em>Widening</em> data</li>
+</ul>
+</li>
+</ul></section></section><section><section id="tidy-data" class="title-slide slide level1 center"><h1 class="center">Tidy Data</h1>
+
+</section><section id="organizing-data-in-tables" class="slide level2"><h2>Organizing Data in Tables</h2>
+<ul>
+<li>There are many ways to organize data in a table
+<ul>
+<li class="fragment">There is no best way.</li>
+<li class="fragment">Different questions call for different organization</li>
+</ul>
+</li>
+<li class="fragment">Common Principles:
+<ol type="1">
+<li>Each column is a variable</li>
+<li>Each row is an observation</li>
+<li>Each cell is a value</li>
+</ol>
+<img data-src="assets/images/tidy-1.png" height="400" alt="Tidy Data">
+</li>
+</ul></section><section id="example" class="slide level2"><h2>Example</h2>
+<p>Tuberculosis incidence, reported by World Health Organization</p>
+<div class="columns sixtyfive">
+<div class="column" style="width:32%;">
+<table>
+<thead><tr class="header">
+<th style="text-align: left;">country</th>
+<th style="text-align: right;">year</th>
+<th style="text-align: right;">cases</th>
+<th style="text-align: right;">population</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Afghanistan</td>
+<td style="text-align: right;">2,000</td>
+<td style="text-align: right;">2,666</td>
+<td style="text-align: right;">20,595,360</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Afghanistan</td>
+<td style="text-align: right;">2,010</td>
+<td style="text-align: right;">12,947</td>
+<td style="text-align: right;">28,397,812</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Brazil</td>
+<td style="text-align: right;">2,000</td>
+<td style="text-align: right;">80,488</td>
+<td style="text-align: right;">174,504,898</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Brazil</td>
+<td style="text-align: right;">2,010</td>
+<td style="text-align: right;">70,848</td>
+<td style="text-align: right;">195,210,154</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">China</td>
+<td style="text-align: right;">2,000</td>
+<td style="text-align: right;">213,766</td>
+<td style="text-align: right;">1,280,428,583</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">China</td>
+<td style="text-align: right;">2,010</td>
+<td style="text-align: right;">869,092</td>
+<td style="text-align: right;">1,359,821,465</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="column" style="width:32%;">
+<table>
+<thead><tr class="header">
+<th style="text-align: left;">country</th>
+<th style="text-align: right;">year</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: right;">count</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Afghanistan</td>
+<td style="text-align: right;">2,000</td>
+<td style="text-align: left;">cases</td>
+<td style="text-align: right;">2,666</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Afghanistan</td>
+<td style="text-align: right;">2,000</td>
+<td style="text-align: left;">population</td>
+<td style="text-align: right;">20,595,360</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Afghanistan</td>
+<td style="text-align: right;">2,010</td>
+<td style="text-align: left;">cases</td>
+<td style="text-align: right;">12,947</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Afghanistan</td>
+<td style="text-align: right;">2,010</td>
+<td style="text-align: left;">population</td>
+<td style="text-align: right;">28,397,812</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Brazil</td>
+<td style="text-align: right;">2,000</td>
+<td style="text-align: left;">cases</td>
+<td style="text-align: right;">80,488</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Brazil</td>
+<td style="text-align: right;">2,000</td>
+<td style="text-align: left;">population</td>
+<td style="text-align: right;">174,504,898</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Brazil</td>
+<td style="text-align: right;">2,010</td>
+<td style="text-align: left;">cases</td>
+<td style="text-align: right;">70,848</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Brazil</td>
+<td style="text-align: right;">2,010</td>
+<td style="text-align: left;">population</td>
+<td style="text-align: right;">195,210,154</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">China</td>
+<td style="text-align: right;">2,000</td>
+<td style="text-align: left;">cases</td>
+<td style="text-align: right;">213,766</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">China</td>
+<td style="text-align: right;">2,000</td>
+<td style="text-align: left;">population</td>
+<td style="text-align: right;">1,280,428,583</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">China</td>
+<td style="text-align: right;">2,010</td>
+<td style="text-align: left;">cases</td>
+<td style="text-align: right;">869,092</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">China</td>
+<td style="text-align: right;">2,010</td>
+<td style="text-align: left;">population</td>
+<td style="text-align: right;">1,359,821,465</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="column" style="width:32%;">
+<table>
+<thead><tr class="header">
+<th style="text-align: left;">country</th>
+<th style="text-align: right;">year</th>
+<th style="text-align: right;">rate</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Afghanistan</td>
+<td style="text-align: right;">2000</td>
+<td style="text-align: right;">12.94</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Afghanistan</td>
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">45.59</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Brazil</td>
+<td style="text-align: right;">2000</td>
+<td style="text-align: right;">46.12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Brazil</td>
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">36.29</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">China</td>
+<td style="text-align: right;">2000</td>
+<td style="text-align: right;">16.69</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">China</td>
+<td style="text-align: right;">2010</td>
+<td style="text-align: right;">63.91</td>
+</tr>
+</tbody>
+</table>
+<div class="eighty">
+<p>Rate = cases per 100,000 population.</p>
+</div>
+</div>
+</div>
+</section><section id="tidy-data-principles" class="slide level2"><h2>Tidy Data Principles</h2>
+<ul>
+<li>Principles:
+<ol type="1">
+<li>Each column is a variable</li>
+<li>Each row is an observation</li>
+<li>Each cell is a value</li>
+</ol>
+</li>
+<li class="fragment">Advantages:
+<ul>
+<li>Consistency makes it easier to do analysis
+<ul>
+<li>You can reuse analysis code and methods</li>
+</ul>
+</li>
+<li class="fragment">It’s more efficient for R to work with <em>vectors</em> of data,
+and that’s how columns are stored</li>
+</ul>
+</li>
+</ul></section><section id="digression-r-data-types" class="slide level2"><h2>Digression: R data types</h2>
+<div class="columns">
+<div class="column eightyfive">
+<ul>
+<li>R has many data types.</li>
+<li class="fragment">Important categories:
+<ul>
+<li>
+<strong>Atomic data:</strong> one number, character string, etc.
+<ul>
+<li>
+<code>3.7</code>, <code>"foo"</code>
+</li>
+</ul>
+</li>
+<li>
+<strong>Vectors:</strong> multiple atoms, all of the same type:
+<ul>
+<li>
+<code>c(3.7, 4.2, 17.6)</code>, <code>c("foo", "bar")</code>
+</li>
+</ul>
+</li>
+<li class="fragment"><strong>Lists:</strong> multiple atoms, vectors, or lists, which
+can be different types:
+<ul>
+<li>
+<code>list(1, 2, "three")</code>,
+<code>list(c(1, 2, 3), c("one", "two", "three"))</code>
+</li>
+</ul>
+</li>
+<li class="fragment"><strong>Data frames:</strong> are lists of vectors. Each column
+is a vector.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column eighty max-listing bare">
+<ul>
+<li class="fragment">
+<p>Vectors and lists can have named elements:</p>
+<div class="bare" style="font-size:120%;">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">height =</span> <span class="fl">7.2</span>, <span class="at">mass =</span> <span class="fl">10.3</span>, <span class="at">volume =</span> <span class="dv">327</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">surname =</span> <span class="st">"Jones"</span>, <span class="at">given =</span> <span class="st">"Sam"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>z <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">sample_id =</span> <span class="st">"S12.3"</span>, <span class="at">pH =</span> <span class="fl">6.3</span>, </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">salinity =</span> <span class="fl">10.3</span>,  </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>          <span class="at">contaminants =</span> <span class="fu">c</span>(<span class="st">"As"</span>, <span class="st">"Cd"</span>, <span class="st">"Pb"</span>))</span></code></pre></div>
+</div>
+</li>
+<li class="fragment">
+<p>Indexing contents:</p>
+<ul>
+<li>
+<strong>vectors:</strong>
+<ul>
+<li>
+<code>x["height"]</code>, <code>y["surname"]</code>, or
+<code>x[1]</code>, <code>y[2]</code>
+</li>
+<li class="fragment"><code>x[c("height", "mass")]</code>, <code>x[1:3]</code>
+</li>
+</ul>
+</li>
+<li class="fragment"><strong>lists:</strong>
+<ul>
+<li>
+<code>z[["sample_id"]]</code> or <code>z[[2]]</code> or
+<code>z$salinity</code>
+</li>
+<li class="fragment"><code>z[c("sample_id", "pH")]</code>
+</li>
+<li class="fragment">Single brace <code>[</code> returns a list, double braces
+<code>[[</code> and <code>$</code> return a bare element</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="vectors-lists-and-data-frames" class="slide level2"><h2>Vectors, Lists, and Data Frames</h2>
+<ul>
+<li>R operates more efficiently on vectors than lists</li>
+<li class="fragment">Data frames are lists of vectors. Each column is a vector.
+<ul>
+<li>
+<code>sum()</code>, <code>mean()</code>, <code>median()</code>,
+<code>sd()</code> work much faster on vectors,
+<ul>
+<li>Getting summary statistics of a column is fast &amp; efficient</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></section></section><section><section id="jura-data" class="title-slide slide level1 center"><h1 class="center">Jura Data</h1>
+
+</section><section id="jura-data-1" class="slide level2"><h2>Jura Data</h2>
+<div class="columns">
+<div class="column bare">
+<ul>
+<li>
+<p>Soil samples from Swiss Jura, with concentrations of
+contaminants</p>
+<div class="bare">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gstat)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(jura)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>jura <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(jura.val)</span></code></pre></div>
+<div class="eighty">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(jura)</span></code></pre></div>
+<pre><code>## Rows: 100
+## Columns: 13
+## $ Xloc    &lt;dbl&gt; 2.672, 3.589, 4.010, 2…
+## $ Yloc    &lt;dbl&gt; 3.558, 4.443, 4.713, 3…
+## $ long    &lt;dbl&gt; 6.854080, 6.865951, 6.…
+## $ lat     &lt;dbl&gt; 47.14342, 47.15144, 47…
+## $ Landuse &lt;fct&gt; Meadow, Meadow, Pastur…
+## $ Rock    &lt;fct&gt; Quaternary, Argovian, …
+## $ Cd      &lt;dbl&gt; 1.570, 2.045, 1.203, 0…
+## $ Co      &lt;dbl&gt; 8.28, 10.80, 12.00, 10…
+## $ Cr      &lt;dbl&gt; 37.12, 40.80, 53.20, 2…
+## $ Cu      &lt;dbl&gt; 18.600, 11.480, 13.040…
+## $ Ni      &lt;dbl&gt; 18.60, 21.52, 23.92, 1…
+## $ Pb      &lt;dbl&gt; 38.20, 33.36, 26.56, 2…
+## $ Zn      &lt;dbl&gt; 65.20, 112.80, 91.60, …</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Remove columns <code>Xloc</code> and <code>Yloc</code></p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>jura <span class="ot">&lt;-</span> jura <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Xloc<span class="sc">:</span>Yloc))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(jura)</span></code></pre></div>
+<div class="seventy max-listing">
+<pre class="max-listing"><code>## # A tibble: 100 × 11
+##     long   lat Landuse Rock            Cd    Co    Cr    Cu    Ni    Pb    Zn
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1  6.85  47.1 Meadow  Quaternary   1.57   8.28  37.1 18.6   18.6  38.2  65.2
+##  2  6.87  47.2 Meadow  Argovian     2.04  10.8   40.8 11.5   21.5  33.4 113. 
+##  3  6.87  47.2 Pasture Argovian     1.20  12     53.2 13.0   23.9  26.6  91.6
+##  4  6.86  47.1 Pasture Quaternary   0.49  10.9   23.4  5.64  14.6  25.9  41.2
+##  5  6.84  47.1 Meadow  Sequanian    0.692  8.12  27.2 10.3   14.6  31.2  50.4
+##  6  6.87  47.1 Forest  Kimmeridgian 1.75   9.12  35.5  8.36  26.4  37.7  63.2
+##  7  6.85  47.1 Forest  Kimmeridgian 0.415  9.12  30.3  4.44  24.2  41    53.2
+##  8  6.87  47.1 Pasture Sequanian    0.685 11.7   31.9 10.9   13.1  30.8  49.3
+##  9  6.85  47.1 Meadow  Kimmeridgian 0.92  10.6   49.0 30.3   31.5  68.1 103. 
+## 10  6.87  47.1 Forest  Kimmeridgian 2.12   6.36  23    7.35  14.5  54.4  72.4
+## # ℹ 90 more rows</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="cleaning-and-wrangling-data" class="title-slide slide level1 center"><h1 class="center">Cleaning and Wrangling Data</h1>
+
+</section><section id="cleaning-and-wrangling-data-1" class="slide level2"><h2>Cleaning and Wrangling Data</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>When you get data from someone else, it’s probably not in an easy
+format to work with.</li>
+<li class="fragment" data-fragment-index="1">Example: Records of monthly CO<sub>2</sub> measurements from
+Mauna Loa Observatory:
+<ul>
+<li class="fragment">Begins with 54 lines of comments</li>
+<li class="fragment">Column names are spread over 3 lines, with names and units.</li>
+<li class="fragment">Missing values are indicated by <code>-99.99</code>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column sixty fragment" data-fragment-index="1">
+<pre><code>"-------------------------------------------------------------------------------------------"
+" Atmospheric CO2 concentrations (ppm) derived from in situ air measurements                "
+" at Mauna Loa, Observatory, Hawaii: Latitude 19.5°N Longitude 155.6°W Elevation 3397m      "
+"                                                                                           "
+" Source: R. F. Keeling, S. J. Walker, S. C. Piper and A. F. Bollenbacher                   "
+" Scripps CO2 Program ( http://scrippsco2.ucsd.edu )                                        "
+" Scripps Institution of Oceanography (SIO)                                                 "
+" University of California                                                                  "
+" La Jolla, California USA 92093-0244                                                       "
+"                                                                                           "
+" Status of data and correspondence:                                                        "
+"                                                                                           "
+" These data are subject to revision based on recalibration of standard gases. Questions    "
+" about the data should be directed to Dr. Ralph Keeling (rkeeling@ucsd.edu), Stephen Walker"
+" (sjwalker@ucsd.edu) and Stephen Piper (scpiper@ucsd.edu), Scripps CO2 Program.            "
+"                                                                                           "
+" Baseline data in this file through 03-Aug-2017 from archive dated 04-Aug-2017 14:36:38    "
+"                                                                                           "
+"-------------------------------------------------------------------------------------------"
+"                                                                                           "
+" Please cite as:                                                                           "
+"                                                                                           "
+" C. D. Keeling, S. C. Piper, R. B. Bacastow, M. Wahlen, T. P. Whorf, M. Heimann, and       "
+" H. A. Meijer, Exchanges of atmospheric CO2 and 13CO2 with the terrestrial biosphere and   "
+" oceans from 1978 to 2000.  I. Global aspects, SIO Reference Series, No. 01-06, Scripps    "
+" Institution of Oceanography, San Diego, 88 pages, 2001.                                   "
+"                                                                                           "
+" If it is necessary to cite a peer-reviewed article, please cite as:                       "
+"                                                                                           "
+" C. D. Keeling, S. C. Piper, R. B. Bacastow, M. Wahlen, T. P. Whorf, M. Heimann, and       "
+" H. A. Meijer, Atmospheric CO2 and 13CO2 exchange with the terrestrial biosphere and       "
+" oceans from 1978 to 2000: observations and carbon cycle implications, pages 83-113,       "
+" in "A History of Atmospheric CO2 and its effects on Plants, Animals, and Ecosystems",     "
+" editors, Ehleringer, J.R., T. E. Cerling, M. D. Dearing, Springer Verlag,                 "
+" New York, 2005.                                                                           "
+"                                                                                           "
+"-------------------------------------------------------------------------------------------"
+"                                                                                           "
+" The data file below contains 10 columns.  Columns 1-4 give the dates in several redundant "
+" formats. Column 5 below gives monthly Mauna Loa CO2 concentrations in micro-mol CO2 per   "
+" mole (ppm), reported on the 2008A SIO manometric mole fraction scale.  This is the        "
+" standard version of the data most often sought.  The monthly values have been adjusted    "
+" to 24:00 hours on the 15th of each month.  Column 6 gives the same data after a seasonal  "
+" adjustment to remove the quasi-regular seasonal cycle.  The adjustment involves           "
+" subtracting from the data a 4-harmonic fit with a linear gain factor.  Column 7 is a      "
+" smoothed version of the data generated from a stiff cubic spline function plus 4-harmonic "
+" functions with linear gain.  Column 8 is the same smoothed version with the seasonal      "
+" cycle removed.  Column 9 is identical to Column 5 except that the missing values from     "
+" Column 5 have been filled with values from Column 7.  Column 10 is identical to Column 6  "
+" except missing values have been filled with values from Column 8.  Missing values are     "
+" denoted by -99.99                                                                         "
+"                                                                                           "
+" CO2 concentrations are measured on the '08A' calibration scale                            "
+"                                                                                           "
+  Yr, Mn,    Date,      Date,     CO2,seasonally,        fit,  seasonally,      CO2, seasonally
+    ,   ,        ,          ,        ,  adjusted,           ,adjusted fit,   filled,adjusted filled
+    ,   ,   Excel,          ,   [ppm],    [ppm] ,      [ppm],    [ppm],       [ppm],    [ppm]
+1958, 01,   21200, 1958.0411,   -99.99,   -99.99,     -99.99,   -99.99,     -99.99,   -99.99
+1958, 02,   21231, 1958.1260,   -99.99,   -99.99,     -99.99,   -99.99,     -99.99,   -99.99
+1958, 03,   21259, 1958.2027,   315.69,   314.43,     316.19,   314.90,     315.69,   314.43
+1958, 04,   21290, 1958.2877,   317.46,   315.15,     317.30,   314.98,     317.46,   315.15
+1958, 05,   21320, 1958.3699,   317.51,   314.73,     317.84,   315.06,     317.51,   314.73
+1958, 06,   21351, 1958.4548,   -99.99,   -99.99,     317.23,   315.14,     317.23,   315.14
+1958, 07,   21381, 1958.5370,   315.86,   315.18,     315.88,   315.22,     315.86,   315.18
+1958, 08,   21412, 1958.6219,   314.93,   316.17,     314.02,   315.29,     314.93,   316.17
+1958, 09,   21443, 1958.7068,   313.21,   316.06,     312.48,   315.36,     313.21,   316.06
+1958, 10,   21473, 1958.7890,   -99.99,   -99.99,     312.45,   315.41,     312.45,   315.41
+1958, 11,   21504, 1958.8740,   313.33,   315.20,     313.62,   315.47,     313.33,   315.20
+1958, 12,   21534, 1958.9562,   314.67,   315.44,     314.76,   315.52,     314.67,   315.44
+1959, 01,   21565, 1959.0411,   315.58,   315.56,     315.61,   315.57,     315.58,   315.56</code></pre>
+</div>
+</div>
+</section><section id="giss-temperature-data" class="slide level2"><h2>GISS Temperature Data</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Example: Records of global temperature anomalies from NASA Goddard
+Institute for Space Studies
+<ul>
+<li class="fragment">Begins with 1 line of comments</li>
+<li class="fragment">Column names are straigntforward, but each month is a different
+column, which makes it hard to look at the whole time series.</li>
+<li class="fragment">Missing values are indicated by <code>***</code>.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column seventy max-listing">
+<pre><code>Land-Ocean: Global Means
+Year,Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,J-D,D-N,DJF,MAM,JJA,SON
+1880,-.20,-.25,-.09,-.16,-.09,-.22,-.19,-.09,-.15,-.22,-.22,-.19,-.17,***,***,-.11,-.17,-.20
+1881,-.20,-.15,.02,.04,.07,-.19,.01,-.04,-.16,-.22,-.18,-.07,-.09,-.10,-.18,.05,-.07,-.19
+1882,.16,.14,.05,-.16,-.13,-.22,-.16,-.07,-.14,-.23,-.17,-.36,-.11,-.08,.07,-.08,-.15,-.18
+1883,-.29,-.36,-.12,-.18,-.18,-.07,-.07,-.14,-.22,-.11,-.24,-.11,-.18,-.20,-.34,-.16,-.09,-.19
+1884,-.13,-.08,-.36,-.40,-.33,-.35,-.31,-.28,-.27,-.25,-.33,-.31,-.28,-.27,-.11,-.37,-.31,-.28
+1885,-.58,-.34,-.27,-.42,-.45,-.43,-.33,-.31,-.28,-.23,-.24,-.10,-.33,-.35,-.41,-.38,-.36,-.25
+1886,-.44,-.51,-.43,-.28,-.24,-.34,-.18,-.31,-.24,-.28,-.28,-.26,-.31,-.30,-.35,-.32,-.28,-.26
+1887,-.72,-.57,-.36,-.35,-.31,-.25,-.26,-.36,-.26,-.36,-.26,-.33,-.36,-.36,-.52,-.34,-.29,-.29</code></pre>
+</div>
+</div>
+</section><section id="cleaning-and-wrangling-data-2" class="slide level2"><h2>Cleaning and Wrangling Data</h2>
+<ul>
+<li>A large part of any statistical analysis project is
+<ul>
+<li class="fragment"><strong>Reading the data</strong> into R,</li>
+<li class="fragment"><strong>Cleaning the data: </strong>
+<ul>
+<li>Managing missing data, identifying and fixing transcription errors,
+etc.)</li>
+</ul>
+</li>
+<li class="fragment"><strong>Wrangling the data:</strong>
+<ul>
+<li>Transforming the data and organizing it into a convenient form for
+analysis (<em>Tidying</em> the data)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="fragment">We’ll talk about reading data in and <em>cleaning</em> it on
+Tuesday</li>
+<li class="fragment">Today, we’re looking at <em>tidying</em> it.</li>
+</ul></section><section id="pivoting-data" class="slide level2"><h2>Pivoting Data</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Pivoting is reorganizing data by changing the row-column structure
+<ul>
+<li class="fragment"><strong>Lengthening:</strong> Combine several columns into one,
+with each column going into a different row.
+<ul>
+<li>Final table has fewer columns and more rows, so it’s
+<em>longer</em>.</li>
+</ul>
+</li>
+<li class="fragment"><strong>Widening:</strong> Splitting one column into several
+columns, with multiple rows from that column being moved into several
+columns of a single row.
+<ul>
+<li>Final table has more columns and fewer rows, so it’s
+<em>wider</em>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column bare ptop-2">
+<ul>
+<li class="fragment">
+<p>Lengthening Data:</p>
+<p><img data-src="assets/images/variables.png" height="250"></p>
+<p><img data-src="assets/images/column-names.png" height="250"></p>
+<p><img data-src="assets/images/cell-values.png" height="250"></p>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="lengthening-data" class="title-slide slide level1 center"><h1 class="center">Lengthening Data</h1>
+
+</section><section id="lengthening-data-1" class="slide level2"><h2>Lengthening Data</h2>
+<div class="columns">
+<div class="column">
+<p>Wide data frame</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>jura</span></code></pre></div>
+</div>
+<div class="seventy bare max-listing">
+<pre class="max-listing"><code>## # A tibble: 100 × 11
+##     long   lat Landuse Rock            Cd    Co    Cr    Cu    Ni    Pb    Zn
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1  6.85  47.1 Meadow  Quaternary   1.57   8.28  37.1 18.6   18.6  38.2  65.2
+##  2  6.87  47.2 Meadow  Argovian     2.04  10.8   40.8 11.5   21.5  33.4 113. 
+##  3  6.87  47.2 Pasture Argovian     1.20  12     53.2 13.0   23.9  26.6  91.6
+##  4  6.86  47.1 Pasture Quaternary   0.49  10.9   23.4  5.64  14.6  25.9  41.2
+##  5  6.84  47.1 Meadow  Sequanian    0.692  8.12  27.2 10.3   14.6  31.2  50.4
+##  6  6.87  47.1 Forest  Kimmeridgian 1.75   9.12  35.5  8.36  26.4  37.7  63.2
+##  7  6.85  47.1 Forest  Kimmeridgian 0.415  9.12  30.3  4.44  24.2  41    53.2
+##  8  6.87  47.1 Pasture Sequanian    0.685 11.7   31.9 10.9   13.1  30.8  49.3
+##  9  6.85  47.1 Meadow  Kimmeridgian 0.92  10.6   49.0 30.3   31.5  68.1 103. 
+## 10  6.87  47.1 Forest  Kimmeridgian 2.12   6.36  23    7.35  14.5  54.4  72.4
+## # ℹ 90 more rows</code></pre>
+</div>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(jura)</span></code></pre></div>
+<pre><code>## [1] 100  11</code></pre>
+</div>
+</div>
+<div class="column">
+<p>Long data frame</p>
+<div class="eighty bare max-listing">
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>jura_long <span class="ot">&lt;-</span> jura <span class="sc">|&gt;</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(Cd<span class="sc">:</span>Zn, <span class="at">names_to =</span> <span class="st">"element"</span>, </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"conc"</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>jura_long</span></code></pre></div>
+</div>
+<div class="eighty bare max-listing">
+<pre class="max-listing"><code>## # A tibble: 700 × 6
+##     long   lat Landuse Rock       element  conc
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;      &lt;chr&gt;   &lt;dbl&gt;
+##  1  6.85  47.1 Meadow  Quaternary Cd       1.57
+##  2  6.85  47.1 Meadow  Quaternary Co       8.28
+##  3  6.85  47.1 Meadow  Quaternary Cr      37.1 
+##  4  6.85  47.1 Meadow  Quaternary Cu      18.6 
+##  5  6.85  47.1 Meadow  Quaternary Ni      18.6 
+##  6  6.85  47.1 Meadow  Quaternary Pb      38.2 
+##  7  6.85  47.1 Meadow  Quaternary Zn      65.2 
+##  8  6.87  47.2 Meadow  Argovian   Cd       2.04
+##  9  6.87  47.2 Meadow  Argovian   Co      10.8 
+## 10  6.87  47.2 Meadow  Argovian   Cr      40.8 
+## # ℹ 690 more rows</code></pre>
+</div>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(jura_long)</span></code></pre></div>
+<pre><code>## [1] 700   6</code></pre>
+</div>
+</div>
+</div>
+</section><section id="using-long-data" class="slide level2"><h2>Using Long Data</h2>
+<div class="bare">
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(jura_long, <span class="fu">aes</span>(<span class="at">x =</span> element, <span class="at">y =</span> conc, <span class="at">color =</span> element)) <span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Element"</span>, <span class="at">y =</span> <span class="st">"Concentration"</span>, <span class="at">title =</span> <span class="st">"Soil contamination"</span>) <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Landuse <span class="sc">~</span> Rock)</span></code></pre></div>
+</div>
+<p><img data-src="assets/fig/unnamed-chunk-18-1.png"><!-- --></p>
+</section><section id="using-long-data-1" class="slide level2"><h2>Using Long Data</h2>
+<div class="bare ninety">
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>jura_long <span class="sc">|&gt;</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">conc =</span> <span class="fu">mean</span>(conc), <span class="at">.by =</span> <span class="fu">c</span>(<span class="st">"Landuse"</span>, <span class="st">"Rock"</span>, <span class="st">"element"</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> element, <span class="at">y =</span> conc, <span class="at">fill =</span> element)) <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Element"</span>, <span class="at">y =</span> <span class="st">"Mean Concentration"</span>, <span class="at">title =</span> <span class="st">"Soil contamination"</span>) <span class="sc">+</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(Landuse <span class="sc">~</span> Rock)</span></code></pre></div>
+</div>
+<p><img data-src="assets/fig/unnamed-chunk-20-1.png"><!-- --></p>
+</section><section id="lengthening-gistemp-data" class="slide level2 eighty"><h2 class="eighty">Lengthening GISTEMP Data</h2>
+<div class="max-listing bare" style="width:1500px;">
+<ul>
+<li>
+<p>Wide format:</p>
+<div class="eighty max-listing">
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>gistemp_data</span></code></pre></div>
+<pre class="max-listing"><code>## # A tibble: 145 × 19
+##    Year   Jan   Feb   Mar   Apr   May   Jun   Jul   Aug   Sep   Oct   Nov   Dec `J-D` `D-N`   DJF   MAM   JJA   SON
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1  1880 -0.2  -0.25 -0.09 -0.16 -0.09 -0.22 -0.19 -0.09 -0.15 -0.22 -0.22 -0.19 -0.17 NA    NA    -0.11 -0.17 -0.2 
+## 2  1881 -0.2  -0.15  0.02  0.04  0.07 -0.19  0.01 -0.04 -0.16 -0.22 -0.18 -0.07 -0.09 -0.1  -0.18  0.05 -0.07 -0.19
+## 3  1882  0.16  0.14  0.05 -0.16 -0.13 -0.22 -0.16 -0.07 -0.14 -0.23 -0.17 -0.36 -0.11 -0.08  0.07 -0.08 -0.15 -0.18
+## 4  1883 -0.29 -0.36 -0.12 -0.18 -0.18 -0.07 -0.07 -0.14 -0.22 -0.11 -0.24 -0.11 -0.18 -0.2  -0.34 -0.16 -0.09 -0.19
+## 5  1884 -0.13 -0.08 -0.36 -0.4  -0.33 -0.35 -0.31 -0.28 -0.27 -0.25 -0.33 -0.31 -0.28 -0.27 -0.11 -0.37 -0.31 -0.28
+## # ℹ 140 more rows</code></pre>
+</div>
+</li>
+<li>
+<p>Long format:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(gistemp_data_long, <span class="at">n =</span> <span class="dv">7</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 1,740 × 3
+##    Year month anomaly
+##   &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt;
+## 1  1880 Jan     -0.2 
+## 2  1880 Feb     -0.25
+## 3  1880 Mar     -0.09
+## 4  1880 Apr     -0.16
+## 5  1880 May     -0.09
+## 6  1880 Jun     -0.22
+## 7  1880 Jul     -0.19
+## # ℹ 1,733 more rows</code></pre>
+</li>
+</ul>
+</div>
+</section><section id="fancier-lengthening" class="slide level2 eighty"><h2 class="eighty">Fancier Lengthening</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<code>billboard</code> data set of songs on the Billboard top-100
+charts for 2000
+<ul>
+<li>79 columns, with chart position for weeks 1–79 after it entered the
+top 100.</li>
+</ul>
+<div class="bare max-listing">
+<pre><code>## # A tibble: 317 × 79
+##   artist     track date.entered   wk1   wk2   wk3   wk4
+##   &lt;chr&gt;      &lt;chr&gt; &lt;date&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 2 Pac      Baby… 2000-02-26      87    82    72    77
+## 2 2Ge+her    The … 2000-09-02      91    87    92    NA
+## 3 3 Doors D… Kryp… 2000-04-08      81    70    68    67
+## 4 3 Doors D… Loser 2000-10-21      76    76    72    69
+## 5 504 Boyz   Wobb… 2000-04-15      57    34    25    17
+## 6 98^0       Give… 2000-08-19      51    39    34    26
+## 7 A*Teens    Danc… 2000-07-08      97    97    96    95
+## 8 Aaliyah    I Do… 2000-01-29      84    62    51    41
+## # ℹ 309 more rows
+## # ℹ 72 more variables: wk5 &lt;dbl&gt;, wk6 &lt;dbl&gt;, …</code></pre>
+</div>
+</li>
+<li class="fragment">We want to lengthen this to put all the chart positions into one
+column, and the week in another.</li>
+</ul>
+</div>
+<div class="column ptop-2 fragment">
+<div class="max-listing bare">
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>billboard_long <span class="ot">&lt;-</span> billboard <span class="sc">|&gt;</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>( <span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">"wk"</span>), </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">names_to =</span> <span class="st">"week"</span>, <span class="at">values_to =</span> <span class="st">"rank"</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(billboard_long)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 5
+##   artist track                   date.entered week   rank
+##   &lt;chr&gt;  &lt;chr&gt;                   &lt;date&gt;       &lt;chr&gt; &lt;dbl&gt;
+## 1 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk1      87
+## 2 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk2      82
+## 3 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk3      72
+## 4 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk4      77
+## 5 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk5      87
+## 6 2 Pac  Baby Don't Cry (Keep... 2000-02-26   wk6      94</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(billboard_long)</span></code></pre></div>
+<pre><code>## [1] 24092     5</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>billboard_long <span class="ot">&lt;-</span> billboard <span class="sc">|&gt;</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>( <span class="at">cols =</span> <span class="fu">starts_with</span>(<span class="st">"wk"</span>), </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">names_to =</span> <span class="st">"week"</span>, <span class="at">values_to =</span> <span class="st">"rank"</span>,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">values_drop_na =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(billboard_long)</span></code></pre></div>
+<pre><code>## [1] 5307    5</code></pre>
+</div>
+</div>
+</div>
+</section><section id="lengthening-with-multiple-variables" class="slide level2 eighty"><h2 class="eighty">Lengthening with Multiple Variables</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<code>who2</code> data on tuberculosis cases
+<ul>
+<li>Column names:
+<code>&lt;diagnosis&gt;_&lt;sex&gt;_&lt;age group&gt;</code>
+</li>
+</ul>
+<div class="bare max-listing">
+<pre><code>## # A tibble: 7,240 × 58
+##    country  year sp_m_014 sp_m_1524 sp_m_2534 sp_m_3544
+##    &lt;chr&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+##  1 Afghan…  1980       NA        NA        NA        NA
+##  2 Afghan…  1981       NA        NA        NA        NA
+##  3 Afghan…  1982       NA        NA        NA        NA
+##  4 Afghan…  1983       NA        NA        NA        NA
+##  5 Afghan…  1984       NA        NA        NA        NA
+##  6 Afghan…  1985       NA        NA        NA        NA
+##  7 Afghan…  1986       NA        NA        NA        NA
+##  8 Afghan…  1987       NA        NA        NA        NA
+##  9 Afghan…  1988       NA        NA        NA        NA
+## 10 Afghan…  1989       NA        NA        NA        NA
+## 11 Afghan…  1990       NA        NA        NA        NA
+## 12 Afghan…  1991       NA        NA        NA        NA
+## 13 Afghan…  1992       NA        NA        NA        NA
+## 14 Afghan…  1993       NA        NA        NA        NA
+## 15 Afghan…  1994       NA        NA        NA        NA
+## 16 Afghan…  1995       NA        NA        NA        NA
+## 17 Afghan…  1996       NA        NA        NA        NA
+## 18 Afghan…  1997        0        10         6         3
+## # ℹ 7,222 more rows
+## # ℹ 52 more variables: sp_m_4554 &lt;dbl&gt;, …</code></pre>
+</div>
+</li>
+</ul>
+</div>
+<div class="column ptop-2">
+<div class="bare max-listing">
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>who_long <span class="ot">&lt;-</span> who2 <span class="sc">|&gt;</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="sc">!</span>(country<span class="sc">:</span>year), </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="fu">c</span>(<span class="st">"diagnosis"</span>, <span class="st">"sex"</span>, <span class="st">"age"</span>),</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_sep =</span> <span class="st">"_"</span>,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"count"</span>)</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(who_long, <span class="at">n =</span> <span class="dv">15</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 405,440 × 6
+##    country      year diagnosis sex   age   count
+##    &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt;
+##  1 Afghanistan  1980 sp        m     014      NA
+##  2 Afghanistan  1980 sp        m     1524     NA
+##  3 Afghanistan  1980 sp        m     2534     NA
+##  4 Afghanistan  1980 sp        m     3544     NA
+##  5 Afghanistan  1980 sp        m     4554     NA
+##  6 Afghanistan  1980 sp        m     5564     NA
+##  7 Afghanistan  1980 sp        m     65       NA
+##  8 Afghanistan  1980 sp        f     014      NA
+##  9 Afghanistan  1980 sp        f     1524     NA
+## 10 Afghanistan  1980 sp        f     2534     NA
+## 11 Afghanistan  1980 sp        f     3544     NA
+## 12 Afghanistan  1980 sp        f     4554     NA
+## 13 Afghanistan  1980 sp        f     5564     NA
+## 14 Afghanistan  1980 sp        f     65       NA
+## 15 Afghanistan  1980 sn        m     014      NA
+## # ℹ 405,425 more rows</code></pre>
+</div>
+</div>
+</div>
+</section></section><section><section id="widening-data" class="title-slide slide level1 center"><h1 class="center">Widening Data</h1>
+
+</section><section id="widening-data-1" class="slide level2 eighty"><h2 class="eighty">Widening Data</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Widening <code>jura_long</code>
+</li>
+</ul>
+<div class="bare max-listing">
+<pre><code>## # A tibble: 700 × 6
+##     long   lat Landuse Rock       element   conc
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;   &lt;fct&gt;      &lt;chr&gt;    &lt;dbl&gt;
+##  1  6.85  47.1 Meadow  Quaternary Cd        1.57
+##  2  6.85  47.1 Meadow  Quaternary Co        8.28
+##  3  6.85  47.1 Meadow  Quaternary Cr       37.1 
+##  4  6.85  47.1 Meadow  Quaternary Cu       18.6 
+##  5  6.85  47.1 Meadow  Quaternary Ni       18.6 
+##  6  6.85  47.1 Meadow  Quaternary Pb       38.2 
+##  7  6.85  47.1 Meadow  Quaternary Zn       65.2 
+##  8  6.87  47.2 Meadow  Argovian   Cd        2.04
+##  9  6.87  47.2 Meadow  Argovian   Co       10.8 
+## 10  6.87  47.2 Meadow  Argovian   Cr       40.8 
+## 11  6.87  47.2 Meadow  Argovian   Cu       11.5 
+## 12  6.87  47.2 Meadow  Argovian   Ni       21.5 
+## 13  6.87  47.2 Meadow  Argovian   Pb       33.4 
+## 14  6.87  47.2 Meadow  Argovian   Zn      113.  
+## 15  6.87  47.2 Pasture Argovian   Cd        1.20
+## 16  6.87  47.2 Pasture Argovian   Co       12   
+## 17  6.87  47.2 Pasture Argovian   Cr       53.2 
+## 18  6.87  47.2 Pasture Argovian   Cu       13.0 
+## 19  6.87  47.2 Pasture Argovian   Ni       23.9 
+## 20  6.87  47.2 Pasture Argovian   Pb       26.6 
+## 21  6.87  47.2 Pasture Argovian   Zn       91.6 
+## 22  6.86  47.1 Pasture Quaternary Cd        0.49
+## 23  6.86  47.1 Pasture Quaternary Co       10.9 
+## # ℹ 677 more rows</code></pre>
+</div>
+</div>
+<div class="column ptop-2">
+<div class="bare max-listing">
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>jura_sum <span class="ot">&lt;-</span> jura_long <span class="sc">|&gt;</span> </span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">conc =</span> <span class="fu">mean</span>(conc, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">.by =</span> <span class="fu">c</span>(<span class="st">"Landuse"</span>, <span class="st">"Rock"</span>))</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(jura_sum)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##   Landuse Rock          conc
+##   &lt;fct&gt;   &lt;fct&gt;        &lt;dbl&gt;
+## 1 Meadow  Quaternary    34.2
+## 2 Meadow  Argovian      27.2
+## 3 Pasture Argovian      22.5
+## 4 Pasture Quaternary    24.1
+## 5 Meadow  Sequanian     40.0
+## 6 Forest  Kimmeridgian  26.7</code></pre>
+</div>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>jura_wide <span class="ot">&lt;-</span> jura_sum <span class="sc">|&gt;</span> </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> <span class="st">"Landuse"</span>, <span class="at">values_from =</span> <span class="st">"conc"</span>)</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(jura_wide)</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 5
+##   Rock         Meadow Pasture Forest Tillage
+##   &lt;fct&gt;         &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+## 1 Quaternary     34.2    24.1   NA      NA  
+## 2 Argovian       27.2    22.5   20.0    69.6
+## 3 Sequanian      40.0    29.2   25.9    NA  
+## 4 Kimmeridgian   33.5    34.5   26.7    31.3
+## 5 Portlandian    62.2    NA     20.1    NA</code></pre>
+</div>
+</div>
+</div>
+</section></section>
+</div>
+  </div>
+  <!--
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.js"></script>
+  <!-- -->
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.min.js"></script><!-- --><script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Display the page number of the current slide
+        showSlideNumber: 'speaker',
+        // Push each slide change to the browser history
+        history: true,
+        //  Enable hashing slide content to URL
+        hash: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Don't separate fragments in PDF rendering
+        pdfSeparateFragments: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+      
+        // Optional reveal.js plugins
+        dependencies: [
+                    { src: '../../lecture_lib/library/assets/plugin/chalkboard/chalkboard.js', async: true },
+                                        { src: '../../lecture_lib/library/assets/plugin/reveal-skip-fragments/skip-fragments.js', async: true },
+                    { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/notes/notes.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/math/math.js', async: true }
+        ],
+        shift_keyboard: {
+    	    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'C' is pressed
+    	    66: function() { RevealChalkboard.toggleChalkboard() },	  // toggle chalkboard when 'B' is pressed
+    	    88: function() { RevealChalkboard.clear() },	            // clear chalkboard when 'X' is pressed
+    	    82: function() { RevealChalkboard.reset() },	            // reset chalkboard data on current slide when 'R' is pressed
+    	    68: function() { RevealChalkboard.download() },	          // downlad recorded chalkboard drawing when 'D' is pressed
+        },
+              	// Shortcut for showing all fragments
+      	skipFragmentsShowShortcut: 'S',
+
+      	// Shortcut for hiding all fragments
+      	skipFragmentsHideShortcut: 'H',
+      	      });
+    </script><script>
+  	function createSingletonNodejg( container, tagname, classname, innerHTML ) {
+
+		// Find all nodes matching the description
+		var nodes = container.querySelectorAll( '.' + classname );
+
+		// Check all matches to find one which is a direct child of
+		// the specified container
+		for( var i = 0; i < nodes.length; i++ ) {
+			var testNode = nodes[i];
+			if( testNode.parentNode === container ) {
+				return testNode;
+			}
+		}
+
+		// If no node was found, create it now
+		var node = document.createElement( tagname );
+		node.className = classname;
+		if( typeof innerHTML === 'string' ) {
+			node.innerHTML = innerHTML;
+		}
+		container.appendChild( node );
+
+		return node;
+
+	}
+
+  var dom_wrapper = document.querySelector('.reveal');
+  createSingletonNodejg(dom_wrapper, 'div', 'qrbox',
+  '<div class="qrbox" id="qrbox" style="font-size:90%;">' + '\n' +
+  '<div style="font-size:30%;width:100%;">' + '\n' +
+      '<a href="https://ees5891.jgilligan.org/slides/class_08">' +
+  	'<img src="qrcode.png" alt="https://ees5891.jgilligan.org/slides/class_08"/>' +
+  	'</a>' + '\n' +
+	  '</div>' + '\n' +
+  '<div style="font-size:30%;width:100%;vertical-align:top;">' + '\n' +
+    '<span style="display:inline-block;text-align:left;margin-left:0">' + '\n' +
+        'Live web page: <a href="https://ees5891.jgilligan.org/slides/class_08">https://ees5891.jgilligan.org/slides/class_08</a>' + '\n' +
+              '<br/>' + '\n' +
+        'PDF: <a href="https://ees5891.jgilligan.org/slides/class_08/EES_4891_5891_class_08_slides.pdf" target="_blank">https://ees5891.jgilligan.org/slides/class_08/EES_4891_5891_class_08_slides.pdf</a>' + '\n' +
+          	'</span>' + '\n' +
+  	'<span style="display:inline-block;text-align:right;vertical-align:top;position:absolute;right:0;bottom:0;">' + '\n' +
+  	  'Navigate slides: next: N or &lt;space&gt;; previous: P or &lt;backspace&gt;<br/>' + '\n' +
+  	  'Also: up, down, left, right arrows; overview: o; help: ?' + '\n' +
+  	'</span>' + '\n' +
+	'</div>' + '\n' +
+  '</div>' + '\n'
+  );
+</script><script>
+var MathJax = { jax: ["input/TeX", "output/HTML-CSS"],
+                TeX: {extensions: ["color.js", "mhchem.js"],
+                Macros: {
+                  COO: "\\ce{CO2}",
+                  methane: "\\ce{CH4}",
+                  degC: "^\\circ \\mathrm{C}",
+                  degF: "^\\circ \\mathrm{F}",
+                  water: "\\ce{H2O}",
+                  carb: "\\ce{CO3^2-}",
+                  bicarb: "\\ce{HCO3-}",
+                  carbonic: "\\ce{H2CO3}",
+                  Hplus: "\\ce{H+}",
+                  OH: "\\ce{OH-}",
+                  silica: "\\ce{SiO2}",
+                  calcite: "\\ce{CaCO3}",
+                  Caplus: "\\ce{Ca^2+}",
+                  silicate: "\\ce{SiO3^2-}",
+                  CaSi: "\\ce{CaSiO3}",
+                  pH: "p\\ce{H}",
+                  permil: "\\unicode{x2030}",
+                  pCOO: "\\ce{	ext{p}CO2}",
+                  pwater: "\\ce{	ext{p}H2O}"
+                },
+                  },
+                "HTML-CSS" : {scale: 100 }};
+</script><!-- dynamically load mathjax for compatibility with self-contained --><script type="text/x-mathjax-config">
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["SVG"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+    displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
+    processEscapes: true
+  }
+})
+  </script><script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script><script>
+  var qrbox = document.querySelector("#qrbox");
+  var advance_fragment = 0;
+
+	function isPrintingPDF() {
+	  let printing = ( /print-pdf/gi ).test( window.location.search );
+	  console.log("printing test: " + printing);
+	  return printing;
+	}
+
+
+  if ( qrbox.hasAttribute('qr-box-hide') || Reveal.isOverview() ||
+      ! Reveal.isFirstSlide() || isPrintingPDF()) {
+    console.log("Initializing");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }
+
+  Reveal.addEventListener('overviewshown', function() {
+      console.log("Overview shown");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }, false);
+
+  Reveal.addEventListener('overviewhidden', function() {
+    if (Reveal.isFirstSlide() && ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Overview hidden");
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    console.log("Slide changed...");
+    if (Reveal.isFirstSlide() && ! Reveal.isOverview() &&
+        ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    } else {
+      console.log("Hiding QR box");
+      qrbox.style.visibility="hidden";
+      qrbox.style.display="none";
+    }
+  }, false);
+
+  Reveal.addEventListener('pdf-ready', function() {
+    console.log("hiding qrbox for printing");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+    qrbox.setAttribute('qr-box-hide', 'true');
+  });
+
+  </script><script>
+  Reveal.addEventListener('slidechanged', function() {
+    while (advance_fragment > 0) {
+      // console.log('advancing fragment');
+      Reveal.nextFragment();
+      advance_fragment--;
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    if ( Reveal.getCurrentSlide().hasAttribute('data-skip')) {
+      // console.log("going to next slide...");
+      Reveal.next();
+    }
+  }, false);
+
+  Reveal.addEventListener('skip_slide', function() {
+    Reveal.next();
+  }, false);
+
+  Reveal.addEventListener('advance_fragment', function() {
+    // console.log("setting advance fragment");
+    advance_fragment++;
+    }, false);
+  </script>
+</body>
+</html>

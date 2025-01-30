@@ -145,7 +145,8 @@ $codeBackgroundColor: #C0C0C0;
 	box-shadow: none;
 }
 
-.reveal .max-listing pre {
+.reveal .max-listing pre,
+.reveal pre.max-listing {
   width: 100%;
 }
 
