@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<!-- JG Reveal.js Template --><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta name="author" content="Jonathan Gilligan">
+<title>Importing Data and Probability Distributions</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reset.css">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reveal.min.css">
+<style type="text/css">
+      code{white-space: pre-wrap;}
+      .smallcaps{font-variant: small-caps;}
+      .line-block{white-space: pre-line;}
+      .column{display: inline-block;}  </style>
+<style type="text/css">
+    div.qrbox,
+    aside.qrbox {
+     text-align: left;
+     vertical-align: bottom;
+     width: 95%;
+     position: fixed;
+     left: 2.5%;
+     bottom: 1rem;
+     display: block;
+    }
+  </style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { font-weight: bold; } /* Alert */
+code span.an { font-style: italic; } /* Annotation */
+code span.cf { font-weight: bold; } /* ControlFlow */
+code span.co { font-style: italic; } /* Comment */
+code span.cv { font-style: italic; } /* CommentVar */
+code span.do { font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.er { font-weight: bold; } /* Error */
+code span.in { font-style: italic; } /* Information */
+code span.kw { font-weight: bold; } /* Keyword */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.wa { font-style: italic; } /* Warning */
+  </style>
+<!-- theme = solarized_jg --><link rel="stylesheet" href="../../lecture_lib/library/assets/css/theme/solarized_jg.css" id="theme">
+<!-- Printing and PDF exports --><script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../lecture_lib/library/reveal.js-3.8.0/css/print/pdf.css' : '../../lecture_lib/library/reveal.js-3.8.0/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><!--[if lt IE 9]>
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+  <![endif]--><script src="../../lecture_lib/library/header-attrs-2.29.1.9000/header-attrs.js"></script><script src="../../lecture_lib/library/kePrint-0.0.1/kePrint.js"></script><link href="../../lecture_lib/library/lightable-0.0.1/lightable.css" rel="stylesheet">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+            <!-- start title slide -->
+<section class="center" id="title"><h1 class="title">Importing Data and Probability Distributions</h1>
+    <h3 class="author">EES 4891/5891</h3>
+        <h3 class="author">Probability &amp; Statistics for
+Geosciences</h3>
+    <h3 class="author">Jonathan Gilligan</h3>
+    <h3 class="date">
+      Class #9:
+       Tuesday, February 04
+      2025
+    </h3>
+	<!-- end title slide -->
+</section><section><section id="learning-goals" class="title-slide slide level1 center"><h1 class="center">Learning Goals</h1>
+
+</section><section id="learning-goals-1" class="slide level2"><h2>Learning Goals</h2>
+<ul>
+<li>Learn more about importing data from files</li>
+<li>Learn about combining data-frames by <code>binding</code> and
+<code>joining</code>
+</li>
+<li>Learn about several important probability distributions
+<ul>
+<li>Learn how to plot probability distributions in R</li>
+</ul>
+</li>
+</ul></section></section><section><section id="getting-started" class="title-slide slide level1 center"><h1 class="center">Getting Started</h1>
+
+</section><section id="getting-started-1" class="slide level2"><h2>Getting Started</h2>
+<ul>
+<li>
+<p>Go to the GitHub Classroom and accept the “Practice with files”
+assignment:</p>
+<p><a href="https://classroom.github.com/a/a83vTH7S" class="uri">https://classroom.github.com/a/a83vTH7S</a></p>
+<p><img data-src="assets/fig/unnamed-chunk-1-1.png"><!-- --></p>
+</li>
+<li><p>Open RStudio and create a new project from version control, and
+give it the URL for the new assignment repository.</p></li>
+<li><p>This assignment is only for practice and there is nothing to turn
+in.</p></li>
+</ul></section></section><section><section id="importing-data" class="title-slide slide level1 center"><h1 class="center">Importing Data</h1>
+
+</section><section id="importing-data-1" class="slide level2"><h2>Importing Data</h2>
+<ul>
+<li>File types:
+<table>
+<thead><tr>
+<th style="text-align:left;">
+Function
+</th>
+<th style="text-align:left;">
+Description
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;font-family: monospace;">
+read_csv()
+</td>
+<td style="text-align:left;">
+Columns separated by commas
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-family: monospace;">
+read_csv2()
+</td>
+<td style="text-align:left;">
+Columns separated by semicolons
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-family: monospace;">
+read_tsv()
+</td>
+<td style="text-align:left;">
+Columns separated by tab characters
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-family: monospace;">
+read_table()
+</td>
+<td style="text-align:left;">
+Columns separated by any white-space
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-family: monospace;">
+read_delim()
+</td>
+<td style="text-align:left;">
+Columns separated by an arbitrary character
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-family: monospace;">
+read_fwf()
+</td>
+<td style="text-align:left;">
+Columns have fixed width
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul></section><section id="using-read_csv-etc." class="slide level2 eighty"><h2 class="eighty">Using <code>read_csv()</code>, etc.</h2>
+<ul>
+<li>
+<code>read_csv(&lt;filename&gt;, ...)</code>
+<ul>
+<li>Optional arguments:
+<table>
+<thead><tr>
+<th style="text-align:left;">
+Argument
+</th>
+<th style="text-align:left;">
+Description
+</th>
+<th style="text-align:left;">
+Example
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;font-family: monospace;">
+col_names
+</td>
+<td style="text-align:left;">
+Names for the columns
+</td>
+<td style="text-align:left;font-family: monospace;">
+col_names = c(“year”, “month”, “precip”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-family: monospace;">
+col_types
+</td>
+<td style="text-align:left;">
+Data types of each column
+</td>
+<td style="text-align:left;font-family: monospace;">
+col_types = cols(col_number(), col_character())
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-family: monospace;">
+coL_select
+</td>
+<td style="text-align:left;">
+Only read certain columns
+</td>
+<td style="text-align:left;font-family: monospace;">
+col_select = starts_with(“cc_”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-family: monospace;">
+na
+</td>
+<td style="text-align:left;">
+Cell contents to interpret as missing values
+</td>
+<td style="text-align:left;font-family: monospace;">
+na = c(“” , “NA”, “-99.99”)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-family: monospace;">
+comment
+</td>
+<td style="text-align:left;">
+Ignore everything after this character
+</td>
+<td style="text-align:left;font-family: monospace;">
+comment = “#”
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-family: monospace;">
+skip
+</td>
+<td style="text-align:left;">
+Skip lines at the top
+</td>
+<td style="text-align:left;font-family: monospace;">
+skip = 9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-family: monospace;">
+name_repair
+</td>
+<td style="text-align:left;">
+Fix names of columns
+</td>
+<td style="text-align:left;font-family: monospace;">
+name_repair = “universal”
+</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</li>
+<li class="fragment">I often like to load the package <code>janitor</code> and set
+<code>name_repair = make_clean_names</code> (no quotation marks).</li>
+<li class="fragment">There are many other arguments. Look at the online help for
+<code>read_csv</code> for a complete listing.</li>
+</ul></section><section id="r-exercise" class="slide level2"><h2>R Exercise:</h2>
+<ul>
+<li>In the <code>practice-with-files</code> project, open the file
+<code>read_co2.R</code>
+</li>
+<li>There should be a file in your project directory called
+<code>monthly_in_situ_co2_mlo.csv</code>
+</li>
+</ul></section><section id="read-the-file" class="slide level2 eighty"><h2 class="eighty">Read the File</h2>
+<ul>
+<li>
+<p>Open the file in RStudio:</p>
+<p><img data-src="assets/images/rstudio-screenshot.png"></p>
+<ul>
+<li>It begins with 61 lines of comments</li>
+<li>The column names are spread across 3 rows</li>
+</ul>
+</li>
+<li class="fragment"><p>Skip the first 64 rows and manually supply the column
+names:</p></li>
+</ul></section><section id="read-the-file-into-r" class="slide level2 eighty"><h2 class="eighty">Read the File into R</h2>
+<ul>
+<li>Skip the first 64 rows and manually supply the column names:</li>
+</ul>
+<div class="max-listing">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>co2 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"monthly_in_situ_co2_mlo.csv"</span>, <span class="at">skip =</span> <span class="dv">64</span>, </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"year"</span>, <span class="st">"month"</span>, <span class="st">"date_excel"</span>, <span class="st">"date"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                              <span class="st">"co2"</span>, <span class="st">"co2_seas"</span>, </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                              <span class="st">"co2_fit"</span>, <span class="st">"co2_fit_seas"</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                              <span class="st">"co2_filled"</span>, <span class="st">"co2_filled_seas"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                              <span class="st">"station"</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">col_select =</span> <span class="fu">c</span>(<span class="st">"year"</span>, <span class="st">"month"</span>, <span class="st">"date"</span>, </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"co2"</span>, <span class="st">"co2_seas"</span>, </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"station"</span>),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">na =</span> <span class="st">"-99.99"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(co2)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 6
+##    year month  date   co2 co2_seas station
+##   &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;  
+## 1  1958 01    1958.   NA       NA  MLO    
+## 2  1958 02    1958.   NA       NA  MLO    
+## 3  1958 03    1958.  316.     314. MLO    
+## 4  1958 04    1958.  317.     315. MLO    
+## 5  1958 05    1958.  318.     315. MLO    
+## 6  1958 06    1958.   NA       NA  MLO</code></pre>
+</div>
+</section><section id="plot-co2" class="slide level2 eighty"><h2 class="eighty">Plot CO<sub>2</sub>
+</h2>
+<div class="columns">
+<div class="column max-listing">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>co2 <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(<span class="fu">c</span>(co2, co2_seas), <span class="at">names_to =</span> <span class="st">"series"</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">values_to =</span> <span class="st">"co2"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> co2, <span class="at">color =</span> series)) <span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">line_thickness =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="at">co2 =</span> <span class="st">"darkblue"</span>, </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                                <span class="at">co2_seas =</span> <span class="st">"darkred"</span>)) <span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">1950</span>, <span class="dv">2025</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>, </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(CO[<span class="dv">2</span>], <span class="st">" concentration (ppm)"</span>)),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Monthly "</span>, CO[<span class="dv">2</span>])),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Mauna Loa Observatory"</span>)</span></code></pre></div>
+<ul>
+<li class="fragment">
+<p>You could use</p>
+<pre><code>labs(x = "Year", y = "CO2 concentration (ppm)", 
+     title = "Monthly CO2", 
+     subtitle = "Mauna Loa Observatory")</code></pre>
+<p>but this example illustrates how to use mathematical notation, such
+as subscripts, in plot captions</p>
+</li>
+</ul>
+</div>
+<div class="column">
+<p><img data-src="assets/fig/unnamed-chunk-3-1.png"><!-- --></p>
+</div>
+</div>
+</section><section id="other-kinds-of-files" class="slide level2 eighty"><h2 class="eighty">Other Kinds of Files</h2>
+<ul>
+<li>R also has its own efficient format for reading and writing files:
+<ul>
+<li>
+<code>read_rds()</code> and <code>write_rds()</code> read and write
+a single R object to a <code>.Rds</code> file.</li>
+</ul>
+</li>
+<li class="fragment">The <code>readxl</code> and <code>writexl</code> packages have
+functions for reading and writing Excel <code>.xls</code> and
+<code>.xlsx</code> spreadsheet files.</li>
+<li class="fragment">The <code>rjson</code> and <code>jsonlite</code> packages have
+functions <code>toJSON()</code> and <code>fromJSON()</code> to read and
+write JSON files</li>
+<li class="fragment">The <code>sf</code> package has the functions
+<code>read_sf()</code> and <code>write_sf()</code> to read and write GIS
+shapefiles</li>
+<li class="fragment">The <code>rvest</code> package lets you automate scraping data
+off web pages</li>
+<li class="fragment">The <code>DBI</code> and <code>dbplyr</code> packages have
+functions to read and write from common databases:
+<ul>
+<li>SQLite</li>
+<li>MySQL</li>
+<li>Postgres</li>
+<li>…</li>
+<li class="fragment">See chapter 21 for more details.</li>
+</ul>
+</li>
+<li class="fragment">And lots more…</li>
+<li class="fragment">For this course, we’ll focus on reading and writing text files
+(<code>csv</code>, etc.)</li>
+</ul></section></section><section><section id="combining-data-from-multiple-sources" class="title-slide slide level1 center"><h1 class="center">Combining Data From Multiple Sources</h1>
+
+</section><section id="starting-up" class="slide level2"><h2>Starting up</h2>
+<ul>
+<li>Open the script <code>joins.R</code> in RStudio</li>
+</ul></section><section id="binding-rows-and-columns" class="slide level2 eighty"><h2 class="eighty">Binding Rows and Columns</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p><code>bind_rows()</code> combines multiple data frames, row by
+row</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_1 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">num =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="at">letter =</span> letters[num])</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>df_2 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">num =</span> <span class="dv">15</span><span class="sc">:</span><span class="dv">20</span>, <span class="at">letter =</span> letters[num])</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(df_1, df_2)</span></code></pre></div>
+<pre><code>## # A tibble: 11 × 2
+##      num letter
+##    &lt;int&gt; &lt;chr&gt; 
+##  1     1 a     
+##  2     2 b     
+##  3     3 c     
+##  4     4 d     
+##  5     5 e     
+##  6    15 o     
+##  7    16 p     
+##  8    17 q     
+##  9    18 r     
+## 10    19 s     
+## 11    20 t</code></pre>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>
+<code>bind_cols()</code> combines column by column
+<ul>
+<li>Rows must be in the same order in both data frames</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df_3 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">num =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df_4 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">letter =</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_cols</span>(df_3, df_4)</span></code></pre></div>
+<pre><code>## # A tibble: 10 × 2
+##      num letter
+##    &lt;int&gt; &lt;chr&gt; 
+##  1     1 a     
+##  2     2 b     
+##  3     3 c     
+##  4     4 d     
+##  5     5 e     
+##  6     6 f     
+##  7     7 g     
+##  8     8 h     
+##  9     9 i     
+## 10    10 j</code></pre>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="joining-data-frames" class="slide level2 eighty"><h2 class="eighty">Joining Data Frames</h2>
+<div class="columns">
+<div class="column max-listing">
+<ul>
+<li>
+<p><code>full_join()</code>, <code>right_join()</code>,
+<code>full_join()</code>, <code>inner_join()</code> combine data frames
+by matching corresponding columns</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>state_pop <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">state =</span> <span class="fu">c</span>(<span class="st">"AL"</span>, <span class="st">"GA"</span>, <span class="st">"MS"</span>, <span class="st">"TN"</span>),</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">pop =</span> <span class="fu">c</span>(<span class="dv">5157699</span>, <span class="dv">11180878</span>, <span class="dv">2943045</span>, <span class="dv">7227750</span>))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>state_gdp <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">state =</span> <span class="fu">c</span>(<span class="st">"AL"</span>, <span class="st">"TN"</span>, <span class="st">"MS"</span>, <span class="st">"GA"</span>),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">gdp =</span> <span class="fu">c</span>(<span class="dv">318080</span>, <span class="dv">545695</span>, <span class="dv">156026</span>, <span class="dv">877746</span>))</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">full_join</span>(state_pop, state_gdp)</span></code></pre></div>
+<pre><code>## # A tibble: 4 × 3
+##   state      pop    gdp
+##   &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+## 1 AL     5157699 318080
+## 2 GA    11180878 877746
+## 3 MS     2943045 156026
+## 4 TN     7227750 545695</code></pre>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">If the <code>by</code> column is the same in all data frames,
+<code>full_</code>, <code>left_</code>, <code>_right_</code>, and
+<code>innter_</code> are the same
+<ul>
+<li class="fragment">If the <code>by</code> column is different, different joins keep
+different sets of rows.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="full-inner-joins" class="slide level2 eighty"><h2 class="eighty">Full &amp; Inner Joins</h2>
+<div class="columns max-listing bare">
+<div class="column bare">
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_left</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 2
+##   month  days
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 Jan      31
+## 2 Feb      28
+## 3 Mar      31
+## 4 Apr      30
+## 5 May      31</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df_right</span></code></pre></div>
+<pre><code>## # A tibble: 4 × 2
+##   month order
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 Jan       1
+## 2 Feb       2
+## 3 Jun       6
+## 4 Jul       7</code></pre>
+</div>
+<div class="column bare">
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">full_join</span>(df_left, df_right, <span class="at">by =</span> <span class="st">"month"</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 7 × 3
+##   month  days order
+##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Jan      31     1
+## 2 Feb      28     2
+## 3 Mar      31    NA
+## 4 Apr      30    NA
+## 5 May      31    NA
+## 6 Jun      NA     6
+## 7 Jul      NA     7</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(df_left, df_right, <span class="at">by =</span> <span class="st">"month"</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 3
+##   month  days order
+##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Jan      31     1
+## 2 Feb      28     2</code></pre>
+</div>
+</div>
+</section><section id="left-right-joins" class="slide level2 eighty"><h2 class="eighty">Left &amp; Right Joins</h2>
+<div class="columns max-listing">
+<div class="column bare">
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df_left</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 2
+##   month  days
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 Jan      31
+## 2 Feb      28
+## 3 Mar      31
+## 4 Apr      30
+## 5 May      31</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df_right</span></code></pre></div>
+<pre><code>## # A tibble: 4 × 2
+##   month order
+##   &lt;chr&gt; &lt;dbl&gt;
+## 1 Jan       1
+## 2 Feb       2
+## 3 Jun       6
+## 4 Jul       7</code></pre>
+</div>
+<div class="column bare">
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">left_join</span>(df_left, df_right, <span class="at">by =</span> <span class="st">"month"</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 3
+##   month  days order
+##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Jan      31     1
+## 2 Feb      28     2
+## 3 Mar      31    NA
+## 4 Apr      30    NA
+## 5 May      31    NA</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">right_join</span>(df_left, df_right, <span class="at">by =</span> <span class="st">"month"</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 4 × 3
+##   month  days order
+##   &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Jan      31     1
+## 2 Feb      28     2
+## 3 Jun      NA     6
+## 4 Jul      NA     7</code></pre>
+</div>
+</div>
+</section></section><section><section id="probability-distributions" class="title-slide slide level1 center"><h1 class="center">Probability Distributions</h1>
+
+</section><section id="getting-started-2" class="slide level2"><h2>Getting Started</h2>
+<ul>
+<li>Open the file <code>prob_dist.R</code> in RStudio</li>
+</ul></section><section id="common-probability-distributions" class="slide level2 eighty"><h2 class="eighty">Common Probability Distributions</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Discrete Distributions:
+<ul>
+<li class="fragment"><strong>Binomial:</strong> Tossing coins</li>
+<li class="fragment"><strong>Poisson:</strong> Total counts over a long time</li>
+<li class="fragment"><strong>Geometric:</strong> How long until something
+happens?</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>Continuous Distributions:
+<ul>
+<li class="fragment"><strong>Normal:</strong> Focus for Thursday
+<ul>
+<li class="fragment"><strong>Log-Normal:</strong> For numbers that must be <span class="math inline">\(\ge 0\)</span>
+</li>
+</ul>
+</li>
+<li class="fragment"><strong>Gamma:</strong> For numbers that must be <span class="math inline">\(\ge 0\)</span>. Very flexible
+<ul>
+<li class="fragment"><strong>Exponential:</strong> Special case of Gamma</li>
+<li class="fragment"><strong>Chi-Squared:</strong> Another special case</li>
+</ul>
+</li>
+<li class="fragment"><strong>Weibull:</strong> Extreme values (hurricanes, floods,
+earthquakes, etc.)</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="probability-distributions-in-r" class="slide level2 eighty"><h2 class="eighty">Probability Distributions in R</h2>
+<ul>
+<li>Probability distribution functions in R:
+<ul>
+<li>Many families of distributions</li>
+<li>Consistent organization:
+<ul>
+<li>
+<code>rnorm(n, mean sd)</code>: <strong>sample</strong>
+<code>n</code> random numbers from a normal distribution</li>
+<li>
+<code>dnorm(x, mean, sd)</code>: get the <strong>probability
+density</strong> for a normal distribution at <code>x</code>
+</li>
+<li>
+<code>qnorm(p, mean, sd)</code>: get the <strong>quantile</strong>
+for probability <code>p</code>: what value of <span class="math inline">\(x\)</span> has cumulative probability <span class="math inline">\(p\)</span>?</li>
+<li>
+<code>pnorm(q, mean, sd)</code>: get the <strong>cumulative
+probability</strong> at <span class="math inline">\(q\)</span>.</li>
+<li>
+<code>pnorm</code> and <code>qnorm</code> are inverses:
+<code>pnorm(qnorm(x)) = x</code>, for <span class="math inline">\(0 &lt;
+x &lt; 1\)</span>, and <code>qnorm(pnorm(x)) = x</code> as long as <span class="math inline">\(x\)</span> is not ridiculously large.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></section><section id="probability-distrbutions-in-r" class="slide level2"><h2>Probability Distrbutions in R</h2>
+<div class="columns">
+<div class="column">
+<table>
+<thead><tr>
+<th style="text-align:left;">
+Name
+</th>
+<th style="text-align:left;">
+R functions
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Normal
+</td>
+<td style="text-align:left;font-family: monospace;">
+rnorm,dnorm,pnorm,qnorm
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Lognormal
+</td>
+<td style="text-align:left;font-family: monospace;">
+rlnorm,dlnorm,plnorm,qlnorm
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Beta
+</td>
+<td style="text-align:left;font-family: monospace;">
+rbeta,dbeta,pbeta,qbeta
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cauchy
+</td>
+<td style="text-align:left;font-family: monospace;">
+rcauchy,dcauchy,pcauchy,qcauchy
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chi Squared
+</td>
+<td style="text-align:left;font-family: monospace;">
+rchisq,dchisq,pchisq,qchisq
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Exponential
+</td>
+<td style="text-align:left;font-family: monospace;">
+rexp,dexp,pexp,qexp
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Gamma
+</td>
+<td style="text-align:left;font-family: monospace;">
+rgamma,dgamma,pgamma,qgamma
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Uniform
+</td>
+<td style="text-align:left;font-family: monospace;">
+runif,dunif,punif,qunif
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Weibull
+</td>
+<td style="text-align:left;font-family: monospace;">
+rweibull,dweibull,pweibull,qweibull
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="column">
+<table>
+<thead><tr>
+<th style="text-align:left;">
+Name
+</th>
+<th style="text-align:left;">
+R functions
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Binomial
+</td>
+<td style="text-align:left;font-family: monospace;">
+rbinom,dbinom,pbinom,qbinom
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Poisson
+</td>
+<td style="text-align:left;font-family: monospace;">
+rpois,dpois,ppois,qpois
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Geometric
+</td>
+<td style="text-align:left;font-family: monospace;">
+rgeom,dgeom,pgeom,qgeom
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<ul>
+<li class="fragment">These are common distributions. There are many others as
+well.</li>
+</ul></section><section id="binomial-distribution" class="slide level2"><h2>Binomial Distribution</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Number of heads for tossing a coin <span class="math inline">\(n\)</span> times, with probability <span class="math inline">\(p\)</span> of coming up heads on any toss.</p>
+<p><span class="math display">\[
+X \sim \mathcal{B}(n, p)
+\]</span></p>
+</li>
+<li><p>Probability of <span class="math inline">\(k\)</span> heads in
+<span class="math inline">\(n\)</span> tosses: <span class="math display">\[
+\mathbb{P}(X = k) = \left(n \atop k\right) p^k (1 - p)^{n - k},
+\]</span> where the <em>binomial coefficient</em> <span class="math display">\[
+\left(n \atop k\right) = \frac{n!}{k! (n-k)!}
+\]</span></p></li>
+</ul>
+</div>
+<div class="column">
+<p><img data-src="assets/images/pascal-triangle.png" height="700" alt="Pascal’s Triangle"></p>
+<p><span class="math inline">\(\left(n \atop k\right)\)</span> is the
+number of different ways to get <span class="math inline">\(k\)</span>
+heads in <span class="math inline">\(n\)</span> tosses.</p>
+</div>
+</div>
+</section><section id="binomial-distribution-1" class="slide level2"><h2>Binomial Distribution</h2>
+<p><img data-src="assets/fig/unnamed-chunk-14-1.png"><!-- --></p>
+</section><section id="poisson-distribution" class="slide level2"><h2>Poisson Distribution</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Suppose you’re tossing a coin where <span class="math inline">\(p
+\ll 1\)</span> and <span class="math inline">\(n\)</span> is large.</li>
+<li class="fragment"><span class="math inline">\(\lambda = p \times n\)</span> is the
+average number of heads you expect, but you’ll often see more or fewer.
+<ul>
+<li>
+<p>The Poisson distribution describes the probability of <span class="math inline">\(k\)</span> heads when <span class="math inline">\(n \times p = \lambda\)</span></p>
+<p><span class="math display">\[
+\mathbb{P}(X = k) = e^{-\lambda}\: \frac{\lambda^k}{k!}
+\]</span></p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column fragment bare">
+<p><img data-src="assets/fig/unnamed-chunk-15-1.png"><!-- --></p>
+</div>
+</div>
+</section><section id="normal-distribution" class="slide level2"><h2>Normal Distribution</h2>
+<ul>
+<li>We’ll spend Thursday talking about this one…</li>
+</ul></section><section id="gamma-distribution" class="slide level2 eighty"><h2 class="eighty">Gamma Distribution</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Characterized by 2 numbers:
+<ul>
+<li><span class="math inline">\(k = \textit{shape}\)</span></li>
+<li>
+<span class="math inline">\(\theta = \textit{scale}\)</span>
+<ul>
+<li>or <span class="math inline">\(1 / \theta =
+\textit{rate}\)</span>
+</li>
+</ul>
+</li>
+<li><span class="math inline">\(\text{mean} = k \theta\)</span></li>
+</ul>
+</li>
+<li>
+<span class="math inline">\(\mathcal{P}(x, k, \theta) &gt;
+0\)</span> only for <span class="math inline">\(x \ge 0\)</span>
+</li>
+<li>Two parameters make this very flexible</li>
+<li class="fragment">Good for things that are <span class="math inline">\(\ge
+0\)</span>:
+<ul>
+<li>Rainfall</li>
+</ul>
+</li>
+<li class="fragment">Special cases:
+<ul>
+<li>
+<span class="math inline">\(k = 1\)</span>: exponential
+distribution</li>
+<li>
+<span class="math inline">\(\theta = 2\)</span>: Chi-squared
+distribution</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<p><img data-src="assets/fig/unnamed-chunk-16-1.png"><!-- --></p>
+</div>
+</div>
+</section><section id="weibull-distribution" class="slide level2 eighty"><h2 class="eighty">Weibull Distribution</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Characterized by 2 numbers:
+<ul>
+<li><span class="math inline">\(k = \textit{shape}\)</span></li>
+<li>
+<span class="math inline">\(\lambda = \textit{scale}\)</span>
+<ul>
+<li>or <span class="math inline">\(1 / \theta =
+\textit{rate}\)</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<span class="math inline">\(\mathcal{P}(x, k, \theta) &gt;
+0\)</span> only for <span class="math inline">\(x \ge 0\)</span>
+</li>
+<li>Good for modeling <em>extreme values</em>:
+<ul>
+<li>floods</li>
+<li>hurricane wind speeds</li>
+<li>insurance losses</li>
+<li>particle-size distributions</li>
+<li>failure:
+<ul>
+<li>Time before an instrument fails</li>
+<li>Time between earthquakes</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="fragment">Special cases:
+<ul>
+<li>
+<span class="math inline">\(k = 1\)</span>: exponential
+distribution</li>
+<li>
+<span class="math inline">\(k = 2\)</span>: Raleigh
+distribution</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<p><img data-src="assets/fig/unnamed-chunk-17-1.png"><!-- --></p>
+</div>
+</div>
+</section></section>
+</div>
+  </div>
+  <!--
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.js"></script>
+  <!-- -->
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.min.js"></script><!-- --><script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Display the page number of the current slide
+        showSlideNumber: 'speaker',
+        // Push each slide change to the browser history
+        history: true,
+        //  Enable hashing slide content to URL
+        hash: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Don't separate fragments in PDF rendering
+        pdfSeparateFragments: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+      
+        // Optional reveal.js plugins
+        dependencies: [
+                    { src: '../../lecture_lib/library/assets/plugin/chalkboard/chalkboard.js', async: true },
+                                        { src: '../../lecture_lib/library/assets/plugin/reveal-skip-fragments/skip-fragments.js', async: true },
+                    { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/notes/notes.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/math/math.js', async: true }
+        ],
+        shift_keyboard: {
+    	    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'C' is pressed
+    	    66: function() { RevealChalkboard.toggleChalkboard() },	  // toggle chalkboard when 'B' is pressed
+    	    88: function() { RevealChalkboard.clear() },	            // clear chalkboard when 'X' is pressed
+    	    82: function() { RevealChalkboard.reset() },	            // reset chalkboard data on current slide when 'R' is pressed
+    	    68: function() { RevealChalkboard.download() },	          // downlad recorded chalkboard drawing when 'D' is pressed
+        },
+              	// Shortcut for showing all fragments
+      	skipFragmentsShowShortcut: 'S',
+
+      	// Shortcut for hiding all fragments
+      	skipFragmentsHideShortcut: 'H',
+      	      });
+    </script><script>
+  	function createSingletonNodejg( container, tagname, classname, innerHTML ) {
+
+		// Find all nodes matching the description
+		var nodes = container.querySelectorAll( '.' + classname );
+
+		// Check all matches to find one which is a direct child of
+		// the specified container
+		for( var i = 0; i < nodes.length; i++ ) {
+			var testNode = nodes[i];
+			if( testNode.parentNode === container ) {
+				return testNode;
+			}
+		}
+
+		// If no node was found, create it now
+		var node = document.createElement( tagname );
+		node.className = classname;
+		if( typeof innerHTML === 'string' ) {
+			node.innerHTML = innerHTML;
+		}
+		container.appendChild( node );
+
+		return node;
+
+	}
+
+  var dom_wrapper = document.querySelector('.reveal');
+  createSingletonNodejg(dom_wrapper, 'div', 'qrbox',
+  '<div class="qrbox" id="qrbox" style="font-size:90%;">' + '\n' +
+  '<div style="font-size:30%;width:100%;">' + '\n' +
+      '<a href="https://ees5891.jgilligan.org/slides/class_09">' +
+  	'<img src="qrcode.png" alt="https://ees5891.jgilligan.org/slides/class_09"/>' +
+  	'</a>' + '\n' +
+	  '</div>' + '\n' +
+  '<div style="font-size:30%;width:100%;vertical-align:top;">' + '\n' +
+    '<span style="display:inline-block;text-align:left;margin-left:0">' + '\n' +
+        'Live web page: <a href="https://ees5891.jgilligan.org/slides/class_09">https://ees5891.jgilligan.org/slides/class_09</a>' + '\n' +
+              '<br/>' + '\n' +
+        'PDF: <a href="https://ees5891.jgilligan.org/slides/class_09/EES_4891_5891_class_09_slides.pdf" target="_blank">https://ees5891.jgilligan.org/slides/class_09/EES_4891_5891_class_09_slides.pdf</a>' + '\n' +
+          	'</span>' + '\n' +
+  	'<span style="display:inline-block;text-align:right;vertical-align:top;position:absolute;right:0;bottom:0;">' + '\n' +
+  	  'Navigate slides: next: N or &lt;space&gt;; previous: P or &lt;backspace&gt;<br/>' + '\n' +
+  	  'Also: up, down, left, right arrows; overview: o; help: ?' + '\n' +
+  	'</span>' + '\n' +
+	'</div>' + '\n' +
+  '</div>' + '\n'
+  );
+</script><script>
+var MathJax = { jax: ["input/TeX", "output/HTML-CSS"],
+                TeX: {extensions: ["color.js", "mhchem.js"],
+                Macros: {
+                  COO: "\\ce{CO2}",
+                  methane: "\\ce{CH4}",
+                  degC: "^\\circ \\mathrm{C}",
+                  degF: "^\\circ \\mathrm{F}",
+                  water: "\\ce{H2O}",
+                  carb: "\\ce{CO3^2-}",
+                  bicarb: "\\ce{HCO3-}",
+                  carbonic: "\\ce{H2CO3}",
+                  Hplus: "\\ce{H+}",
+                  OH: "\\ce{OH-}",
+                  silica: "\\ce{SiO2}",
+                  calcite: "\\ce{CaCO3}",
+                  Caplus: "\\ce{Ca^2+}",
+                  silicate: "\\ce{SiO3^2-}",
+                  CaSi: "\\ce{CaSiO3}",
+                  pH: "p\\ce{H}",
+                  permil: "\\unicode{x2030}",
+                  pCOO: "\\ce{	ext{p}CO2}",
+                  pwater: "\\ce{	ext{p}H2O}"
+                },
+                  },
+                "HTML-CSS" : {scale: 100 }};
+</script><!-- dynamically load mathjax for compatibility with self-contained --><script type="text/x-mathjax-config">
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["SVG"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+    displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
+    processEscapes: true
+  }
+})
+  </script><script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script><script>
+  var qrbox = document.querySelector("#qrbox");
+  var advance_fragment = 0;
+
+	function isPrintingPDF() {
+	  let printing = ( /print-pdf/gi ).test( window.location.search );
+	  console.log("printing test: " + printing);
+	  return printing;
+	}
+
+
+  if ( qrbox.hasAttribute('qr-box-hide') || Reveal.isOverview() ||
+      ! Reveal.isFirstSlide() || isPrintingPDF()) {
+    console.log("Initializing");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }
+
+  Reveal.addEventListener('overviewshown', function() {
+      console.log("Overview shown");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }, false);
+
+  Reveal.addEventListener('overviewhidden', function() {
+    if (Reveal.isFirstSlide() && ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Overview hidden");
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    console.log("Slide changed...");
+    if (Reveal.isFirstSlide() && ! Reveal.isOverview() &&
+        ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    } else {
+      console.log("Hiding QR box");
+      qrbox.style.visibility="hidden";
+      qrbox.style.display="none";
+    }
+  }, false);
+
+  Reveal.addEventListener('pdf-ready', function() {
+    console.log("hiding qrbox for printing");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+    qrbox.setAttribute('qr-box-hide', 'true');
+  });
+
+  </script><script>
+  Reveal.addEventListener('slidechanged', function() {
+    while (advance_fragment > 0) {
+      // console.log('advancing fragment');
+      Reveal.nextFragment();
+      advance_fragment--;
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    if ( Reveal.getCurrentSlide().hasAttribute('data-skip')) {
+      // console.log("going to next slide...");
+      Reveal.next();
+    }
+  }, false);
+
+  Reveal.addEventListener('skip_slide', function() {
+    Reveal.next();
+  }, false);
+
+  Reveal.addEventListener('advance_fragment', function() {
+    // console.log("setting advance fragment");
+    advance_fragment++;
+    }, false);
+  </script>
+</body>
+</html>
