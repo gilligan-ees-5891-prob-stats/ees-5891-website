@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<!-- JG Reveal.js Template --><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta name="author" content="Jonathan Gilligan">
+<title>The Normal Distribution</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reset.css">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reveal.min.css">
+<style type="text/css">
+      code{white-space: pre-wrap;}
+      .smallcaps{font-variant: small-caps;}
+      .line-block{white-space: pre-line;}
+      .column{display: inline-block;}  </style>
+<style type="text/css">
+    div.qrbox,
+    aside.qrbox {
+     text-align: left;
+     vertical-align: bottom;
+     width: 95%;
+     position: fixed;
+     left: 2.5%;
+     bottom: 1rem;
+     display: block;
+    }
+  </style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { font-weight: bold; } /* Alert */
+code span.an { font-style: italic; } /* Annotation */
+code span.cf { font-weight: bold; } /* ControlFlow */
+code span.co { font-style: italic; } /* Comment */
+code span.cv { font-style: italic; } /* CommentVar */
+code span.do { font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.er { font-weight: bold; } /* Error */
+code span.in { font-style: italic; } /* Information */
+code span.kw { font-weight: bold; } /* Keyword */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.wa { font-style: italic; } /* Warning */
+  </style>
+<!-- theme = solarized_jg --><link rel="stylesheet" href="../../lecture_lib/library/assets/css/theme/solarized_jg.css" id="theme">
+<!-- Printing and PDF exports --><script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../lecture_lib/library/reveal.js-3.8.0/css/print/pdf.css' : '../../lecture_lib/library/reveal.js-3.8.0/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><!--[if lt IE 9]>
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+  <![endif]--><script src="../../lecture_lib/library/header-attrs-2.29.1.9000/header-attrs.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+            <!-- start title slide -->
+<section class="center" id="title"><h1 class="title">The Normal Distribution</h1>
+    <h3 class="author">EES 4891/5891</h3>
+        <h3 class="author">Probability &amp; Statistics for
+Geosciences</h3>
+    <h3 class="author">Jonathan Gilligan</h3>
+    <h3 class="date">
+      Class #10:
+       Thursday, February 06
+      2025
+    </h3>
+	<!-- end title slide -->
+</section><section><section id="learning-goals" class="title-slide slide level1 center"><h1 class="center">Learning Goals</h1>
+
+</section><section id="learning-goals-1" class="slide level2"><h2>Learning Goals</h2>
+<ul>
+<li>Understand the basic properties of the normal distribution</li>
+<li>Understand the central limit theorem
+<ul>
+<li>Why do measurements of variables with non-normal distributions lead
+us to the normal distribution?</li>
+<li>How can we use R to explore the central limit theorem?</li>
+<li>What does this mean for estimating the true value of a variable from
+uncertain measurements?</li>
+</ul>
+</li>
+<li>Know two other limit theorems:
+<ul>
+<li>Binomial to Poisson</li>
+<li>Poisson to Normal</li>
+</ul>
+</li>
+</ul></section></section><section><section id="historical-background" class="title-slide slide level1 center"><h1 class="center">Historical Background</h1>
+
+</section><section id="carl-friedrich-gauss-17771855" class="slide level2 eighty"><h2 class="eighty">Carl Friedrich Gauss (1777–1855)</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<ul>
+<li class="fragment">Mathematician, astronomer, geographer, physicist</li>
+<li class="fragment">1823: Theory of errors
+<ul>
+<li class="fragment">
+<p>If you have several approximate measurements <span class="math inline">\(m_1\)</span>, <span class="math inline">\(m_2\)</span>, …, <span class="math inline">\(m_n\)</span> of a quantity <span class="math inline">\(v\)</span>,</p>
+<ul>
+<li><p>What is the best estimate of the true value of <span class="math inline">\(v\)</span>?</p></li>
+<li class="fragment">
+<p>The <em>arithmetic mean</em></p>
+<p><span class="math display">\[
+v_{\text{est}} = \frac{1}{n} \sum_{i = 1}^n m_i
+\]</span></p>
+</li>
+</ul>
+</li>
+<li class="fragment">
+<p>But this only works if the errors in <span class="math inline">\(m_i\)</span> are <em>normally
+distributed</em>.</p>
+<p><span class="math display">\[
+\mathcal{P}(m_i = x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \: e^{-\,\frac{(x
+- v)^2}{2\sigma^2}}
+\]</span></p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column" style="width:39%;">
+<p><img data-src="assets/images/1024px-Carl_Friedrich_Gauss_1840_by_Jensen.jpg" height="700"></p>
+<div class="credit">
+<p>Portrait by Christian Albrecht Jensen, 1840. Public domain.</p>
+</div>
+</div>
+</div>
+</section><section id="pierre-simon-laplace-17491827" class="slide level2 eighty"><h2 class="eighty">Pierre-Simon Laplace (1749–1827)</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<ul>
+<li>Discovered the Central Limit Theorem (1810)</li>
+<li class="fragment">Method of Least Squares
+<ul>
+<li class="fragment">Find the best estimate of a quantity <span class="math inline">\(v\)</span> based on a number of measurements <span class="math inline">\(m_i\)</span> with errors
+<ul>
+<li class="fragment">
+<p>The best estimate minimizes the sum of the squares of the
+differences between the estimate and the measurements.</p>
+<p><span class="math display">\[
+v_{\text{est}} \: \text{minimizes} \: \sum_i (v_{\text{est}} - m_i)^2
+\]</span></p>
+</li>
+</ul>
+</li>
+<li class="fragment">History
+<ul>
+<li>Originated with Legendre (1805)</li>
+<li>Developed by Gauss (1809)</li>
+<li>Fully developed by Laplace (1810–11) using the Central Limit
+Theorem</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column" style="width:39%;">
+<p><img data-src="assets/images/laplace.jpg" height="700"></p>
+<div class="credit">
+<p>Portrait by James Posselwhite. Public domain</p>
+</div>
+</div>
+</div>
+</section></section><section><section id="the-normal-distribution" class="title-slide slide level1 center"><h1 class="center">The Normal Distribution</h1>
+
+</section><section id="the-normal-distribution-1" class="slide level2 eighty"><h2 class="eighty">The Normal Distribution</h2>
+<div class="columns">
+<div class="column ptop-3">
+<ul>
+<li>
+<p>Normal or Gaussian distribution</p>
+<p><span class="math display">\[
+\phi(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \: e^{- \, \frac{(x -
+\mu)^2}{2\sigma^2}}
+\]</span></p>
+</li>
+<li>
+<p>Cumulative probability distribution</p>
+<p><span class="math display">\[
+\Phi(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \int_{-\infty}^x
+e^{-\,\frac{(x - \mu)^2}{2\sigma^2}}
+\]</span></p>
+</li>
+<li class="fragment">
+<p>R functions:</p>
+<ul>
+<li>Probability distribution:<br><code>dnorm(x, mu, sigma)</code>
+</li>
+<li>Cumulative probability:<br><code>pnorm(x, mu, sigma)</code>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<p><img data-src="assets/fig/normal-dist-1.png"><!-- --></p>
+</div>
+</div>
+</section><section id="the-normal-distribution-2" class="slide level2"><h2>The Normal Distribution</h2>
+<p><img data-src="assets/images/normal-distribution.png" style="width:100.0%" alt="Illustration of the normal distribution and its cumulative probabilities"></p>
+</section><section id="cumulative-probabilities" class="slide level2"><h2>Cumulative Probabilities</h2>
+<div class="columns">
+<div class="column ptop-3">
+<ul>
+<li>Between <span class="math inline">\(-\sigma\)</span> and <span class="math inline">\(\sigma\)</span>: 68.3%
+<ul>
+<li>Roughly <span class="math inline">\(1/3\)</span> of measurements
+will be outside <span class="math inline">\(\pm 1 \sigma\)</span>
+</li>
+</ul>
+</li>
+<li>Between <span class="math inline">\(-2 \sigma\)</span> and <span class="math inline">\(2 \sigma\)</span>: 95.4%
+<ul>
+<li>Roughly 5% of measurements will be outside <span class="math inline">\(\pm 2 \sigma\)</span>
+</li>
+</ul>
+</li>
+<li>Between <span class="math inline">\(-3 \sigma\)</span> and <span class="math inline">\(3 \sigma\)</span>: 99.7%
+<ul>
+<li>Roughly 0.3% of measurements will be outside <span class="math inline">\(\pm 3 \sigma\)</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<p><img data-src="assets/images/normal-distribution.png" style="width:100.0%" alt="Illustration of the normal distribution and its cumulative probabilities"></p>
+</div>
+</div>
+</section></section><section><section id="standardizing-data" class="title-slide slide level1 center"><h1 class="center">Standardizing Data</h1>
+
+</section><section id="standardizing-data-1" class="slide level2"><h2>Standardizing Data</h2>
+<ul>
+<li>Consider <span class="math inline">\(X = x_1, x_2, \ldots,
+x_N\)</span>
+<ul>
+<li class="fragment">Standardized data: <span class="math inline">\(X_{\text{std}} =
+\frac{X - \text{mean}(X)}{\text{sd}(X)}\)</span>
+<ul>
+<li class="fragment">If <span class="math inline">\(X\)</span> is described by a
+normal distribution (<span class="math inline">\(X \sim \mathcal{N}(\mu,
+\sigma)\)</span>),
+<ul>
+<li><span class="math inline">\(X_{\text{std}} ~ \mathcal{N}(0,
+1)\)</span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="fragment">The <em>standard normal distribution</em> is a normal
+distribution with <span class="math inline">\(\mu = 0\)</span> and <span class="math inline">\(\sigma = 1\)</span>.</li>
+</ul></section><section id="moments-of-the-normal-distribution" class="slide level2 eighty"><h2 class="eighty">Moments of the Normal Distribution</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>If <span class="math inline">\(X \sim \mathcal{N}(\mu,
+\sigma)\)</span>
+</li>
+<li>First moment: mean <span class="math inline">\(E(X) =
+\mu\)</span>
+</li>
+<li>Second moment: variance <span class="math inline">\(E((X - \mu)^2) =
+\sigma^2\)</span>
+</li>
+<li class="fragment">Third moment:
+<ul>
+<li><span class="math inline">\(E((X - \mu)^3) = 0\)</span></li>
+<li>
+<span class="math inline">\(\mathcal{N}\)</span> is unimodal (one
+peak) and symmetric, so the mean and median are the same and it has no
+skewness.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">Fourth moment: <span class="math inline">\(E((X - \mu)^4) =
+3\sigma^4\)</span>
+<ul>
+<li>
+<em>kurtosis</em>, measures how sharply peaked a distribution is:
+<span class="math display">\[
+\text{kurtosis} = \frac{E[(X - \mu)^4]}{(E[(X - \mu)^2])^2} =
+\frac{E[(X - \mu)^4]}{\sigma^4}
+\]</span>
+<ul>
+<li>The normal distribution has <em>kurtosis</em> of 3 and we define
+<em>excess kurtosis</em> as <span class="math display">\[
+\text{kurtosis} - 3 = \frac{E[(X - \mu)^4]}{\sigma^4} - 3
+\]</span>
+</li>
+<li>Positive excess kurtosis: <em>leptokurtic</em>, more sharply peaked
+than a normal distribution</li>
+<li>Negative excess kurtosis: <em>platykurtic</em>, flatter peak than
+normal</li>
+</ul>
+</li>
+<li class="fragment">You don’t need to memorize these</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="stability-of-the-normal-distribution" class="slide level2 eighty"><h2 class="eighty">Stability of the Normal Distribution</h2>
+<ul>
+<li>Scaling, adding, and subtracting normal distributions produces more
+normal distributions.
+<ul>
+<li class="fragment">If <span class="math inline">\(X \sim \mathcal{N}(\mu_x,
+\sigma_x)\)</span> and <span class="math inline">\(Y \sim
+\mathcal{N}(\mu_y, \sigma_y)\)</span>, then
+<ul>
+<li><span class="math inline">\(a X + b \sim \mathcal{N}(a \mu_x + b, a
+\sigma_x)\)</span></li>
+<li><span class="math inline">\(X + Y \sim \mathcal{N}(\mu_x + \mu_y,
+\sqrt{\sigma_x^2 + \sigma_y^2})\)</span></li>
+<li><span class="math inline">\(X - Y \sim \mathcal{N}(\mu_x - \mu_y,
+\sqrt{\sigma_x^2 + \sigma_y^2})\)</span></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></section></section><section><section id="central-limit-theorem" class="title-slide slide level1 center"><h1 class="center">Central Limit Theorem</h1>
+
+</section><section id="central-limit-theorem-1" class="slide level2 eighty"><h2 class="eighty">Central Limit Theorem</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Consider a set of <span class="math inline">\(N\)</span> independent
+and identically distributed random variables <span class="math inline">\(X_1, X_2, \ldots, X_N\)</span>, with identical
+mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>.
+<ul>
+<li>The <span class="math inline">\(X\)</span>s are not necessarily
+normally distributed.</li>
+</ul>
+</li>
+<li class="fragment">Central Limit Theorem: <span class="math display">\[
+\overline{X} = \frac{1}{N} \sum_{i = 1}^N X_i
+\]</span> As <span class="math inline">\(N\)</span> gets larger, the
+distribution of <span class="math inline">\(\overline{X}\)</span>
+converges to a normal distribution <span class="math display">\[
+\overline{X} \sim \mathcal{N}\left(\mu, \frac{\sigma}{\sqrt{N}}\right)
+\]</span>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">This applies to any distribution of <span class="math inline">\(X_i\)</span> that has a finite mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span>
+</li>
+<li class="fragment">The standard deviation of <span class="math inline">\(\overline{X}\)</span> is <span class="math inline">\(\sigma / \sqrt{N}\)</span>, so more measurements
+means less uncertainty.</li>
+<li class="fragment">Usually 30 measurements is more than sufficient to guarantee
+that the average is normally distributed.</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="explore-normal-distributions-in-r" class="title-slide slide level1 center"><h1 class="center">Explore Normal Distributions in R</h1>
+
+</section><section id="set-things-up" class="slide level2 eighty"><h2 class="eighty">Set Things Up</h2>
+<div class="columns bare">
+<div class="column">
+<ul>
+<li>
+<p>In RStudio, type the following in the console:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">30</span></span></code></pre></div>
+</li>
+<li class="fragment">
+<p>We want to figure out how the average of <span class="math inline">\(N\)</span> variables is distributed.</p>
+<ul>
+<li class="fragment">
+<p>To figure out a distribution, we need to repeat taking the
+average of <span class="math inline">\(N\)</span> variables many
+times.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>n_rep <span class="ot">&lt;-</span> <span class="dv">1000</span></span></code></pre></div>
+<p>We’re going to repeat the samples 1000 times, and refer to these
+repetitions as “replicates”.</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Create 1000 replicates, each of which contains <span class="math inline">\(N\)</span> samples from a distribution.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span>n_rep, \(x) <span class="fu">rnorm</span>(N, mu, sigma))</span></code></pre></div>
+<ul>
+<li>
+<code>map</code> a function for each value in a list or sequence,
+and returns a list of results.
+<ul>
+<li>
+<code>\(x)</code> tells R that what follows is an <em>anonymous
+function</em>, where <code>x</code> is the name of the argument.</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>, \(x) <span class="fu">c</span>(x, x<span class="sc">^</span><span class="dv">2</span>, x<span class="sc">^</span><span class="dv">3</span>))</span></code></pre></div>
+<pre><code>## [[1]]
+## [1] 1 1 1
+## 
+## [[2]]
+## [1] 2 4 8
+## 
+## [[3]]
+## [1]  3  9 27
+## 
+## [[4]]
+## [1]  4 16 64</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="working-with-the-samples" class="slide level2 eighty"><h2 class="eighty">Working with the Samples</h2>
+<div class="columns bare">
+<div class="column">
+<ul>
+<li>
+<p>Pick up where we left off…</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span>n_rep, \(x) <span class="fu">rnorm</span>(N, mu, sigma))</span></code></pre></div>
+<ul>
+<li>
+<code>x</code> is a list of 1000 replicates, each a vector of 30
+samples from the normal distribution.</li>
+</ul>
+</li>
+<li class="fragment">
+<p>Average across each of the 1000 replicates:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> <span class="fu">map</span>(x, \(x) <span class="fu">mean</span>(x))</span></code></pre></div>
+<ul>
+<li>
+<code>x_bar</code> is a list of 1000 numbers, each of which is the
+mean of the 30 samples in that replicate</li>
+<li class="fragment">We could also say <code>x_bar &lt;- map(x, mean)</code>.
+<ul>
+<li>
+<code>map</code> can take an <em>anonymous function</em>, or the
+name of a function with a single argument.</li>
+<li>We used an <em>anonymous function</em> for <code>rnorm</code> to
+provide arguments <code>N</code>, <code>mu</code>, and
+<code>sigma</code>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">We want to calculate the mean and standard deviation of the 1000
+replicates.
+<ul>
+<li>
+<p>We can’t run <code>mean()</code> or <code>sd()</code> on a list,
+so we want to convert the list of 1000 numbers and turn it into a
+<em>vector</em>.</p>
+<p>There are two ways to do this:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> <span class="fu">unlist</span>(x_bar)</span></code></pre></div>
+<p>or</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(x, mean)</span></code></pre></div>
+<ul>
+<li>
+<code>map_dbl()</code> is like <code>map()</code>, but it assumes
+that the formula returns a single floating point number (the
+<code>dbl</code> stands for “double-precision”, which is the way the
+computer represents floating point numbers)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="properties-of-the-averages" class="slide level2 eighty"><h2 class="eighty">Properties of the averages</h2>
+<ul>
+<li>
+<p>Now, we’re ready to take the mean and standard deviation:</p>
+<div class="max-listing bare">
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">str_c</span>(<span class="st">"Mean = "</span>, <span class="fu">mean</span>(x_bar), <span class="st">" and std. dev. = "</span>, <span class="fu">sd</span>(x_bar)))</span></code></pre></div>
+<pre><code>## [1] "Mean = 5.00654847532592 and std. dev. = 0.368562825499823"</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">str_c</span>(<span class="st">"mu = "</span>, mu, <span class="st">", sigma = "</span>, sigma,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>            <span class="st">", sigma / sqrt(N) = "</span>, sigma <span class="sc">/</span> <span class="fu">sqrt</span>(N)))</span></code></pre></div>
+<pre><code>## [1] "mu = 5, sigma = 2, sigma / sqrt(N) = 0.365148371670111"</code></pre>
+</div>
+</li>
+</ul></section><section id="what-about-gamma-distribution" class="slide level2 eighty"><h2 class="eighty">What about Gamma distribution?</h2>
+<div class="columns bare max-listing">
+<div class="column">
+<ul>
+<li>
+<p>Set up:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="dv">5</span></span></code></pre></div>
+</li>
+<li>
+<p>Plot the PDF:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="fl">0.1</span>),</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> <span class="fu">dgamma</span>(x, <span class="at">shape =</span> k, <span class="at">scale =</span> theta))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span> <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p><img data-src="assets/fig/plot-gamma-1.png"><!-- --></p>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Generate the replicates</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">map</span>(<span class="dv">1</span><span class="sc">:</span>n_rep, \(x) <span class="fu">rgamma</span>(N, <span class="at">shape =</span> k, <span class="at">scale =</span> theta))</span></code></pre></div>
+</li>
+<li class="fragment">
+<p>Averate the samples in each replicate</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>x_bar <span class="ot">&lt;-</span> <span class="fu">map_dbl</span>(x, mean)</span></code></pre></div>
+</li>
+<li class="fragment">
+<p>How are the replicates distributed?</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">str_c</span>(<span class="st">"Mean = "</span>, <span class="fu">mean</span>(x_bar), <span class="st">" and std. dev. = "</span>, <span class="fu">sd</span>(x_bar)))</span></code></pre></div>
+<pre><code>## [1] "Mean = 10.0211472739298 and std. dev. = 1.28821892268581"</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">str_c</span>(<span class="st">"mu  = "</span>, k <span class="sc">*</span> theta, <span class="st">", sigma = "</span>, <span class="fu">sqrt</span>(k) <span class="sc">*</span> theta,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>            <span class="st">", sigma / sqrt(N) = "</span>, <span class="fu">sqrt</span>(k) <span class="sc">*</span> theta <span class="sc">/</span> <span class="fu">sqrt</span>(N)))</span></code></pre></div>
+<pre><code>## [1] "mu  = 10, sigma = 7.07106781186548, sigma / sqrt(N) = 1.29099444873581"</code></pre>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="plot-the-distribution" class="slide level2 eighty"><h2 class="eighty">Plot the distribution</h2>
+<div class="columns bare max-listing">
+<div class="column">
+<ul>
+<li>Distribution of <code>x_bar</code>
+</li>
+</ul>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">x =</span> x_bar) <span class="sc">|&gt;</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span> </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="at">bins =</span> <span class="dv">40</span>, </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="st">"gray60"</span>) <span class="sc">+</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">color =</span> <span class="st">"darkblue"</span>, <span class="at">fill =</span> <span class="fu">alpha</span>(<span class="st">"blue"</span>, <span class="fl">0.2</span>),</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">linewidth =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p><img data-src="assets/fig/unnamed-chunk-7-1.png"><!-- --></p>
+</div>
+<div class="column">
+<ul>
+<li>Distribution of <code>x</code>
+</li>
+</ul>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">unlist</span>(x)) <span class="sc">|&gt;</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="at">bins =</span> <span class="dv">40</span>, </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="st">"gray60"</span>) <span class="sc">+</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">color =</span> <span class="st">"darkblue"</span>, <span class="at">fill =</span> <span class="fu">alpha</span>(<span class="st">"blue"</span>, <span class="fl">0.2</span>),</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">linewidth =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p><img data-src="assets/fig/unnamed-chunk-8-1.png"><!-- --></p>
+</div>
+</div>
+</section><section id="compare-x_bar-to-true-normal" class="slide level2 eighty"><h2 class="eighty">Compare <code>x_bar</code> to True Normal</h2>
+<div class="columns">
+<div class="column">
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df_norm <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="fu">min</span>(x_bar), <span class="fu">max</span>(x_bar), </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">length.out =</span> <span class="dv">200</span>),</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">y =</span> <span class="fu">dnorm</span>(x, k <span class="sc">*</span> theta, </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">sqrt</span>(k) <span class="sc">*</span> theta <span class="sc">/</span> <span class="fu">sqrt</span>(N)))</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>df_x_bar <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x_bar)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_x_bar, <span class="fu">aes</span>(<span class="at">x =</span> x)) <span class="sc">+</span> </span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="at">bins =</span> <span class="dv">40</span>, </span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="st">"gray60"</span>) <span class="sc">+</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">color =</span> <span class="st">"darkblue"</span>, </span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="fu">alpha</span>(<span class="st">"blue"</span>, <span class="fl">0.2</span>),</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>               <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">data =</span> df_norm, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y), </span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>            <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>)</span></code></pre></div>
+<ul>
+<li class="fragment">
+<p>Notes:</p>
+<div class="eighty">
+<ul>
+<li>
+<code>after_stat(density)</code> makes the histogram bar height
+correspond to density rather than count, so they line up with a density
+plot.</li>
+<li>
+<code>alpha("blue", 0.2)</code> makes a partially transparent blue
+(1 = opaque, 0 = completely transparent,<br>0.2 = 20% opaque)</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="column">
+<p><img data-src="assets/fig/unnamed-chunk-9-1.png"><!-- --></p>
+</div>
+</div>
+</section><section id="what-does-this-mean" class="slide level2 eighty"><h2 class="eighty">What Does This Mean?</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Central Limit Theorem:
+<ul>
+<li>If we have many measurements with errors:
+<ul>
+<li>Measurements: <span class="math inline">\(m_1\)</span>, <span class="math inline">\(m_2\)</span>, <span class="math inline">\(m_3\)</span>, …, <span class="math inline">\(m_N\)</span>
+</li>
+<li>True value: <span class="math inline">\(v\)</span>
+</li>
+</ul>
+</li>
+<li>The central limit theorem tells us that the larger <span class="math inline">\(N\)</span> is, the closer <span class="math display">\[\text{mean}(m_i) = \frac{1}{N} \sum_{i = 1}^{N}
+m_i\]</span> will be to <span class="math inline">\(v\)</span>
+</li>
+<li>The uncertainty of this estimate will shrink as <span class="math inline">\(1 / \sqrt{N}\)</span>, so taking 4 times more
+measurements cuts the uncertainty in half.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column fragment">
+<ul>
+<li>
+<p>Information Theory:</p>
+<blockquote>
+<p>The normal distribution provides the most honest description of our
+knowledge of the errors given just the sample mean and variance of the
+measurements. <br>— E.T. Jaynes</p>
+</blockquote>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="other-limit-theorems" class="title-slide slide level1 center"><h1 class="center">Other Limit Theorems</h1>
+
+</section><section id="other-limit-theorems-1" class="slide level2 eighty"><h2 class="eighty">Other Limit Theorems</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Binomial <span class="math inline">\(\rightarrow\)</span>
+Poisson:</p>
+<p><span class="math display">\[
+\begin{align}
+X &amp;\sim \mathcal{B}(n, p) \\
+\mathbb{P}(X = k) &amp;= \left(n \atop k\right) p^k (1 - p)^{n - k}
+\end{align}
+\]</span></p>
+<ul>
+<li>
+<span class="math inline">\(\left(n \atop k\right)\)</span> becomes
+hard to calculate when <span class="math inline">\(n\)</span> is
+large.</li>
+<li>For large <span class="math inline">\(n\)</span> and small <span class="math inline">\(p\)</span>, the binomial distribution approaches a
+Poisson distribution with <span class="math inline">\(\lambda =
+np\)</span>
+</li>
+</ul>
+<p><span class="math display">\[
+\mathbb{P}(X = k) \rightarrow  e^{-\lambda}\,\frac{\lambda^k}{k!}
+\]</span></p>
+</li>
+</ul>
+</div>
+<div class="column fragment">
+<ul>
+<li>Poisson <span class="math inline">\(\rightarrow\)</span> Normal
+<ul>
+<li>This is slightly different to what was presented in the book.</li>
+<li>As <span class="math inline">\(\lambda\)</span> gets large, the
+Poisson distribution approaches a normal distribution with <span class="math inline">\(\mu = \lambda\)</span> and <span class="math inline">\(\sigma = \sqrt{\lambda}\)</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section>
+</div>
+  </div>
+  <!--
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.js"></script>
+  <!-- -->
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.min.js"></script><!-- --><script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Display the page number of the current slide
+        showSlideNumber: 'speaker',
+        // Push each slide change to the browser history
+        history: true,
+        //  Enable hashing slide content to URL
+        hash: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Don't separate fragments in PDF rendering
+        pdfSeparateFragments: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+      
+        // Optional reveal.js plugins
+        dependencies: [
+                    { src: '../../lecture_lib/library/assets/plugin/chalkboard/chalkboard.js', async: true },
+                                        { src: '../../lecture_lib/library/assets/plugin/reveal-skip-fragments/skip-fragments.js', async: true },
+                    { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/notes/notes.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/math/math.js', async: true }
+        ],
+        shift_keyboard: {
+    	    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'C' is pressed
+    	    66: function() { RevealChalkboard.toggleChalkboard() },	  // toggle chalkboard when 'B' is pressed
+    	    88: function() { RevealChalkboard.clear() },	            // clear chalkboard when 'X' is pressed
+    	    82: function() { RevealChalkboard.reset() },	            // reset chalkboard data on current slide when 'R' is pressed
+    	    68: function() { RevealChalkboard.download() },	          // downlad recorded chalkboard drawing when 'D' is pressed
+        },
+              	// Shortcut for showing all fragments
+      	skipFragmentsShowShortcut: 'S',
+
+      	// Shortcut for hiding all fragments
+      	skipFragmentsHideShortcut: 'H',
+      	      });
+    </script><script>
+  	function createSingletonNodejg( container, tagname, classname, innerHTML ) {
+
+		// Find all nodes matching the description
+		var nodes = container.querySelectorAll( '.' + classname );
+
+		// Check all matches to find one which is a direct child of
+		// the specified container
+		for( var i = 0; i < nodes.length; i++ ) {
+			var testNode = nodes[i];
+			if( testNode.parentNode === container ) {
+				return testNode;
+			}
+		}
+
+		// If no node was found, create it now
+		var node = document.createElement( tagname );
+		node.className = classname;
+		if( typeof innerHTML === 'string' ) {
+			node.innerHTML = innerHTML;
+		}
+		container.appendChild( node );
+
+		return node;
+
+	}
+
+  var dom_wrapper = document.querySelector('.reveal');
+  createSingletonNodejg(dom_wrapper, 'div', 'qrbox',
+  '<div class="qrbox" id="qrbox" style="font-size:90%;">' + '\n' +
+  '<div style="font-size:30%;width:100%;">' + '\n' +
+      '<a href="https://ees5891.jgilligan.org/slides/class_10">' +
+  	'<img src="qrcode.png" alt="https://ees5891.jgilligan.org/slides/class_10"/>' +
+  	'</a>' + '\n' +
+	  '</div>' + '\n' +
+  '<div style="font-size:30%;width:100%;vertical-align:top;">' + '\n' +
+    '<span style="display:inline-block;text-align:left;margin-left:0">' + '\n' +
+        'Live web page: <a href="https://ees5891.jgilligan.org/slides/class_10">https://ees5891.jgilligan.org/slides/class_10</a>' + '\n' +
+              '<br/>' + '\n' +
+        'PDF: <a href="https://ees5891.jgilligan.org/slides/class_10/EES_4891_5891_class_10_slides.pdf" target="_blank">https://ees5891.jgilligan.org/slides/class_10/EES_4891_5891_class_10_slides.pdf</a>' + '\n' +
+          	'</span>' + '\n' +
+  	'<span style="display:inline-block;text-align:right;vertical-align:top;position:absolute;right:0;bottom:0;">' + '\n' +
+  	  'Navigate slides: next: N or &lt;space&gt;; previous: P or &lt;backspace&gt;<br/>' + '\n' +
+  	  'Also: up, down, left, right arrows; overview: o; help: ?' + '\n' +
+  	'</span>' + '\n' +
+	'</div>' + '\n' +
+  '</div>' + '\n'
+  );
+</script><script>
+var MathJax = { jax: ["input/TeX", "output/HTML-CSS"],
+                TeX: {extensions: ["color.js", "mhchem.js"],
+                Macros: {
+                  COO: "\\ce{CO2}",
+                  methane: "\\ce{CH4}",
+                  degC: "^\\circ \\mathrm{C}",
+                  degF: "^\\circ \\mathrm{F}",
+                  water: "\\ce{H2O}",
+                  carb: "\\ce{CO3^2-}",
+                  bicarb: "\\ce{HCO3-}",
+                  carbonic: "\\ce{H2CO3}",
+                  Hplus: "\\ce{H+}",
+                  OH: "\\ce{OH-}",
+                  silica: "\\ce{SiO2}",
+                  calcite: "\\ce{CaCO3}",
+                  Caplus: "\\ce{Ca^2+}",
+                  silicate: "\\ce{SiO3^2-}",
+                  CaSi: "\\ce{CaSiO3}",
+                  pH: "p\\ce{H}",
+                  permil: "\\unicode{x2030}",
+                  pCOO: "\\ce{	ext{p}CO2}",
+                  pwater: "\\ce{	ext{p}H2O}"
+                },
+                  },
+                "HTML-CSS" : {scale: 100 }};
+</script><!-- dynamically load mathjax for compatibility with self-contained --><script type="text/x-mathjax-config">
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["SVG"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+    displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
+    processEscapes: true
+  }
+})
+  </script><script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script><script>
+  var qrbox = document.querySelector("#qrbox");
+  var advance_fragment = 0;
+
+	function isPrintingPDF() {
+	  let printing = ( /print-pdf/gi ).test( window.location.search );
+	  console.log("printing test: " + printing);
+	  return printing;
+	}
+
+
+  if ( qrbox.hasAttribute('qr-box-hide') || Reveal.isOverview() ||
+      ! Reveal.isFirstSlide() || isPrintingPDF()) {
+    console.log("Initializing");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }
+
+  Reveal.addEventListener('overviewshown', function() {
+      console.log("Overview shown");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }, false);
+
+  Reveal.addEventListener('overviewhidden', function() {
+    if (Reveal.isFirstSlide() && ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Overview hidden");
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    console.log("Slide changed...");
+    if (Reveal.isFirstSlide() && ! Reveal.isOverview() &&
+        ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    } else {
+      console.log("Hiding QR box");
+      qrbox.style.visibility="hidden";
+      qrbox.style.display="none";
+    }
+  }, false);
+
+  Reveal.addEventListener('pdf-ready', function() {
+    console.log("hiding qrbox for printing");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+    qrbox.setAttribute('qr-box-hide', 'true');
+  });
+
+  </script><script>
+  Reveal.addEventListener('slidechanged', function() {
+    while (advance_fragment > 0) {
+      // console.log('advancing fragment');
+      Reveal.nextFragment();
+      advance_fragment--;
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    if ( Reveal.getCurrentSlide().hasAttribute('data-skip')) {
+      // console.log("going to next slide...");
+      Reveal.next();
+    }
+  }, false);
+
+  Reveal.addEventListener('skip_slide', function() {
+    Reveal.next();
+  }, false);
+
+  Reveal.addEventListener('advance_fragment', function() {
+    // console.log("setting advance fragment");
+    advance_fragment++;
+    }, false);
+  </script>
+</body>
+</html>
