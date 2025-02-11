@@ -39,6 +39,6 @@ new_update_site <- function(root = NULL, force = FALSE) {
 }
 
 publish <- function(ssh = NULL, repo = ".") {
-  git_push("origin", "/refs/heads/main")
-  git_push("publish", "/refs/heads/main")
+  git_push("origin", "refs/heads/main")
+  git_push("publish", "refs/heads/main")
 }
