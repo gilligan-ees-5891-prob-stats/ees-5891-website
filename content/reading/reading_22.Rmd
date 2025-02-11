@@ -1,12 +1,12 @@
 ---
-title: Linear Regression
-class_date: '2025-03-20'
-class_number: 20
-weight: 20
-slug: reading_20
+title: Regression with Discrete vs. Continuous Variables
+class_date: '2025-03-27'
+class_number: 22
+weight: 22
+slug: reading_22
 pubdate: '2024-12-31'
-date: '2025-03-20'
-pdf_url: /files/reading_asgts/reading_20.pdf
+date: '2025-03-27'
+pdf_url: /files/reading_asgts/reading_22.pdf
 output:
   blogdown::html_page:
     md_extensions: +tex_math_single_backslash+compact_definition_lists

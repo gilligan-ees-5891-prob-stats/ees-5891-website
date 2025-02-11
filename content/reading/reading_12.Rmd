@@ -1,0 +1,28 @@
+---
+title: Statistical Estimation
+class_date: '2025-02-13'
+class_number: 12
+weight: 12
+slug: reading_12
+pubdate: '2024-12-31'
+date: '2025-02-13'
+pdf_url: /files/reading_asgts/reading_12.pdf
+output:
+  blogdown::html_page:
+    md_extensions: +tex_math_single_backslash+compact_definition_lists
+---
+## Reading:
+
+### Required Reading (everyone):
+
+* Data Analysis for the Earth & Environmental Sciences, Ch. 5, pp. 63--76.
+
+### Required for Grad Students (optional for undergrads):
+
+* Data Analysis for the Earth & Environmental Sciences, Ch. 5, pp. 76--80.
+
+### Reading Notes:
+
+Undergraduate students should read through "Bayesian coin flips" on p. 76.
+
+Grad students should read the whole chapter.

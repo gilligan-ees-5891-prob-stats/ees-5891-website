@@ -1,5 +1,5 @@
 ---
-title: Multivariate Analysis
+title: Least Squares Analysis
 class_date: '2025-03-18'
 class_number: 19
 weight: 19
@@ -15,5 +15,5 @@ output:
 
 ### Required Reading (everyone):
 
-* Data Analysis for the Earth & Environmental Sciences, Ch. 11.
+* Data Analysis for the Earth & Environmental Sciences, Ch. 13.
 

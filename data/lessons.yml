@@ -46,38 +46,42 @@ lessons:
   title: Error Theory
   reading: /reading/reading_11
 - date: '2025-02-13'
-  title: Exercises with Normality
-- date: '2025-02-18'
   title: Statistical Estimation
-  reading: /reading/reading_13
-- date: '2025-02-20'
+  reading: /reading/reading_12
+- date: '2025-02-18'
   title: Exercises with Estimation
-- date: '2025-02-25'
+- date: '2025-02-20'
   title: Confirmatory Data Analysis
+  reading: /reading/reading_14
+- date: '2025-02-25'
+  title: Statistical Testing
   reading: /reading/reading_15
 - date: '2025-02-27'
-  title: Statistical Testing
-  reading: /reading/reading_16
-- date: '2025-03-04'
   title: Review
-- date: '2025-03-06'
+- date: '2025-03-04'
   title: Exercises with Hypothesis Testing
+- date: '2025-03-06'
+  title: Multivariate Analysis
+  reading: /reading/reading_18
 - date: '2025-03-11'
   title: Spring Break
 - date: '2025-03-13'
   title: Spring Break
 - date: '2025-03-18'
-  title: Multivariate Analysis
+  title: Least Squares Analysis
   reading: /reading/reading_19
 - date: '2025-03-20'
-  title: Least Squares Analysis
+  title: Linear Regression
   reading: /reading/reading_20
 - date: '2025-03-25'
-  title: Linear Regression
+  title: Linear Regression Part 2
+  reading: /reading/reading_21
 - date: '2025-03-27'
   title: Regression with Discrete vs. Continuous Variables
+  reading: /reading/reading_22
 - date: '2025-04-01'
   title: Principal Components Analysis
+  reading: /reading/reading_23
 - date: '2025-04-03'
   title: Exercises with Regression
 - date: '2025-04-08'

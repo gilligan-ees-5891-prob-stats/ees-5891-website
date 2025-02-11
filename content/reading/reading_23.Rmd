@@ -1,0 +1,19 @@
+---
+title: Principal Components Analysis
+class_date: '2025-04-01'
+class_number: 23
+weight: 23
+slug: reading_23
+pubdate: '2024-12-31'
+date: '2025-04-01'
+pdf_url: /files/reading_asgts/reading_23.pdf
+output:
+  blogdown::html_page:
+    md_extensions: +tex_math_single_backslash+compact_definition_lists
+---
+## Reading:
+
+### Required Reading (everyone):
+
+* Data Analysis for the Earth & Environmental Sciences, Ch. 12.
+

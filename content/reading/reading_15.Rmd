@@ -1,5 +1,5 @@
 ---
-title: Confirmatory Data Analysis
+title: Statistical Testing
 class_date: '2025-02-25'
 class_number: 15
 weight: 15
@@ -15,5 +15,5 @@ output:
 
 ### Required Reading (everyone):
 
-* Data Analysis for the Earth & Environmental Sciences, Ch. 6, sections I--IV.
+* Data Analysis for the Earth & Environmental Sciences, Ch. 6, sections V--IX.
 
