@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<!-- JG Reveal.js Template --><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta name="author" content="Jonathan Gilligan">
+<title>Statistical Estimation</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reset.css">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reveal.min.css">
+<style type="text/css">
+      code{white-space: pre-wrap;}
+      .smallcaps{font-variant: small-caps;}
+      .line-block{white-space: pre-line;}
+      .column{display: inline-block;}  </style>
+<style type="text/css">
+    div.qrbox,
+    aside.qrbox {
+     text-align: left;
+     vertical-align: bottom;
+     width: 95%;
+     position: fixed;
+     left: 2.5%;
+     bottom: 1rem;
+     display: block;
+    }
+  </style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { font-weight: bold; } /* Alert */
+code span.an { font-style: italic; } /* Annotation */
+code span.cf { font-weight: bold; } /* ControlFlow */
+code span.co { font-style: italic; } /* Comment */
+code span.cv { font-style: italic; } /* CommentVar */
+code span.do { font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.er { font-weight: bold; } /* Error */
+code span.in { font-style: italic; } /* Information */
+code span.kw { font-weight: bold; } /* Keyword */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.wa { font-style: italic; } /* Warning */
+  </style>
+<!-- theme = solarized_jg --><link rel="stylesheet" href="../../lecture_lib/library/assets/css/theme/solarized_jg.css" id="theme">
+<!-- Printing and PDF exports --><script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../lecture_lib/library/reveal.js-3.8.0/css/print/pdf.css' : '../../lecture_lib/library/reveal.js-3.8.0/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><!--[if lt IE 9]>
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+  <![endif]--><script src="../../lecture_lib/library/header-attrs-2.29.1.9000/header-attrs.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+            <!-- start title slide -->
+<section class="center" id="title"><h1 class="title">Statistical Estimation</h1>
+    <h3 class="author">EES 4891/5891</h3>
+        <h3 class="author">Probability &amp; Statistics for
+Geosciences</h3>
+    <h3 class="author">Jonathan Gilligan</h3>
+    <h3 class="date">
+      Class #12:
+       Thursday, February 13
+      2025
+    </h3>
+	<!-- end title slide -->
+</section><section><section id="learning-goals" class="title-slide slide level1 center"><h1 class="center">Learning Goals</h1>
+
+</section><section id="learning-goals-1" class="slide level2"><h2>Learning Goals</h2>
+<ul>
+<li>Learn about the method of moments and its limitations</li>
+<li>Learn how to use the method of maximum likelihood estimation</li>
+<li>Learn the properties of estimation:
+<ul>
+<li>Accuracy and bias</li>
+<li>Precision</li>
+</ul>
+</li>
+<li>Learn about the tradeoffs between bias and variance</li>
+<li>Today is very mathematical
+<ul>
+<li>Don’t worry about the proofs and derivations</li>
+<li>Focus on why the results are important</li>
+</ul>
+</li>
+</ul></section></section><section><section id="statistical-estimation" class="title-slide slide level1 center"><h1 class="center">Statistical Estimation</h1>
+
+</section><section id="introduction" class="slide level2 eighty"><h2 class="eighty">Introduction</h2>
+<div class="columns bare">
+<div class="column" style="width:55%;">
+<ul>
+<li>Context:
+<ul>
+<li>We’ve learned about statistical distributions</li>
+<li>Parametric distributions:
+<ul>
+<li>Probability mass or density can be written as a function with some
+<em>parameters</em>:
+<ul>
+<li>Normal: <span class="math inline">\(\mathcal{N}(\mu,
+\sigma)\)</span>
+</li>
+<li>Binomial: <span class="math inline">\(\mathcal{B}(n,
+p)\)</span>
+</li>
+<li>Poisson: <span class="math inline">\(\text{Poisson}(\lambda)\)</span>
+</li>
+<li>Gamma: <span class="math inline">\(\text{Gamma}(k, \theta)\)</span>,
+<ul>
+<li>
+<span class="math inline">\(k = \text{shape}\)</span>, <span class="math inline">\(\theta = \text{scale}\)</span>
+</li>
+</ul>
+</li>
+<li>Weibull: <span class="math inline">\(\mathcal{W}(k,
+\theta)\)</span>
+</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="fragment">Given the parameters, we know how to generate a random sample
+from the distribution
+<ul>
+<li>
+<code>rnorm(N, mu, sigma)</code>, <code>rbinom(N, n, p)</code>,
+<code>rpois(N, lambda)</code>,<br><code>rgamma(N, shape = k, scale = theta)</code>, …</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column" style="width:44%;">
+<ul>
+<li class="fragment">The problem:
+<ul>
+<li>Given <span class="math inline">\(N\)</span> points <span class="math inline">\(\mathbf{X} = x_1, x_2, \ldots, x_N\)</span>
+sampled from a distribution <span class="math inline">\(\mathbb{P}(x,
+\theta_1, \theta_2, \ldots)\)</span>, with parameters <span class="math inline">\(\theta_1, \theta_2, \ldots\)</span>, estimate the
+parameter values <span class="math inline">\(\theta_1, \theta_2,
+\ldots\)</span>
+</li>
+<li class="fragment">Point vs. Interval Estimation
+<ul>
+<li>
+<strong>Point estimate:</strong> The most likely value for <span class="math inline">\(\theta_i\)</span>
+</li>
+<li>
+<strong>Interval estimate:</strong> A range of values for <span class="math inline">\(\theta_i\)</span>, where we are confident there’s
+a certain probability (e.g., 95%) that the true value of <span class="math inline">\(\theta\)</span> lies within the interval.</li>
+</ul>
+</li>
+<li class="fragment">Today we focus on point estimation.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="method-of-moments" class="slide level2 seventyfive"><h2 class="seventyfive">Method of Moments</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Not very reliable, but easy to work</li>
+<li class="fragment">Definitions:
+<ul>
+<li>
+<span class="math inline">\(k^{\text{th}}\)</span> moment <span class="math display">\[\textstyle
+\mu_k = E(x^k) \approx \hat\mu_k = \frac{1}{N} \sum_{i = 1}^N x_i^k
+\]</span>
+</li>
+<li>1<sup>st</sup> moment: <span class="math display">\[\textstyle
+\mu_1 = E(x) \approx \hat\mu_1 = \frac{1}{N} \sum_{i = 1}^N x_i
+\]</span>
+</li>
+<li>2<sup>nd</sup> moment: <span class="math display">\[\textstyle
+\mu_2 = E(x^2) \approx \hat\mu_2 = \frac{1}{N} \sum_{i = 1}^N x_i^2
+\]</span>
+</li>
+<li>
+<span class="math inline">\(\mu_k\)</span> is the true value, <span class="math inline">\(\hat\mu_k\)</span> is an approximation based on
+<span class="math inline">\(N\)</span> observations</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">Method:
+<ol type="1">
+<li>Write the parameter as a function of the moments <span class="math inline">\(\mu_k\)</span>
+</li>
+<li>Substitute the estimates <span class="math inline">\(\hat\mu_k\)</span> to estimate the parameter</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="example" class="slide level2 eighty"><h2 class="eighty">Example</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>There are <span class="math inline">\(\theta\)</span> balls in a
+jar, and you draw <span class="math inline">\(n\)</span> balls and try
+to estimate <span class="math inline">\(\theta\)</span></p>
+<p><span class="math display">\[
+\begin{align}
+\mu_1 &amp;= E(x) = \sum_{i = 1}^\theta i \times P(x = i) = \sum_{i =
+1}^N i \times \frac{1}{\theta} \\
+&amp;= \frac{1}{\theta} \sum_{i = 1}^\theta i = \frac{1}{\theta}
+\frac{\theta (\theta + 1)}{2}
+= \frac{\theta + 1}{2} \\
+\theta &amp;= 2 \mu_1 - 1 \approx 2 \hat\mu_1 - 1
+\end{align}
+\]</span></p>
+</li>
+</ul>
+</div>
+<div class="column max-listing bare">
+<ul>
+<li class="fragment">
+<p>Try this in R</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="dv">14</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>theta, N)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span></code></pre></div>
+<pre><code>## [1] 13  4  9  1  3</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mu_1 <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="dv">2</span> <span class="sc">*</span> mu_1 <span class="sc">-</span> <span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## [1] 11</code></pre>
+<ul>
+<li>There’s a problem: We estimate that <span class="math inline">\(\theta = 11\)</span>, but we drew a ball with
+13.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="maximum-likelihood-estimation" class="title-slide slide level1 center"><h1 class="center">Maximum Likelihood Estimation</h1>
+
+</section><section id="overview" class="slide level2 eighty"><h2 class="eighty">Overview</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Likelihood <span class="math inline">\(L(x | \theta)\)</span> is the
+conditional probability of observing <span class="math inline">\(x\)</span> if the parameter <span class="math inline">\(\theta\)</span> has a certain value.
+<ul>
+<li>We often say it’s the probability of <span class="math inline">\(x\)</span>, given <span class="math inline">\(\theta\)</span>.</li>
+</ul>
+</li>
+<li class="fragment">The big idea is that if we have observations <span class="math inline">\(\mathbf{X} = x_1, x_2, \ldots, x_N\)</span>, the
+best estimate for <span class="math inline">\(\theta\)</span> is the
+value that has the largest likelihood <span class="math inline">\(L(\mathbf{X} | \theta)\)</span>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>If <span class="math inline">\(x_1, x_2, \ldots, x_N\)</span>
+are <strong>iid</strong> observations (<em>independent, identically
+distributed</em>), then</p>
+<div class="ninety">
+<p><span class="math display">\[
+\begin{align}
+&amp;&amp; L(x_1, x_2, \ldots x_N | \theta) &amp;= \prod_{i = 1}^N L(x_i
+| \theta) \\
+\text{and} &amp;&amp;&amp; \\
+&amp;&amp; \ell(x_1, x_2, \ldots x_N | \theta) &amp;= \sum_{i = 1}^N
+\ell(x_i | \theta), \\
+\text{where} &amp;&amp;&amp; \\
+&amp;&amp; \ell(x | \theta) &amp;= \log(L(x | \theta))
+\end{align}
+\]</span></p>
+</div>
+<ul>
+<li>It’s much easier to add numbers than to multiply them, so we often
+work with the log-likelihood <span class="math inline">\(\ell\)</span>
+instead of <span class="math inline">\(L\)</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="example-of-maximum-likelihood-estimation" class="slide level2 eighty"><h2 class="eighty">Example of Maximum Likelihood Estimation</h2>
+<ul>
+<li><p>Suppose <span class="math inline">\(x_1, x_2, \ldots,
+x_N\)</span> are drawn from a normal distribution <span class="math inline">\(\mathcal{N}(\mu, \sigma)\)</span>, with unknown
+parameters</p></li>
+<li class="fragment">
+<p>The log-likelihood is</p>
+<p><span class="math display">\[
+\begin{align}
+&amp;&amp; \ell(x_1, x_2, \ldots, x_N | \mu, \sigma) &amp;= \sum_{i =
+1}^N \ell(x_i | \mu, \sigma) \\
+\text{where} &amp;&amp;&amp; \\
+&amp;&amp; \ell(x_i | \mu, \sigma) &amp;= \log\left( \frac{1}{\sqrt{2
+\pi \sigma^2}} e^{\frac{- (x_i - \mu)^2}{2 \sigma^2}} \right) \\
+&amp;&amp;&amp;= -\frac{1}{2} \log(2 \pi) - \log(\sigma) - \frac{(x_i -
+\mu)^2}{2 \sigma^2}, \\
+\text{so} &amp; \\
+&amp;&amp; \ell(x_1, x_2, \ldots, x_N | \mu, \sigma) &amp;= - N \left(
+\frac{\log(2\pi)}{2} + \log(\sigma) \right) - \frac{1}{2 \sigma^2}
+\sum_{i = 1}^N (x_i - \mu)^2
+\end{align}
+\]</span></p>
+</li>
+</ul></section><section id="finding-the-maximum-likelihood" class="slide level2 eighty"><h2 class="eighty">Finding the Maximum Likelihood</h2>
+<ul>
+<li>
+<p>When a function reaches its maximum or minimum values, the
+derivative is zero, so find the value of <span class="math inline">\(\theta\)</span> the makes the derivative of <span class="math inline">\(\ell\)</span> zero:</p>
+<p><span class="math display">\[
+\begin{align}
+\frac{\partial \ell(\mathbf{X}|\mu, \sigma)}{\partial \theta} &amp;=
+-\frac{1}{\sigma^2} \sum_{i = 1}^N x_i - \mu,\\
+\text{which is zero if} &amp; \\
+0 &amp;= \sum_{i = 1}^N (x_i - \mu) = \left( \sum_{i=1}^N x_i \right) -
+N \mu \\
+\hat\mu_{\text{MLE}} &amp;= \frac{1}{N} \sum_{i=1}^N x_i = \overline x
+\end{align}
+\]</span></p>
+<ul>
+<li>So the maximum-likelihood estimate of <span class="math inline">\(\mu\)</span> is just <span class="math inline">\(\overline x\)</span>, the mean of <span class="math inline">\(x_1, x_2, \ldots, x_N\)</span>.</li>
+</ul>
+</li>
+</ul></section><section id="using-maximum-likelihood-for-other-distributions" class="slide level2"><h2>Using Maximum Likelihood for Other Distributions</h2>
+<ul>
+<li>Maximum Likelihood isn’t always as easy as it is for the normal
+distribution.</li>
+<li class="fragment">Computers can find maximum likelihood estimates for most
+distributions
+<ul>
+<li>
+<code>fitdistr()</code> function from the <code>MASS</code>
+package</li>
+<li>
+<code>mle()</code> function from the <code>stat4</code> package</li>
+<li class="fragment">More about this on Tuesday</li>
+</ul>
+</li>
+</ul></section><section id="properties-of-maximum-likelihood" class="slide level2 eighty"><h2 class="eighty">Properties of Maximum Likelihood</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>The maximum-likelihood estimate of <span class="math inline">\(\hat\mu\)</span> is <span class="math inline">\(\overline x\)</span>
+</li>
+<li>The maximum-likelihood estimate of <span class="math inline">\(\hat\sigma^2\)</span> is <span class="math inline">\(\frac{1}{N} \sum_i (x_i - \overline x)^2\)</span>,
+the variance of the sample (details in the textbook)</li>
+<li>Accuracy of estimates:
+<ul>
+<li>Define <span class="math inline">\(\text{bias}(\hat\theta, \theta) =
+E(\hat\theta) - \theta\)</span>.</li>
+<li>For accuracy, we want bias to be as close to zero as possible</li>
+</ul>
+</li>
+<li>Precision:
+<ul>
+<li>We want the variance of <span class="math inline">\(\hat\theta\)</span> to be as small as
+possible</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Mean-Squared Error (MSE)</p>
+<p><span class="math display">\[
+\begin{align}
+\text{MSE}(\hat\theta,\theta) &amp;= E \left[ (\hat\theta - \theta)^2
+\right]
+\end{align}
+\]</span></p>
+</li>
+<li class="fragment"><p>We want our estimator to have the smallest possible
+MSE.</p></li>
+</ul>
+</div>
+</div>
+</section><section id="bias-variance-decomposition" class="slide level2 eighty"><h2 class="eighty">Bias-Variance Decomposition</h2>
+<ul>
+<li>
+<p>Examine the MSE:</p>
+<p><span class="math display">\[
+\begin{align}
+\text{MSE}(\hat\theta,\theta) &amp;= E \left[ (\hat\theta - \theta)^2
+\right] \\
+&amp;= E \left [ (\hat\theta - E(\hat\theta) + E(\hat\theta) - \theta
+)^2 \right ] \\
+&amp;= E \left [ (\hat\theta - E(\hat\theta))^2 + (E(\hat\theta) -
+\theta)^2 + 2 (\hat\theta - E(\hat\theta)) (E(\hat\theta) - \theta)
+\right] \\
+&amp;= \underbrace{E \left [ (\hat\theta - E(\hat\theta))^2
+\right]}_{\text{variance}} + \underbrace{E\left[(E(\hat\theta) -
+\theta)^2\right]}_{\text{bias}^2} + \underbrace{2 E\left[\hat\theta -
+E(\hat\theta)\right] (E(\hat\theta) - \theta)}_{= 0} \\
+&amp;= V(\hat\theta) + \text{bias}^2
+\end{align}
+\]</span></p>
+</li>
+<li class="fragment"><p>There is a trade-off: Making bias smaller generally makes
+variance larger and vice-versa.</p></li>
+</ul></section><section id="example-normal-distribution" class="slide level2 eighty"><h2 class="eighty">Example: Normal Distribution</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Maximum-Likelihood Estimators:</p>
+<ul>
+<li><span class="math inline">\(\hat\mu = \overline{x}\)</span></li>
+<li><span class="math inline">\(\hat\sigma^2 = \frac{1}{N} \sum_i (x_i -
+\overline{x})^2\)</span></li>
+</ul>
+</li>
+<li class="fragment">
+<p><span class="math inline">\(\hat\mu\)</span> is unbiased:</p>
+<p><span class="math display">\[
+\begin{align}
+E(\hat\mu) &amp;= E(\overline x) = \mu \\
+V(\hat\mu) &amp;= V(\overline x) = \frac{\sigma^2}{N} \\
+\text{bias}(\hat\mu, \mu) &amp;= E(\hat\mu) - \mu \\
+  &amp;= \mu - \mu \\
+  &amp;= 0
+\end{align}
+\]</span></p>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p><span class="math inline">\(\hat\sigma^2\)</span> is
+biased:</p>
+<p><span class="math display">\[
+\begin{align}
+E(\hat \sigma^2) &amp;= \frac{N-1}{N} \sigma^2 \quad \text{(see
+textbook)}\\
+V(\hat \sigma^2) &amp;= \frac{2(N-1)}{N^2} \sigma^4 \quad \text{(see
+textbook)}\\
+\text{bias}(\hat\sigma^2, \sigma^2) &amp;= E(\hat\sigma^2) - \sigma^2 \\
+  &amp;= \frac{N-1}{N}\sigma^2 - \sigma^2 \\
+  &amp;= \frac{-1}{N}\sigma^2
+\end{align}
+  \]</span></p>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="bias-variance-tradeoff" class="slide level2 eighty"><h2 class="eighty">Bias-Variance Tradeoff</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Suppose we choose an <em>unbiased estimator</em> for <span class="math inline">\(\sigma^2\)</span>:
+<ul>
+<li>
+<p>MLE estimate:</p>
+<div class="eighty bare">
+<p><span class="math display">\[
+\hat\sigma^2_{\text{MLE}} = \frac{1}{N} \sum_i (x_i - \overline{x})^2
+\]</span></p>
+</div>
+</li>
+<li>
+<p>Unbiased estimate:</p>
+<div class="eighty bare">
+<p><span class="math display">\[
+\hat\sigma^2 = \frac{1}{N-1} \sum_i (x_i - \overline{x})^2 =
+\frac{N}{N-1} \hat\sigma^2_{\text{MLE}}
+\]</span></p>
+</div>
+</li>
+</ul>
+</li>
+<li class="fragment">Then: <span class="math display">\[
+\begin{align}
+E(\hat\sigma^2) &amp;= \sigma^2\\
+\text{bias}(\hat\sigma^2, \sigma^2) &amp;= E(\hat\sigma^2) = \sigma^2 \\
+  &amp;= \sigma^2 - \sigma^2 \\
+  &amp;= 0 \\
+\end{align}
+\]</span>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Now look at MSE:</p>
+<p><span class="math display">\[
+\begin{align}
+&amp;&amp; \text{MSE}\left(\hat\sigma^2, \sigma^2\right) &amp;=
+V\left(\sigma^2\right) = \frac{2}{N-1} \sigma^2 \\
+\text{But} &amp;&amp;&amp; \\
+&amp;&amp; \text{MSE}\left(\hat\sigma^2_{\text{MLE}}\right) &amp;=
+\frac{2N - 1}{N^2} \sigma^2 \\
+\text{And} &amp;&amp;&amp; \\
+&amp;&amp; \frac{2}{N - 1} &amp;&gt; \frac{2N - 1}{N^2},
+\end{align}
+\]</span></p>
+<p>So the unbiased estimate gives a greater MSE because the variance
+increases by more than the original bias.</p>
+</li>
+<li class="fragment"><p>Bias-variance tradeoff applies to all estimates, not just
+MLE</p></li>
+</ul>
+</div>
+</div>
+</section><section id="cramér-rao-bound" class="slide level2 eighty"><h2 class="eighty">Cramér-Rao Bound</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>From information theory, every unbiased estimator has a minimum
+possible variance.</p>
+<p><span class="math display">\[
+\text{Var}(\hat\theta) \ge \frac{1}{I(\theta)},
+\]</span></p>
+<p>Where <span class="math inline">\(I(\theta)\)</span> is the Fisher
+information</p>
+<p><span class="math display">\[
+\begin{align}
+I(\theta) &amp;= \mathrm{E}\left[ \left( \frac{\partial \ell(x |
+\theta)}{\partial \theta} \right)^2\right] \\
+&amp;= - \mathrm{E}\left[ \frac{\partial^2 \ell(x | \theta)}{\partial
+\theta^2} \right]
+\end{align}
+\]</span></p>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>We can then define the <em>efficiency</em> of an estimator:
+How close is the variance to this lower bound:</p>
+<p><span class="math display">\[
+e(\hat\theta) = \frac{1 / I(\theta)}{\text{Var}(\hat\theta)} \le 1
+\]</span></p>
+<ul>
+<li>The Cramér-Rao bound sets a limit on how small the variance can be,
+and therefore how good the efficiency can be, so <span class="math inline">\(e(\hat\theta) \le 1\)</span>.</li>
+<li>The MLE estimator has efficiency of 1.
+<ul>
+<li>It’s the best possible point-estimator</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section>
+</div>
+  </div>
+  <!--
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.js"></script>
+  <!-- -->
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.min.js"></script><!-- --><script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Display the page number of the current slide
+        showSlideNumber: 'speaker',
+        // Push each slide change to the browser history
+        history: true,
+        //  Enable hashing slide content to URL
+        hash: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Don't separate fragments in PDF rendering
+        pdfSeparateFragments: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+      
+        // Optional reveal.js plugins
+        dependencies: [
+                    { src: '../../lecture_lib/library/assets/plugin/chalkboard/chalkboard.js', async: true },
+                                        { src: '../../lecture_lib/library/assets/plugin/reveal-skip-fragments/skip-fragments.js', async: true },
+                    { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/notes/notes.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/math/math.js', async: true }
+        ],
+        shift_keyboard: {
+    	    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'C' is pressed
+    	    66: function() { RevealChalkboard.toggleChalkboard() },	  // toggle chalkboard when 'B' is pressed
+    	    88: function() { RevealChalkboard.clear() },	            // clear chalkboard when 'X' is pressed
+    	    82: function() { RevealChalkboard.reset() },	            // reset chalkboard data on current slide when 'R' is pressed
+    	    68: function() { RevealChalkboard.download() },	          // downlad recorded chalkboard drawing when 'D' is pressed
+        },
+              	// Shortcut for showing all fragments
+      	skipFragmentsShowShortcut: 'S',
+
+      	// Shortcut for hiding all fragments
+      	skipFragmentsHideShortcut: 'H',
+      	      });
+    </script><script>
+  	function createSingletonNodejg( container, tagname, classname, innerHTML ) {
+
+		// Find all nodes matching the description
+		var nodes = container.querySelectorAll( '.' + classname );
+
+		// Check all matches to find one which is a direct child of
+		// the specified container
+		for( var i = 0; i < nodes.length; i++ ) {
+			var testNode = nodes[i];
+			if( testNode.parentNode === container ) {
+				return testNode;
+			}
+		}
+
+		// If no node was found, create it now
+		var node = document.createElement( tagname );
+		node.className = classname;
+		if( typeof innerHTML === 'string' ) {
+			node.innerHTML = innerHTML;
+		}
+		container.appendChild( node );
+
+		return node;
+
+	}
+
+  var dom_wrapper = document.querySelector('.reveal');
+  createSingletonNodejg(dom_wrapper, 'div', 'qrbox',
+  '<div class="qrbox" id="qrbox" style="font-size:90%;">' + '\n' +
+  '<div style="font-size:30%;width:100%;">' + '\n' +
+      '<a href="https://ees5891.jgilligan.org/slides/class_12">' +
+  	'<img src="qrcode.png" alt="https://ees5891.jgilligan.org/slides/class_12"/>' +
+  	'</a>' + '\n' +
+	  '</div>' + '\n' +
+  '<div style="font-size:30%;width:100%;vertical-align:top;">' + '\n' +
+    '<span style="display:inline-block;text-align:left;margin-left:0">' + '\n' +
+        'Live web page: <a href="https://ees5891.jgilligan.org/slides/class_12">https://ees5891.jgilligan.org/slides/class_12</a>' + '\n' +
+              '<br/>' + '\n' +
+        'PDF: <a href="https://ees5891.jgilligan.org/slides/class_12/EES_4891_5891_class_12_slides.pdf" target="_blank">https://ees5891.jgilligan.org/slides/class_12/EES_4891_5891_class_12_slides.pdf</a>' + '\n' +
+          	'</span>' + '\n' +
+  	'<span style="display:inline-block;text-align:right;vertical-align:top;position:absolute;right:0;bottom:0;">' + '\n' +
+  	  'Navigate slides: next: N or &lt;space&gt;; previous: P or &lt;backspace&gt;<br/>' + '\n' +
+  	  'Also: up, down, left, right arrows; overview: o; help: ?' + '\n' +
+  	'</span>' + '\n' +
+	'</div>' + '\n' +
+  '</div>' + '\n'
+  );
+</script><script>
+var MathJax = { jax: ["input/TeX", "output/HTML-CSS"],
+                TeX: {extensions: ["color.js", "mhchem.js"],
+                Macros: {
+                  COO: "\\ce{CO2}",
+                  methane: "\\ce{CH4}",
+                  degC: "^\\circ \\mathrm{C}",
+                  degF: "^\\circ \\mathrm{F}",
+                  water: "\\ce{H2O}",
+                  carb: "\\ce{CO3^2-}",
+                  bicarb: "\\ce{HCO3-}",
+                  carbonic: "\\ce{H2CO3}",
+                  Hplus: "\\ce{H+}",
+                  OH: "\\ce{OH-}",
+                  silica: "\\ce{SiO2}",
+                  calcite: "\\ce{CaCO3}",
+                  Caplus: "\\ce{Ca^2+}",
+                  silicate: "\\ce{SiO3^2-}",
+                  CaSi: "\\ce{CaSiO3}",
+                  pH: "p\\ce{H}",
+                  permil: "\\unicode{x2030}",
+                  pCOO: "\\ce{	ext{p}CO2}",
+                  pwater: "\\ce{	ext{p}H2O}"
+                },
+                  },
+                "HTML-CSS" : {scale: 100 }};
+</script><!-- dynamically load mathjax for compatibility with self-contained --><script type="text/x-mathjax-config">
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["SVG"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+    displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
+    processEscapes: true
+  }
+})
+  </script><script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script><script>
+  var qrbox = document.querySelector("#qrbox");
+  var advance_fragment = 0;
+
+	function isPrintingPDF() {
+	  let printing = ( /print-pdf/gi ).test( window.location.search );
+	  console.log("printing test: " + printing);
+	  return printing;
+	}
+
+
+  if ( qrbox.hasAttribute('qr-box-hide') || Reveal.isOverview() ||
+      ! Reveal.isFirstSlide() || isPrintingPDF()) {
+    console.log("Initializing");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }
+
+  Reveal.addEventListener('overviewshown', function() {
+      console.log("Overview shown");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }, false);
+
+  Reveal.addEventListener('overviewhidden', function() {
+    if (Reveal.isFirstSlide() && ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Overview hidden");
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    console.log("Slide changed...");
+    if (Reveal.isFirstSlide() && ! Reveal.isOverview() &&
+        ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    } else {
+      console.log("Hiding QR box");
+      qrbox.style.visibility="hidden";
+      qrbox.style.display="none";
+    }
+  }, false);
+
+  Reveal.addEventListener('pdf-ready', function() {
+    console.log("hiding qrbox for printing");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+    qrbox.setAttribute('qr-box-hide', 'true');
+  });
+
+  </script><script>
+  Reveal.addEventListener('slidechanged', function() {
+    while (advance_fragment > 0) {
+      // console.log('advancing fragment');
+      Reveal.nextFragment();
+      advance_fragment--;
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    if ( Reveal.getCurrentSlide().hasAttribute('data-skip')) {
+      // console.log("going to next slide...");
+      Reveal.next();
+    }
+  }, false);
+
+  Reveal.addEventListener('skip_slide', function() {
+    Reveal.next();
+  }, false);
+
+  Reveal.addEventListener('advance_fragment', function() {
+    // console.log("setting advance fragment");
+    advance_fragment++;
+    }, false);
+  </script>
+</body>
+</html>
