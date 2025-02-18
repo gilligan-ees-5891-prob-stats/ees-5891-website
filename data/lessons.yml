@@ -52,6 +52,7 @@ lessons:
   lecture: /slides/class_12
 - date: '2025-02-18'
   title: Exercises with Estimation
+  lecture: /slides/class_13
 - date: '2025-02-20'
   title: Confirmatory Data Analysis
   reading: /reading/reading_14

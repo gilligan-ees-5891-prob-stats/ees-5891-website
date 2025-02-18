@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<!-- JG Reveal.js Template --><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta name="author" content="Jonathan Gilligan">
+<title>Exercises with Estimation</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reset.css">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reveal.min.css">
+<style type="text/css">
+      code{white-space: pre-wrap;}
+      .smallcaps{font-variant: small-caps;}
+      .line-block{white-space: pre-line;}
+      .column{display: inline-block;}  </style>
+<style type="text/css">
+    div.qrbox,
+    aside.qrbox {
+     text-align: left;
+     vertical-align: bottom;
+     width: 95%;
+     position: fixed;
+     left: 2.5%;
+     bottom: 1rem;
+     display: block;
+    }
+  </style>
+<!-- theme = solarized_jg --><link rel="stylesheet" href="../../lecture_lib/library/assets/css/theme/solarized_jg.css" id="theme">
+<!-- Printing and PDF exports --><script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../lecture_lib/library/reveal.js-3.8.0/css/print/pdf.css' : '../../lecture_lib/library/reveal.js-3.8.0/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><!--[if lt IE 9]>
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+  <![endif]--><script src="../../lecture_lib/library/header-attrs-2.29.1.9000/header-attrs.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+            <!-- start title slide -->
+<section class="center" id="title"><h1 class="title">Exercises with Estimation</h1>
+    <h3 class="author">EES 4891/5891</h3>
+        <h3 class="author">Probability &amp; Statistics for
+Geosciences</h3>
+    <h3 class="author">Jonathan Gilligan</h3>
+    <h3 class="date">
+      Class #13:
+       Tuesday, February 18
+      2025
+    </h3>
+	<!-- end title slide -->
+</section><section><section id="learning-goals" class="title-slide slide level1 center"><h1 class="center">Learning Goals</h1>
+
+</section><section id="learning-goals-1" class="slide level2 eighty"><h2 class="eighty">Learning Goals</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Understand what Bayes’s theorem means</li>
+<li>Understand the different terms:
+<ul>
+<li>Likelihood</li>
+<li>Prior distribution</li>
+<li>Evidence</li>
+<li>Posterior distribution</li>
+</ul>
+</li>
+<li>Understand how Bayesian methods iteratively improving estimates as
+you get more data.</li>
+<li>Understand difficulties in applying Bayesian methods
+<ul>
+<li>Choosing priors</li>
+<li>Solving integrals</li>
+</ul>
+</li>
+<li>Recognize the major methods for solving Bayesian integrals
+<ul>
+<li>Conjugate Priors</li>
+<li>Monte-Carlo</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>Understand differences between Bayesian and Maximum Likelihood
+estimation.
+<ul>
+<li>Bayesian <em>credibility interval</em> estimates vs.  frequentist
+<em>confidence interval</em> estimates</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="getting-started" class="title-slide slide level1 center"><h1 class="center">Getting Started</h1>
+
+</section><section id="getting-started-1" class="slide level2"><h2>Getting Started</h2>
+<ul>
+<li>
+<p>Go to the GitHub Classroom assignment at <a href="https://classroom.github.com/a/q_7M5SKb" class="uri">https://classroom.github.com/a/q_7M5SKb</a> and accept the
+assignment</p>
+<p><a href="https://classroom.github.com/a/q_7M5SKb"><img data-src="assets/images/asgt_qr.svg" height="300"></a></p>
+</li>
+<li><p>Open RStudio and create a project using version control from the
+GitHub repository for your assignment.</p></li>
+</ul></section><section id="semester-project" class="slide level2 eighty"><h2 class="eighty">Semester Project</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>I will post the assignment later this week</li>
+<li>The big picture is:
+<ul>
+<li>You will pick a data set you’re interested in.</li>
+<li>I can meet with you or consult by email to help you</li>
+<li>You will examine the variables in your data set:
+<ul>
+<li>What is the distribution like?</li>
+<li>Can you estimate parameters for the distribution?</li>
+</ul>
+</li>
+<li>Use the data set to ask research questions:</li>
+<li>Write a report describing your data set and what you learned from
+it</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>Examples of Research Questions:
+<ul>
+<li>Are variables for some parts of the data set distributed differently
+from others?
+<ul>
+<li>e.g., was the distribution of droughts different in the Little Ice
+Age than in the Medieval Warm Period?</li>
+<li>Use statistical tests for difference</li>
+</ul>
+</li>
+<li>Is there a relation between different variables?
+<ul>
+<li>Covariance and Correlation</li>
+<li>Regression Analysis</li>
+<li>Principal Components Analysis</li>
+</ul>
+</li>
+<li>Are there spatial or temporal patterns?
+<ul>
+<li>Seasonality</li>
+<li>Autocorrelation</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="bayesian-estimation" class="title-slide slide level1 center"><h1 class="center">Bayesian Estimation</h1>
+
+</section><section id="the-problem-with-likelihood" class="slide level2 eighty"><h2 class="eighty">The Problem with Likelihood</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li><p>Likelihood <span class="math inline">\(L(X | \theta) = L(x_1,
+x_2, ..., x_N | \theta)\)</span> tells you the probability that you will
+observe data <span class="math inline">\(x_i\)</span> if the parameter
+<span class="math inline">\(\theta\)</span> has a certain
+value.</p></li>
+<li class="fragment"><p>What you really want to know is the probability <span class="math inline">\(P(\theta | X)\)</span> that the parameter <span class="math inline">\(\theta\)</span> will have a certain value if you
+observe data <span class="math inline">\(x_1, x_2, \ldots,
+x_N\)</span>.</p></li>
+<li class="fragment">
+<p>Bayes’s Theorem relates this probability to the
+likelihood:</p>
+<p><span class="math display">\[
+\underbrace{P(\theta | X)}_{\text{Posterior}} =
+\frac{\overbrace{P(X | \theta)}^{\text{Likelihood}}\quad
+\overbrace{P(\theta)}^{\text{Prior}}}
+{\underbrace{P(X)}_{\text{Evidence}}}
+\]</span></p>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">The textbook provides alternate names:
+<ul>
+<li>The likelihood <span class="math inline">\(P(X | \theta)\)</span>
+can also be called the <em>data distribution</em>
+</li>
+<li>The evidence <span class="math inline">\(P(X)\)</span> can also be
+called the <em>marginal distribution</em>
+</li>
+<li>
+<em>Posterior</em> and <em>prior</em> are short for <em>posterior
+distribution</em> and <em>prior distribution</em>
+</li>
+</ul>
+</li>
+<li class="fragment">This points out a big challenge: If you use <em>maximum
+likelihood estimation</em> to estimate the value of <span class="math inline">\(\theta\)</span>, you don’t know the probability
+that the result <span class="math inline">\(\theta_{\text{MLE}}\)</span>
+is the true value of <span class="math inline">\(\theta\)</span> unless
+you also know the <em>prior</em> <span class="math inline">\(P(\theta)\)</span> and the <em>evidence</em> <span class="math inline">\(P(X)\)</span>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="bayess-theorem" class="slide level2 seventyfive"><h2 class="seventyfive">Bayes’s Theorem</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Bayes’s Theorem:</p>
+<p><span class="math display">\[
+\underbrace{P(\theta | X)}_{\text{Posterior}} =
+\frac{\overbrace{P(X | \theta)}^{\text{Likelihood}}\quad
+\overbrace{P(\theta)}^{\text{Prior}}}
+{\underbrace{P(X)}_{\text{Evidence}}}
+\]</span></p>
+<ul>
+<li class="fragment">What do the <em>posterior</em>, <em>likelihood</em>,
+<em>prior</em> and <em>evidence</em> mean?
+<ul>
+<li class="fragment"><strong>Likelihood:</strong> <span class="math inline">\(P(X |
+\theta)\)</span> is the probability that you would observe data <span class="math inline">\(X\)</span> if <span class="math inline">\(\theta\)</span> has a certain value.</li>
+<li class="fragment"><strong>Prior:</strong> <span class="math inline">\(P(\theta)\)</span> is the probability distribution
+for <span class="math inline">\(\theta\)</span>, based on everything you
+knew <em>before</em> you make new observations.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">What do the <em>posterior</em>, <em>likelihood</em>,
+<em>prior</em> and <em>evidence</em> mean?
+<ul>
+<li>
+<p><strong>Evidence:</strong> <span class="math inline">\(P(X)\)</span> is the probability of observing
+<span class="math inline">\(X\)</span>, regardless of the value of <span class="math inline">\(\theta\)</span>. It can be written</p>
+<p><span class="math display">\[
+P(X) = \int_{-\infty}^{\infty} P(X | \theta) P(\theta)\:
+\mathrm{d}\theta,
+\]</span> The integral of the <em>likelihood</em> times the
+<em>prior</em>.</p>
+</li>
+<li class="fragment"><p><strong>Posterior:</strong> <span class="math inline">\(P(\theta | X)\)</span> is an updated probability
+distribution for <span class="math inline">\(\theta\)</span>,
+incorporating the new information you learned from your observations
+<span class="math inline">\(X\)</span>.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="interpreting-bayess-theorem" class="slide level2 eighty"><h2 class="eighty">Interpreting Bayes’s Theorem</h2>
+<ul>
+<li>You start out with some sense of the plausible range of values for
+<span class="math inline">\(\theta\)</span>, and maybe that some values
+are more likely than others.
+<ul>
+<li>This is your <em>prior</em>.</li>
+</ul>
+</li>
+<li class="fragment">You make a new measurement.
+<ul>
+<li>Use the new measurement to update your <em>prior</em> into a
+<em>posterior</em>
+</li>
+</ul>
+</li>
+<li class="fragment">Now the <em>posterior</em> from your previous measurement
+becomes the <em>prior</em> for your next measurement.
+<ul>
+<li>Use the new measurement to update your current <em>prior</em> into a
+new <em>posterior</em>.</li>
+</ul>
+</li>
+<li class="fragment">Repeat:
+<ul>
+<li>Every time you make a new measurement, you use the previous
+<em>posterior</em> as the <em>prior</em> and combine that with the new
+data to create an updated <em>posterior</em>.</li>
+</ul>
+</li>
+</ul></section></section><section><section id="example-what-fraction-of-the-earth-is-water" class="title-slide slide level1 center"><h1 class="center">Example: What Fraction of the Earth is Water?</h1>
+
+</section><section id="what-fraction-of-the-earth-is-water" class="slide level2"><h2>What Fraction of the Earth is Water?</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>You have a globe and want to figure out what fraction of the earth’s
+surface is water.</li>
+<li>Toss the globe in the air, catch it, and note whether your index
+finger is on water or land: outcomes are <em>W</em> and <em>L</em>.</li>
+<li>At every toss, use Bayes’s theorem to update your estimate of the
+fraction that is water.</li>
+</ul>
+</div>
+<div class="column">
+<p><img data-src="assets/images/globe.jpg" style="height:800px;" alt="A globe"></p>
+</div>
+</div>
+</section><section id="first-toss" class="slide level2 eighty"><h2 class="eighty">First toss</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<span class="math inline">\(\theta\)</span> is the fraction of the
+earth’s surface covered by water</li>
+<li>Before the first toss, pick a prior probability distribution for the
+fraction that’s water.</li>
+<li>Suppose we don’t know anything.
+<ul>
+<li>Pick <span class="math inline">\(\mathbb{P}(\theta) =
+\text{Uniform}(0,1)\)</span>, a uniform prior:</li>
+</ul>
+</li>
+<li>Toss the globe and your finger lands on water.</li>
+<li>Update the probability: <span class="math display">\[ P(\theta|W) =
+\frac{P(W|\theta) P(\theta)}{p(W)},\]</span> where <em>p</em> is the
+probability of water, and <em>W</em> is measuring water.</li>
+</ul>
+</div>
+<div class="column">
+<p>Prior:</p>
+<div class="bare">
+<p><img data-src="assets/fig/uniform-prior-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+</section><section id="the-calculation" class="slide level2 eighty"><h2 class="eighty">The calculation:</h2>
+<div class="columns">
+<div class="column">
+<p><span class="math display">\[ P(\theta|W) = \frac{P(W|\theta)
+P(\theta)}{P(W)},\]</span></p>
+<ul>
+<li><span class="math inline">\(P(W|\theta) = \theta\)</span></li>
+<li>
+<span class="math inline">\(P(\theta) = 1\)</span> (it’s a uniform
+distribution <span class="math display">\[\begin{aligned}
+P(W) &amp;= \int_0^1 P(W|\theta) P(\theta) \:\mathrm{d}\theta
+= \int_0^1 \theta \times 1 \:\mathrm{d}\theta \\
+&amp;= \left. \frac{\theta^2}{2} \right|_0^1
+= \frac{1}{2}
+\end{aligned}
+\]</span>
+</li>
+<li>so the posterior <span class="math inline">\(P(\theta|W) =
+2\theta\)</span>
+</li>
+<li>Use this posterior as the prior for the next toss…</li>
+</ul>
+</div>
+<div class="column">
+<div class="bare">
+<p><img data-src="assets/fig/first-posterior-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+</section><section id="subsequent-tosses" class="slide level2"><h2>Subsequent tosses</h2>
+<p><img data-src="assets/fig/subsequent-tosses-1.png"><!-- --></p>
+</section><section id="bayesian-estimation-1" class="slide level2 eighty"><h2 class="eighty">Bayesian Estimation:</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Maximum Likelihood Estimation gives you a <em>point estimate</em>
+for <span class="math inline">\(\theta\)</span>.</li>
+<li>Bayesian Estimation gives you the whole posterior probability
+distribution for <span class="math inline">\(\theta\)</span>
+<ul>
+<li class="fragment">
+<p><strong>Interval Estimation:</strong> Use the posterior to
+esstimate the <em>Credible Interval</em> that contains a certain
+fraction of the <em>posterior probability density</em></p>
+<p><img data-src="assets/images/Highest_posterior_density_interval.svg" height="400"></p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">You could draw many possible 90% credible intervals.
+<ul>
+<li>We usually use the <em>Smallest Credible Interval</em>, also known
+as the <em>Highest Density Interval</em>.</li>
+</ul>
+</li>
+<li class="fragment"><em>Credible Intervals</em> vs. <em>Confidence Intervals</em>
+<ul>
+<li>
+<strong>Bayesian:</strong> 90% <em>Credible Interval</em> for <span class="math inline">\(\theta\)</span> means there is a 90% probability
+that the true value of <span class="math inline">\(\theta\)</span> is
+within the interval</li>
+<li>
+<strong>Frequentist:</strong> 90% <em>Confidence Interval</em> means
+that if you repeat the experiment many times and calculate the 90%
+<em>confidence interval</em> for each experiment, the true value of
+<span class="math inline">\(\theta\)</span> will be within the
+<em>confidence interval</em> for 90% of the experiments.
+<ul>
+<li class="fragment">It doesn’t say anything about the probability that <em>your</em>
+experiment is in the 90% or the 10%.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="challenges-for-bayesian-methods" class="title-slide slide level1 center"><h1 class="center">Challenges for Bayesian Methods</h1>
+
+</section><section id="challenges-for-bayesian-methods-1" class="slide level2 eighty"><h2 class="eighty">Challenges for Bayesian Methods</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Selecting a prior:
+<ul>
+<li>Before you make your first measurement, how do you choose a
+prior?</li>
+<li class="fragment">Uniform prior?
+<ul>
+<li>Works if <span class="math inline">\(\theta\)</span> must lie within
+a finite range</li>
+<li>Makes the fewest assumptions about <span class="math inline">\(\theta\)</span>
+</li>
+</ul>
+</li>
+<li class="fragment">Other function?
+<ul>
+<li>Criticism of <em>subjectivity</em>:
+<ul>
+<li>You can get any result you want by choosing a suitable prior.</li>
+</ul>
+</li>
+<li class="fragment">Rebuttal: You usually know something.
+<ul>
+<li>If a potential result would not be believable, your prior should
+exclude it
+<ul>
+<li class="fragment">A rock can’t be 12 billion years old.</li>
+<li class="fragment">Past climates can’t have global temperature <span class="math inline">\(&gt; 100^\circ\mathrm{C}\)</span>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Computing the <em>evidence</em></p>
+<p><span class="math display">\[ P(X) = \int_{-\infty}^{\infty} P(X |
+\theta) P(\theta) \:\mathrm{d}\theta \]</span></p>
+<ul>
+<li class="fragment">Integrals can be hard to solve</li>
+<li class="fragment">Conjugate Priors:
+<ul>
+<li>Many <em>likelihood</em> functions <span class="math inline">\(P(X |
+\theta)\)</span> have <em>conjugate priors</em> <span class="math inline">\(P(\theta)\)</span> that have known evidence
+integrals</li>
+</ul>
+</li>
+<li class="fragment">Numerical Integration:
+<ul>
+<li>Computers can approximately solve integrals that can’t be solved
+analytically.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="conjugate-priors" class="slide level2"><h2>Conjugate Priors</h2>
+<table>
+<thead><tr class="header">
+<th style="text-align: center;">Likelihood, <span class="math inline">\(\theta\)</span>
+</th>
+<th style="text-align: center;">Conjugate Prior</th>
+<th style="text-align: center;">Posterior</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Binomial, <span class="math inline">\(k\)</span>
+</td>
+<td style="text-align: center;">Beta</td>
+<td style="text-align: center;">Beta Binomial</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Poisson, <span class="math inline">\(\lambda\)</span> (rate)</td>
+<td style="text-align: center;">Gamma</td>
+<td style="text-align: center;">Negative Binomial</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Normal, <span class="math inline">\(\mu\)</span>
+</td>
+<td style="text-align: center;">Normal</td>
+<td style="text-align: center;">Normal</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Normal, <span class="math inline">\(\sigma^2\)</span>
+</td>
+<td style="text-align: center;">Inverse Gamma</td>
+<td style="text-align: center;">Student <span class="math inline">\(t\)</span>
+</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Exponential, <span class="math inline">\(\lambda\)</span> (rate)</td>
+<td style="text-align: center;">Gamma</td>
+<td style="text-align: center;">Lomax</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Gamma, <span class="math inline">\(\theta\)</span> (scale)</td>
+<td style="text-align: center;">Inverse Gamma</td>
+<td style="text-align: center;">Compound Gamma</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li class="fragment">Problems:
+<ul>
+<li>Not all likelihoods have conjugate priors</li>
+<li>Conjugate prior may not be a good representation of what you know
+about <span class="math inline">\(\theta\)</span>.</li>
+</ul>
+</li>
+</ul></section><section id="numerical-integration" class="slide level2"><h2>Numerical Integration</h2>
+<div class="columns bare">
+<div class="column">
+<ul>
+<li>Monte Carlo Integration
+<ul>
+<li class="fragment" data-fragment-index="1"><p>Invented around 1946 by Stanislaw Ulam for designing nuclear
+bombs</p></li>
+<li class="fragment" data-fragment-index="2">
+<p>To solve</p>
+<p><span class="math display">\[
+\int_a^b f(x) \: \mathrm{d}x
+\]</span></p>
+</li>
+</ul>
+</li>
+</ul>
+<div class="fragment" data-fragment-index="3">
+<p><img data-src="assets/fig/plot-monte-carlo-1.png"><!-- --></p>
+</div>
+</div>
+<div class="column fragment" data-fragment-index="3">
+<ol type="1">
+<li>Plot <span class="math inline">\(f(x)\)</span> from <span class="math inline">\(a\)</span> to <span class="math inline">\(b\)</span>, and choose numbers <span class="math inline">\(c\)</span> and <span class="math inline">\(d\)</span>, so <span class="math inline">\(f(x)\)</span> is between <span class="math inline">\(c\)</span> and <span class="math inline">\(d\)</span>
+</li>
+<li>Pick <span class="math inline">\(N\)</span> pairs of random numbers
+<span class="math inline">\((x_i, y_i)\)</span> where <span class="math inline">\(x_i\)</span> is between <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, and <span class="math inline">\(y_i\)</span> is between <span class="math inline">\(c\)</span> and <span class="math inline">\(d\)</span>
+</li>
+<li>Count the number that lie on or below the function: <span class="math inline">\(y_i \le f(x_i)\)</span>
+</li>
+<li><span class="math display">\[\int_a^b f(x) \:\mathrm{d}x \approx (b
+- a) (d - c) \frac{N_{below}}{N}\]</span></li>
+</ol>
+</div>
+</div>
+</section><section id="example" class="slide level2 eighty"><h2 class="eighty">Example</h2>
+<div class="columns">
+<div class="column">
+<div class="ninety">
+<p><span class="math display">\[f(x) = \text{Gamma}(x, \text{shape} = 3,
+\text{scale} = 5)\]</span></p>
+</div>
+<p><img data-src="assets/fig/unnamed-chunk-2-1.png"><!-- --></p>
+</div>
+<div class="column">
+<ul>
+<li><p>Sample 200 points with <span class="math inline">\(a =
+0\)</span>, <span class="math inline">\(b = 50\)</span>, <span class="math inline">\(c = 0\)</span>, and <span class="math inline">\(d
+= 0.06\)</span>.</p></li>
+<li>
+<p><span class="math inline">\(N_{\text{below}} = 55\)</span>, so
+our estimate of the integral is</p>
+<p><span class="math display">\[
+\frac{55}{200} \times (50 - 0) (0.06 - 0)
+= 0.825
+\]</span></p>
+</li>
+<li class="fragment"><p>We can use R to figure out the actual value of the integral:
+<span class="math inline">\(\texttt{pgamma(50, shape=3, scale=5)} =
+1.000\)</span>.</p></li>
+<li class="fragment">
+<p>If we repeat with <span class="math inline">\(N =
+1000\)</span>, we get <span class="math inline">\(N_{\text{below}} =
+323\)</span>, and our estimte of the integral is</p>
+<p><span class="math display">\[
+\frac{323}{1000} \times (50 - 0) (0.06 - 0)
+= 0.969
+\]</span></p>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="challenges-with-monte-carlo-integration" class="slide level2 eighty"><h2 class="eighty">Challenges with Monte-Carlo Integration</h2>
+<ul>
+<li>Monte-Carlo methods are very easy for integrating over one variable
+(one-dimensional integrals).</li>
+<li class="fragment">But many statistical analyses have many parameters
+<ul>
+<li>Advanced regression analyses may have dozens or even hundreds of
+parameters.</li>
+<li class="fragment">This means doing an integral in dozens or hundreds of
+dimensions.</li>
+<li class="fragment">The <em>curse of dimensionality</em> says that it’s very hard to
+sample efficiently in more than a few dimensions.
+<ul>
+<li class="fragment">It took 1000 samples to get close to the correct value of the
+integral in our example</li>
+<li class="fragment">To achieve similar coverage in 10 dimensions would require <span class="math inline">\(10^10\)</span> samples: 10 billion samples.</li>
+</ul>
+</li>
+<li class="fragment">There are more efficient methods of sampling than just picking
+random numbers</li>
+<li class="fragment">But the <em>curse of dimensionality</em> is still a
+problem.</li>
+<li class="fragment">The biggest obstacle to Bayesian analysis is the computational
+work needed to solve the evidence integral.</li>
+</ul>
+</li>
+</ul></section></section><section id="exercises-with-estimation" class="title-slide slide level1 center"><h1 class="center">Exercises with Estimation</h1>
+
+</section>
+</div>
+  </div>
+  <!--
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.js"></script>
+  <!-- -->
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.min.js"></script><!-- --><script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Display the page number of the current slide
+        showSlideNumber: 'speaker',
+        // Push each slide change to the browser history
+        history: true,
+        //  Enable hashing slide content to URL
+        hash: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Don't separate fragments in PDF rendering
+        pdfSeparateFragments: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+      
+        // Optional reveal.js plugins
+        dependencies: [
+                    { src: '../../lecture_lib/library/assets/plugin/chalkboard/chalkboard.js', async: true },
+                                        { src: '../../lecture_lib/library/assets/plugin/reveal-skip-fragments/skip-fragments.js', async: true },
+                    { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/notes/notes.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/math/math.js', async: true }
+        ],
+        shift_keyboard: {
+    	    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'C' is pressed
+    	    66: function() { RevealChalkboard.toggleChalkboard() },	  // toggle chalkboard when 'B' is pressed
+    	    88: function() { RevealChalkboard.clear() },	            // clear chalkboard when 'X' is pressed
+    	    82: function() { RevealChalkboard.reset() },	            // reset chalkboard data on current slide when 'R' is pressed
+    	    68: function() { RevealChalkboard.download() },	          // downlad recorded chalkboard drawing when 'D' is pressed
+        },
+              	// Shortcut for showing all fragments
+      	skipFragmentsShowShortcut: 'S',
+
+      	// Shortcut for hiding all fragments
+      	skipFragmentsHideShortcut: 'H',
+      	      });
+    </script><script>
+  	function createSingletonNodejg( container, tagname, classname, innerHTML ) {
+
+		// Find all nodes matching the description
+		var nodes = container.querySelectorAll( '.' + classname );
+
+		// Check all matches to find one which is a direct child of
+		// the specified container
+		for( var i = 0; i < nodes.length; i++ ) {
+			var testNode = nodes[i];
+			if( testNode.parentNode === container ) {
+				return testNode;
+			}
+		}
+
+		// If no node was found, create it now
+		var node = document.createElement( tagname );
+		node.className = classname;
+		if( typeof innerHTML === 'string' ) {
+			node.innerHTML = innerHTML;
+		}
+		container.appendChild( node );
+
+		return node;
+
+	}
+
+  var dom_wrapper = document.querySelector('.reveal');
+  createSingletonNodejg(dom_wrapper, 'div', 'qrbox',
+  '<div class="qrbox" id="qrbox" style="font-size:90%;">' + '\n' +
+  '<div style="font-size:30%;width:100%;">' + '\n' +
+      '<a href="https://ees5891.jgilligan.org/slides/class_13">' +
+  	'<img src="qrcode.png" alt="https://ees5891.jgilligan.org/slides/class_13"/>' +
+  	'</a>' + '\n' +
+	  '</div>' + '\n' +
+  '<div style="font-size:30%;width:100%;vertical-align:top;">' + '\n' +
+    '<span style="display:inline-block;text-align:left;margin-left:0">' + '\n' +
+        'Live web page: <a href="https://ees5891.jgilligan.org/slides/class_13">https://ees5891.jgilligan.org/slides/class_13</a>' + '\n' +
+              '<br/>' + '\n' +
+        'PDF: <a href="https://ees5891.jgilligan.org/slides/class_13/EES_4891_5891_class_13_slides.pdf" target="_blank">https://ees5891.jgilligan.org/slides/class_13/EES_4891_5891_class_13_slides.pdf</a>' + '\n' +
+          	'</span>' + '\n' +
+  	'<span style="display:inline-block;text-align:right;vertical-align:top;position:absolute;right:0;bottom:0;">' + '\n' +
+  	  'Navigate slides: next: N or &lt;space&gt;; previous: P or &lt;backspace&gt;<br/>' + '\n' +
+  	  'Also: up, down, left, right arrows; overview: o; help: ?' + '\n' +
+  	'</span>' + '\n' +
+	'</div>' + '\n' +
+  '</div>' + '\n'
+  );
+</script><script>
+var MathJax = { jax: ["input/TeX", "output/HTML-CSS"],
+                TeX: {extensions: ["color.js", "mhchem.js"],
+                Macros: {
+                  COO: "\\ce{CO2}",
+                  methane: "\\ce{CH4}",
+                  degC: "^\\circ \\mathrm{C}",
+                  degF: "^\\circ \\mathrm{F}",
+                  water: "\\ce{H2O}",
+                  carb: "\\ce{CO3^2-}",
+                  bicarb: "\\ce{HCO3-}",
+                  carbonic: "\\ce{H2CO3}",
+                  Hplus: "\\ce{H+}",
+                  OH: "\\ce{OH-}",
+                  silica: "\\ce{SiO2}",
+                  calcite: "\\ce{CaCO3}",
+                  Caplus: "\\ce{Ca^2+}",
+                  silicate: "\\ce{SiO3^2-}",
+                  CaSi: "\\ce{CaSiO3}",
+                  pH: "p\\ce{H}",
+                  permil: "\\unicode{x2030}",
+                  pCOO: "\\ce{	ext{p}CO2}",
+                  pwater: "\\ce{	ext{p}H2O}"
+                },
+                  },
+                "HTML-CSS" : {scale: 100 }};
+</script><!-- dynamically load mathjax for compatibility with self-contained --><script type="text/x-mathjax-config">
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["SVG"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+    displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
+    processEscapes: true
+  }
+})
+  </script><script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script><script>
+  var qrbox = document.querySelector("#qrbox");
+  var advance_fragment = 0;
+
+	function isPrintingPDF() {
+	  let printing = ( /print-pdf/gi ).test( window.location.search );
+	  console.log("printing test: " + printing);
+	  return printing;
+	}
+
+
+  if ( qrbox.hasAttribute('qr-box-hide') || Reveal.isOverview() ||
+      ! Reveal.isFirstSlide() || isPrintingPDF()) {
+    console.log("Initializing");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }
+
+  Reveal.addEventListener('overviewshown', function() {
+      console.log("Overview shown");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }, false);
+
+  Reveal.addEventListener('overviewhidden', function() {
+    if (Reveal.isFirstSlide() && ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Overview hidden");
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    console.log("Slide changed...");
+    if (Reveal.isFirstSlide() && ! Reveal.isOverview() &&
+        ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    } else {
+      console.log("Hiding QR box");
+      qrbox.style.visibility="hidden";
+      qrbox.style.display="none";
+    }
+  }, false);
+
+  Reveal.addEventListener('pdf-ready', function() {
+    console.log("hiding qrbox for printing");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+    qrbox.setAttribute('qr-box-hide', 'true');
+  });
+
+  </script><script>
+  Reveal.addEventListener('slidechanged', function() {
+    while (advance_fragment > 0) {
+      // console.log('advancing fragment');
+      Reveal.nextFragment();
+      advance_fragment--;
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    if ( Reveal.getCurrentSlide().hasAttribute('data-skip')) {
+      // console.log("going to next slide...");
+      Reveal.next();
+    }
+  }, false);
+
+  Reveal.addEventListener('skip_slide', function() {
+    Reveal.next();
+  }, false);
+
+  Reveal.addEventListener('advance_fragment', function() {
+    // console.log("setting advance fragment");
+    advance_fragment++;
+    }, false);
+  </script>
+</body>
+</html>
