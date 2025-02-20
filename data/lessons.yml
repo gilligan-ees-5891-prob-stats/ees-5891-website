@@ -56,6 +56,7 @@ lessons:
 - date: '2025-02-20'
   title: Confirmatory Data Analysis
   reading: /reading/reading_14
+  lecture: /slides/class_14
 - date: '2025-02-25'
   title: Statistical Testing
   reading: /reading/reading_15

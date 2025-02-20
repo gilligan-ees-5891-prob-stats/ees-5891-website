@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<!-- JG Reveal.js Template --><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta name="author" content="Jonathan Gilligan">
+<title>Confirmatory Data Analysis</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reset.css">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reveal.min.css">
+<style type="text/css">
+      code{white-space: pre-wrap;}
+      .smallcaps{font-variant: small-caps;}
+      .line-block{white-space: pre-line;}
+      .column{display: inline-block;}  </style>
+<style type="text/css">
+    div.qrbox,
+    aside.qrbox {
+     text-align: left;
+     vertical-align: bottom;
+     width: 95%;
+     position: fixed;
+     left: 2.5%;
+     bottom: 1rem;
+     display: block;
+    }
+  </style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { font-weight: bold; } /* Alert */
+code span.an { font-style: italic; } /* Annotation */
+code span.cf { font-weight: bold; } /* ControlFlow */
+code span.co { font-style: italic; } /* Comment */
+code span.cv { font-style: italic; } /* CommentVar */
+code span.do { font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.er { font-weight: bold; } /* Error */
+code span.in { font-style: italic; } /* Information */
+code span.kw { font-weight: bold; } /* Keyword */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.wa { font-style: italic; } /* Warning */
+  </style>
+<!-- theme = solarized_jg --><link rel="stylesheet" href="../../lecture_lib/library/assets/css/theme/solarized_jg.css" id="theme">
+<!-- Printing and PDF exports --><script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../lecture_lib/library/reveal.js-3.8.0/css/print/pdf.css' : '../../lecture_lib/library/reveal.js-3.8.0/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><!--[if lt IE 9]>
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+  <![endif]--><script src="../../lecture_lib/library/header-attrs-2.29.1.9000/header-attrs.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+            <!-- start title slide -->
+<section class="center" id="title"><h1 class="title">Confirmatory Data Analysis</h1>
+    <h3 class="author">EES 4891/5891</h3>
+        <h3 class="author">Probability &amp; Statistics for
+Geosciences</h3>
+    <h3 class="author">Jonathan Gilligan</h3>
+    <h3 class="date">
+      Class #14:
+       Thursday, February 20
+      2025
+    </h3>
+	<!-- end title slide -->
+</section><section><section id="learning-goals" class="title-slide slide level1 center"><h1 class="center">Learning Goals</h1>
+
+</section><section id="learning-goals-1" class="slide level2"><h2>Learning Goals</h2>
+<ul>
+<li>Become familiar with <em>falsification</em> as a scientific
+method</li>
+<li>Understand what a <em>statistical null hypothesis</em> is</li>
+<li>Learn how to use a <span class="math inline">\(z\)</span>-test to
+test hypotheses when the data is normal and you know the variance</li>
+<li>Learn how to use a <span class="math inline">\(t\)</span>-test to
+test hypotheses when the data is normal and you don’t know the variance
+<ul>
+<li>One-sample <span class="math inline">\(t\)</span>-test to test
+hypotheses about one sample of data</li>
+<li>Two-sample <span class="math inline">\(t\)</span>-test to test
+whether two sets of data were sampled from the same distribution</li>
+</ul>
+</li>
+<li>Learn the general structure and logic of testing a statistical
+hypothesis</li>
+</ul></section></section><section><section id="testing-hypotheses" class="title-slide slide level1 center"><h1 class="center">Testing Hypotheses</h1>
+
+</section><section id="philosophical-background" class="slide level2 eighty"><h2 class="eighty">Philosophical Background</h2>
+<div class="columns bare">
+<div class="column">
+<ul>
+<li>What make science scientific?
+<ul>
+<li>Demarcation Problem:
+<ul>
+<li>How can we distinguish science from non-science or
+pseudo-science?</li>
+</ul>
+</li>
+<li>How does a scientific method produce truth?</li>
+</ul>
+</li>
+<li class="fragment" data-fragment-index="1">David Hume (1711–1776)
+<ul>
+<li>You can’t rationally prove scientific principles from
+observations</li>
+</ul>
+</li>
+<li class="fragment" data-fragment-index="2">Karl Popper (1902–1994)
+<ul>
+<li>
+<em>The Logic of Scientific Discovery</em> (1934)
+<ul>
+<li>You can’t prove that a scientific principle is true, but you can
+prove that a false principle is false</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<div class="fragment" data-fragment-index="1">
+<p><img data-src="assets/images/David_Hume.jpg" height="400" alt="David Hume"></p>
+<div class="seventy-five">
+<p>David Hume</p>
+</div>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p><img data-src="assets/images/Karl_Popper.jpg" height="400" alt="Karl Popper"></p>
+<div class="seventy-five">
+<p>Karl Popper</p>
+</div>
+</div>
+</div>
+</div>
+</section><section id="falsification-and-scientific-method" class="slide level2 eighty"><h2 class="eighty">Falsification and Scientific Method</h2>
+<div class="columns bare">
+<div class="column">
+<ul>
+<li>Falsification and scientific method:
+<ul>
+<li class="fragment" data-fragment-index="1">You can’t prove that a scientific principle is true, but you
+can prove that a false principle is false</li>
+<li class="fragment" data-fragment-index="2">A hypothesis is scientific if it allows us to make <em>risky
+predictions</em>
+</li>
+<li class="fragment" data-fragment-index="3">A prediction is <em>risky</em> if a small number of
+observations can prove it false
+<ul>
+<li class="fragment" data-fragment-index="4">“All swans are white”</li>
+<li class="fragment" data-fragment-index="5">“This swan is black”</li>
+</ul>
+</li>
+<li class="fragment" data-fragment-index="6">Every time you make a risky proposition and it comes true, you
+gain confidence in the hypothesis</li>
+<li class="fragment" data-fragment-index="7">We can never be certain that a hypothesis is true.
+<ul>
+<li>But we can have a lot of confidence if it survives a great deal of
+testing</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<div class="fragment" data-fragment-index="4">
+<p><img data-src="assets/images/White_swans.jpg" height="400" alt="White swans"></p>
+</div>
+<div class="fragment" data-fragment-index="5">
+<p><img data-src="assets/images/Black_swan_jan09.jpg" height="400" alt="Black swan"></p>
+</div>
+</div>
+</div>
+</section><section id="statistics-and-hypothesis-testing" class="slide level2 eighty"><h2 class="eighty">Statistics and Hypothesis Testing</h2>
+<ul>
+<li>Statistical tests focus on a <em>null hypothesis</em> <span class="math inline">\(H_0\)</span>.
+<ul>
+<li>If data make us doubt the <em>null hypothesis</em>, then we become
+more confident that another hypothesis may be true.</li>
+</ul>
+</li>
+<li class="fragment"><em>Null hypothesis</em> should be the most conventional or
+boring idea.
+<ul>
+<li class="fragment">“These two distributions are the same.”</li>
+<li class="fragment">“Newton’s laws of motion are correct.”</li>
+</ul>
+</li>
+<li class="fragment">Statistical tests can’t prove the null hypothesis is false
+<ul>
+<li>Why not?</li>
+<li class="fragment">But they can cast doubt on the null hypothesis</li>
+</ul>
+</li>
+</ul></section></section><section><section id="which-tribe-arrived-first" class="title-slide slide level1 center"><h1 class="center">Which Tribe Arrived First?</h1>
+
+</section><section id="two-tribes" class="slide level2 eighty"><h2 class="eighty">Two Tribes</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li><p>Two tribes lived in an area for more than 1000 years</p></li>
+<li>
+<p>There are disputes about which tribe arrived first</p>
+<ul>
+<li>Hypothesis 1: Tribe A arrived in 622 CE</li>
+<li>Hypothesis 2: Tribe B arrived in 615 CE</li>
+</ul>
+</li>
+<li class="fragment">
+<p>Archaeologists ask you to use <sup>14</sup>C dating to
+estimate ages of wood artifacts from early settlements of both
+tribes</p>
+<p><span class="math display">\[
+\left\lbrace {\:
+  \overline{t_A} = 650\: \text{CE} \pm 50 \mathrm{y}
+  \atop
+  \overline{t_B} = 750\: \text{CE} \pm 50 \mathrm{y}
+  } \quad (1\sigma)
+  \right.
+\]</span></p>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">Three questions:
+<ol type="1">
+<li>How confident are you about each date (confidence or credible
+intervals)</li>
+<li>Are the observations compatible with the hypotheses? (hypothesis
+tests)</li>
+<li>How confident are you about which tribe got there first? (<span class="math inline">\(p\)</span>-values)</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="confidence-intervals" class="slide level2 eighty"><h2 class="eighty">Confidence Intervals</h2>
+<div class="columns bare">
+<div class="column">
+<ul>
+<li><p>Can we assume that our estimate of <span class="math inline">\(\overline{t_A}\)</span> is drawn from a normal
+distribution?</p></li>
+<li>
+<p>Assume <span class="math inline">\(\overline{t_A} \sim
+\mathcal{N}(\hat{\mu}_A, \sigma_A)\)</span></p>
+<ul>
+<li>Find <span class="math inline">\(t_{\text{min}}\)</span> and <span class="math inline">\(t_{\text{max}}\)</span> such that <span class="math inline">\(\mathbb{P}(t_{\text{min}} \le t_A \le
+t_{\text{max}}) = 95\%\)</span>
+</li>
+</ul>
+</li>
+<li class="fragment">
+<p>Transform to a <span class="math inline">\(z\)</span>-score
+(standardize):</p>
+<p><span class="math display">\[
+z_A = \frac{t_A - \hat{\mu}_A}{\sigma_A} \sim \mathcal{N}(0, 1)
+\]</span></p>
+</li>
+<li class="fragment">
+<p>The normal distribution is symmetrical, so we can write our
+condition:</p>
+<p><span class="math display">\[
+\mathbb{P}(z_{\text{min}} \le z_A \le z_{\text{max}}) =
+\mathbb{P}(|z_A| \le z_\alpha)
+\]</span></p>
+</li>
+<li class="fragment"><p>Find <span class="math inline">\(z_\alpha\)</span> such that
+<span class="math inline">\(\mathbb{P}(|z_A| \le z_\alpha) = (100 -
+\alpha)\%\)</span></p></li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>For 95% confidence interval, <span class="math inline">\(\alpha = 0.05\)</span></p>
+<p><img data-src="assets/fig/unnamed-chunk-1-1.png"><!-- --></p>
+<p><span class="math display">\[
+  \begin{align}
+      z_\alpha &amp;= \texttt{qnorm(0.975, 0, 1)} \\
+               &amp;= \texttt{qnorm(0.025, 0, 1, FALSE)} \\
+               &amp;= 1.96 \\
+      t_{\text{min}} &amp;= \hat{\mu}_A - 1.96 \sigma_A
+                     = 552 \\
+      t_{\text{max}} &amp;= \hat{\mu}_A + 1.96 \sigma_A
+                     = 748 \\
+  \end{align}
+  \]</span></p>
+</li>
+<li class="fragment"><p><span class="math inline">\(\mathbb{P}(552 \le t_A \le 748) =
+95\%\)</span></p></li>
+<li class="fragment"><p><span class="math inline">\(\mathbb{P}(652 \le t_B \le 848) =
+95\%\)</span></p></li>
+</ul>
+</div>
+</div>
+</section><section id="interpreting-confidence-intervals" class="slide level2 eighty"><h2 class="eighty">Interpreting Confidence Intervals</h2>
+<ul>
+<li>What does it mean to say:
+<ul>
+<li><span class="math inline">\(\mathbb{P}(552 \le t_A \le 748) =
+95\%\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(652 \le t_B \le 848) =
+95\%\)</span></li>
+</ul>
+</li>
+<li class="fragment">If you do the experiment many times, and calculate a 95%
+confidence interval for each,
+<ul>
+<li>then for 95% of the experiments, the true value of <span class="math inline">\(t_A\)</span> will lie within the confidence
+interval for that experiment.</li>
+</ul>
+</li>
+<li class="fragment">It does not mean that <em>for your experiment</em>, there is a
+95% probability that the true value of <span class="math inline">\(t_A\)</span> lies within the interval.</li>
+</ul></section></section><section><section id="testing-hypotheses-1" class="title-slide slide level1 center"><h1 class="center">Testing Hypotheses</h1>
+
+</section><section id="testing-hypotheses-2" class="slide level2 eighty"><h2 class="eighty">Testing Hypotheses</h2>
+<ul>
+<li>Assume <span class="math inline">\(t_A\)</span> is normally
+distributed</li>
+<li>Null hypothesis: <span class="math inline">\(H_{0}\)</span>: <span class="math inline">\(\mu_A = 622 \: \text{CE}\)</span>
+</li>
+</ul>
+<div class="columns mtop-2">
+<div class="column">
+<h3 id="known-variance-z-test">Known Variance: <span class="math inline">\(Z\)</span>-test</h3>
+<ul>
+<li>
+<p>Assume we know the precision of the measurements</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sigma_A &amp;= \sigma_B = \sigma \\
+z_A &amp;= \frac{t_A - \mu_A}{\sigma} = \frac{t_A - 622}{50} \\
+z_A &amp;\sim \mathcal{N}(0,1)
+\end{aligned}
+\]</span></p>
+</li>
+<li><p>Use the <span class="math inline">\(Z\)</span> test, based on the
+cumulative probability of the normal distribution.</p></li>
+</ul>
+</div>
+<div class="column">
+<h3 id="unknown-variance-t-test">Unknown Variance: <span class="math inline">\(t\)</span>-test</h3>
+<ul>
+<li><p>We don’t know the precision of the measurements</p></li>
+<li><p>Take <span class="math inline">\(n_A\)</span> measurements and
+estimate precision from sample variance <span class="math inline">\(S^2\)</span></p></li>
+<li>
+<p>Calculate the <span class="math inline">\(T\)</span>
+statistic</p>
+<p><span class="math display">\[
+\hat{T}_A = \frac{\overline{t_A} - \mu_A}{S_A / \sqrt{n_A}}
+\]</span></p>
+<ul>
+<li>use Student’s <span class="math inline">\(t\)</span>-test, which is
+based on the <span class="math inline">\(T\)</span>-distribution.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="known-variance-z-test-1" class="slide level2 eighty"><h2 class="eighty">Known Variance: <span class="math inline">\(Z\)</span>-test</h2>
+<ul>
+<li>We know the precision of the measurements: <span class="math inline">\(\sigma_A = \sigma_B = \sigma\)</span>
+</li>
+</ul>
+<div class="columns mtop-1">
+<div class="column">
+<ul>
+<li>
+<p>Null hypothesis:</p>
+<ul>
+<li>
+<span class="math inline">\(H_{0,A}\)</span>: <span class="math inline">\(\mu_A = 622\)</span>
+</li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+z_A &amp;= \frac{t_A - \mu_A}{\sigma} = \frac{t_A - 622}{50} \\
+z_A &amp;\sim \mathcal{N}(0,1) \\
+\mathbb{P}(t_A \ge 650) &amp;= \mathbb{P}\left( z_A \ge \frac{650 -
+622}{50} \right) \\
+  &amp;= \mathbb{P}\left( z_A \ge 0.56 \right) \\
+  &amp;= 1 - \Phi(0.56)
+     \approx 29\%
+\end{aligned}
+\]</span></p>
+<ul>
+<li class="fragment">There is a very good chance that we could measure a date of 650
+CE or later if <span class="math inline">\(\mu_A = 622\)</span>.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>
+<p>Null Hypothesis:</p>
+<ul>
+<li>
+<span class="math inline">\(H_{0,B}\)</span>: <span class="math inline">\(\mu_B = 615\)</span>
+</li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+z_B &amp;= \frac{t_B - \mu_B}{\sigma} = \frac{t_B - 615}{50} \\
+z_B &amp;\sim \mathcal{N}(0,1) \\
+\mathbb{P}(t_B \ge 750) &amp;= \mathbb{P}\left( z_B \ge \frac{750 -
+615}{50} \right) \\
+  &amp;= \mathbb{P}\left( z_B \ge 2.7 \right) \\
+  &amp;= 1 - \Phi(2.7)
+     \approx 0.35\%
+\end{aligned}
+\]</span></p>
+<ul>
+<li class="fragment">It is very unlikely that we’d measure a date of 750 CE or later
+if <span class="math inline">\(\mu_B = 615\)</span>.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="unknown-variance-t-test-1" class="slide level2 eighty"><h2 class="eighty">Unknown Variance: <span class="math inline">\(t\)</span>-test</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li><p>Take <span class="math inline">\(n_A\)</span> measurements of
+artifacts from tribe A, which give dates of <span class="math inline">\(\lbrace t_{A,1}, t_{A,2}, \ldots,
+t_{A,n_A}\rbrace\)</span></p></li>
+<li><p>Assume <span class="math inline">\(t_A\)</span> are normally
+distributed: <span class="math inline">\(t_A \sim \mathcal{N}(\mu_A,
+\sigma_A)\)</span>.</p></li>
+<li class="fragment">
+<p>The Central Limit Theorem tells us that</p>
+<p><span class="math display">\[
+\begin{aligned}
+E(\overline{t_A}) &amp;= \mu_A \\
+V(\overline{t_A}) &amp;= \frac{\sigma_A^2}{n_A},
+\end{aligned}
+\]</span> but we don’t know <span class="math inline">\(\sigma_A\)</span>, so we estimate it from the
+sample variance:</p>
+<p><span class="math display">\[
+S_A^2 = \frac{1}{n_A - 1} \sum_{i = 1}^{n_A} \left( t_{A,i} -
+\overline{t_A} \right)^2
+\]</span></p>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p><span class="math inline">\(t_{A,i} - \overline{t_A}\)</span>
+have independent values drawn from a normal distribution <span class="math inline">\(\mathcal{N}(0,\sigma_A)\)</span>, so we can scale
+them:</p>
+<p><span class="math display">\[
+  \frac{1}{\sigma_A} (t_{A,i} - \overline{t_A})
+  \]</span> will have unit variance.</p>
+</li>
+<li class="fragment">
+<p>The quantity</p>
+<p><span class="math display">\[
+(n - 1) \frac{S^2}{\sigma^2} = \frac{1}{\sigma^2} \sum_{i = 1}^{n}
+\left( t_i - \overline{t}\right)^2
+\]</span> is distributed according to the <span class="math inline">\(\chi_\nu^2\)</span>, or <em>chi-squared</em>
+distribution for <span class="math inline">\(\nu = n - 1\)</span>
+degrees of freedom.</p>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="chi-squared-distribution" class="slide level2 eighty"><h2 class="eighty">Chi-Squared Distribution</h2>
+<ul>
+<li>
+<p>If <span class="math inline">\(t_i\)</span> are <span class="math inline">\(n\)</span> independent normally distributed
+measurements with variance <span class="math inline">\(\sigma^2\)</span>, then</p>
+<p><span class="math display">\[
+(n - 1) \frac{S^2}{\sigma^2} = \frac{1}{\sigma^2} \sum_{i = 1}^{n}
+\left( t_i - \overline{t}\right)^2
+\]</span> follows the <span class="math inline">\(\chi_\nu^2\)</span>,
+or <em>chi-squared</em> distribution for <span class="math inline">\(\nu
+= n - 1\)</span> degrees of freedom.</p>
+</li>
+<li>
+<p>What are “degrees of freedom”?</p>
+<ul>
+<li>The number of measurements that could change independently.</li>
+<li>We lose one degree of freedom for each constraint on the data.
+<ul>
+<li>If the data have to average to <span class="math inline">\(\overline{t}\)</span>, this removes one degree of
+freedom</li>
+<li>If <span class="math inline">\(n = 1\)</span>, then <span class="math inline">\(\overline{t} = t_1\)</span>, so you can’t change
+the measurement without changing <span class="math inline">\(\overline{t}\)</span> and you have zero degrees of
+freedom (<span class="math inline">\(1 - 1 = 0\)</span>)</li>
+<li>If <span class="math inline">\(n =2\)</span>, then you can change
+one variable, <span class="math inline">\(t_1 \rightarrow t_1 +
+\delta\)</span>, but <span class="math inline">\(t_2\)</span> would have
+to make the opposite change <span class="math inline">\(t_2 \rightarrow
+t_2 - \delta\)</span>, so there is 1 degree of freedom <span class="math inline">\((2 - 1 = 1)\)</span>.</li>
+<li>For <span class="math inline">\(n = 3\)</span>, if <span class="math inline">\(t_1 \rightarrow t_1 + \delta_1\)</span> and <span class="math inline">\(t_2 \rightarrow t_2 + \delta_2\)</span>, then you
+have to have <span class="math inline">\(t_3 \rightarrow t_3 - (\delta_1
++ \delta_2)\)</span>. <span class="math inline">\(t_3\)</span> isn’t
+independent from <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span>, so there are 2 degrees of freedom (3
+- 1 = 2).</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></section></section><section><section id="students-t-test" class="title-slide slide level1 center"><h1 class="center">Student’s <span class="math inline">\(t\)</span>-test</h1>
+
+</section><section id="one-sample-t-test" class="slide level2 eighty"><h2 class="eighty">One-Sample <span class="math inline">\(t\)</span>-test</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Null hypothesis <span class="math inline">\(H_0\)</span>: <span class="math inline">\(\mu_A = 622\)</span>
+</li>
+<li>Alternate hypothesis <span class="math inline">\(H_a\)</span>: <span class="math inline">\(\mu_A &gt; 622\)</span>
+</li>
+<li class="fragment">One-sided, one-sample <span class="math inline">\(t\)</span>-test:
+<ul>
+<li>
+<p><span class="math inline">\(T\)</span>-statistic</p>
+<p><span class="math display">\[
+\hat{T} = \frac{\overline{t_A} - \mu_A}{S_A / \sqrt{n_A}}
+\]</span></p>
+</li>
+<li class="fragment"><p>Compute <span class="math inline">\(\mathbb{P}(t &gt;
+\hat{T}) = 1 - F_{t_\nu}(\hat{T})\)</span>, where <span class="math inline">\(F_{t_\nu}\)</span> is the cumulative distribution
+function of the <span class="math inline">\(t\)</span>-distribution for
+<span class="math inline">\(\nu\)</span> degrees of freedom.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">Suppose <span class="math inline">\(\hat{T} = 1.94\)</span>.
+<ul>
+<li>If <span class="math inline">\(n_A = 4\)</span>, <span class="math inline">\(1 - F_{t_4}(1.94) = 13\%\)</span>, so we can’t
+reject <span class="math inline">\(H_0\)</span>
+</li>
+<li>If <span class="math inline">\(n_A = 12\)</span>, <span class="math inline">\(1 - F_{t_{12}}(1.94) = 4\%\)</span>, so we reject
+<span class="math inline">\(H_0\)</span> at the 5% level.</li>
+</ul>
+</li>
+<li class="fragment">4 measurements aren’t enough to tell the difference between
+tribe A arriving at 622 versus 650 CE.
+<ul>
+<li>12 measurements are sufficient to tell the difference, and
+confidently say that the tribe probably arrived after 622.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="one-sample-t-test-in-r" class="slide level2 eighty"><h2 class="eighty">One-Sample <span class="math inline">\(t\)</span>-Test in R</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Sample some data:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2357</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>t_A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">4</span>, <span class="dv">650</span>, <span class="dv">50</span>)</span></code></pre></div>
+<ul>
+<li class="fragment">
+<p>Run a t-test</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(t_A, <span class="at">mu =</span> <span class="dv">622</span>, <span class="at">alternative =</span> <span class="st">"greater"</span>)</span></code></pre></div>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  t_A
+## t = -0.48173, df = 3, p-value = 0.6685
+## alternative hypothesis: true mean is greater than 622
+## 95 percent confidence interval:
+##  581.4812      Inf
+## sample estimates:
+## mean of x 
+##  615.1151</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Now try with 12 samples</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>t_A <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">12</span>, <span class="dv">650</span>, <span class="dv">50</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(t_A, <span class="at">mu =</span> <span class="dv">622</span>, <span class="at">alternative =</span> <span class="st">"greater"</span>)</span></code></pre></div>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  t_A
+## t = 2.7604, df = 11, p-value = 0.009271
+## alternative hypothesis: true mean is greater than 622
+## 95 percent confidence interval:
+##  636.7262      Inf
+## sample estimates:
+## mean of x 
+##  664.1454</code></pre>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="two-sample-t-test" class="slide level2 eighty"><h2 class="eighty">Two-Sample <span class="math inline">\(t\)</span>-Test</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Null hypothesis <span class="math inline">\(H_0\)</span>: <span class="math inline">\(\mu_A = \mu_B\)</span>
+</li>
+<li>Alternate hypothesis <span class="math inline">\(H_a\)</span>: <span class="math inline">\(\mu_B &gt; \mu_A\)</span>
+</li>
+<li>One-sided two-sample <span class="math inline">\(t\)</span>-test:
+<ul>
+<li>
+<p>Compute the two-sample <span class="math inline">\(T\)</span>-statistic</p>
+<p><span class="math display">\[
+\hat{T} = \frac{\overline{t_B} - \overline{t_A}}
+               {\sqrt{\frac{S_B^2}{n_B} + \frac{S_A^2}{n_A}}}
+        \sim t_{\nu'}
+\]</span> where <span class="math inline">\(\nu'\)</span> depends on
+what we know about whether <span class="math inline">\(t_A\)</span> and
+<span class="math inline">\(t_B\)</span> have the same
+variance.</p>
+</li>
+<li><p>R will calculate <span class="math inline">\(\nu'\)</span> so
+we don’t have to worry about the formulas in the textbook</p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Try it in R</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>t_B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">9</span>, <span class="dv">750</span>, <span class="dv">50</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(t_B, t_A, <span class="at">alternative =</span> <span class="st">"less"</span>, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  t_B and t_A
+## t = 3.074, df = 19, p-value = 0.9969
+## alternative hypothesis: true difference in means is less than 0
+## 95 percent confidence interval:
+##      -Inf 102.8415
+## sample estimates:
+## mean of x mean of y 
+##  729.9636  664.1454</code></pre>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="the-logic-of-statistical-tests" class="title-slide slide level1 center"><h1 class="center">The Logic of Statistical Tests</h1>
+
+</section><section id="the-logic-of-statistical-tests-1" class="slide level2 eighty"><h2 class="eighty">The Logic of Statistical Tests</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Five Steps:
+<ol type="1">
+<li class="fragment">Identify the appropriate test and test statistic
+<ul>
+<li>e.g., <span class="math inline">\(t\)</span>-test and <span class="math inline">\(T\)</span> statistic</li>
+</ul>
+</li>
+<li class="fragment">Define the null hypothesis
+<ul>
+<li>e.g., <span class="math inline">\(H_0\)</span>: <span class="math inline">\(\mu_1 = \mu_2\)</span>
+</li>
+</ul>
+</li>
+<li class="fragment">Define an alternate hypothesis:
+<ul>
+<li>e.g., <span class="math inline">\(H_a\)</span>: <span class="math inline">\(\mu_1 &gt; \mu_2\)</span> (one-sided)</li>
+<li>
+<span class="math inline">\(H_a\)</span>: <span class="math inline">\(\mu_1 \ne \mu_2\)</span> (two-sided)</li>
+</ul>
+</li>
+<li class="fragment">Obtain the <em>null distribution</em>
+<ul>
+<li>Distribution of the test statistic if <span class="math inline">\(H_0\)</span> is true</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</div>
+<div class="column">
+<ol start="5" type="1">
+<li class="fragment">Compute <span class="math inline">\(p\)</span>-value
+<ul>
+<li>Probability that you’d see values as extreme as the observed test
+statistic if <span class="math inline">\(H_0\)</span> is true</li>
+<li>Compare to test level <span class="math inline">\(\alpha\)</span>
+<ul>
+<li>e.g., <span class="math inline">\(\alpha = 0.05\)</span>
+</li>
+</ul>
+</li>
+<li>
+<span class="math inline">\(p &lt; \alpha\)</span>: Reject <span class="math inline">\(H_0\)</span> (guilty)</li>
+<li>
+<span class="math inline">\(p \ge \alpha\)</span>: Insufficient
+evidence to reject <span class="math inline">\(H_0\)</span> (not guilty
+<span class="math inline">\(\ne\)</span> innocent)</li>
+</ul>
+</li>
+</ol>
+</div>
+</div>
+</section></section>
+</div>
+  </div>
+  <!--
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.js"></script>
+  <!-- -->
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.min.js"></script><!-- --><script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Display the page number of the current slide
+        showSlideNumber: 'speaker',
+        // Push each slide change to the browser history
+        history: true,
+        //  Enable hashing slide content to URL
+        hash: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Don't separate fragments in PDF rendering
+        pdfSeparateFragments: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+      
+        // Optional reveal.js plugins
+        dependencies: [
+                    { src: '../../lecture_lib/library/assets/plugin/chalkboard/chalkboard.js', async: true },
+                                        { src: '../../lecture_lib/library/assets/plugin/reveal-skip-fragments/skip-fragments.js', async: true },
+                    { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/notes/notes.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/math/math.js', async: true }
+        ],
+        shift_keyboard: {
+    	    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'C' is pressed
+    	    66: function() { RevealChalkboard.toggleChalkboard() },	  // toggle chalkboard when 'B' is pressed
+    	    88: function() { RevealChalkboard.clear() },	            // clear chalkboard when 'X' is pressed
+    	    82: function() { RevealChalkboard.reset() },	            // reset chalkboard data on current slide when 'R' is pressed
+    	    68: function() { RevealChalkboard.download() },	          // downlad recorded chalkboard drawing when 'D' is pressed
+        },
+              	// Shortcut for showing all fragments
+      	skipFragmentsShowShortcut: 'S',
+
+      	// Shortcut for hiding all fragments
+      	skipFragmentsHideShortcut: 'H',
+      	      });
+    </script><script>
+  	function createSingletonNodejg( container, tagname, classname, innerHTML ) {
+
+		// Find all nodes matching the description
+		var nodes = container.querySelectorAll( '.' + classname );
+
+		// Check all matches to find one which is a direct child of
+		// the specified container
+		for( var i = 0; i < nodes.length; i++ ) {
+			var testNode = nodes[i];
+			if( testNode.parentNode === container ) {
+				return testNode;
+			}
+		}
+
+		// If no node was found, create it now
+		var node = document.createElement( tagname );
+		node.className = classname;
+		if( typeof innerHTML === 'string' ) {
+			node.innerHTML = innerHTML;
+		}
+		container.appendChild( node );
+
+		return node;
+
+	}
+
+  var dom_wrapper = document.querySelector('.reveal');
+  createSingletonNodejg(dom_wrapper, 'div', 'qrbox',
+  '<div class="qrbox" id="qrbox" style="font-size:90%;">' + '\n' +
+  '<div style="font-size:30%;width:100%;">' + '\n' +
+      '<a href="https://ees5891.jgilligan.org/slides/class_14">' +
+  	'<img src="qrcode.png" alt="https://ees5891.jgilligan.org/slides/class_14"/>' +
+  	'</a>' + '\n' +
+	  '</div>' + '\n' +
+  '<div style="font-size:30%;width:100%;vertical-align:top;">' + '\n' +
+    '<span style="display:inline-block;text-align:left;margin-left:0">' + '\n' +
+        'Live web page: <a href="https://ees5891.jgilligan.org/slides/class_14">https://ees5891.jgilligan.org/slides/class_14</a>' + '\n' +
+              '<br/>' + '\n' +
+        'PDF: <a href="https://ees5891.jgilligan.org/slides/class_14/EES_4891_5891_class_14_slides.pdf" target="_blank">https://ees5891.jgilligan.org/slides/class_14/EES_4891_5891_class_14_slides.pdf</a>' + '\n' +
+          	'</span>' + '\n' +
+  	'<span style="display:inline-block;text-align:right;vertical-align:top;position:absolute;right:0;bottom:0;">' + '\n' +
+  	  'Navigate slides: next: N or &lt;space&gt;; previous: P or &lt;backspace&gt;<br/>' + '\n' +
+  	  'Also: up, down, left, right arrows; overview: o; help: ?' + '\n' +
+  	'</span>' + '\n' +
+	'</div>' + '\n' +
+  '</div>' + '\n'
+  );
+</script><script>
+var MathJax = { jax: ["input/TeX", "output/HTML-CSS"],
+                TeX: {extensions: ["color.js", "mhchem.js"],
+                Macros: {
+                  COO: "\\ce{CO2}",
+                  methane: "\\ce{CH4}",
+                  degC: "^\\circ \\mathrm{C}",
+                  degF: "^\\circ \\mathrm{F}",
+                  water: "\\ce{H2O}",
+                  carb: "\\ce{CO3^2-}",
+                  bicarb: "\\ce{HCO3-}",
+                  carbonic: "\\ce{H2CO3}",
+                  Hplus: "\\ce{H+}",
+                  OH: "\\ce{OH-}",
+                  silica: "\\ce{SiO2}",
+                  calcite: "\\ce{CaCO3}",
+                  Caplus: "\\ce{Ca^2+}",
+                  silicate: "\\ce{SiO3^2-}",
+                  CaSi: "\\ce{CaSiO3}",
+                  pH: "p\\ce{H}",
+                  permil: "\\unicode{x2030}",
+                  pCOO: "\\ce{	ext{p}CO2}",
+                  pwater: "\\ce{	ext{p}H2O}"
+                },
+                  },
+                "HTML-CSS" : {scale: 100 }};
+</script><!-- dynamically load mathjax for compatibility with self-contained --><script type="text/x-mathjax-config">
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["SVG"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+    displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
+    processEscapes: true
+  }
+})
+  </script><script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script><script>
+  var qrbox = document.querySelector("#qrbox");
+  var advance_fragment = 0;
+
+	function isPrintingPDF() {
+	  let printing = ( /print-pdf/gi ).test( window.location.search );
+	  console.log("printing test: " + printing);
+	  return printing;
+	}
+
+
+  if ( qrbox.hasAttribute('qr-box-hide') || Reveal.isOverview() ||
+      ! Reveal.isFirstSlide() || isPrintingPDF()) {
+    console.log("Initializing");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }
+
+  Reveal.addEventListener('overviewshown', function() {
+      console.log("Overview shown");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }, false);
+
+  Reveal.addEventListener('overviewhidden', function() {
+    if (Reveal.isFirstSlide() && ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Overview hidden");
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    console.log("Slide changed...");
+    if (Reveal.isFirstSlide() && ! Reveal.isOverview() &&
+        ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    } else {
+      console.log("Hiding QR box");
+      qrbox.style.visibility="hidden";
+      qrbox.style.display="none";
+    }
+  }, false);
+
+  Reveal.addEventListener('pdf-ready', function() {
+    console.log("hiding qrbox for printing");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+    qrbox.setAttribute('qr-box-hide', 'true');
+  });
+
+  </script><script>
+  Reveal.addEventListener('slidechanged', function() {
+    while (advance_fragment > 0) {
+      // console.log('advancing fragment');
+      Reveal.nextFragment();
+      advance_fragment--;
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    if ( Reveal.getCurrentSlide().hasAttribute('data-skip')) {
+      // console.log("going to next slide...");
+      Reveal.next();
+    }
+  }, false);
+
+  Reveal.addEventListener('skip_slide', function() {
+    Reveal.next();
+  }, false);
+
+  Reveal.addEventListener('advance_fragment', function() {
+    // console.log("setting advance fragment");
+    advance_fragment++;
+    }, false);
+  </script>
+</body>
+</html>
