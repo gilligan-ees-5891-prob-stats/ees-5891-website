@@ -1,0 +1,16 @@
+---
+title: Review
+class_date: '2025-03-18'
+class_number: 17
+weight: 17
+slug: reading_17
+pubdate: '2024-12-31'
+date: '2025-03-18'
+pdf_url: /files/reading_asgts/reading_17.pdf
+output:
+  blogdown::html_page:
+    md_extensions: +tex_math_single_backslash+compact_definition_lists
+---
+## Reading:
+
+No new reading for today.

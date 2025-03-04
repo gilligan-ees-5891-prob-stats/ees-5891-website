@@ -62,13 +62,15 @@ lessons:
   reading: /reading/reading_15
   lecture: /slides/class_15
 - date: '2025-03-06'
-  title: Review
+  title: Exercises with Hypothesis Testing
+  reading: /reading/reading_16
 - date: '2025-03-11'
   title: Spring Break
 - date: '2025-03-13'
   title: Spring Break
 - date: '2025-03-18'
-  title: Exercises with Hypothesis Testing
+  title: Review
+  reading: /reading/reading_17
 - date: '2025-03-20'
   title: Multivariate Analysis
   reading: /reading/reading_18
