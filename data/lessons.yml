@@ -57,24 +57,25 @@ lessons:
   title: Confirmatory Data Analysis
   reading: /reading/reading_14
   lecture: /slides/class_14
-- date: '2025-02-25'
+- date: '2025-03-04'
   title: Statistical Testing
   reading: /reading/reading_15
-- date: '2025-02-27'
-  title: Review
-- date: '2025-03-04'
-  title: Exercises with Hypothesis Testing
+  lecture: /slides/class_15
 - date: '2025-03-06'
-  title: Multivariate Analysis
-  reading: /reading/reading_18
+  title: Review
 - date: '2025-03-11'
   title: Spring Break
 - date: '2025-03-13'
   title: Spring Break
 - date: '2025-03-18'
+  title: Exercises with Hypothesis Testing
+- date: '2025-03-20'
+  title: Multivariate Analysis
+  reading: /reading/reading_18
+- date: '2025-03-21'
   title: Least Squares Analysis
   reading: /reading/reading_19
-- date: '2025-03-20'
+- date: '2025-03-24'
   title: Linear Regression
   reading: /reading/reading_20
 - date: '2025-03-25'
