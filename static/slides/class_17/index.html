@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<!-- JG Reveal.js Template --><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta name="author" content="Jonathan Gilligan">
+<title>Review</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reset.css">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reveal.min.css">
+<style type="text/css">
+      code{white-space: pre-wrap;}
+      .smallcaps{font-variant: small-caps;}
+      .line-block{white-space: pre-line;}
+      .column{display: inline-block;}  </style>
+<style type="text/css">
+    div.qrbox,
+    aside.qrbox {
+     text-align: left;
+     vertical-align: bottom;
+     width: 95%;
+     position: fixed;
+     left: 2.5%;
+     bottom: 1rem;
+     display: block;
+    }
+  </style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { font-weight: bold; } /* Alert */
+code span.an { font-style: italic; } /* Annotation */
+code span.cf { font-weight: bold; } /* ControlFlow */
+code span.co { font-style: italic; } /* Comment */
+code span.cv { font-style: italic; } /* CommentVar */
+code span.do { font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.er { font-weight: bold; } /* Error */
+code span.in { font-style: italic; } /* Information */
+code span.kw { font-weight: bold; } /* Keyword */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.wa { font-style: italic; } /* Warning */
+  </style>
+<!-- theme = solarized_jg --><link rel="stylesheet" href="../../lecture_lib/library/assets/css/theme/solarized_jg.css" id="theme">
+<!-- Printing and PDF exports --><script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../lecture_lib/library/reveal.js-3.8.0/css/print/pdf.css' : '../../lecture_lib/library/reveal.js-3.8.0/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><!--[if lt IE 9]>
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+  <![endif]--><script src="../../lecture_lib/library/header-attrs-2.29.1.9000/header-attrs.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+            <!-- start title slide -->
+<section class="center" id="title"><h1 class="title">Review</h1>
+    <h3 class="author">EES 4891/5891</h3>
+        <h3 class="author">Probability &amp; Statistics for
+Geosciences</h3>
+    <h3 class="author">Jonathan Gilligan</h3>
+    <h3 class="date">
+      Class #17:
+       Tuesday, March 18
+      2025
+    </h3>
+	<!-- end title slide -->
+</section><section><section id="announcement" class="title-slide slide level1 center"><h1 class="center">Announcement</h1>
+
+</section><section id="announcement-1" class="slide level2 eighty"><h2 class="eighty">Announcement</h2>
+<ul>
+<li>Office Hours canceled this Wednesday
+<ul>
+<li>Make-Up Office Hours:
+<ul>
+<li>Thursday March 20, 2:00–3:30</li>
+<li>Or by arrangement (Most of Friday is open)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>This week, I will be recording lectures to make up for missed
+classes.</li>
+</ul></section></section><section><section id="learning-goals" class="title-slide slide level1 center"><h1 class="center">Learning Goals</h1>
+
+</section><section id="learning-goals-1" class="slide level2 eighty"><h2 class="eighty">Learning Goals</h2>
+<ul>
+<li>Refresh your understanding of:
+<ul>
+<li>Descriptive statistics
+<ul>
+<li>Learn the difference between <em>Pearson</em> and <em>Spearman</em>
+methods for estimating <em>correlation</em>.</li>
+</ul>
+</li>
+<li>The central limit theorem</li>
+<li>How to estimate parameters for parametric distributions</li>
+<li>Testing hypotheses
+<ul>
+<li>New material: Bayesian hypothesis testing</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></section></section><section><section id="semester-research-project" class="title-slide slide level1 center"><h1 class="center">Semester Research Project</h1>
+
+</section><section id="semester-research-project-1" class="slide level2 eighty"><h2 class="eighty">Semester Research Project</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Posted to course web site</li>
+<li>By March 27, choose a data set (from your own research, published
+data sources, etc.)
+<ul>
+<li>Does not need to be geological or environmental</li>
+<li>Come see me, or email for help finding a source</li>
+<li>The assignment lists many possible sources of public data</li>
+</ul>
+</li>
+<li>Elements:
+<ol type="1">
+<li>Import your data into R</li>
+<li>Characterize your data:
+<ul>
+<li>Descriptive statistics</li>
+<li>Plot distributions</li>
+<li>Figure out what kind of distribution your data has,</li>
+<li>…</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>Elements (cont.):
+<ol start="3" type="1">
+<li>Develop questions about your data
+<ul>
+<li>Is there a relationship between different variables?</li>
+<li>Are data from two different places or times similar or
+different?</li>
+<li>…</li>
+</ul>
+</li>
+<li>Use hypothesis tests for answering your questions</li>
+<li>Write up a report, using R and Quarto
+<ul>
+<li>You can write up sections of your report as you go through 1–4</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>By Tues. Apr. 22, turn in your project:
+<ul>
+<li>Render Quarto to HTML, PDF, or Word</li>
+<li>Push your project to GitHub Classroom</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section id="review-of-basics" class="title-slide slide level1 center"><h1 class="center">Review of Basics</h1>
+
+</section><section><section id="descriptive-statistics" class="title-slide slide level1"><h1>Descriptive Statistics</h1>
+<div class="columns">
+<div class="column">
+<ul>
+<li>From a distribution <span class="math inline">\(X ~
+\mathcal{D}\)</span>:
+<ul>
+<li><p>mean <span class="math inline">\(\mu =
+E(\mathcal{D})\)</span></p></li>
+<li>
+<p>variance</p>
+<div class="eighty bare">
+<p><span class="math display">\[
+\mathrm{Var}(\mathcal{D}) = \sigma^2 = E( (X - E(X))^2 )
+\]</span></p>
+</div>
+</li>
+<li><p>standard deviation <span class="math inline">\(\sigma =
+\sqrt{\mathrm{Var}}\)</span></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">Estimates from a sample of <span class="math inline">\(n\)</span> observations <span class="math inline">\(x_1, x_2, \ldots, x_n\)</span>:
+<ul>
+<li>mean</li>
+</ul>
+<div class="seventy bare">
+<p><span class="math display">\[
+\hat{\mu} = \overline{x} = \frac{1}{n} \sum_{i=1}^n x_i
+\]</span></p>
+</div>
+<ul>
+<li>
+<p>variance</p>
+<div class="seventy bare">
+<p><span class="math display">\[
+\hat{\sigma}^2 = s^2 = \frac{1}{n} \sum_{i=1}^n (x_i - \overline{x})^2
+\]</span></p>
+</div>
+</li>
+<li>
+<p>standard deviation</p>
+<div class="seventy bare">
+<p><span class="math display">\[
+\hat{\sigma} = s = \sqrt{\frac{1}{n} \sum_{i=1}^n (x_i -
+\overline{x})^2}
+\]</span></p>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="comparing-two-variables" class="slide level2 eighty"><h2 class="eighty">Comparing Two Variables</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Covariance:</p>
+<div class="ninety">
+<p><span class="math display">\[
+\begin{align}
+\mathrm{Cov}(X,Y) =&amp; E( (X - E(X)) (Y - E(Y)) ) \\
+=&amp; E(XY) - E(X) E(Y)
+\end{align}
+\]</span></p>
+</div>
+<ul>
+<li>Covariance is symmetric: <span class="math inline">\(\mathrm{Cov}(X,Y) =
+\mathrm{Cov}(Y,X)\)</span>
+</li>
+<li><span class="math inline">\(\mathrm{Cov}(X,X) =
+\mathrm{Var}(X)\)</span></li>
+</ul>
+</li>
+<li class="fragment">
+<p>Correlation: Covariance has units of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, which may be nonsensical (<span class="math inline">\(\degC \times \pH\)</span>)</p>
+<ul>
+<li>Correlation is dimensionless (no units) and ranges from −1 to
+1.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Pearson correlation:</p>
+<div class="ninety">
+<p><span class="math display">\[
+\rho_{X,Y} = \mathrm{Cov} \left( \frac{X - E(X)}{\sigma_X} \: \frac{Y -
+E(Y)}{\sigma_Y} \right)
+\]</span></p>
+</div>
+</li>
+<li class="fragment"><p>Pearson correlation measures linear correlation: if <span class="math inline">\(\rho = \pm 1\)</span>, then <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> have a perfect linear
+relationship.</p></li>
+<li class="fragment">
+<p>Spearman correlation measures nonlinear correlation:</p>
+<ul>
+<li>Rank <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> from smallest to largest (1 to <span class="math inline">\(n\)</span>)</li>
+<li>Spearman correlation <span class="math inline">\(\rho_{\text{Spearman}}\)</span> is the Pearson
+correlation of the ranks.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="example" class="slide level2 eighty"><h2 class="eighty">Example</h2>
+<div class="columns bare max-listing">
+<div class="column">
+<ul>
+<li>
+<p>Generate data</p>
+<div class="bare">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.01</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">sinh</span>((x <span class="sc">-</span> <span class="fl">0.5</span>) <span class="sc">*</span> <span class="dv">10</span>)</span></code></pre></div>
+</div>
+<ul>
+<li>
+<p>Covariance:</p>
+<div class="bare">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cov</span>(x, y)</span></code></pre></div>
+<pre><code>## [1] 6.315366</code></pre>
+</div>
+</li>
+<li>
+<p>Pearson correlation:</p>
+<div class="bare">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(x, y, <span class="at">method =</span> <span class="st">"pearson"</span>)</span></code></pre></div>
+<pre><code>## [1] 0.8748097</code></pre>
+</div>
+<ul>
+<li>Pearson correlation <span class="math inline">\(= \pm1\)</span> if
+<span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> lie exactly on a line.</li>
+</ul>
+</li>
+<li>
+<p>Spearman correlation:</p>
+<div class="bare">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(x, y, <span class="at">method =</span> <span class="st">"spearman"</span>)</span></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+</div>
+<ul>
+<li>Spearman correlation <span class="math inline">\(= \pm 1\)</span> if
+<span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> lie exactly on any monotonic
+curve.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<div class="bare">
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span> <span class="fu">geom_point</span>()</span></code></pre></div>
+<p><img data-src="assets/fig/unnamed-chunk-5-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+</section></section><section><section id="central-limit-theorem" class="title-slide slide level1 center"><h1 class="center">Central Limit Theorem</h1>
+
+</section><section id="central-limit-theorem-1" class="slide level2 eighty"><h2 class="eighty">Central Limit Theorem</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Consider a set of <span class="math inline">\(M\)</span>
+experiments, each taking <span class="math inline">\(n\)</span> samples
+of a variable <span class="math inline">\(x\)</span>, with <span class="math inline">\(X \sim \mathcal{D}\)</span>, for some distribution
+<span class="math inline">\(\mathcal{D}\)</span>
+</li>
+<li class="fragment">For each experiment, <span class="math inline">\(\overline{x}\)</span> is the mean of the <span class="math inline">\(n\)</span> observations of <span class="math inline">\(x\)</span> from that experiment</li>
+<li class="fragment">As <span class="math inline">\(n \rightarrow \infty\)</span>,
+the distribution of <span class="math inline">\(\overline{x}\)</span>
+approaches a normal distribution with
+<ul>
+<li><p>Mean <span class="math inline">\(\mu\)</span> approaching <span class="math inline">\(E(\mathcal{D})\)</span></p></li>
+<li>
+<p>Variance <span class="math inline">\(\sigma\)</span>
+approaching</p>
+<p><span class="math display">\[
+\frac{1}{n} \mathrm{Var}(\mathcal{D})
+\]</span></p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">No matter what distribution your data comes from,
+<ul>
+<li>If you make <span class="math inline">\(n\)</span> observations, and
+<span class="math inline">\(n\)</span> is large,
+<ul>
+<li>the <em>average</em> of the observations will be normally
+distributed.</li>
+<li>The bigger <span class="math inline">\(n\)</span> is the closer
+<span class="math inline">\(\overline{x}\)</span> will be to the true
+mean of the distribution.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="fragment">If you want to compare two experiments, each making <span class="math inline">\(n\)</span> observations,
+<ul>
+<li>you can compare the averages, using tests that assume
+normality.</li>
+</ul>
+</li>
+<li class="fragment">But this only tells you about the averages of your data.
+<ul>
+<li>Often, you want to know about the distribution your data came from.
+<ul>
+<li>e.g., estimating parameters of that distribution.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="estimating-parameters" class="title-slide slide level1 center"><h1 class="center">Estimating Parameters</h1>
+
+</section><section id="estimating-parameters-for-a-normal-distribution" class="slide level2 eighty"><h2 class="eighty">Estimating Parameters for a Normal Distribution</h2>
+<ul>
+<li>For a normal distribution,
+<ul>
+<li>
+<p>Estimate mean:</p>
+<p><span class="math display">\[
+\hat{\mu} = \overline{x} = \frac{1}{n} \sum_{i = 1}^n x_i
+\]</span></p>
+</li>
+<li>
+<p>Estimate variance:</p>
+<p><span class="math display">\[
+\hat{\sigma}^2 = s^2 = \frac{1}{n} \sum_{i = 1}^n (x_i = \overline{x})^2
+\]</span></p>
+</li>
+</ul>
+</li>
+</ul></section><section id="estimating-parameters-for-other-distributions" class="slide level2 eighty"><h2 class="eighty">Estimating Parameters for Other Distributions</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Maximum-Likelihood Estimation
+<ul>
+<li>
+<p>For data <span class="math inline">\(X = (x_1, x_2, \dots,
+x_n)\)</span>, and a distribution <span class="math inline">\(\mathcal{D(\Theta)}\)</span> with parameters <span class="math inline">\(\Theta = (\theta_1, \theta_2, \ldots,
+\theta_p)\)</span> and likelihood function <span class="math inline">\(L(x | \Theta)\)</span></p>
+<ul>
+<li>
+<p>Find values for <span class="math inline">\(\Theta\)</span> that
+maximize the joint likelihood of the observed <span class="math inline">\(x_i\)</span>:</p>
+<div class="bare eighty">
+<p><span class="math display">\[
+\begin{align}
+L(x_1, x_2, \ldots, x_n | \Theta) =&amp; \prod_{i = 1}^n L(x_i | \Theta)
+\\
+\log{L(x_1, x_2, \ldots, x_n | \Theta)} =&amp; \sum_{i = 1}^n \log{L(x_i
+| \Theta)}
+\end{align}
+\]</span></p>
+</div>
+</li>
+</ul>
+</li>
+<li>
+<p>Using R to estimate parameters for a gamma distribution from
+observations <span class="math inline">\(x\)</span>:</p>
+<div class="bare">
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fitdistr</span>(x, <span class="st">"gamma"</span>)</span></code></pre></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">Bayesian Estimation:
+<ul>
+<li>
+<p>Figure out <em>prior probability distributions</em> for <span class="math inline">\(\theta_1, \theta_2, \ldots, \theta_p\)</span></p>
+<ul>
+<li>What did you already know about <span class="math inline">\(\Theta\)</span> before making the
+observations?</li>
+</ul>
+</li>
+<li>
+<p>Use Bayes’s theorem to calculate <em>posterior probability
+distributions</em> for <span class="math inline">\(\theta_1, \theta_2,
+\ldots, \theta_p\)</span></p>
+<div class="bare eighty">
+<span class="math display">\[
+\begin{align}
+\underbrace{P(\Theta | X)}_{\text{posterior}} =&amp;
+  \frac{
+    \overbrace{L(X | \Theta)}^{\text{likelihood}}
+    \overbrace{P(\Theta)}^{\text{prior}}
+  }{
+  \underbrace{P(X)}_{\text{evidence}}
+  } \\
+  =&amp;
+  \frac{
+    L(X | \Theta)
+    P(\Theta)
+  }{
+  \int L(X | \Theta) P(\Theta) \mathrm{d}\Theta
+  }
+\end{align}
+\]</span>
+</div>
+</li>
+<li>
+<p>Challenge: <span class="math inline">\(\int L(X | \Theta)
+P(\Theta) \mathrm{d}\Theta\)</span> is hard to compute for more than a
+few parameters.</p>
+<p>:::</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="testing-hypotheses" class="title-slide slide level1 center"><h1 class="center">Testing Hypotheses</h1>
+
+</section><section id="general-strategy" class="slide level2 eighty"><h2 class="eighty">General Strategy</h2>
+<div class="columns">
+<div class="column">
+<ol type="1">
+<li>Identify the test and test statistic
+<ul>
+<li>e.g., <span class="math inline">\(t\)</span>-test</li>
+</ul>
+</li>
+<li>Define the null hypothesis
+<ul>
+<li>e.g., <span class="math inline">\(H_0: \mu = \mu_0\)</span>
+</li>
+</ul>
+</li>
+<li>Define an alternate hypothesis
+<ul>
+<li>e.g., <span class="math inline">\(H_a: \mu &gt; \mu_0\)</span>
+</li>
+</ul>
+</li>
+<li>Calculate the null distribution
+<ul>
+<li>Test statistic, assuming <span class="math inline">\(H_0\)</span> is
+true</li>
+</ul>
+</li>
+<li>Calculate the <span class="math inline">\(p\)</span>-value
+<ul>
+<li>Cumulative probability of the test statistic, assuming <span class="math inline">\(H_0\)</span> is true</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="column">
+<ul>
+<li>Test errors:
+<ul>
+<li>Type-I: <span class="math inline">\(H_0\)</span> is true, but you
+reject it (<em>false positive</em>)
+<ul>
+<li>You don’t have a disease (<span class="math inline">\(H_0\)</span>),
+but a clinical test says you do.</li>
+<li>
+<span class="math inline">\(p\)</span>-value is the probability of a
+Type-I error, if <span class="math inline">\(H_0\)</span> is true</li>
+</ul>
+</li>
+<li>Type-II: <span class="math inline">\(H_0\)</span> is false, but you
+don’t reject it (<em>false negative</em>)
+<ul>
+<li>You have a disease (<span class="math inline">\(H_0\)</span> is
+false) but a clinical test says you don’t.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="testing-hypotheses-1" class="slide level2 seventyfive"><h2 class="seventyfive">Testing Hypotheses</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Kinds of tests:
+<ul>
+<li>What kind of distribution is it?
+<ul>
+<li>Q-Q Tests (any kind of distribution)</li>
+<li>Shapiro-Wilk test (Normal only) (<code>shapiro.test(x)</code>)</li>
+</ul>
+</li>
+<li class="fragment">Goodness of fit: Does the data match a distribution with
+specific parameter values
+<ul>
+<li>Chi-squared test <code>chisq.test()</code>
+<ul>
+<li>Mostly for discrete distributions: Binomial, Poisson, etc.</li>
+</ul>
+</li>
+<li>Kolmogorov-Smirnov test <code>ks.test()</code>
+<ul>
+<li>Only for continuous distributions</li>
+<li class="fragment"><span class="math inline">\(p\)</span>-values are not reliable
+if you estimate parameters from the data.
+<ul>
+<li>Anderson-Darling tests are better if you estimate parameters from
+data: <code>AndersonDarlingTest()</code> from <code>DescTools</code>
+package.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">Testing fit parameters:
+<ul>
+<li>Compare observations to specific parameters: one-sample tessts</li>
+<li>Compare two sets of observations (do they come from the same
+distribution?): two-sample tests</li>
+<li>Normally distributed data:
+<ul>
+<li>If you know the variance <em>a priori</em> and want to compare
+means: <span class="math inline">\(Z\)</span>-test</li>
+<li>If you don’t know the variance and want to compare means: <span class="math inline">\(t\)</span>-test</li>
+<li>If you want to compare variance: <span class="math inline">\(F\)</span>-test</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="nonparametric-tests" class="slide level2 eighty"><h2 class="eighty">Nonparametric Tests</h2>
+</section><section id="nonparametric-tests-1" class="slide level2 eighty"><h2 class="eighty">Nonparametric Tests</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Most parametric tests only work if your data follow a parametric
+distribution
+<ul>
+<li>Most work only work for a Normal distribution</li>
+<li>This is a historical artifact of what math people could do using
+pencil and paper</li>
+<li>For testing means, the Central Limit Theorem makes normal
+distributions widely applicable.</li>
+</ul>
+</li>
+<li class="fragment">Nonparametric tests substitute computer power for mathematical
+elegance
+<ul>
+<li>They work for any distribution</li>
+<li>You don’t need to know a mathematical formula for the
+distribution</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">Basic strategy:
+<ul>
+<li class="fragment">Simulate a large sample of <em>surrogate data</em> under the
+null hypothesis</li>
+<li class="fragment">Compare this sample to the observed data</li>
+</ul>
+</li>
+<li class="fragment">Four ideas that use Monte Carlo methods:
+<ol type="1">
+<li>Permutation</li>
+<li>Reordering</li>
+<li>Resampling</li>
+<li>Direct simulation</li>
+</ol>
+</li>
+<li class="fragment">Monte-Carlo methods are also used for Bayesian analysis</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="bayesian-hypothesis-testing" class="title-slide slide level1 center"><h1 class="center">Bayesian Hypothesis Testing</h1>
+
+</section><section id="bayesian-hypothesis-testing-1" class="slide level2 eighty"><h2 class="eighty">Bayesian Hypothesis Testing</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>The problem:
+<ul>
+<li>The techniques we’ve learned only examine evidence that <span class="math inline">\(H_0\)</span> is <em>false</em>.
+<ul>
+<li>What about evidence that it’s <em>true</em>?</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="fragment">Bayesian methods compare a null hypothesis <span class="math inline">\(H_0\)</span> to an alternate hypothesis <span class="math inline">\(H_a\)</span> and choose the one that has more
+evidence supporting it.
+<ul>
+<li class="fragment">
+<p>Bayes’s Theorem: For a hypothesis <span class="math inline">\(H\)</span>,</p>
+<div class="bare ninety">
+<p><span class="math display">\[
+\underbrace{P(H | D)}_{\text{posterior}} =
+\frac{
+  \overbrace{P(D |
+H)}^{\text{likelihood}}~\overbrace{P(H)}^{\text{prior}}
+  }{
+  \underbrace{P(D)}_{\text{evidence}}
+  }
+\]</span></p>
+</div>
+<p>where <span class="math inline">\(D\)</span> is the new data and
+<span class="math inline">\(P(H)\)</span> is the prior probability that
+<span class="math inline">\(H\)</span> is true, based on what you knew
+before observing <span class="math inline">\(D\)</span>.</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">Consider two hypotheses, <span class="math inline">\(H_1\)</span> and <span class="math inline">\(H_2\)</span>:
+<ul>
+<li>
+<p>The <em>Bayes factor</em> <span class="math inline">\(K\)</span>
+is the ratio of probabilities that each is true:</p>
+<div class="bare ninety">
+<p><span class="math display">\[
+K = \frac{P(H_1 | D)}{P(H_2 | D)} =
+  \frac{
+    \left(
+      \frac{
+      P(D | H_1)\: P(H_1)
+      } {
+      P(D)
+      }
+    \right)
+    }{
+    \left(
+      \frac{
+      P(D | H_2)\: P(H_2)
+      } {
+      P(D)
+      }
+    \right)
+    }
+\]</span></p>
+</div>
+</li>
+<li class="fragment">
+<p><span class="math inline">\(P(D)\)</span> cancels out, so</p>
+<div class="bare ninety">
+<p><span class="math display">\[
+K =
+\frac{
+    P(D | H_1)\: P(H_1)
+  }{
+    P(D | H_2)\: P(H_2)
+  }
+\]</span></p>
+</div>
+</li>
+<li class="fragment">
+<p>If you had no reason to prefer <span class="math inline">\(H_1\)</span> or <span class="math inline">\(H_2\)</span>, then <span class="math inline">\(P(H_1)\)</span> and <span class="math inline">\(P(H_2)\)</span> cancel out:</p>
+<div class="bare ninety">
+<p><span class="math display">\[
+K =
+\frac{
+    P(D | H_1)
+  }{
+    P(D | H_2)
+  }
+\]</span></p>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="bayesian-hypothesis-testing-2" class="slide level2 eighty"><h2 class="eighty">Bayesian Hypothesis Testing</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>The <em>Bayes factor</em> <span class="math inline">\(K\)</span>
+is the ratio of the posterior probabilities of <span class="math inline">\(H_1\)</span> and <span class="math inline">\(H_2\)</span> being true:</p>
+<div class="bare">
+<p><span class="math display">\[
+K = \frac{P(H_1 | D)}{P(H_2 | D)} =
+    \frac{P(D | H_1)\: P(H_1)}{P(D | H_2) \: P(H_2)}
+\]</span></p>
+</div>
+</li>
+<li class="fragment" data-fragment-index="1"><p>If <span class="math inline">\(K = 1\)</span>, <span class="math inline">\(H_1\)</span> and <span class="math inline">\(H_2\)</span> are equally likely.</p></li>
+<li class="fragment" data-fragment-index="1"><p>If <span class="math inline">\(K &gt; 1\)</span>, bigger
+<span class="math inline">\(K\)</span> gives more confidence in <span class="math inline">\(H_1\)</span> vs. <span class="math inline">\(H_2\)</span></p></li>
+<li class="fragment" data-fragment-index="1"><p>If <span class="math inline">\(K &lt; 1\)</span>, the closer
+<span class="math inline">\(K\)</span> is to 0, more confidence in <span class="math inline">\(H_2\)</span> vs. <span class="math inline">\(H_1\)</span></p></li>
+<li class="fragment" data-fragment-index="2"><p>This says nothing about whether a third hypothesis <span class="math inline">\(H_3\)</span> might be more likely than <span class="math inline">\(H_1\)</span> or <span class="math inline">\(H_2\)</span>.</p></li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment" data-fragment-index="3">There are more sophisticated Bayesian methods of comparing
+hypotheses.
+<ul>
+<li>Information Criteria
+<ul>
+<li>Bayesian Information Criterion (BIC) (avoid this)</li>
+<li>Akaike Information Criterion (AIC) (good)</li>
+<li>Watanabe-Akaike Information Criterion (WAIC) (better)</li>
+</ul>
+</li>
+<li class="fragment">All of these use information theory to evaluate evidence, while
+accounting for degrees of freedom used in estimating parameters.
+<ul>
+<li>They allow you to compare many hypotheses all at once.</li>
+</ul>
+</li>
+<li class="fragment">Beyond the scope of this course
+<ul>
+<li>Take a Bayesian methods course</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section>
+</div>
+  </div>
+  <!--
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.js"></script>
+  <!-- -->
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.min.js"></script><!-- --><script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Display the page number of the current slide
+        showSlideNumber: 'speaker',
+        // Push each slide change to the browser history
+        history: true,
+        //  Enable hashing slide content to URL
+        hash: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Don't separate fragments in PDF rendering
+        pdfSeparateFragments: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+      
+        // Optional reveal.js plugins
+        dependencies: [
+                    { src: '../../lecture_lib/library/assets/plugin/chalkboard/chalkboard.js', async: true },
+                                        { src: '../../lecture_lib/library/assets/plugin/reveal-skip-fragments/skip-fragments.js', async: true },
+                    { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/notes/notes.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/math/math.js', async: true }
+        ],
+        shift_keyboard: {
+    	    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'C' is pressed
+    	    66: function() { RevealChalkboard.toggleChalkboard() },	  // toggle chalkboard when 'B' is pressed
+    	    88: function() { RevealChalkboard.clear() },	            // clear chalkboard when 'X' is pressed
+    	    82: function() { RevealChalkboard.reset() },	            // reset chalkboard data on current slide when 'R' is pressed
+    	    68: function() { RevealChalkboard.download() },	          // downlad recorded chalkboard drawing when 'D' is pressed
+        },
+              	// Shortcut for showing all fragments
+      	skipFragmentsShowShortcut: 'S',
+
+      	// Shortcut for hiding all fragments
+      	skipFragmentsHideShortcut: 'H',
+      	      });
+    </script><script>
+  	function createSingletonNodejg( container, tagname, classname, innerHTML ) {
+
+		// Find all nodes matching the description
+		var nodes = container.querySelectorAll( '.' + classname );
+
+		// Check all matches to find one which is a direct child of
+		// the specified container
+		for( var i = 0; i < nodes.length; i++ ) {
+			var testNode = nodes[i];
+			if( testNode.parentNode === container ) {
+				return testNode;
+			}
+		}
+
+		// If no node was found, create it now
+		var node = document.createElement( tagname );
+		node.className = classname;
+		if( typeof innerHTML === 'string' ) {
+			node.innerHTML = innerHTML;
+		}
+		container.appendChild( node );
+
+		return node;
+
+	}
+
+  var dom_wrapper = document.querySelector('.reveal');
+  createSingletonNodejg(dom_wrapper, 'div', 'qrbox',
+  '<div class="qrbox" id="qrbox" style="font-size:90%;">' + '\n' +
+  '<div style="font-size:30%;width:100%;">' + '\n' +
+      '<a href="https://ees5891.jgilligan.org/slides/class_17">' +
+  	'<img src="qrcode.png" alt="https://ees5891.jgilligan.org/slides/class_17"/>' +
+  	'</a>' + '\n' +
+	  '</div>' + '\n' +
+  '<div style="font-size:30%;width:100%;vertical-align:top;">' + '\n' +
+    '<span style="display:inline-block;text-align:left;margin-left:0">' + '\n' +
+        'Live web page: <a href="https://ees5891.jgilligan.org/slides/class_17">https://ees5891.jgilligan.org/slides/class_17</a>' + '\n' +
+              '<br/>' + '\n' +
+        'PDF: <a href="https://ees5891.jgilligan.org/slides/class_17/EES_4891_5891_class_17_slides.pdf" target="_blank">https://ees5891.jgilligan.org/slides/class_17/EES_4891_5891_class_17_slides.pdf</a>' + '\n' +
+          	'</span>' + '\n' +
+  	'<span style="display:inline-block;text-align:right;vertical-align:top;position:absolute;right:0;bottom:0;">' + '\n' +
+  	  'Navigate slides: next: N or &lt;space&gt;; previous: P or &lt;backspace&gt;<br/>' + '\n' +
+  	  'Also: up, down, left, right arrows; overview: o; help: ?' + '\n' +
+  	'</span>' + '\n' +
+	'</div>' + '\n' +
+  '</div>' + '\n'
+  );
+</script><script>
+var MathJax = { jax: ["input/TeX", "output/HTML-CSS"],
+                TeX: {extensions: ["color.js", "mhchem.js"],
+                Macros: {
+                  COO: "\\ce{CO2}",
+                  methane: "\\ce{CH4}",
+                  degC: "^\\circ \\mathrm{C}",
+                  degF: "^\\circ \\mathrm{F}",
+                  water: "\\ce{H2O}",
+                  carb: "\\ce{CO3^2-}",
+                  bicarb: "\\ce{HCO3-}",
+                  carbonic: "\\ce{H2CO3}",
+                  Hplus: "\\ce{H+}",
+                  OH: "\\ce{OH-}",
+                  silica: "\\ce{SiO2}",
+                  calcite: "\\ce{CaCO3}",
+                  Caplus: "\\ce{Ca^2+}",
+                  silicate: "\\ce{SiO3^2-}",
+                  CaSi: "\\ce{CaSiO3}",
+                  pH: "p\\ce{H}",
+                  permil: "\\unicode{x2030}",
+                  pCOO: "\\ce{	ext{p}CO2}",
+                  pwater: "\\ce{	ext{p}H2O}"
+                },
+                  },
+                "HTML-CSS" : {scale: 100 }};
+</script><!-- dynamically load mathjax for compatibility with self-contained --><script type="text/x-mathjax-config">
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["SVG"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+    displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
+    processEscapes: true
+  }
+})
+  </script><script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script><script>
+  var qrbox = document.querySelector("#qrbox");
+  var advance_fragment = 0;
+
+	function isPrintingPDF() {
+	  let printing = ( /print-pdf/gi ).test( window.location.search );
+	  console.log("printing test: " + printing);
+	  return printing;
+	}
+
+
+  if ( qrbox.hasAttribute('qr-box-hide') || Reveal.isOverview() ||
+      ! Reveal.isFirstSlide() || isPrintingPDF()) {
+    console.log("Initializing");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }
+
+  Reveal.addEventListener('overviewshown', function() {
+      console.log("Overview shown");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }, false);
+
+  Reveal.addEventListener('overviewhidden', function() {
+    if (Reveal.isFirstSlide() && ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Overview hidden");
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    console.log("Slide changed...");
+    if (Reveal.isFirstSlide() && ! Reveal.isOverview() &&
+        ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    } else {
+      console.log("Hiding QR box");
+      qrbox.style.visibility="hidden";
+      qrbox.style.display="none";
+    }
+  }, false);
+
+  Reveal.addEventListener('pdf-ready', function() {
+    console.log("hiding qrbox for printing");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+    qrbox.setAttribute('qr-box-hide', 'true');
+  });
+
+  </script><script>
+  Reveal.addEventListener('slidechanged', function() {
+    while (advance_fragment > 0) {
+      // console.log('advancing fragment');
+      Reveal.nextFragment();
+      advance_fragment--;
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    if ( Reveal.getCurrentSlide().hasAttribute('data-skip')) {
+      // console.log("going to next slide...");
+      Reveal.next();
+    }
+  }, false);
+
+  Reveal.addEventListener('skip_slide', function() {
+    Reveal.next();
+  }, false);
+
+  Reveal.addEventListener('advance_fragment', function() {
+    // console.log("setting advance fragment");
+    advance_fragment++;
+    }, false);
+  </script>
+</body>
+</html>

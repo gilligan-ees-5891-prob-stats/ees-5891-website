@@ -72,9 +72,11 @@ lessons:
 - date: '2025-03-18'
   title: Review
   reading: /reading/reading_17
+  lecture: /slides/class_17
 - date: '2025-03-20'
   title: Multivariate Analysis
   reading: /reading/reading_18
+  lecture: /slides/class_18
 - date: '2025-03-21'
   title: Least Squares Analysis
   reading: /reading/reading_19

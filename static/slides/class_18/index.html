@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<!-- JG Reveal.js Template --><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta name="author" content="Jonathan Gilligan">
+<title>Multivariate Data</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reset.css">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reveal.min.css">
+<style type="text/css">
+      code{white-space: pre-wrap;}
+      .smallcaps{font-variant: small-caps;}
+      .line-block{white-space: pre-line;}
+      .column{display: inline-block;}  </style>
+<style type="text/css">
+    div.qrbox,
+    aside.qrbox {
+     text-align: left;
+     vertical-align: bottom;
+     width: 95%;
+     position: fixed;
+     left: 2.5%;
+     bottom: 1rem;
+     display: block;
+    }
+  </style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { font-weight: bold; } /* Alert */
+code span.an { font-style: italic; } /* Annotation */
+code span.cf { font-weight: bold; } /* ControlFlow */
+code span.co { font-style: italic; } /* Comment */
+code span.cv { font-style: italic; } /* CommentVar */
+code span.do { font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.er { font-weight: bold; } /* Error */
+code span.in { font-style: italic; } /* Information */
+code span.kw { font-weight: bold; } /* Keyword */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.wa { font-style: italic; } /* Warning */
+  </style>
+<!-- theme = solarized_jg --><link rel="stylesheet" href="../../lecture_lib/library/assets/css/theme/solarized_jg.css" id="theme">
+<!-- Printing and PDF exports --><script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../lecture_lib/library/reveal.js-3.8.0/css/print/pdf.css' : '../../lecture_lib/library/reveal.js-3.8.0/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><!--[if lt IE 9]>
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+  <![endif]--><script src="../../lecture_lib/library/header-attrs-2.29.1.9000/header-attrs.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+            <!-- start title slide -->
+<section class="center" id="title"><h1 class="title">Multivariate Data</h1>
+    <h3 class="author">EES 4891/5891</h3>
+        <h3 class="author">Probability &amp; Statistics for
+Geosciences</h3>
+    <h3 class="author">Jonathan Gilligan</h3>
+    <h3 class="date">
+      Class #18:
+       Thursday, March 20
+      2025
+    </h3>
+	<!-- end title slide -->
+</section><section><section id="setting-up" class="title-slide slide level1 center"><h1 class="center">Setting Up</h1>
+
+</section><section id="setting-up-1" class="slide level2 eighty"><h2 class="eighty">Setting Up</h2>
+<ul>
+<li>Accept the GitHub Classroom assignment at <a href="https://classroom.github.com'/" class="uri">https://classroom.github.com'/</a>
+</li>
+</ul>
+<p><a href="https://classroom.github.com'/"><img data-src="assets/images/qrcode.svg" height="400" alt="https://classroom.github.com’/"></a></p>
+</section></section><section><section id="learning-goals" class="title-slide slide level1 center"><h1 class="center">Learning Goals</h1>
+
+</section><section id="learning-goals-1" class="slide level2 eighty"><h2 class="eighty">Learning Goals</h2>
+</section></section><section><section id="multivariate-data" class="title-slide slide level1 center"><h1 class="center">Multivariate Data</h1>
+
+</section><section id="multivariate-data-1" class="slide level2 eighty"><h2 class="eighty">Multivariate Data</h2>
+<div class="columns bare max-listing">
+<div class="column">
+<ul>
+<li>Univariate data:
+<ul>
+<li>Observations have measurements of one variable:
+<ul>
+<li>You collect a bunch of water samples and measure pH.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="fragment">Multivariate data:
+<ul>
+<li>Each observation measures multiple variables:
+<ul>
+<li>pH, salinity, dissolved oxygen</li>
+</ul>
+</li>
+<li>Time or date can be a variable:
+<ul>
+<li>Date and atmospheric CO<sub>2</sub> concentration</li>
+</ul>
+</li>
+<li>
+<em>Bivariate</em> data has 2 variables per observation</li>
+</ul>
+</li>
+<li class="fragment">Multivariate data let us examine relationships among different
+variables
+<ul>
+<li class="fragment">Is there a relationship between pH and dissolved oxygen?</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column fragment bare">
+<ul>
+<li>Example: atmospheric CO<sub>2</sub> vs. global average temperature
+<ul>
+<li>
+<p>Monthly CO<sub>2</sub> and temperature measurements</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>co2_t <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"co2_temp.rds"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(co2_t)</span></code></pre></div>
+<pre><code>## Rows: 799
+## Columns: 5
+## $ year  &lt;dbl&gt; 1958, 1958, 1958, 1958, …
+## $ month &lt;ord&gt; mar, apr, may, jun, jul,…
+## $ time  &lt;dbl&gt; 1958.208, 1958.292, 1958…
+## $ temp  &lt;dbl&gt; 0.08, 0.01, 0.06, -0.09,…
+## $ co2   &lt;dbl&gt; 315.71, 317.45, 317.51, …</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="plotting-bivariate-data" class="slide level2 eighty"><h2 class="eighty">Plotting Bivariate Data</h2>
+<div class="columns max-listing">
+<div class="column">
+<ul>
+<li>
+<p>Scatterplot</p>
+<div class="bare">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(co2_t, <span class="fu">aes</span>(<span class="at">x =</span> co2, <span class="at">y =</span> temp)) <span class="sc">+</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(CO[<span class="dv">2</span>]), </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Temp. anomaly ("</span>, </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                            degree <span class="sc">*</span> C, <span class="st">")"</span>))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>       )</span></code></pre></div>
+<p><img data-src="assets/fig/plot_scatter-1.png"><!-- --></p>
+</div>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>
+<p>Kernel Density Plots</p>
+<div class="bare">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(co2_t, <span class="fu">aes</span>(<span class="at">x =</span> co2, <span class="at">y =</span> temp)) <span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_2d_filled</span>() <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"green"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">"inferno"</span>, <span class="at">name =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(CO[<span class="dv">2</span>]), </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Temp. anomaly ("</span>, degree <span class="sc">*</span> C, <span class="st">")"</span>)))</span></code></pre></div>
+<p><img data-src="assets/fig/plot_density-1.png"><!-- --></p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="joint-marginal-distributions" class="slide level2 seventyfive"><h2 class="seventyfive">Joint &amp; Marginal Distributions</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Multivariate data: <span class="math inline">\(N\)</span>
+observations of <span class="math inline">\(p\)</span> variables</p>
+<p><span class="math display">\[
+X =
+\left[
+\begin{array}{c}
+  (x_{1,1}, x_{1,2}, x_{1,3}, \ldots, x_{1,p}), \\
+  (x_{2,1}, x_{2,2}, x_{2,3}, \ldots, x_{2,p}), \\
+  \ldots, \\
+  (x_{N,1}, x_{N,2}, x_{N,3}, \ldots, x_{N,p})
+\end{array}
+\right]
+\]</span></p>
+<ul>
+<li>
+<p>Joint density: A point in <span class="math inline">\(p\)</span>-dimensional space</p>
+<p><span class="math display">\[
+f(x_1, x_2, x_3, \ldots, x_p)
+\]</span></p>
+</li>
+</ul>
+</li>
+<li class="fragment">
+<p>Simple case: Bivariate data</p>
+<p><span class="math display">\[
+X = \left[ (x_{1,1}, x_{1,2}), (x_{2,1}, x_{2,2}), \ldots, (x_{N,1},
+x_{N,2}) \right]
+\]</span></p>
+<ul>
+<li>Joint density: a point on a plane, <span class="math inline">\(f(x_1, x_2)\)</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">Marginal Density
+<ul>
+<li>
+<p>The density of one variable, averaged over the others:</p>
+<p><span class="math display">\[
+\begin{align}
+f_1 &amp; = \int_{x_2 = -\infty}^{\infty} f(x_1, x_2)\, \mathrm{d}x_2 \\
+f_2 &amp; = \int_{x_1 = -\infty}^{\infty} f(x_1, x_2)\, \mathrm{d}x_1
+\end{align}
+\]</span></p>
+</li>
+<li class="fragment">
+<p>For <span class="math inline">\(p\)</span> variables: The
+density of one variable, averaged over all <span class="math inline">\(p-1\)</span> others:</p>
+<div class="seventy">
+<p><span class="math display">\[\begin{align}
+f_1 &amp; = \int_{x_2 = -\infty}^\infty \int_{x_3 = -\infty}^\infty
+\ldots
+  \int_{x_p = -\infty}^\infty
+  f(x_1, x_2, x_3, \ldots, x_p)\, \mathrm{d}x_2\, \mathrm{d}x_3 \ldots
+\mathrm{d}x_p  \\
+f_2 &amp; = \int_{x_1 = -\infty}^\infty \int_{x_3 = -\infty}^\infty
+\ldots
+  \int_{x_p = -\infty}^\infty
+  f(x_1, x_2, x_3, \ldots, x_p)\, \mathrm{d}x_1\, \mathrm{d}x_3 \ldots
+\mathrm{d}x_p  \\
+    &amp; \ldots \\
+f_p &amp; = \int_{x_1 = -\infty}^\infty \int_{x_2 = -\infty}^\infty
+\ldots
+  \int_{x_{p-1} = -\infty}^\infty
+  f(x_1, x_2, x_3, \ldots, x_p)\, \mathrm{d}x_1\, \mathrm{d}x_2 \ldots
+\mathrm{d}x_{p-1}  \\
+
+\end{align}\]</span></p>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="plotting-marginal-density" class="slide level2 eighty"><h2 class="eighty">Plotting Marginal Density</h2>
+<div class="columns max-listing">
+<div class="column">
+<div class="bare">
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>pxy <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(co2_t, <span class="fu">aes</span>(<span class="at">x =</span> co2, <span class="at">y =</span> temp)) <span class="sc">+</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_2d_filled</span>()  <span class="sc">+</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"green"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">"inferno"</span>, <span class="at">name =</span> <span class="st">"Density"</span>, </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(CO[<span class="dv">2</span>]), </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Temp ("</span>, </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                            degree <span class="sc">*</span> C, <span class="st">")"</span>))) <span class="sc">+</span> </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span> </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>px <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(co2_t, <span class="fu">aes</span>(<span class="at">x =</span> co2)) <span class="sc">+</span> </span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"darkblue"</span>, </span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span> </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span> </span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="cn">NA</span>), <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span> </span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>py <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(co2_t, <span class="fu">aes</span>(<span class="at">x =</span> temp)) <span class="sc">+</span> </span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"darkblue"</span>, </span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span> </span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span> </span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="cn">NA</span>), <span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span> </span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span> <span class="fu">coord_flip</span>()</span></code></pre></div>
+</div>
+</div>
+<div class="column">
+<div class="bare">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>px <span class="sc">+</span> <span class="fu">plot_spacer</span>() <span class="sc">+</span> pxy <span class="sc">+</span> py <span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">widths =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">1</span>), </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>))</span></code></pre></div>
+<p><img data-src="assets/fig/plot_assemble-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+</section></section><section><section id="conditional-distributions-covariance-and-correlation" class="title-slide slide level1 center"><h1 class="center">Conditional Distributions, Covariance, and
+Correlation</h1>
+
+</section><section id="conditional-distributions" class="slide level2 eighty"><h2 class="eighty">Conditional Distributions</h2>
+<ul>
+<li>
+<p>If the components <span class="math inline">\(x_1, x_2, \ldots,
+x_p\)</span> are independent, then the joint distribution is just the
+product of the marginal distributions:</p>
+<p><span class="math display">\[
+f(x_1, x_2, \ldots, x_p) = f_1(x_1) f_2(x_2) \cdots f_p(x_p)
+\]</span></p>
+</li>
+<li class="fragment"><p>But it’s frequently the case that the variables are not
+independent.</p></li>
+<li class="fragment">
+<p>When variables are not independent, we use
+<em>conditional</em> distributions</p>
+<ul>
+<li>
+<p>For bivariate data <span class="math inline">\((x_1,
+x_2)\)</span>,</p>
+<p><span class="math display">\[
+\begin{align}
+g_2(x_1 | X_2 = x_2) &amp;= f(x_1, x_2), &amp;
+x_1~\text{variable},~x_2~\text{fixed} \\
+g_1(x_2 | X_1 = x_1) &amp;= f(x_1, x_2), &amp;
+x_1~\text{fixed},~x_2~\text{variable} \\
+\end{align}
+\]</span></p>
+</li>
+</ul>
+</li>
+</ul></section><section id="covariance" class="slide level2 eighty"><h2 class="eighty">Covariance</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>From the marginal distributions, we get means and variances:</p>
+<p><span class="math display">\[
+\begin{align}
+\mu_1 &amp;= \int_{-\infty}^{\infty} f_1(x_1) x_1\, \mathrm{d}x_1 \\
+\sigma^2_1 &amp;= \int_{-\infty}^{\infty} f_1(x_1) (x_1 - \mu_1)^2\,
+\mathrm{d}x_1 \\
+\mu_2 &amp;= \int_{-\infty}^{\infty} f_1(x_2) x_2\, \mathrm{d}x_2 \\
+\sigma^2_2 &amp;= \int_{-\infty}^{\infty} f_1(x_2) (x_2 - \mu_2)^2\,
+\mathrm{d}x_2 \\
+\ldots &amp;
+\end{align}
+\]</span></p>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>We get the <em>covariance</em> from the joint
+distribution:</p>
+<p><span class="math display">\[\begin{align}
+\mathrm{Cov}(X_1, X_2) =&amp; E[(X_1 - E(X_1)) (X_2 - E(X_2))] \\
+                       =&amp; E(X_1 X_2) - E(X_1) E(X_2) \\
+                       =&amp;
+                          \int_{- \infty}^{\infty} \int_{-
+\infty}^{\infty}
+                          f(x_1, x_2) x_1 x_2
+\,\mathrm{d}x_1\,\mathrm{d}x_2 \\
+                       &amp; - \mu_1 \mu_2 \\
+\mathrm{Cov}(X_1, X_1) =&amp;  \mathrm{Var}(X_1) = \sigma_1^2
+
+\end{align}\]</span></p>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="covariance-and-correlation" class="slide level2 eighty"><h2 class="eighty">Covariance and Correlation</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>The covariance has units, and this can be annoying, so we define
+<em>correlation</em> as a dimensionless quantity:</p>
+<p><span class="math display">\[
+\rho_{X_i, X_j} = \mathrm{Cov}\left( \frac{X_i - \mu_i}{\sigma_i},
+                                     \frac{X_j - \mu_j}{\sigma_j}\right)
+\]</span></p>
+<ul>
+<li class="fragment">This is the Pearson correlation coefficient, which measures
+correlations assuming a linear relationship between the variables.</li>
+<li class="fragment">The Spearman correlation coefficient accounts for nonlinear
+correlations by comparing the <em>rank</em> of the data points, similar
+to a Q-Q plot.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">Correlation coefficients vary from <span class="math inline">\(-1\)</span> to <span class="math inline">\(+1\)</span>.
+<ul>
+<li>
+<span class="math inline">\(\rho = \pm 1\)</span>: The two variables
+have a perfectly linear relationship</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="covariance-matrix" class="slide level2 eighty"><h2 class="eighty">Covariance Matrix</h2>
+<ul>
+<li>
+<p>We can represent the covariance of a <span class="math inline">\(p\)</span>-dimensional multivariate data using a
+covariance matrix <span class="math inline">\(\Sigma\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+\Sigma_{i,j} &amp;= \mathrm{Cov}(X_i, X_j) \\
+\Sigma &amp;= \left(
+\begin{array}{ccccc}
+\mathrm{Var}(X_1)      &amp; \mathrm{Cov}(X_1, X_2) &amp;
+\mathrm{Cov}(X_1, X_3)
+                       &amp; \cdots                 &amp;
+\mathrm{Cov}(X_1, X_p) \\
+\mathrm{Cov}(X_2, X_1) &amp; \mathrm{Var}(X_2)      &amp;
+\mathrm{Cov}(X_2, X_3)
+                       &amp; \cdots                 &amp;
+\mathrm{Cov}(X_2, X_p) \\
+\vdots                 &amp; \vdots                 &amp; \vdots
+                       &amp; \ddots                 &amp; \vdots \\
+\mathrm{Cov}(X_p, X_1) &amp; \mathrm{Cov}(X_p, X_2) &amp;
+\mathrm{Cov}(X_p, X_3)  
+                       &amp; \cdots                 &amp;
+\mathrm{Var}(X_p)
+\end{array}
+\right)
+\end{align}
+\]</span></p>
+<ul>
+<li>
+<p>For bivariate data,</p>
+<p><span class="math display">\[
+\Sigma = \left(
+\begin{array}{cc}
+\mathrm{Var}(X_1)      &amp; \mathrm{Cov}(X_1, X_2) \\
+\mathrm{Cov}(X_2, X_1) &amp; \mathrm{Var}(X_2)
+\end{array}
+\right)
+\]</span></p>
+</li>
+</ul>
+</li>
+</ul></section><section id="covariance-matrix-1" class="slide level2 eighty"><h2 class="eighty">Covariance Matrix</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Covariance Matrix:</p>
+<p><span class="math display">\[
+  \Sigma = \left(
+  \begin{array}{ccc}
+  \mathrm{Var}(X_1)      &amp; \mathrm{Cov}(X_1, X_2) &amp; \cdots\\
+  \mathrm{Cov}(X_2, X_1) &amp; \mathrm{Var}(X_2)      &amp; \cdots\\
+  \vdots                 &amp; \vdots                 &amp; \ddots
+  \end{array}
+  \right)
+  \]</span></p>
+<ul>
+<li>
+<span class="math inline">\(\mathrm{Cov}(X_i, X_j) =
+\mathrm{Cov}(X_j, X_i)\)</span>, so the matrix is symmetric.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Correlation matrix is like the covariance matrix, but with
+Pearson correlation coefficients instead of covariances:</p>
+<p><span class="math display">\[
+\begin{align}
+R_{i,j} &amp;= \rho(X_i, X_j) \\
+R &amp;= \left(
+\begin{array}{ccc}
+1              &amp; \rho(X_1, X_2) &amp; \cdots \\
+\rho(X_2, X_1) &amp; 1              &amp; \cdots \\
+\vdots         &amp; \vdots         &amp; \ddots
+\end{array}
+\right)
+\end{align}
+\]</span></p>
+<ul>
+<li>Remember that <span class="math inline">\(\rho(X_i, X_i) =
+1\)</span> because any variable is perfectly correlated with
+itself.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="multivariate-normal-distribution" class="title-slide slide level1 center"><h1 class="center">Multivariate Normal Distribution</h1>
+
+</section><section id="multivariate-normal-distribution-1" class="slide level2"><h2>Multivariate Normal Distribution</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Multivariate normal distribution:
+<ul>
+<li>Vector of <span class="math inline">\(p\)</span> variables <span class="math inline">\(x_1, x_2, \ldots, x_p\)</span>, where
+<ul>
+<li>Each <span class="math inline">\(x_i\)</span> is normally
+distributed,</li>
+<li>Covariances between variables defined by a covariance matrix.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="fragment">Start with bivariate normal (<span class="math inline">\(p =
+2\)</span>)
+<ul>
+<li>
+<p><span class="math inline">\((X_1, X_2)\)</span> follow a
+bivariate normal distribution if</p>
+<p><span class="math display">\[
+\begin{align}
+X_1 &amp;\sim \mathcal{N}(\mu_1, \sigma_1) \\
+X_2 &amp;\sim \mathcal{N}(\mu_2, \sigma_2)
+\end{align}
+\]</span></p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment"><p>If <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> are <em>independent</em>, then <span class="math inline">\(\Sigma_{1,2} = \Sigma_{2,1} = 0\)</span> and <span class="math inline">\(f(x_1, x_2) = f_1(x_1) f_2(x_2)\)</span></p></li>
+<li class="fragment">
+<p>If <span class="math inline">\(X_1\)</span> and <span class="math inline">\(X_2\)</span> are not independent, then the formula
+for <span class="math inline">\(f(x_1, x_2)\)</span> involves
+complicated linear algebra with the covariance matrix.</p>
+<ul>
+<li>Fortunately, we can use R to do the calculations, so we don’t have
+to, using the package <code>mvtnorm</code>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="multivariate-normal-in-r" class="slide level2 eighty"><h2 class="eighty">Multivariate Normal in R</h2>
+<div class="columns bare max-listing ninety">
+<div class="column">
+<ul>
+<li>
+<code>matrix()</code> takes a vector of data and turns it into a
+two-dimensional matrix.</li>
+<li>
+<code>expand.grid()</code> takes multiple vectors and creates a data
+frame containing all combinations.</li>
+<li>
+<code>dmvnorm()</code> takes an <span class="math inline">\(n \times
+p\)</span> matrix <code>x</code>, where each row has <span class="math inline">\(x_1, x_2, \ldots, x_p\)</span>, a vector of means
+<span class="math inline">\(\mu_1, \mu_2, \ldots, \mu_p\)</span>, and a
+covariance matrix, and returns a vector of probability densities.</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># if necessary, install.packages("mvtnorm")</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvtnorm)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">2.5</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">2</span>, <span class="fl">0.7</span>, <span class="fl">0.7</span>, <span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">show</span>(sigma)</span></code></pre></div>
+<pre><code>##      [,1] [,2]
+## [1,]  2.0  0.7
+## [2,]  0.7  1.0</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dens <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">x1 =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">5.5</span>, <span class="fl">5.5</span>, <span class="fl">0.05</span>),</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">x2 =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">8</span>, <span class="fl">0.05</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">z  =</span> <span class="fu">dmvnorm</span>(<span class="at">x =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(x1, x2), <span class="at">ncol =</span> <span class="dv">2</span>), </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">mean =</span> mu, <span class="at">sigma =</span> sigma))</span></code></pre></div>
+</div>
+<div class="column">
+<div class="bare">
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dens, <span class="fu">aes</span>(<span class="at">x =</span> x1, <span class="at">y =</span> x2)) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>(<span class="fu">aes</span>(<span class="at">fill =</span> z)) <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"inferno"</span>, <span class="at">name=</span><span class="st">"Density"</span>) <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(x[<span class="dv">1</span>]), <span class="at">y =</span> <span class="fu">expression</span>(x[<span class="dv">2</span>]))</span></code></pre></div>
+<p><img data-src="assets/fig/mvnorm-plot-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+</section><section id="plotting-multivariate-normal-data" class="slide level2 eighty"><h2 class="eighty">Plotting Multivariate Normal Data</h2>
+<div class="columns bare max-listing">
+<div class="column">
+<ul>
+<li>
+<code>rmvnorm()</code> generates an <span class="math inline">\(n
+\times p\)</span> matrix with <span class="math inline">\(n\)</span>
+random samples from a <span class="math inline">\(p\)</span>-dimensional
+multivariate normal.</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123456</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">rmvnorm</span>(<span class="dv">5000</span>, mu, sigma) <span class="sc">|&gt;</span> <span class="fu">as_tibble</span>()</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(samples) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"x1"</span>, <span class="st">"x2"</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>pxy <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(samples, <span class="fu">aes</span>(<span class="at">x =</span> x1, <span class="at">y =</span> x2)) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density_2d_filled</span>() <span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"green"</span>, <span class="at">alpha =</span> <span class="fl">0.1</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_d</span>(<span class="at">option =</span> <span class="st">"inferno"</span>, <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(x[<span class="dv">1</span>]), <span class="at">y =</span> <span class="fu">expression</span>(x[<span class="dv">2</span>]))</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>px <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(samples, <span class="fu">aes</span>(<span class="at">x =</span> x1)) <span class="sc">+</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"darkblue"</span>, </span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>py <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(samples, <span class="fu">aes</span>(<span class="at">x =</span> x2)) <span class="sc">+</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"darkblue"</span>, </span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>               <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>() <span class="sc">+</span> <span class="fu">coord_flip</span>()</span></code></pre></div>
+</div>
+<div class="column">
+<div class="bare">
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>px <span class="sc">+</span> <span class="fu">plot_spacer</span>() <span class="sc">+</span> pxy <span class="sc">+</span> py <span class="sc">+</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">widths =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">1</span>), <span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>))</span></code></pre></div>
+<p><img data-src="assets/fig/mvnorm-patchwork-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+</section><section id="describing-mv-normal-distributions" class="slide level2 eighty"><h2 class="eighty">Describing MV Normal Distributions</h2>
+<div class="columns">
+<div class="column bare">
+<ul>
+<li>
+<p>Isotropy: Does the distribution look the same if you rotate it
+about its center?</p>
+<div class="bare">
+<p><img data-src="assets/fig/plot-indep-1.png"><!-- --></p>
+</div>
+</li>
+<li class="fragment">
+<p>Dependence: Does knowing one variable tell you about
+another?</p>
+<ul>
+<li>In general: <em>If</em> variables are independent, <em>then</em>
+<span class="math inline">\(\mathrm{Cov} = 0\)</span>
+</li>
+<li>For MVN distributions: <em>If</em> <span class="math inline">\(\mathrm{Cov} = 0\)</span>, <em>then</em> variables
+are independent</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column bare">
+<ul>
+<li class="fragment">
+<p>All <em>isotropic</em> distributions are
+<em>independent</em>, but <em>anisotropic</em> distributions can be
+<em>dependent</em> or <em>independent</em></p>
+<div class="bare">
+<p><img data-src="assets/fig/plot-mvnorm-aniso-dep-1.png"><!-- --></p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="measuring-distances" class="slide level2 eighty"><h2 class="eighty">Measuring Distances</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>How far is a point from the center of the distribution <span class="math inline">\(\mu\)</span>?
+<ul>
+<li>
+<p>Euclidean distance is “as the crow flies”</p>
+<div class="bare eighty">
+<p><span class="math display">\[
+d(x) = \sqrt{\sum_{i = 1}^p (x_i - \mu_i)^2}
+\]</span></p>
+</div>
+</li>
+<li>
+<p>Mahalanobis distance accounts for anisotropies due to the
+covariance matrix</p>
+<div class="bare">
+<p><img data-src="assets/images/mahalanobis.png" height="450" alt="Mahalanobis distance, from Fig. 11.4 in the Emile-Geay textbook"></p>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment"><p><em>Isotropic, independent</em> distributions: Mahalanobis
+distance = Euclidean distance.</p></li>
+<li class="fragment">
+<p><em>Anisotropic, independent</em> distributions: Mahalanobis
+distance is what the Euclidean distance would be, if you divided each
+coordinate by its standard-deviation:</p>
+<div class="bare eighty">
+<p><span class="math display">\[
+d(x) = \sqrt{\sum_{i = 1}^p \left(\frac{x_i - \mu_i}{\sigma_i}\right)^2}
+\]</span></p>
+</div>
+</li>
+<li class="fragment">
+<p><em>Anisotropic, dependent</em> distributions: Mahalanobis
+distance is complicated to calculate</p>
+<ul>
+<li>
+<p>Use <code>mahalanobis()</code> in R</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rmvnorm</span>(<span class="dv">5</span>, <span class="at">mean =</span> mu, <span class="at">sigma =</span> sigma)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">mahalanobis</span>(x, <span class="at">center =</span> mu, <span class="at">cov =</span> sigma)</span></code></pre></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="estimating-parameters-of-an-mv-normal" class="slide level2 eighty"><h2 class="eighty">Estimating Parameters of an MV Normal</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>For each variable <span class="math inline">\(x_i\)</span>, we
+estimate the mean just as for a regular normal:</p>
+<p><span class="math display">\[
+\hat\mu_i = \mathrm{mean}(x_i) = \frac{1}{n} \sum_{k = 1}^n x_{k, i}
+\]</span></p>
+</li>
+<li class="fragment">
+<p>Estimating covariance similar to estimating variance:</p>
+<p><span class="math display">\[
+\hat\Sigma_{i,j} = \frac{1}{n - 1} \sum_{k = 1}^n
+  \left(x_{k,i} - \hat \mu_i \right)
+  \left(x_{k,j} - \hat \mu_j \right)
+\]</span></p>
+<ul>
+<li>This estimate only works if <span class="math inline">\(n \gg
+p\)</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>We can estimate the covariance using R:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>mu <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">5</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">3</span>, <span class="fl">0.7</span>, <span class="fl">0.7</span>, <span class="dv">1</span>), <span class="at">ncol =</span> <span class="dv">2</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rmvnorm</span>(<span class="dv">100</span>, <span class="at">mean =</span> mu, <span class="at">sigma =</span> sigma) <span class="sc">|&gt;</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>()</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(x) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"x1"</span>, <span class="st">"x2"</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(x, <span class="at">width =</span> <span class="dv">40</span>)</span></code></pre></div>
+<pre><code>## Rows: 100
+## Columns: 2
+## $ x1 &lt;dbl&gt; 4.188032, 2.694286, 3.56210…
+## $ x2 &lt;dbl&gt; 5.837873, 4.533699, 3.40368…</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cov</span>(x)</span></code></pre></div>
+<pre><code>##           x1        x2
+## x1 3.0217064 0.7152096
+## x2 0.7152096 1.2367679</code></pre>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="temperature-vs.-co2" class="slide level2 eighty"><h2 class="eighty">Temperature vs. CO<sub>2</sub>
+</h2>
+<div class="columns bare max-listing">
+<div class="column">
+<ul>
+<li>
+<p>Covariance:</p>
+<div class="bare">
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>df  <span class="ot">&lt;-</span> <span class="fu">select</span>(co2_t, co2, temp)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>cov_co2_t <span class="ot">&lt;-</span> <span class="fu">cov</span>(df)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(cov_co2_t, <span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div>
+<table>
+<thead><tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">co2</th>
+<th style="text-align: right;">temp</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">co2</td>
+<td style="text-align: right;">1014.78</td>
+<td style="text-align: right;">10.80</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">temp</td>
+<td style="text-align: right;">10.80</td>
+<td style="text-align: right;">0.14</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+<li>
+<p>Pearson Correlation:</p>
+<div class="bare">
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>cor_co2_t_pearson <span class="ot">&lt;-</span> <span class="fu">cor</span>(df, <span class="at">method =</span> <span class="st">"pearson"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(cor_co2_t_pearson, <span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div>
+<table>
+<thead><tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">co2</th>
+<th style="text-align: right;">temp</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">co2</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.92</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">temp</td>
+<td style="text-align: right;">0.92</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+<li>
+<p>Spearman Correlation:</p>
+<div class="bare">
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>cor_co2_t_spearman <span class="ot">&lt;-</span> <span class="fu">cor</span>(df, <span class="at">method =</span> <span class="st">"spearman"</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(cor_co2_t_spearman, <span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div>
+<table>
+<thead><tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">co2</th>
+<th style="text-align: right;">temp</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">co2</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.92</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">temp</td>
+<td style="text-align: right;">0.92</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ul>
+</div>
+<div class="column">
+<div class="bare">
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>px <span class="sc">+</span> <span class="fu">plot_spacer</span>() <span class="sc">+</span> pxy <span class="sc">+</span> py <span class="sc">+</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot_layout</span>(<span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">widths =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">1</span>), </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">heights =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">4</span>))</span></code></pre></div>
+<p><img data-src="assets/fig/unnamed-chunk-5-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+</section><section id="kernel-density-vs.-multivariate-normal" class="slide level2 eighty"><h2 class="eighty">Kernel Density vs. Multivariate Normal</h2>
+<div class="columns ptop-1">
+<div class="column">
+<div class="bare">
+<p><img data-src="assets/fig/plot_co2_t_dens-1.png"><!-- --></p>
+</div>
+</div>
+<div class="column">
+<div class="bare">
+<p><img data-src="assets/fig/plot_co2_t_mvn-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+</section><section id="multivariate-central-limit-theorem" class="slide level2 seventyfive"><h2 class="seventyfive">Multivariate Central Limit Theorem</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Univariate Central Limit Theorem:
+<ul>
+<li>Consider a set of <span class="math inline">\(M\)</span>
+experiments, in which each experiment takes <span class="math inline">\(n\)</span> samples of a variable <span class="math inline">\(x\)</span>, with <span class="math inline">\(X
+\sim \mathcal{D}\)</span>, for some distribution <span class="math inline">\(\mathcal{D}\)</span>
+</li>
+<li>For each experiment, <span class="math inline">\(\overline{x}\)</span> is the mean of the <span class="math inline">\(n\)</span> observations of <span class="math inline">\(x\)</span> from that experiment</li>
+<li>As <span class="math inline">\(n \rightarrow \infty\)</span>, the
+distribution of <span class="math inline">\(\overline{x}\)</span>
+approaches a normal distribution with
+<ul>
+<li><p>Mean <span class="math inline">\(\mu\)</span> approaching <span class="math inline">\(E(\mathcal{D})\)</span></p></li>
+<li>
+<p>Variance <span class="math inline">\(\sigma\)</span>
+approaching</p>
+<p><span class="math display">\[
+\frac{1}{n} \mathrm{Var}(\mathcal{D})
+\]</span></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">Multivariate central limit theorem:
+<ul>
+<li><p><span class="math inline">\(M\)</span> experiments, each taking
+<span class="math inline">\(n\)</span> observations of <span class="math inline">\(p\)</span> variables <span class="math inline">\(x
+= (x_{1}, x_{2}, \ldots, x_{p})\)</span>, with <span class="math inline">\(X \sim \mathcal{M}\)</span> for some multivariate
+distribution <span class="math inline">\(\mathcal{M}\)</span></p></li>
+<li>
+<p>As <span class="math inline">\(n \rightarrow \infty\)</span>, the
+distribution of the mean <span class="math inline">\(\overline{x} =
+(\overline{x_1}, \overline{x_2}, \ldots, \overline{x_p})\)</span>
+approaches a multivariate normal distribution with</p>
+<p><span class="math display">\[
+\begin{align}
+\mu = (\mu_1, \mu_2, \ldots, \mu_p) \rightarrow&amp; E(\mathcal{M}) \\
+\Sigma = (\Sigma_{i,j}) \rightarrow&amp; \frac{1}{n} \Sigma(\mathcal{M})
+\end{align}
+\]</span></p>
+</li>
+<li>
+<p>So regardless what multivariate distribution your data come
+from,</p>
+<ul>
+<li>If <span class="math inline">\(n\)</span> is large, <span class="math inline">\(\overline{x} = (\overline{x_1}, \overline{x_2},
+\ldots, \overline{x_p})\)</span> will follow a multivariate normal.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section>
+</div>
+  </div>
+  <!--
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.js"></script>
+  <!-- -->
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.min.js"></script><!-- --><script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Display the page number of the current slide
+        showSlideNumber: 'speaker',
+        // Push each slide change to the browser history
+        history: true,
+        //  Enable hashing slide content to URL
+        hash: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Don't separate fragments in PDF rendering
+        pdfSeparateFragments: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+      
+        // Optional reveal.js plugins
+        dependencies: [
+                    { src: '../../lecture_lib/library/assets/plugin/chalkboard/chalkboard.js', async: true },
+                                        { src: '../../lecture_lib/library/assets/plugin/reveal-skip-fragments/skip-fragments.js', async: true },
+                    { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/notes/notes.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/math/math.js', async: true }
+        ],
+        shift_keyboard: {
+    	    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'C' is pressed
+    	    66: function() { RevealChalkboard.toggleChalkboard() },	  // toggle chalkboard when 'B' is pressed
+    	    88: function() { RevealChalkboard.clear() },	            // clear chalkboard when 'X' is pressed
+    	    82: function() { RevealChalkboard.reset() },	            // reset chalkboard data on current slide when 'R' is pressed
+    	    68: function() { RevealChalkboard.download() },	          // downlad recorded chalkboard drawing when 'D' is pressed
+        },
+              	// Shortcut for showing all fragments
+      	skipFragmentsShowShortcut: 'S',
+
+      	// Shortcut for hiding all fragments
+      	skipFragmentsHideShortcut: 'H',
+      	      });
+    </script><script>
+  	function createSingletonNodejg( container, tagname, classname, innerHTML ) {
+
+		// Find all nodes matching the description
+		var nodes = container.querySelectorAll( '.' + classname );
+
+		// Check all matches to find one which is a direct child of
+		// the specified container
+		for( var i = 0; i < nodes.length; i++ ) {
+			var testNode = nodes[i];
+			if( testNode.parentNode === container ) {
+				return testNode;
+			}
+		}
+
+		// If no node was found, create it now
+		var node = document.createElement( tagname );
+		node.className = classname;
+		if( typeof innerHTML === 'string' ) {
+			node.innerHTML = innerHTML;
+		}
+		container.appendChild( node );
+
+		return node;
+
+	}
+
+  var dom_wrapper = document.querySelector('.reveal');
+  createSingletonNodejg(dom_wrapper, 'div', 'qrbox',
+  '<div class="qrbox" id="qrbox" style="font-size:90%;">' + '\n' +
+  '<div style="font-size:30%;width:100%;">' + '\n' +
+      '<a href="https://ees5891.jgilligan.org/slides/class_18">' +
+  	'<img src="qrcode.png" alt="https://ees5891.jgilligan.org/slides/class_18"/>' +
+  	'</a>' + '\n' +
+	  '</div>' + '\n' +
+  '<div style="font-size:30%;width:100%;vertical-align:top;">' + '\n' +
+    '<span style="display:inline-block;text-align:left;margin-left:0">' + '\n' +
+        'Live web page: <a href="https://ees5891.jgilligan.org/slides/class_18">https://ees5891.jgilligan.org/slides/class_18</a>' + '\n' +
+              '<br/>' + '\n' +
+        'PDF: <a href="https://ees5891.jgilligan.org/slides/class_18/EES_4891_5891_class_18_slides.pdf" target="_blank">https://ees5891.jgilligan.org/slides/class_18/EES_4891_5891_class_18_slides.pdf</a>' + '\n' +
+          	'</span>' + '\n' +
+  	'<span style="display:inline-block;text-align:right;vertical-align:top;position:absolute;right:0;bottom:0;">' + '\n' +
+  	  'Navigate slides: next: N or &lt;space&gt;; previous: P or &lt;backspace&gt;<br/>' + '\n' +
+  	  'Also: up, down, left, right arrows; overview: o; help: ?' + '\n' +
+  	'</span>' + '\n' +
+	'</div>' + '\n' +
+  '</div>' + '\n'
+  );
+</script><script>
+var MathJax = { jax: ["input/TeX", "output/HTML-CSS"],
+                TeX: {extensions: ["color.js", "mhchem.js"],
+                Macros: {
+                  COO: "\\ce{CO2}",
+                  methane: "\\ce{CH4}",
+                  degC: "^\\circ \\mathrm{C}",
+                  degF: "^\\circ \\mathrm{F}",
+                  water: "\\ce{H2O}",
+                  carb: "\\ce{CO3^2-}",
+                  bicarb: "\\ce{HCO3-}",
+                  carbonic: "\\ce{H2CO3}",
+                  Hplus: "\\ce{H+}",
+                  OH: "\\ce{OH-}",
+                  silica: "\\ce{SiO2}",
+                  calcite: "\\ce{CaCO3}",
+                  Caplus: "\\ce{Ca^2+}",
+                  silicate: "\\ce{SiO3^2-}",
+                  CaSi: "\\ce{CaSiO3}",
+                  pH: "p\\ce{H}",
+                  permil: "\\unicode{x2030}",
+                  pCOO: "\\ce{	ext{p}CO2}",
+                  pwater: "\\ce{	ext{p}H2O}"
+                },
+                  },
+                "HTML-CSS" : {scale: 100 }};
+</script><!-- dynamically load mathjax for compatibility with self-contained --><script type="text/x-mathjax-config">
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["SVG"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+    displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
+    processEscapes: true
+  }
+})
+  </script><script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script><script>
+  var qrbox = document.querySelector("#qrbox");
+  var advance_fragment = 0;
+
+	function isPrintingPDF() {
+	  let printing = ( /print-pdf/gi ).test( window.location.search );
+	  console.log("printing test: " + printing);
+	  return printing;
+	}
+
+
+  if ( qrbox.hasAttribute('qr-box-hide') || Reveal.isOverview() ||
+      ! Reveal.isFirstSlide() || isPrintingPDF()) {
+    console.log("Initializing");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }
+
+  Reveal.addEventListener('overviewshown', function() {
+      console.log("Overview shown");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }, false);
+
+  Reveal.addEventListener('overviewhidden', function() {
+    if (Reveal.isFirstSlide() && ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Overview hidden");
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    console.log("Slide changed...");
+    if (Reveal.isFirstSlide() && ! Reveal.isOverview() &&
+        ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    } else {
+      console.log("Hiding QR box");
+      qrbox.style.visibility="hidden";
+      qrbox.style.display="none";
+    }
+  }, false);
+
+  Reveal.addEventListener('pdf-ready', function() {
+    console.log("hiding qrbox for printing");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+    qrbox.setAttribute('qr-box-hide', 'true');
+  });
+
+  </script><script>
+  Reveal.addEventListener('slidechanged', function() {
+    while (advance_fragment > 0) {
+      // console.log('advancing fragment');
+      Reveal.nextFragment();
+      advance_fragment--;
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    if ( Reveal.getCurrentSlide().hasAttribute('data-skip')) {
+      // console.log("going to next slide...");
+      Reveal.next();
+    }
+  }, false);
+
+  Reveal.addEventListener('skip_slide', function() {
+    Reveal.next();
+  }, false);
+
+  Reveal.addEventListener('advance_fragment', function() {
+    // console.log("setting advance fragment");
+    advance_fragment++;
+    }, false);
+  </script>
+</body>
+</html>
