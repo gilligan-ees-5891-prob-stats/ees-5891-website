@@ -108,12 +108,12 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$", "_scripts$", "_
   name = "Schedule"
   pre = "<i class=\"sidebar-button-icon fal fa-lg fa-calendar-alt\"></i> "
   url = "/schedule"
-# [[menu.main]]
-#   weight = 4
-#   identifier = "projects"
-#   name = "Projects"
-#   pre = "<i class=\"material-icons\">near_me</i>"
-#   url = "/projects"
+[[menu.main]]
+  weight = 4
+  identifier = "projects"
+  name = "Project"
+  pre = "<i class=\"sidebar-button-icon fa-regular fa-lg fa-flask\">&nbsp;</i>"
+  url = "/projects"
 [[menu.main]]
   weight = 5
   identifier = "policies"

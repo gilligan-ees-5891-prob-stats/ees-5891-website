@@ -1,0 +1,205 @@
+---
+title: "Semester Project Assignment"
+author: "Jonathan Gilligan"
+date: "2025-03-17"
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 3
+    includes:
+      in_header: "ees5891.sty"
+  html_document:
+    toc: true
+    toc_depth: '3'
+    df_print: paged
+  blogdown::html_page:
+    md_extensions: +tex_math_single_backslash+compact_definition_lists
+github_classroom_assignment_url: https://classroom.github.com/a/HR7yOrTo
+slug: "project-assignment"
+pubdate: "2024-12-31"
+pdf_url: "/files/projects/project-assignment.pdf"
+draft: false
+---
+
+
+
+<div id="semester-project-assignment" class="section level1">
+<h1>Semester Project Assignment</h1>
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p>You will investigate a data set of your choice. The project will involve
+several steps, and will culminate in a written report, produced using
+R and Quarto (if you strongly prefer to use a different set of tools,
+that is fine. Python can work with Quarto too, and will allow you to
+continue to use RStudio to develop your project.)</p>
+<p>You will use R to import data, analyze it, and answer some questions
+about it.</p>
+</div>
+<div id="details" class="section level2">
+<h2>Details</h2>
+<div id="choosing-a-data-set" class="section level3">
+<h3>Choosing a data set</h3>
+<p>You can use data from any source. This could be
+research data from a project you have worked on or are working on,
+or it could be a publicly available set of data from some other source,
+such as the US Geological Survey, the National Oceanic and Atmospheric
+Administration, NASA, etc. It does not need to be geological or
+environmental data.</p>
+</div>
+<div id="major-parts-of-the-project" class="section level3">
+<h3>Major Parts of the Project:</h3>
+<p>The project will include the following parts:</p>
+<ol style="list-style-type: decimal">
+<li><p>Importing the data into R, and converting it into one or more
+<code>data.frame</code>s, <code>tibble</code>s, or other data structures.</p></li>
+<li><p>Study the descriptive statistics of your data and identify possible
+probability distributions you think it may have come from.</p>
+<ul>
+<li>Report the mean and standard deviation of each variable
+in your data (e.g., temperature, rainfall, isotopic compositions,
+mineral content, etc.).</li>
+<li>Plot the distribution of each variable using histograms and
+kernel density estimates.</li>
+<li>Using common probability distribution functions that we have studied,
+determine whether any of them seems to describe the data well.
+Q-Q plots will probably be helpful to you.</li>
+<li>If you are interested in relationships between different variables
+in a multivariate data set, report correlations and optionally
+produce a correlation plot.</li>
+</ul></li>
+<li><p>Come up with some questions you want to ask about the data.</p>
+<p>This could
+be whether data from one set of observations is different from another
+(e.g., the in-class exercise about whether droughts were different in
+the Little Ice Age and the Mediaval Warm Period).</p>
+<p>Another kind of
+question is whether there is a relationship between two or more
+variables in a multivariate data set (e.g., analyze correlations and
+perform regression analysis).</p>
+<p>A different kind of question would be
+to apply principal components analysis (PCA) to a multivariate data
+set and then use either regression or cluster analysis to the result
+to identify interesting patterns or relationships in the data.</p>
+<p>These
+are examples, and you should feel free to discuss your data with me,
+by email or in my office hours, as you explore it, graph it, and
+think about what could be cool to do with it.</p>
+<p><strong>Don’t be overly ambitious.</strong> This is a one-semester class. Don’t make
+your statistical questions too complicated. The point is to practice
+using some of the techniques we’ve learned. Keep your questions at
+a level where you can answer them in a week or two.</p></li>
+<li><p>Using the basic logic of hypothesis testing, choose appropriate
+statistical tests and use them to help answer the questions you
+came up with in step (3).</p></li>
+<li><p>Write a report about your data, how you analyzed it, and what you
+learned.</p>
+<ul>
+<li><p>You should use the features of Quarto to include figures and tables,
+and use R to insert numbers into the text as necessary.</p></li>
+<li><p>You can use author-date format for citing publications, or if you’re
+adventurous you can use Quarto’s tools for automatically managing
+citations and references (see <a href="https://r4ds.hadley.nz/quarto.html#visual-editor" class="uri">https://r4ds.hadley.nz/quarto.html#visual-editor</a>
+for an example)</p></li>
+<li><p>You will turn in your final report by rendering the Quarto
+document to HTML, PDF, or Word format and pushing it to GitHub.</p>
+<ul>
+<li>I will create a template for you on GitHub Classroom.</li>
+</ul></li>
+</ul>
+<p>There isn’t a definite length for the report. I expect that
+the report will be somewhere in the range of 10–20 pages, but
+if you put a lot of figures and tables into your report, it could
+go longer.</p>
+<p>I will not grade on length, but on how clearly you present your
+work (writing, clear use of graphics, etc.), finding interesting
+questions to ask and interesting things to say about your data,
+and effectively using the statistical methods we have studied,
+which are appropriate to your questions.</p></li>
+</ol>
+</div>
+</div>
+<div id="timeline" class="section level2">
+<h2>Timeline:</h2>
+<ul>
+<li>By <strong>Thursday March 27</strong>, submit a short description of the data set
+you want to work with for your project. This is not a formal thing,
+like a paper, but send me a page or two telling me what the data
+set is (what kind of data it has, where the data comes from,
+what variables are measured, roughly how big the data set is (how many
+rows of data in a spreadsheet or a similar measure of how many
+observations it includes))
+<ul>
+<li><p>I expect that the specific research quesitons you will be asking
+will develop as you play with the data, but for this initial assignment,
+give me an idea of what kinds of questions you might want to ask about
+this data.</p></li>
+<li><p>I encourage you to come to my office hours or send me email to ask
+questions or discuss what you are interested in and what you might
+want to do with data.</p>
+<p>It’s fine to say, “Here’s the kind of thing I’m interested in. Can you
+help me find a good data set to work with?” or “Here’s a data set I’m
+interested in. Can you help me come up with some good questions to ask
+about it, using statistics?”</p></li>
+</ul></li>
+<li>The final project is due <strong>Tuesday April 22</strong> before midnight.</li>
+</ul>
+</div>
+<div id="resources-for-finding-environmental-data" class="section level2">
+<h2>Resources for finding environmental data</h2>
+<ul>
+<li>A primary source of data on the world climate is the National
+Oceanic and Atmospheric Administration (NOAA), which has a
+Climate Data Online page (<a href="https://www.ncei.noaa.gov/cdo-web/" class="uri">https://www.ncei.noaa.gov/cdo-web/</a>)
+that can help you identify and download data.
+<ul>
+<li>There is also a more general Data Access page
+(<a href="https://www.ncei.noaa.gov/access/search/index" class="uri">https://www.ncei.noaa.gov/access/search/index</a>) that can help you
+explore even more data sets.</li>
+<li>If you’re interested in data on hurricanes, there is a page on
+hurricane data sets at <a href="https://www.nhc.noaa.gov/data/" class="uri">https://www.nhc.noaa.gov/data/</a> and the
+“Best Track” (HURDAT2) data set, which lists data on the full
+track of each named tropical storm from 1851–2023 may be especially
+rich. If you want to dig into hurricane data, I would also recommend
+the book, <em>Hurricane Climatology</em> by James B. Elsner and Thomas H.
+Jagger (Oxford University Press, 2013), which includes R code for
+all sorts of statistical analysis of hurricanes. You can access this
+book online through the VU libraries.</li>
+</ul></li>
+<li>Records of carbon dioxide and other greenhouse gases in the atmosphere
+can be downloaded from the Scripps CO<sub>2</sub> Program at Scripps Institution
+of Oceanography at <a href="https://scrippsco2.ucsd.edu/" class="uri">https://scrippsco2.ucsd.edu/</a>. Measurements include
+measurements of multiple gases taken at sites around the world, going
+back as far as 1958. Some data also has been merged with records from
+glacial ice cores to estimate CO<sub>2</sub> concentrations going back thousands
+of years. Some data also includes analysis of different isotopes
+of carbon and oxygen in atmospheric CO<sub>2</sub>, which can give evidence for
+the source (biological versus volcanic) and age
+(e.g., burning wood versus fossil fuels) responsible for the changing
+CO<sub>2</sub> concentration of the atmosphere.</li>
+<li>The U.S. Geological Survey collects all sorts of great geological data,
+which you can access through its data portal <a href="https://www.usgs.gov/tools/geo-data-portal" class="uri">https://www.usgs.gov/tools/geo-data-portal</a>.
+The USGS also actively develops many tools for analyzing geological and
+hydrological data in R, including the <code>dataRetrieval</code> package, which
+lets you automate retrieving data using R.
+USGS also has a searchable catalog of all its data products at
+<a href="https://www.usgs.gov/products/data/all-data" class="uri">https://www.usgs.gov/products/data/all-data</a></li>
+<li>NOAA’s National Centers for Environmental Information
+<a href="https://www.ngdc.noaa.gov/" class="uri">https://www.ngdc.noaa.gov/</a>
+also hosts
+data on natural hazards <a href="https://www.ngdc.noaa.gov/hazard/hazards.shtml" class="uri">https://www.ngdc.noaa.gov/hazard/hazards.shtml</a>,
+including volcanoes, earthquakes, wildfires, tsunamis, and storms.</li>
+<li>The Smithsonian Institution’s Volcanos of the World databases
+<a href="https://volcano.si.edu/gvp_votw.cfm" class="uri">https://volcano.si.edu/gvp_votw.cfm</a> includes an extensive collection
+of volcanic activity spanning the entire Holocene.</li>
+<li>Columbia University has built an extensive archive of climate data of
+all sorts at the International Research Institute for Climate and
+Society/Lamont-Doherty Earth Observatory (IRI/LDEO) Climate Data Library
+<a href="https://iridl.ldeo.columbia.edu/index.html?Set-Language=en" class="uri">https://iridl.ldeo.columbia.edu/index.html?Set-Language=en</a></li>
+<li>The R Open Science project has produced hundreds of R packages for
+acquiring and analyzing all sorts of scientific data. It is worth
+browsing or searching their list of data access packages for
+downloading sicentific
+data from public sources on the web <a href="https://ropensci.org/packages/data-access/" class="uri">https://ropensci.org/packages/data-access/</a></li>
+</ul>
+</div>
+</div>
