@@ -236,11 +236,11 @@ observations of <span class="math inline">\(p\)</span> variables</p>
 <p><span class="math display">\[
 X =
 \left[
-\begin{array}{c}
-  (x_{1,1}, x_{1,2}, x_{1,3}, \ldots, x_{1,p}), \\
-  (x_{2,1}, x_{2,2}, x_{2,3}, \ldots, x_{2,p}), \\
-  \ldots, \\
-  (x_{N,1}, x_{N,2}, x_{N,3}, \ldots, x_{N,p})
+\begin{array}{ccccc}
+  x_{1,1} &amp; x_{1,2} &amp; x_{1,3} &amp; \ldots &amp; x_{1,p} \\
+  x_{2,1} &amp; x_{2,2} &amp; x_{2,3} &amp; \ldots &amp; x_{2,p} \\
+  \vdots  &amp; \vdots  &amp; \vdots  &amp; \ddots &amp; \vdots\\
+  x_{N,1} &amp; x_{N,2} &amp; x_{N,3} &amp; \ldots &amp; x_{N,p}
 \end{array}
 \right]
 \]</span></p>
@@ -274,8 +274,10 @@ x_{N,2}) \right]
 <p>The density of one variable, averaged over the others:</p>
 <p><span class="math display">\[
 \begin{align}
-f_1 &amp; = \int_{x_2 = -\infty}^{\infty} f(x_1, x_2)\, \mathrm{d}x_2 \\
-f_2 &amp; = \int_{x_1 = -\infty}^{\infty} f(x_1, x_2)\, \mathrm{d}x_1
+f_1(x_1) &amp; = \int_{x_2 = -\infty}^{\infty} f(x_1, x_2)\,
+\mathrm{d}x_2 \\
+f_2(x_2) &amp; = \int_{x_1 = -\infty}^{\infty} f(x_1, x_2)\,
+\mathrm{d}x_1
 \end{align}
 \]</span></p>
 </li>
@@ -284,21 +286,21 @@ f_2 &amp; = \int_{x_1 = -\infty}^{\infty} f(x_1, x_2)\, \mathrm{d}x_1
 density of one variable, averaged over all <span class="math inline">\(p-1\)</span> others:</p>
 <div class="seventy">
 <p><span class="math display">\[\begin{align}
-f_1 &amp; = \int_{x_2 = -\infty}^\infty \int_{x_3 = -\infty}^\infty
+f_1(x_1) &amp; = \int_{x_2 = -\infty}^\infty \int_{x_3 = -\infty}^\infty
 \ldots
   \int_{x_p = -\infty}^\infty
-  f(x_1, x_2, x_3, \ldots, x_p)\, \mathrm{d}x_2\, \mathrm{d}x_3 \ldots
+  f(x_1, \ldots, x_p)\, \mathrm{d}x_2\, \mathrm{d}x_3 \ldots
 \mathrm{d}x_p  \\
-f_2 &amp; = \int_{x_1 = -\infty}^\infty \int_{x_3 = -\infty}^\infty
+f_2(x_2) &amp; = \int_{x_1 = -\infty}^\infty \int_{x_3 = -\infty}^\infty
 \ldots
   \int_{x_p = -\infty}^\infty
-  f(x_1, x_2, x_3, \ldots, x_p)\, \mathrm{d}x_1\, \mathrm{d}x_3 \ldots
+  f(x_1, \ldots, x_p)\, \mathrm{d}x_1\, \mathrm{d}x_3 \ldots
 \mathrm{d}x_p  \\
     &amp; \ldots \\
-f_p &amp; = \int_{x_1 = -\infty}^\infty \int_{x_2 = -\infty}^\infty
+f_p(x_p) &amp; = \int_{x_1 = -\infty}^\infty \int_{x_2 = -\infty}^\infty
 \ldots
   \int_{x_{p-1} = -\infty}^\infty
-  f(x_1, x_2, x_3, \ldots, x_p)\, \mathrm{d}x_1\, \mathrm{d}x_2 \ldots
+  f(x_1, \ldots, x_p)\, \mathrm{d}x_1\, \mathrm{d}x_2 \ldots
 \mathrm{d}x_{p-1}  \\
 
 \end{align}\]</span></p>
@@ -465,7 +467,7 @@ have a perfectly linear relationship</li>
 covariance matrix <span class="math inline">\(\Sigma\)</span>:</p>
 <p><span class="math display">\[
 \begin{align}
-\Sigma_{i,j} &amp;= \mathrm{Cov}(X_i, X_j) \\
+\Sigma_{i,j} &amp;= \mathrm{Cov}(X_i, X_j) \\[2ex]
 \Sigma &amp;= \left(
 \begin{array}{ccccc}
 \mathrm{Var}(X_1)      &amp; \mathrm{Cov}(X_1, X_2) &amp;
@@ -530,7 +532,7 @@ covariance matrix <span class="math inline">\(\Sigma\)</span>:</p>
 Pearson correlation coefficients instead of covariances:</p>
 <p><span class="math display">\[
 \begin{align}
-R_{i,j} &amp;= \rho(X_i, X_j) \\
+R_{i,j} &amp;= \rho(X_i, X_j) \\[2ex]
 R &amp;= \left(
 \begin{array}{ccc}
 1              &amp; \rho(X_1, X_2) &amp; \cdots \\
@@ -591,8 +593,8 @@ X_2 &amp;\sim \mathcal{N}(\mu_2, \sigma_2)
 for <span class="math inline">\(f(x_1, x_2)\)</span> involves
 complicated linear algebra with the covariance matrix.</p>
 <ul>
-<li>Fortunately, we can use R to do the calculations, so we don’t have
-to, using the package <code>mvtnorm</code>
+<li>Fortunately, we can use R to do the calculations, using the package
+<code>mvtnorm</code>
 </li>
 </ul>
 </li>
