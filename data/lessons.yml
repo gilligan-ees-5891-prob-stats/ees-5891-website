@@ -80,6 +80,7 @@ lessons:
 - date: '2025-03-21'
   title: Least Squares Analysis
   reading: /reading/reading_19
+  lecture: /slides/class_19
 - date: '2025-03-24'
   title: Linear Regression
   reading: /reading/reading_20
