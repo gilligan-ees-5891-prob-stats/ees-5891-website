@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<!-- JG Reveal.js Template --><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta name="author" content="Jonathan Gilligan">
+<title>Least Squares</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reset.css">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reveal.min.css">
+<style type="text/css">
+      code{white-space: pre-wrap;}
+      .smallcaps{font-variant: small-caps;}
+      .line-block{white-space: pre-line;}
+      .column{display: inline-block;}  </style>
+<style type="text/css">
+    div.qrbox,
+    aside.qrbox {
+     text-align: left;
+     vertical-align: bottom;
+     width: 95%;
+     position: fixed;
+     left: 2.5%;
+     bottom: 1rem;
+     display: block;
+    }
+  </style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { font-weight: bold; } /* Alert */
+code span.an { font-style: italic; } /* Annotation */
+code span.cf { font-weight: bold; } /* ControlFlow */
+code span.co { font-style: italic; } /* Comment */
+code span.cv { font-style: italic; } /* CommentVar */
+code span.do { font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.er { font-weight: bold; } /* Error */
+code span.in { font-style: italic; } /* Information */
+code span.kw { font-weight: bold; } /* Keyword */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.wa { font-style: italic; } /* Warning */
+  </style>
+<!-- theme = solarized_jg --><link rel="stylesheet" href="../../lecture_lib/library/assets/css/theme/solarized_jg.css" id="theme">
+<!-- Printing and PDF exports --><script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../lecture_lib/library/reveal.js-3.8.0/css/print/pdf.css' : '../../lecture_lib/library/reveal.js-3.8.0/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><!--[if lt IE 9]>
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+  <![endif]--><script src="../../lecture_lib/library/header-attrs-2.29.1.9000/header-attrs.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+            <!-- start title slide -->
+<section class="center" id="title"><h1 class="title">Least Squares</h1>
+    <h3 class="author">EES 4891/5891</h3>
+        <h3 class="author">Probability &amp; Statistics for
+Geosciences</h3>
+    <h3 class="author">Jonathan Gilligan</h3>
+    <h3 class="date">
+      Class #19:
+       Friday, March 21
+      2025
+    </h3>
+	<!-- end title slide -->
+</section><section><section id="learning-goals" class="title-slide slide level1 center"><h1 class="center">Learning Goals</h1>
+
+</section><section id="learning-goals-1" class="slide level2 eighty"><h2 class="eighty">Learning Goals</h2>
+</section></section><section><section id="introducing-least-squares" class="title-slide slide level1 center"><h1 class="center">Introducing Least Squares</h1>
+
+</section><section id="the-basic-problem" class="slide level2 eighty"><h2 class="eighty">The Basic Problem</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>We’ve learned about estimating parameters for probability
+distributions from data:
+<ul>
+<li>Univariate data:
+<ul>
+<li>Method of Moments</li>
+<li>Maximum Likelihood Estimation</li>
+<li>Bayesian Methods</li>
+</ul>
+</li>
+<li>Multivariate Normal
+<ul>
+<li>Estimating mean and covariance matrix</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="fragment" data-fragment-index="1">Covariance and correlation tell you that there’s a relationship
+between variables,
+<ul>
+<li>Don’t tell you what the relationship is.</li>
+<li class="fragment" data-fragment-index="2">Different relationships can have the same correlation or
+covariance</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column bare">
+<div class="fragment" data-fragment-index="2">
+<p><img data-src="assets/images/correlations.jpg" alt="Correlations"></p>
+</div>
+<ul>
+<li class="fragment" data-fragment-index="3">Least-Squares Analysis:
+<ul>
+<li>
+<p>Estimate parameters <span class="math inline">\(\Theta\)</span>
+for a functional relationship between variables in multivariate data</p>
+<p><span class="math display">\[
+\begin{align}
+x_p =&amp; f(x_1, x_2, \ldots, x_{p-1} | \Theta) \\
+\Theta =&amp; (\theta_1, \theta_2, \ldots, \theta_k)
+\end{align}
+\]</span></p>
+<ul>
+<li class="fragment">Bivariate: <span class="math inline">\(x_2 = f(x_1 |
+\Theta)\)</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="ordinary-least-squares" class="slide level2 eighty"><h2 class="eighty">Ordinary Least Squares</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Consider <span class="math inline">\(N\)</span> observations of
+bivariate data <span class="math inline">\((x_i, y_i)\)</span>:</p>
+<p><span class="math display">\[
+\left[
+\begin{array}{cc}
+x_1 &amp; y_1 \\
+x_2 &amp; y_2 \\
+\vdots &amp; \vdots \\
+x_N &amp; y_N
+\end{array}
+\right]
+\]</span></p>
+</li>
+<li class="fragment">
+<p>Assume a linear relationship:</p>
+<p><span class="math display">\[
+y_i = \beta_0 + \beta_1 x_i + \varepsilon_i,
+\]</span> where <span class="math inline">\(\beta\)</span> are
+parameters and <span class="math inline">\(\varepsilon\)</span>
+represents a random residual.</p>
+<ul>
+<li>
+<span class="math inline">\(\varepsilon\)</span> represents the
+residual variance not explained by <span class="math inline">\(\beta_0 +
+\beta_1 x\)</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">The problem: Estimate the best values for <span class="math inline">\(\beta\)</span>, given data <span class="math inline">\((x_i, y_i)\)</span> for <span class="math inline">\(i \in 1, 2, \ldots N\)</span>
+<ul>
+<li class="fragment">Criterion for best values: make <span class="math inline">\(\varepsilon\)</span> as small as possible (“least
+squares”).
+<ul>
+<li class="fragment">
+<p>Specifically: minimize</p>
+<p><span class="math display">\[
+\sum_{i = 1}^N \epsilon_i^2 = \sum_{i = 1}^N (y_i - (\beta_0 + \beta_1
+x_i))^2
+\]</span></p>
+</li>
+<li class="fragment">
+<p>If <span class="math inline">\(\varepsilon\)</span> is
+normally distributed (<span class="math inline">\(\varepsilon \sim
+\mathcal{N}(0, \sigma)\)</span>), then the maximum-likelihood values for
+<span class="math inline">\(\beta\)</span> will minimize <span class="math inline">\(\sum_i \epsilon_i^2\)</span></p>
+<ul>
+<li>Ordinary Least Squares is equivalent to Maximum Likelihood.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="multivariate-case" class="slide level2 eighty"><h2 class="eighty">Multivariate Case</h2>
+<ul>
+<li>
+<p>More generally, if we have <span class="math inline">\(p\)</span>-dimensional multivariate data,</p>
+<p><span class="math display">\[
+\left[
+\begin{array}{cc}
+x_{1,1} &amp; x_{1,2}, &amp; \ldots &amp; x_{1,p} \\
+x_{2,1} &amp; x_{2,2}, &amp; \ldots &amp; x_{2,p} \\
+\vdots  &amp; \vdots   &amp; \ddots &amp; \vdots  \\
+x_{N,1} &amp; x_{N,2}, &amp; \ldots &amp; x_{N,p} \\
+\end{array}
+\right]
+\]</span></p>
+<p>we use a linear relationship</p>
+<p><span class="math display">\[
+x_{i, p} = \beta_0 + \sum_{j = 1}^{p-1} \beta_j x_{i,j} + \epsilon_i
+\]</span></p>
+<p>and find values for <span class="math inline">\(\beta = (\beta_0,
+\beta_1, \ldots, \beta_{p-1})\)</span> that minimize the sum of the
+squares of <span class="math inline">\(\epsilon_i\)</span></p>
+</li>
+</ul></section></section><section><section id="least-squares-in-r" class="title-slide slide level1 center"><h1 class="center">Least-Squares in R</h1>
+
+</section><section id="least-squares-in-r-1" class="slide level2 eighty"><h2 class="eighty">Least-Squares in R</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Start by creating fake data with known parameters:</p>
+<p><span class="math display">\[
+\begin{align}
+\beta_0 =&amp; 3.5 \\
+\beta_1 =&amp; 7.2
+\end{align}
+\]</span></p>
+<ul>
+<li>
+<p>Generate 100 samples with <span class="math inline">\(y_i =
+\beta_0 + \beta_1 x_i + \varepsilon_i\)</span>, where <span class="math inline">\(\varepsilon \sim \mathcal{N}(\mu = 0, \sigma =
+10)\)</span></p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>b0 <span class="ot">&lt;-</span> <span class="fl">3.5</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>b1 <span class="ot">&lt;-</span> <span class="fl">7.2</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>sigma <span class="ot">=</span> <span class="dv">10</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="at">length.out =</span> <span class="dv">100</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> b0 <span class="sc">+</span> b1 <span class="sc">*</span> x <span class="sc">+</span> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>               <span class="fu">rnorm</span>(<span class="fu">length</span>(x), <span class="dv">0</span>, sigma))</span></code></pre></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column bare max-listing">
+<ul>
+<li class="fragment">
+<p>Use the <code>lm()</code> function to fit parameters to
+data:</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> x, df)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = y ~ x, data = df)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -26.168  -8.699   2.071   6.326  21.451 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   4.6689     2.2190   2.104   0.0379 *  
+## x             7.4566     0.3834  19.450   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 11.18 on 98 degrees of freedom
+## Multiple R-squared:  0.7942, Adjusted R-squared:  0.7921 
+## F-statistic: 378.3 on 1 and 98 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="plotting-least-squares" class="slide level2 eighty"><h2 class="eighty">Plotting Least-Squares</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Always plot your data
+<ul>
+<li>Your eyes are better at seeing patterns in plots than interpreting
+numbers like <span class="math inline">\(p\)</span>-values</li>
+</ul>
+</li>
+<li class="fragment" data-fragment-index="1">The <code>geom_smooth()</code> function can plot the result of
+a least-squares analysis.
+<ul>
+<li>The gray area indicates the 95% confidence interval of the fitted
+line.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column fragment" data-fragement-index="1">
+<div class="bare max-listing">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code></pre></div>
+<p><img data-src="assets/fig/unnamed-chunk-2-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+</section><section id="least-squares-with-real-data" class="slide level2 eighty"><h2 class="eighty">Least-Squares with Real Data</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Paleoclimate data: tree-ring growth index vs. minimum summer air
+temperature from the MacKenzie Delta, NW Canada,</p>
+<ul>
+<li>Data from T.J. Porter <em>et al</em>., <em>Quaternary Res.</em>
+<strong>80</strong>, 167 (2013), DOI: <a href="https://doi.org/10.1016/j.yqres.2013.05.004">10.1016/j.yqres.2013.05.004</a>.</li>
+</ul>
+</li>
+<li class="fragment">
+<p>Load the data:</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>paleo <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"tree-rings.rds"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(paleo)</span></code></pre></div>
+<pre><code>## Rows: 106
+## Columns: 3
+## $ year_ad      &lt;dbl&gt; 1893, 1894, 1895,…
+## $ t_min        &lt;dbl&gt; 4.64, 4.52, 5.42,…
+## $ growth_index &lt;dbl&gt; 0.90, 0.98, 1.08,…</code></pre>
+</div>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Fit parameters to the data:</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fit_paleo <span class="ot">&lt;-</span> <span class="fu">lm</span>(t_min <span class="sc">~</span> growth_index, paleo)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_paleo)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = t_min ~ growth_index, data = paleo)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.52464 -0.62025 -0.03916  0.66740  1.65240 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    3.4417     0.3516   9.789  &lt; 2e-16 ***
+## growth_index   2.0820     0.2706   7.694 8.52e-12 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.8676 on 104 degrees of freedom
+## Multiple R-squared:  0.3627, Adjusted R-squared:  0.3566 
+## F-statistic:  59.2 on 1 and 104 DF,  p-value: 8.517e-12</code></pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="plot-data" class="slide level2 eighty"><h2 class="eighty">Plot Data</h2>
+<div class="columns">
+<div class="column">
+<div class="max-listing">
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(paleo, <span class="fu">aes</span>(<span class="at">x =</span> growth_index, <span class="at">y =</span> t_min)) <span class="sc">+</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span><span class="st">"lm"</span>) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Tree ring growth index"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"Minimum summer temperature ("</span>, </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                            degree <span class="sc">*</span> C, <span class="st">")"</span>)))</span></code></pre></div>
+</div>
+</div>
+<div class="column">
+<p><img data-src="assets/fig/unnamed-chunk-4-1.png"><!-- --></p>
+</div>
+</div>
+</section></section><section><section id="general-least-squares" class="title-slide slide level1 center"><h1 class="center">General Least Squares</h1>
+
+</section><section id="general-least-squares-1" class="slide level2 eighty"><h2 class="eighty">General Least Squares</h2>
+<ul>
+<li>Ordinary least squares models linear relationships between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.
+<ul>
+<li>We can also use least-squares methods for nonlinear relationships
+betwen <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, as long as there is a linear
+relationship between the parameters <span class="math inline">\(\beta\)</span> and the dependent variable.
+<ul>
+<li>
+<p>Polynomial fits</p>
+<p><span class="math display">\[
+y = \beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^2 + \varepsilon
+\]</span></p>
+</li>
+<li>
+<p>Transformed data</p>
+<p><span class="math display">\[
+\log(y) = \beta_0 + \beta_1 \log(x) + \varepsilon
+\]</span></p>
+</li>
+</ul>
+</li>
+<li class="fragment">But we can’t fit non-linear relationships between the parameters
+and the dependent variable.
+<ul>
+<li>
+<p>The following won’t work:</p>
+<p><span class="math display">\[
+\begin{align}
+y =&amp; \beta_0 + x^{\beta_1} + \varepsilon \\
+y =&amp; \sin( \beta_1 x ) + \varepsilon
+\end{align}
+\]</span></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul></section><section id="example-of-general-least-squares" class="slide level2 eighty"><h2 class="eighty">Example of General Least Squares</h2>
+<div class="columns bare">
+<div class="column">
+<ul>
+<li>
+<p>Diffusion coefficients for <sup>40</sup>Ar in biotite at
+different temperatures</p>
+<ul>
+<li>Data from T.M. Harrison <em>et al</em>., <em>Geomchim. Geocosm.
+Act.</em> <strong>49</strong>, 2461 (1985). DOI: <a href="https://doi.org/10.1016/0016-7037(85)90246-7">10.1016/0016-7037(85)90246-7</a>
+</li>
+</ul>
+</li>
+<li class="fragment">
+<p>Load the data</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>diffus <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"argon-diffusion.rds"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(diffus)</span></code></pre></div>
+<pre><code>## Rows: 21
+## Columns: 5
+## $ run &lt;chr&gt; "CB-100", "m-101", "CB-103…
+## $ t   &lt;dbl&gt; 973.15, 973.15, 873.15, 92…
+## $ a   &lt;dbl&gt; 97, 97, 97, 97, 202, 97, 9…
+## $ d   &lt;dbl&gt; 2.01e-12, 2.51e-12, 1.38e-…
+## $ P   &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1,…</code></pre>
+</div>
+<ul>
+<li>
+<code>t</code>: temperature (K),</li>
+<li>
+<code>a</code>: grain radius (μm),</li>
+<li>
+<code>d</code>: diffusion coefficient (cm<sup>2</sup>/sec),</li>
+<li>
+<code>P</code>: pressure (kbar)</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Plot the data:</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diffus, <span class="fu">aes</span>(<span class="at">x =</span> t, <span class="at">y =</span> d)) <span class="sc">+</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"T(K)"</span>, <span class="at">y =</span> <span class="st">"D (cm^2 / sec)"</span>)</span></code></pre></div>
+<p><img data-src="assets/fig/plot-diffus-1.png"><!-- --></p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="digression-fancy-plotting" class="slide level2 eighty"><h2 class="eighty">Digression: Fancy Plotting</h2>
+<div class="columns bare">
+<div class="column">
+<ul>
+<li>Getting fancy with <code>ggplot()</code>:
+<ul>
+<li>To plot discrete colors and shapes, we have to transform numerical
+data into factors.</li>
+<li>If we don’t like the default shapes or colors R uses, we can use
+<code>scale_shape_manual()</code>, <code>scale_color_manual()</code>,
+etc. to specify the shapes or colors to associate with each level of the
+factors.</li>
+<li>We can put mathematical expressions into labels using
+<code>expression()</code> and <code>expression(paste())</code>.
+<ul>
+<li>Details at <a href="https://www.rdocumentation.org/packages/grDevices/topics/plotmath" class="uri">https://www.rdocumentation.org/packages/grDevices/topics/plotmath</a>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<div class="bare max-listing">
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>diffus <span class="ot">&lt;-</span> diffus <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">P =</span> <span class="fu">factor</span>(P), <span class="at">a =</span> <span class="fu">factor</span>(a))</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diffus, <span class="fu">aes</span>(<span class="at">x =</span> t, <span class="at">y =</span> d)) <span class="sc">+</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> P, <span class="at">shape =</span> a), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">"Dark2"</span>, <span class="at">name =</span> <span class="st">"P (kbar)"</span>) <span class="sc">+</span> </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"56"</span> <span class="ot">=</span> <span class="dv">15</span>, <span class="st">"80"</span> <span class="ot">=</span> <span class="dv">16</span>, </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"97"</span> <span class="ot">=</span> <span class="dv">17</span>, <span class="st">"202"</span> <span class="ot">=</span> <span class="dv">18</span>), </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">name =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"radius ("</span>, </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>                                             mu <span class="sc">*</span> m, <span class="st">")"</span>))) <span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"T (K)"</span>, </span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"D ("</span>, cm<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> sec, <span class="st">")"</span>)))</span></code></pre></div>
+<p><img data-src="assets/fig/plot-diffus-fancy-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+</section><section id="analyzing-the-plot" class="slide level2 eighty"><h2 class="eighty">Analyzing the Plot</h2>
+<div class="columns">
+<div class="column" style="width:35%;;">
+<ul>
+<li>The data really don’t look like they fall on a straight line the
+line.</li>
+<li class="fragment">Transforming the data may produce a better linear relationship.
+<ul>
+<li class="fragment">The physics of diffusion suggests that there should be a linear
+relationship between <span class="math inline">\(\log(D)\)</span> and
+<span class="math inline">\(1 / T\)</span>, where <span class="math inline">\(T\)</span> is the Kelvin temperature.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column" style="width:64%;">
+<div class="max-listing">
+<p><img data-src="assets/fig/unnamed-chunk-6-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+</section><section id="transforming-data" class="slide level2 eighty"><h2 class="eighty">Transforming Data</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>The physics of diffusion suggests that there should be a linear
+relationship between <span class="math inline">\(\log(D)\)</span> and
+<span class="math inline">\(1 / T\)</span>.</p>
+<ul>
+<li class="fragment" data-fragment-index="1">
+<p><span class="math inline">\(T\)</span> is close to 1000 K,
+so transforming <span class="math inline">\(1000 / T\)</span> gives
+numbers close to 1.</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>diffus <span class="ot">&lt;-</span> diffus <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">t_inv =</span> <span class="dv">1000</span> <span class="sc">/</span> t, </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">log_d =</span> <span class="fu">log</span>(d))</span></code></pre></div>
+</div>
+</li>
+</ul>
+</li>
+<li class="fragment" data-fragment-index="2">
+<p>Plot transformed data:</p>
+<div class="bare max-listing ninety">
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>p_xform <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(diffus, <span class="fu">aes</span>(<span class="at">x =</span> t_inv, <span class="at">y =</span> log_d)) <span class="sc">+</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> P, <span class="at">shape =</span> a), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">"Dark2"</span>, </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">name =</span> <span class="st">"P (kbar)"</span>) <span class="sc">+</span> </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"56"</span> <span class="ot">=</span> <span class="dv">15</span>, <span class="st">"80"</span> <span class="ot">=</span> <span class="dv">16</span>, </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"97"</span> <span class="ot">=</span> <span class="dv">17</span>, <span class="st">"202"</span> <span class="ot">=</span> <span class="dv">18</span>), </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">name =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"radius ("</span>, </span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>                                             mu <span class="sc">*</span> m, <span class="st">")"</span>))</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>                     ) <span class="sc">+</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(<span class="st">"T ("</span>, <span class="dv">10</span><span class="sc">^</span><span class="dv">3</span> <span class="sc">/</span> K, <span class="st">")"</span>)), </span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">paste</span>(log<span class="sc">~</span>D, <span class="st">" ("</span>, cm<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> sec, <span class="st">")"</span>)),</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Transformed Data"</span>) </span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>p_xform</span></code></pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="column">
+<div class="fragment" data-fragment-index="2">
+<p><img data-src="assets/fig/unnamed-chunk-7-1.png"><!-- --></p>
+</div>
+<div class="mleft-2 textleft">
+<ul>
+<li class="fragment">1-kbar data fall close to a straight line.
+<ul>
+<li>14-kbar data don’t.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</section><section id="general-least-squares-in-r" class="slide level2 eighty"><h2 class="eighty">General Least Squares in R</h2>
+<div class="columns">
+<div class="column">
+<p><span class="math display">\[
+\log{D} = \beta_0 + \beta_1 \frac{1000}{T} + \varepsilon
+\]</span></p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>fit_diffus <span class="ot">&lt;-</span> <span class="fu">lm</span>(log_d <span class="sc">~</span> t_inv, diffus)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_diffus)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = log_d ~ t_inv, data = diffus)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.16200 -0.09938  0.14557  0.46267  1.13384 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   -6.261      3.602  -1.738   0.0983 .  
+## t_inv        -20.259      3.395  -5.967 9.63e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.7966 on 19 degrees of freedom
+## Multiple R-squared:  0.6521, Adjusted R-squared:  0.6337 
+## F-statistic: 35.61 on 1 and 19 DF,  p-value: 9.628e-06</code></pre>
+</div>
+</div>
+<div class="column">
+<div class="bare max-listing fragment">
+<p><img data-src="assets/fig/unnamed-chunk-8-1.png"><!-- --></p>
+</div>
+<ul>
+<li class="fragment">The fit is very good for 1-kbar data,
+<ul>
+<li>Poor for 14-kbar data.</li>
+<li>202 μm grains worse than smaller grains</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="weighted-data" class="title-slide slide level1 center"><h1 class="center">Weighted Data</h1>
+
+</section><section id="weighted-data-1" class="slide level2 eighty"><h2 class="eighty">Weighted Data</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>So far, we have assumed that each observation has the same
+measurement errors or uncertainty.
+<ul>
+<li><p>If some data have been measured more accurately than others, we
+can do <em>weighted least-squares</em> analysis, using a vector of
+weights <span class="math inline">\(w\)</span>, the same length as the
+number of observations.</p></li>
+<li class="fragment">
+<p>Ordinary least-squares minimizes</p>
+<p><span class="math display">\[
+\sum_{i=1}^N \varepsilon_i^2 = \sum_{i = 1}^N (y_i - (\beta_0 + \beta_1
+x))
+\]</span></p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Weighted least-squares minimizes</p>
+<p><span class="math display">\[
+\sum_{i=1}^N w_i \varepsilon_i^2 = \sum_{i = 1}^N w_i (y_i - (\beta_0 +
+\beta_1 x))
+\]</span></p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">data =</span> df, <span class="at">weights =</span> w)</span></code></pre></div>
+</div>
+<ul>
+<li class="fragment">Typially, if <span class="math inline">\(\sigma_i\)</span> is
+the uncertainty in <span class="math inline">\(x_i\)</span>, then <span class="math inline">\(w_i = 1 / \sigma_i^2\)</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section>
+</div>
+  </div>
+  <!--
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.js"></script>
+  <!-- -->
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.min.js"></script><!-- --><script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Display the page number of the current slide
+        showSlideNumber: 'speaker',
+        // Push each slide change to the browser history
+        history: true,
+        //  Enable hashing slide content to URL
+        hash: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Don't separate fragments in PDF rendering
+        pdfSeparateFragments: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+      
+        // Optional reveal.js plugins
+        dependencies: [
+                    { src: '../../lecture_lib/library/assets/plugin/chalkboard/chalkboard.js', async: true },
+                                        { src: '../../lecture_lib/library/assets/plugin/reveal-skip-fragments/skip-fragments.js', async: true },
+                    { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/notes/notes.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/math/math.js', async: true }
+        ],
+        shift_keyboard: {
+    	    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'C' is pressed
+    	    66: function() { RevealChalkboard.toggleChalkboard() },	  // toggle chalkboard when 'B' is pressed
+    	    88: function() { RevealChalkboard.clear() },	            // clear chalkboard when 'X' is pressed
+    	    82: function() { RevealChalkboard.reset() },	            // reset chalkboard data on current slide when 'R' is pressed
+    	    68: function() { RevealChalkboard.download() },	          // downlad recorded chalkboard drawing when 'D' is pressed
+        },
+              	// Shortcut for showing all fragments
+      	skipFragmentsShowShortcut: 'S',
+
+      	// Shortcut for hiding all fragments
+      	skipFragmentsHideShortcut: 'H',
+      	      });
+    </script><script>
+  	function createSingletonNodejg( container, tagname, classname, innerHTML ) {
+
+		// Find all nodes matching the description
+		var nodes = container.querySelectorAll( '.' + classname );
+
+		// Check all matches to find one which is a direct child of
+		// the specified container
+		for( var i = 0; i < nodes.length; i++ ) {
+			var testNode = nodes[i];
+			if( testNode.parentNode === container ) {
+				return testNode;
+			}
+		}
+
+		// If no node was found, create it now
+		var node = document.createElement( tagname );
+		node.className = classname;
+		if( typeof innerHTML === 'string' ) {
+			node.innerHTML = innerHTML;
+		}
+		container.appendChild( node );
+
+		return node;
+
+	}
+
+  var dom_wrapper = document.querySelector('.reveal');
+  createSingletonNodejg(dom_wrapper, 'div', 'qrbox',
+  '<div class="qrbox" id="qrbox" style="font-size:90%;">' + '\n' +
+  '<div style="font-size:30%;width:100%;">' + '\n' +
+      '<a href="https://ees5891.jgilligan.org/slides/class_19">' +
+  	'<img src="qrcode.png" alt="https://ees5891.jgilligan.org/slides/class_19"/>' +
+  	'</a>' + '\n' +
+	  '</div>' + '\n' +
+  '<div style="font-size:30%;width:100%;vertical-align:top;">' + '\n' +
+    '<span style="display:inline-block;text-align:left;margin-left:0">' + '\n' +
+        'Live web page: <a href="https://ees5891.jgilligan.org/slides/class_19">https://ees5891.jgilligan.org/slides/class_19</a>' + '\n' +
+              '<br/>' + '\n' +
+        'PDF: <a href="https://ees5891.jgilligan.org/slides/class_19/EES_4891_5891_class_19_slides.pdf" target="_blank">https://ees5891.jgilligan.org/slides/class_19/EES_4891_5891_class_19_slides.pdf</a>' + '\n' +
+          	'</span>' + '\n' +
+  	'<span style="display:inline-block;text-align:right;vertical-align:top;position:absolute;right:0;bottom:0;">' + '\n' +
+  	  'Navigate slides: next: N or &lt;space&gt;; previous: P or &lt;backspace&gt;<br/>' + '\n' +
+  	  'Also: up, down, left, right arrows; overview: o; help: ?' + '\n' +
+  	'</span>' + '\n' +
+	'</div>' + '\n' +
+  '</div>' + '\n'
+  );
+</script><script>
+var MathJax = { jax: ["input/TeX", "output/HTML-CSS"],
+                TeX: {extensions: ["color.js", "mhchem.js"],
+                Macros: {
+                  COO: "\\ce{CO2}",
+                  methane: "\\ce{CH4}",
+                  degC: "^\\circ \\mathrm{C}",
+                  degF: "^\\circ \\mathrm{F}",
+                  water: "\\ce{H2O}",
+                  carb: "\\ce{CO3^2-}",
+                  bicarb: "\\ce{HCO3-}",
+                  carbonic: "\\ce{H2CO3}",
+                  Hplus: "\\ce{H+}",
+                  OH: "\\ce{OH-}",
+                  silica: "\\ce{SiO2}",
+                  calcite: "\\ce{CaCO3}",
+                  Caplus: "\\ce{Ca^2+}",
+                  silicate: "\\ce{SiO3^2-}",
+                  CaSi: "\\ce{CaSiO3}",
+                  pH: "p\\ce{H}",
+                  permil: "\\unicode{x2030}",
+                  pCOO: "\\ce{	ext{p}CO2}",
+                  pwater: "\\ce{	ext{p}H2O}"
+                },
+                  },
+                "HTML-CSS" : {scale: 100 }};
+</script><!-- dynamically load mathjax for compatibility with self-contained --><script type="text/x-mathjax-config">
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["SVG"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+    displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
+    processEscapes: true
+  }
+})
+  </script><script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script><script>
+  var qrbox = document.querySelector("#qrbox");
+  var advance_fragment = 0;
+
+	function isPrintingPDF() {
+	  let printing = ( /print-pdf/gi ).test( window.location.search );
+	  console.log("printing test: " + printing);
+	  return printing;
+	}
+
+
+  if ( qrbox.hasAttribute('qr-box-hide') || Reveal.isOverview() ||
+      ! Reveal.isFirstSlide() || isPrintingPDF()) {
+    console.log("Initializing");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }
+
+  Reveal.addEventListener('overviewshown', function() {
+      console.log("Overview shown");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }, false);
+
+  Reveal.addEventListener('overviewhidden', function() {
+    if (Reveal.isFirstSlide() && ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Overview hidden");
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    console.log("Slide changed...");
+    if (Reveal.isFirstSlide() && ! Reveal.isOverview() &&
+        ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    } else {
+      console.log("Hiding QR box");
+      qrbox.style.visibility="hidden";
+      qrbox.style.display="none";
+    }
+  }, false);
+
+  Reveal.addEventListener('pdf-ready', function() {
+    console.log("hiding qrbox for printing");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+    qrbox.setAttribute('qr-box-hide', 'true');
+  });
+
+  </script><script>
+  Reveal.addEventListener('slidechanged', function() {
+    while (advance_fragment > 0) {
+      // console.log('advancing fragment');
+      Reveal.nextFragment();
+      advance_fragment--;
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    if ( Reveal.getCurrentSlide().hasAttribute('data-skip')) {
+      // console.log("going to next slide...");
+      Reveal.next();
+    }
+  }, false);
+
+  Reveal.addEventListener('skip_slide', function() {
+    Reveal.next();
+  }, false);
+
+  Reveal.addEventListener('advance_fragment', function() {
+    // console.log("setting advance fragment");
+    advance_fragment++;
+    }, false);
+  </script>
+</body>
+</html>
