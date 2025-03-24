@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="pandoc">
 <meta name="author" content="Jonathan Gilligan">
-<title>Least Squares</title>
+<title>Least-Squares</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui">
@@ -91,7 +91,7 @@ code span.wa { font-style: italic; } /* Warning */
     <div class="slides">
 
             <!-- start title slide -->
-<section class="center" id="title"><h1 class="title">Least Squares</h1>
+<section class="center" id="title"><h1 class="title">Least-Squares</h1>
     <h3 class="author">EES 4891/5891</h3>
         <h3 class="author">Probability &amp; Statistics for
 Geosciences</h3>
@@ -106,29 +106,37 @@ Geosciences</h3>
 
 </section><section id="learning-goals-1" class="slide level2 eighty"><h2 class="eighty">Learning Goals</h2>
 <ul>
-<li>Understand Least Squares methods
+<li>Understand least-squares methods
 <ul>
-<li>Ordinary Least Squares</li>
-<li>General Least Squares</li>
-<li>Weighted Least Squares</li>
+<li>Ordinary Least-Squares (OLS)</li>
+<li>General Least-Squares (GLS)</li>
+<li>Weighted Least-Squares</li>
 </ul>
 </li>
-<li>Understand the relationship between Least Squares methods and
+<li>Understand the relationship between least-squares methods and
 Maxiumum Likelihood Estimation</li>
-<li>Understand when you would use different least squares methods:
+<li>Understand when you would use different least-squares methods:
 <ul>
-<li>When to use general vs. ordinary least squares</li>
-<li>When to use weighted least squares</li>
+<li>When to use general vs. ordinary least-squares</li>
+<li>When to use weighted least-squares</li>
 </ul>
 </li>
-<li>Implementing Least Squares methods in R:
+<li>Implementing least-squares methods in R:
 <ul>
-<li>Ordinary Least Squares</li>
-<li>Using variable transformations for General Least Squares</li>
-<li>Adding Least-Squares analysis to plots</li>
+<li>Ordinary Least-Squares</li>
+<li>Using variable transformations for General Least-Squares</li>
+<li>Adding least-squares analysis to plots</li>
 </ul>
 </li>
-</ul></section></section><section><section id="introducing-least-squares" class="title-slide slide level1 center"><h1 class="center">Introducing Least Squares</h1>
+</ul></section></section><section><section id="getting-started" class="title-slide slide level1 center"><h1 class="center">Getting Started</h1>
+
+</section><section id="getting-started-1" class="slide level2 eighty"><h2 class="eighty">Getting Started</h2>
+<ul>
+<li>Accept the GitHub Classroom assignment at <a href="https://classroom.github.com/a/k3fv1FgC" class="uri">https://classroom.github.com/a/k3fv1FgC</a>
+</li>
+</ul>
+<p><a href="https://classroom.github.com/a/k3fv1FgC"><img data-src="assets/images/qrcode.svg" height="400" alt="https://classroom.github.com/a/k3fv1FgC"></a></p>
+</section></section><section><section id="introducing-least-squares" class="title-slide slide level1 center"><h1 class="center">Introducing Least-Squares</h1>
 
 </section><section id="the-basic-problem" class="slide level2 eighty"><h2 class="eighty">The Basic Problem</h2>
 <div class="columns">
@@ -188,7 +196,7 @@ x_p =&amp; f(x_1, x_2, \ldots, x_{p-1} | \Theta) \\
 </ul>
 </div>
 </div>
-</section><section id="ordinary-least-squares" class="slide level2 eighty"><h2 class="eighty">Ordinary Least Squares</h2>
+</section><section id="ordinary-least-squares" class="slide level2 eighty"><h2 class="eighty">Ordinary Least-Squares</h2>
 <div class="columns">
 <div class="column">
 <ul>
@@ -227,8 +235,8 @@ residual variance not explained by <span class="math inline">\(\beta_0 +
 <ul>
 <li class="fragment">The problem: Estimate the best values for <span class="math inline">\(\beta\)</span>, given data <span class="math inline">\((x_i, y_i)\)</span> for <span class="math inline">\(i \in 1, 2, \ldots N\)</span>
 <ul>
-<li class="fragment">Criterion for best values: make <span class="math inline">\(\varepsilon\)</span> as small as possible (“least
-squares”).
+<li class="fragment">Criterion for best values: make <span class="math inline">\(\varepsilon\)</span> as small as possible
+(“least-squares”).
 <ul>
 <li class="fragment">
 <p>Specifically: minimize</p>
@@ -243,7 +251,7 @@ normally distributed (<span class="math inline">\(\varepsilon \sim
 \mathcal{N}(0, \sigma)\)</span>), then the maximum-likelihood values for
 <span class="math inline">\(\beta\)</span> will minimize <span class="math inline">\(\sum_i \epsilon_i^2\)</span></p>
 <ul>
-<li>Ordinary Least Squares is equivalent to Maximum Likelihood.</li>
+<li>Ordinary Least-Squares is equivalent to Maximum Likelihood.</li>
 </ul>
 </li>
 </ul>
@@ -363,7 +371,7 @@ line.</li>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y)) <span class="sc">+</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code></pre></div>
-<p><img data-src="assets/fig/unnamed-chunk-2-1.png"><!-- --></p>
+<p><img data-src="assets/fig/unnamed-chunk-3-1.png"><!-- --></p>
 </div>
 </div>
 </div>
@@ -436,14 +444,14 @@ temperature from the MacKenzie Delta, NW Canada,</p>
 </div>
 </div>
 <div class="column">
-<p><img data-src="assets/fig/unnamed-chunk-4-1.png"><!-- --></p>
+<p><img data-src="assets/fig/unnamed-chunk-5-1.png"><!-- --></p>
 </div>
 </div>
-</section></section><section><section id="general-least-squares" class="title-slide slide level1 center"><h1 class="center">General Least Squares</h1>
+</section></section><section><section id="general-least-squares" class="title-slide slide level1 center"><h1 class="center">General Least-Squares</h1>
 
-</section><section id="general-least-squares-1" class="slide level2 eighty"><h2 class="eighty">General Least Squares</h2>
+</section><section id="general-least-squares-1" class="slide level2 eighty"><h2 class="eighty">General Least-Squares</h2>
 <ul>
-<li>Ordinary least squares models linear relationships between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.
+<li>Ordinary least-squares models linear relationships between <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.
 <ul>
 <li>We can also use least-squares methods for nonlinear relationships
 betwen <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, as long as there is a linear
@@ -479,7 +487,7 @@ y =&amp; \sin( \beta_1 x ) + \varepsilon
 </li>
 </ul>
 </li>
-</ul></section><section id="example-of-general-least-squares" class="slide level2 eighty"><h2 class="eighty">Example of General Least Squares</h2>
+</ul></section><section id="example-of-general-least-squares" class="slide level2 eighty"><h2 class="eighty">Example of General Least-Squares</h2>
 <div class="columns bare">
 <div class="column">
 <ul>
@@ -587,7 +595,7 @@ relationship between <span class="math inline">\(\log(D)\)</span> and
 </div>
 <div class="column" style="width:64%;">
 <div class="max-listing">
-<p><img data-src="assets/fig/unnamed-chunk-6-1.png"><!-- --></p>
+<p><img data-src="assets/fig/unnamed-chunk-7-1.png"><!-- --></p>
 </div>
 </div>
 </div>
@@ -633,7 +641,7 @@ numbers close to 1.</p>
 </div>
 <div class="column">
 <div class="fragment" data-fragment-index="2">
-<p><img data-src="assets/fig/unnamed-chunk-7-1.png"><!-- --></p>
+<p><img data-src="assets/fig/unnamed-chunk-8-1.png"><!-- --></p>
 </div>
 <div class="mleft-2 textleft">
 <ul>
@@ -646,7 +654,7 @@ numbers close to 1.</p>
 </div>
 </div>
 </div>
-</section><section id="general-least-squares-in-r" class="slide level2 eighty"><h2 class="eighty">General Least Squares in R</h2>
+</section><section id="general-least-squares-in-r" class="slide level2 eighty"><h2 class="eighty">General Least-Squares in R</h2>
 <div class="columns">
 <div class="column">
 <p><span class="math display">\[
@@ -677,7 +685,7 @@ numbers close to 1.</p>
 </div>
 <div class="column">
 <div class="bare max-listing fragment">
-<p><img data-src="assets/fig/unnamed-chunk-8-1.png"><!-- --></p>
+<p><img data-src="assets/fig/unnamed-chunk-9-1.png"><!-- --></p>
 </div>
 <ul>
 <li class="fragment">The fit is very good for 1-kbar data,
@@ -689,7 +697,20 @@ numbers close to 1.</p>
 </ul>
 </div>
 </div>
-</section></section><section><section id="weighted-data" class="title-slide slide level1 center"><h1 class="center">Weighted Data</h1>
+</section><section id="more-on-general-least-squares" class="slide level2 eighty"><h2 class="eighty">More on General Least-Squares</h2>
+<ul>
+<li>In the previous example, we were able to convert a general
+least-squares analysis to an ordinary least-squares problem by
+transforming the variables.</li>
+<li>This works for a lot of problems, but there are many where it
+doesn’t.</li>
+<li>General Least-Squares analysis for discrete data requires different
+methods.
+<ul>
+<li>We’ll discuss this when we study regression analysis.</li>
+</ul>
+</li>
+</ul></section></section><section><section id="weighted-data" class="title-slide slide level1 center"><h1 class="center">Weighted Data</h1>
 
 </section><section id="weighted-data-1" class="slide level2 eighty"><h2 class="eighty">Weighted Data</h2>
 <div class="columns">
