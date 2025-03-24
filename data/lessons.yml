@@ -77,17 +77,17 @@ lessons:
   title: Multivariate Analysis
   reading: /reading/reading_18
   lecture: /slides/class_18
-- date: '2025-03-21'
+- date: '2025-03-24'
   title: Least Squares Analysis
   reading: /reading/reading_19
   lecture: /slides/class_19
-- date: '2025-03-24'
+- date: '2025-03-25'
   title: Linear Regression
   reading: /reading/reading_20
-- date: '2025-03-25'
+- date: '2025-03-27'
   title: Linear Regression Part 2
   reading: /reading/reading_21
-- date: '2025-03-27'
+- date: '2025-03-31'
   title: Regression with Discrete vs. Continuous Variables
   reading: /reading/reading_22
 - date: '2025-04-01'
