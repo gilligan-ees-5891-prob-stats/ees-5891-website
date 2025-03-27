@@ -1,5 +1,5 @@
 ---
-title: Linear Regression Part 2
+title: Multiple Linear Regression
 class_date: '2025-03-31'
 class_number: 21
 weight: 21
