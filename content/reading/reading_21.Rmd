@@ -1,11 +1,11 @@
 ---
 title: Linear Regression Part 2
-class_date: '2025-03-27'
+class_date: '2025-03-31'
 class_number: 21
 weight: 21
 slug: reading_21
 pubdate: '2024-12-31'
-date: '2025-03-27'
+date: '2025-03-31'
 pdf_url: /files/reading_asgts/reading_21.pdf
 output:
   blogdown::html_page:

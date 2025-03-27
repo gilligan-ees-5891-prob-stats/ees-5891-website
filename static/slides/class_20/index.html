@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<!-- JG Reveal.js Template --><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta name="author" content="Jonathan Gilligan">
+<title>Linear Regression</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reset.css">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reveal.min.css">
+<style type="text/css">
+      code{white-space: pre-wrap;}
+      .smallcaps{font-variant: small-caps;}
+      .line-block{white-space: pre-line;}
+      .column{display: inline-block;}  </style>
+<style type="text/css">
+    div.qrbox,
+    aside.qrbox {
+     text-align: left;
+     vertical-align: bottom;
+     width: 95%;
+     position: fixed;
+     left: 2.5%;
+     bottom: 1rem;
+     display: block;
+    }
+  </style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { font-weight: bold; } /* Alert */
+code span.an { font-style: italic; } /* Annotation */
+code span.cf { font-weight: bold; } /* ControlFlow */
+code span.co { font-style: italic; } /* Comment */
+code span.cv { font-style: italic; } /* CommentVar */
+code span.do { font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.er { font-weight: bold; } /* Error */
+code span.in { font-style: italic; } /* Information */
+code span.kw { font-weight: bold; } /* Keyword */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.wa { font-style: italic; } /* Warning */
+  </style>
+<!-- theme = solarized_jg --><link rel="stylesheet" href="../../lecture_lib/library/assets/css/theme/solarized_jg.css" id="theme">
+<!-- Printing and PDF exports --><script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../lecture_lib/library/reveal.js-3.8.0/css/print/pdf.css' : '../../lecture_lib/library/reveal.js-3.8.0/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><!--[if lt IE 9]>
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+  <![endif]--><script src="../../lecture_lib/library/header-attrs-2.29.1.9000/header-attrs.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+            <!-- start title slide -->
+<section class="center" id="title"><h1 class="title">Linear Regression</h1>
+    <h3 class="author">EES 4891/5891</h3>
+        <h3 class="author">Probability &amp; Statistics for
+Geosciences</h3>
+    <h3 class="author">Jonathan Gilligan</h3>
+    <h3 class="date">
+      Class #20:
+       Thursday, March 27
+      2025
+    </h3>
+	<!-- end title slide -->
+</section><section><section id="getting-started" class="title-slide slide level1 center"><h1 class="center">Getting Started</h1>
+
+</section><section id="getting-started-1" class="slide level2 eighty"><h2 class="eighty">Getting Started</h2>
+<ul>
+<li>Accept the GitHub Classroom assignment at <a href="https://classroom.github.com/a/V0XCBU-0" class="uri">https://classroom.github.com/a/V0XCBU-0</a>
+</li>
+</ul>
+<p><a href="https://classroom.github.com/a/V0XCBU-0"><img data-src="assets/images/qrcode.svg" height="400" alt="https://classroom.github.com/a/V0XCBU-0"></a></p>
+</section></section><section><section id="learning-goals" class="title-slide slide level1 center"><h1 class="center">Learning Goals</h1>
+
+</section><section id="learning-goals-1" class="slide level2 eighty"><h2 class="eighty">Learning Goals</h2>
+<ul>
+<li>Understand what a statistical model is</li>
+<li>Understand what a linear-regression model is
+<ul>
+<li>Regression versus least-squares</li>
+</ul>
+</li>
+<li>Be able to use R to
+<ul>
+<li>Fit a linear-regression model</li>
+<li>Use a linear regression model to make predictions</li>
+</ul>
+</li>
+<li>Know how to test the quality of a model by analyzing residuals</li>
+<li>Know how to test the quality of a model with Analysis of Variance
+(ANOVA)</li>
+</ul></section></section><section><section id="statistical-modeling" class="title-slide slide level1 center"><h1 class="center">Statistical Modeling</h1>
+
+</section><section id="what-is-a-model" class="slide level2 eighty"><h2 class="eighty">What is a Model?</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>What is a model?
+<ul>
+<li class="fragment" data-fragment-index="1">There are many kinds of models
+<ul>
+<li>Mathematical models</li>
+<li>Computer models
+<ul>
+<li>System-dynamics models</li>
+<li>Discrete-event models</li>
+<li>Stochastic-dynamic models</li>
+</ul>
+</li>
+<li>Statistical models</li>
+<li>Physical models</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column fragment" data-fragment-index="1">
+<p><img data-src="assets/images/moniac.jpg" height="800" alt="Photo of the MONIAC model"></p>
+<div class="credit">
+<p>MONIAC: A physical model of the British national economy<br>
+(Photo: Wm. Vandivere, <em>Fortune</em>, March 1952, p. 100)</p>
+</div>
+</div>
+</div>
+</section><section id="what-is-a-model-1" class="slide level2 eighty"><h2 class="eighty">What is a Model?</h2>
+<ul>
+<li><p>A model is a purposeful, simplified representation of
+reality</p></li>
+<li><p>Modeling is something we do all the time because we never have
+enough data, time, and resources to represent every detail.</p></li>
+<li>
+<p>“Without models, there are no data.”</p>
+<blockquote>
+<p><em>Without models, there are no [climate] data.</em> … I mean this
+literally. Today, no collection of signals or observations … becomes
+global in time and space without first passing through a series of data
+models. … <em>Everything we know about the world’s climate—past,
+present, and future—we know through models.</em></p>
+<p>— Paul N. Edwards, <em>A Vast Machine</em> (MIT Press, 2010).</p>
+</blockquote>
+</li>
+</ul></section><section id="statistical-models" class="slide level2 eighty"><h2 class="eighty">Statistical Models</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>What is a statistical model?
+<ul>
+<li class="fragment">A model that represents:
+<ul>
+<li>Distributions of stochastic variables (e.g., measurements)</li>
+<li>Relations among variables (e.g., covariance)</li>
+</ul>
+</li>
+<li class="fragment">We generally expect a statistical model to be useful for making
+predictions, based on past observations</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Mathematical formulation</p>
+<p><span class="math display">\[X \sim \mathcal{D}(\Theta)\]</span></p>
+<p><span class="math inline">\(X\)</span> represents observations, and
+the model says they are drawn from a statistical distribution <span class="math inline">\(\mathcal{D}(\Theta)\)</span>, with parameters
+<span class="math inline">\(\Theta\)</span>.</p>
+<ul>
+<li class="fragment">We can’t predict the specific values of a sample <span class="math inline">\(X\)</span>, but we expect that
+<ul>
+<li>As the # of observations becomes large,</li>
+<li>The distribution of <span class="math inline">\(X\)</span> will
+increasingly look like the parent distribution <span class="math inline">\(\mathcal{D}\)</span>.</li>
+<li class="fragment">This is the Law of Large Numbers</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="global-warming-from-satellite-measurements" class="slide level2 eighty"><h2 class="eighty">Global Warming from Satellite Measurements</h2>
+<div class="columns">
+<div class="column">
+<ol type="1">
+<li class="fragment">Satellites observe intensity of microwave radiation from earth
+<ul>
+<li>Model of bolometer instrument to convert voltage to microwave
+intensity</li>
+</ul>
+</li>
+<li class="fragment">Microwave intensity is an integral of emissions from all layers
+of atmosphere
+<ul>
+<li>Mathematical model of the atmosphere to calculate emissions from
+each layer</li>
+</ul>
+</li>
+<li class="fragment">Mathematical physics model: Stefan-Boltzmann Law: <span class="math inline">\(I = \sigma_{\mathrm{SB}} \epsilon T^4\)</span>,
+where
+<ul>
+<li>
+<span class="math inline">\(I\)</span> is the emitted microwave
+intensity,</li>
+<li>
+<span class="math inline">\(T\)</span> is the temperature in
+Kelvin,</li>
+<li>
+<span class="math inline">\(\epsilon\)</span> is the microwave
+emissivity,</li>
+<li>
+<span class="math inline">\(\sigma_{\mathrm{SB}}\)</span> is the
+Stefan-Boltzmann constant</li>
+<li>Calculate <span class="math inline">\(T\)</span> from <span class="math inline">\(I\)</span>.</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="column">
+<ol start="4" type="1">
+<li class="fragment">Assemble snapshots of microwave intensity for each spot over the
+earth into a map of the whole earth.
+<ul>
+<li>Some data will be missing</li>
+</ul>
+</li>
+<li class="fragment">Statistical model of global average temperature from available
+data</li>
+<li class="fragment">Statistical model of monthly data, over many years, to assess
+warming trend.
+<ul>
+<li>Account for random variation</li>
+<li>Account for autocorrelation (warm years tend to follow warm
+years)</li>
+</ul>
+</li>
+</ol>
+</div>
+</div>
+</section></section><section><section id="linear-regression" class="title-slide slide level1 center"><h1 class="center">Linear Regression</h1>
+
+</section><section id="linear-regression-1" class="slide level2 eighty"><h2 class="eighty">Linear Regression</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>What is Regression?
+<ul>
+<li>Statistical modeling
+<ul>
+<li>
+<p>Observations:</p>
+<ul>
+<li>
+<span class="math inline">\(N\)</span> observations:
+<ul>
+<li>
+<em>Dependent</em> variable <span class="math inline">\(Y =
+\{y_i\}\)</span>, <span class="math inline">\(i = 1, \ldots,
+N\)</span>
+</li>
+<li>Independent variables (predictors) <span class="math inline">\(X =
+\{x_{i,j}\}\)</span>, <span class="math inline">\(j = 1, \ldots,
+p\)</span>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Statistical Model:</p>
+<p><span class="math display">\[
+\begin{align}
+Y =&amp; f(X) + \varepsilon \\
+\varepsilon \sim&amp; \mathcal{N}(0, \sigma)
+\end{align}
+\]</span></p>
+<ul>
+<li>
+<span class="math inline">\(\varepsilon\)</span> represents
+randomness (residuals, noise, errors, etc.)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Predictions:</p>
+<ul>
+<li>New observations of <span class="math inline">\(X\)</span>
+<ul>
+<li>
+<p>Predict what <span class="math inline">\(Y\)</span> should be for
+the new <span class="math inline">\(X\)</span>:</p>
+<p><span class="math display">\[
+E(Y | X) = f(X)
+\]</span></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="fragment">
+<p>Special case: Linear Regression</p>
+<p><span class="math display">\[
+E(y_i|x_{i,j}) = f(x_{i,j}) = \beta_0 + \sum_{j = 1}^p \beta_j x_{i,j}
+\]</span></p>
+<ul>
+<li class="fragment">Linear Regression vs. Least-Squares:
+<ul>
+<li>Same math, different emphasis</li>
+<li>Least-squares: estimate relationships in observed data</li>
+<li>Regression: predict future data.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="linear-regression-in-r" class="slide level2 seventyfive"><h2 class="seventyfive">Linear Regression in R</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li><p>Paleoclimate data: from T.J. Porter <em>et al</em>.,
+<em>Quaternary Res.</em> <strong>80</strong>, 167 (2013), DOI: <a href="https://doi.org/10.1016/j.yqres.2013.05.004">10.1016/j.yqres.2013.05.004</a>.</p></li>
+<li class="fragment">
+<p>Load the data:</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>paleo <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"tree-rings-2.rds"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(paleo)</span></code></pre></div>
+<pre><code>## Rows: 763
+## Columns: 3
+## $ year_ad      &lt;dbl&gt; 1245, 1246, 1247,…
+## $ t_obs        &lt;dbl&gt; NA, NA, NA, NA, N…
+## $ growth_index &lt;dbl&gt; 1.41, 1.00, 1.17,…</code></pre>
+</div>
+<ul>
+<li>Tree ring measurements for years 1245 to 2007</li>
+<li>Temperature measurements for years 1893 to 2007.
+<ul>
+<li>Use these to estimate a linear statistical model</li>
+<li>Then predict temperature for the other years from measured tree-ring
+growth index</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Estimate Model</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>paleo_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(t_obs <span class="sc">~</span> growth_index, <span class="at">data =</span> paleo, </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">na.action =</span> na.exclude)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(paleo_model)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = t_obs ~ growth_index, data = paleo, na.action = na.exclude)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.52464 -0.62025 -0.03916  0.66740  1.65240 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    3.4417     0.3516   9.789  &lt; 2e-16 ***
+## growth_index   2.0820     0.2706   7.694 8.52e-12 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.8676 on 104 degrees of freedom
+##   (657 observations deleted due to missingness)
+## Multiple R-squared:  0.3627, Adjusted R-squared:  0.3566 
+## F-statistic:  59.2 on 1 and 104 DF,  p-value: 8.517e-12</code></pre>
+</div>
+</li>
+<li class="fragment">
+<p>Predictions</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>paleo <span class="ot">&lt;-</span> paleo <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">t_pred =</span> <span class="fu">predict</span>(paleo_model, <span class="at">newdata =</span> paleo))</span></code></pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="plot-predictions" class="slide level2 eighty"><h2 class="eighty">Plot Predictions</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Plot Predictions</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(paleo, <span class="fu">aes</span>(<span class="at">x =</span> year_ad, <span class="at">y =</span> t_pred)) <span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.3</span>, <span class="at">color =</span> <span class="st">"darkblue"</span>) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">y =</span> t_obs), <span class="at">size =</span> <span class="fl">0.3</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>, <span class="at">y =</span> <span class="fu">expression</span>(T<span class="sc">~</span>(degree <span class="sc">*</span> C)))</span></code></pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="column">
+<div class="bare max-listing">
+<p><img data-src="assets/fig/plot-paleo-pred-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+</section></section><section><section id="assessing-model-quality" class="title-slide slide level1 center"><h1 class="center">Assessing Model Quality</h1>
+
+</section><section id="regression-residuals" class="slide level2 eighty"><h2 class="eighty">Regression Residuals</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Residuals are the differences between predictions <span class="math inline">\(\hat{y}_i\)</span> and observed <span class="math inline">\(y_i\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+y_i =&amp; \hat{y}_i + \varepsilon_i \\
+\hat{y}_i =&amp; \beta_0 + \beta_1 x_i \\
+\varepsilon_i =&amp; y_i - \hat{y}_i
+\end{align}
+\]</span></p>
+</li>
+<li>
+<p>Residual testing:</p>
+<ul>
+<li>
+<strong>Normality:</strong> Residuals should be normally distributed
+(use Q-Q plot)</li>
+<li>
+<strong>Homogeneity:</strong> Residuals should not show structure
+(e.g., _heteroskedasticity)</li>
+<li>
+<strong>Independence:</strong> Residuals should be non-persistent
+(we’ll cover this when we look at time series)</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Checking normality for tree ring data:</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>paleo_res <span class="ot">&lt;-</span> paleo <span class="sc">|&gt;</span> <span class="fu">filter</span>(<span class="sc">!</span> <span class="fu">is.na</span>(t_obs)) <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">res =</span> t_obs <span class="sc">-</span> t_pred)</span></code></pre></div>
+<p><img data-src="assets/fig/paleo-QQ-1.png"><!-- --></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(paleo_res<span class="sc">$</span>res)</span></code></pre></div>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  paleo_res$res
+## W = 0.98369, p-value = 0.2206</code></pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="homogeneity" class="slide level2"><h2>Homogeneity</h2>
+<p><img data-src="assets/fig/plot-het-1.png"><!-- --></p>
+</section><section id="tree-ring-data" class="slide level2 eighty"><h2 class="eighty">Tree-Ring Data</h2>
+<div class="columns">
+<div class="column">
+<div class="bare max-listing">
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(paleo_res, <span class="fu">aes</span>(<span class="at">x =</span> growth_index, <span class="at">y =</span> t_obs)) <span class="sc">+</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span> </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Growth index"</span>, <span class="at">y =</span> <span class="fu">expression</span>(T[obs]<span class="sc">~</span>(degree <span class="sc">*</span> C)),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Modeling temperature from tree ring growth"</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(paleo_res, <span class="fu">aes</span>(<span class="at">x =</span> growth_index, <span class="at">y =</span> res)) <span class="sc">+</span> </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Growth index"</span>, <span class="at">y =</span> <span class="fu">expression</span>(epsilon), </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Residuals"</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">/</span> p2</span></code></pre></div>
+</div>
+</div>
+<div class="column">
+<div class="bare max-listing">
+<p><img data-src="assets/fig/plot-paleo-res-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+</section></section><section><section id="analysis-of-variance-anova" class="title-slide slide level1 center"><h1 class="center">Analysis of Variance (ANOVA)</h1>
+
+</section><section id="analysis-of-variance-anova-1" class="slide level2 eighty"><h2 class="eighty">Analysis of Variance (ANOVA)</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<ul>
+<li>
+<p>Basic Model:</p>
+<p><span class="math display">\[
+\begin{align}
+y_i =&amp; \beta_0 + \beta_1 x_i + \varepsilon_i \\
+\overline{y} =&amp; \frac{1}{N} \sum_{i = 1}^N y_i~(\text{mean}) \\
+\hat{y}_i =&amp; \beta_0 + \beta_1 x_i~(\text{prediction})\\
+\varepsilon_i =&amp; y_i - \hat{y}_i~(\text{error})
+\end{align}
+\]</span></p>
+</li>
+<li class="fragment">
+<p>Mean Squared Error (MSE):</p>
+<p><span class="math display">\[
+S_\varepsilon^2 = \frac{1}{N - 2} \sum_{i = 1}^N \varepsilon_i^2
+\]</span></p>
+</li>
+</ul>
+</div>
+<div class="column" style="width:59%;">
+<ul>
+<li class="fragment">
+<p>Sums of Squares:</p>
+<p><span class="math display">\[
+\begin{align}
+\text{Total:}~\mathrm{SST} =&amp; \sum_{i = 1}^N (y_i - \overline{y})^2
+\\
+\text{Regression:}~\mathrm{SSR} =&amp; \sum_{i = 1}^N (\hat{y}_i -
+\overline{y})^2 \\
+\text{Error:}~\mathrm{SSE} =&amp; \sum_{i = 1}^N (y_i - \hat{y}_i)^2 =
+\sum_{i = 1}^N \varepsilon_i^2 \\
+\mathrm{SSE} =&amp; SST - SSR \\
+S_\varepsilon^2 =&amp; \frac{1}{N-2} SSE = \frac{1}{N - 2} (\mathrm{SST}
+- \mathrm{SSR})
+\end{align}
+\]</span></p>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="using-analysis-of-variance" class="slide level2 eighty"><h2 class="eighty">Using Analysis of Variance</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Summary:</p>
+<p><span class="math display">\[\begin{align}
+\mathrm{SST} =&amp; \mathrm{SSR} + \mathrm{SSE} \\
+\mathrm{SST} =&amp; (N - 1) \times \text{total variance in } y \\
+\mathrm{SSR} =&amp; (N - 1) \beta_1^2 \times \text{total variance in } x
+\\
+\mathrm{SSE} =&amp; \text{sum of squared residuals}
+\end{align}\]</span></p>
+</li>
+<li>
+<p>ANOVA Table</p>
+<table>
+<colgroup>
+<col style="width: 22%">
+<col style="width: 9%">
+<col style="width: 22%">
+<col style="width: 22%">
+<col style="width: 22%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: right;">Source</th>
+<th style="text-align: center;">df</th>
+<th style="text-align: center;">SS</th>
+<th style="text-align: center;">MS</th>
+<th style="text-align: center;">F</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">Total</td>
+<td style="text-align: center;"><span class="math inline">\(N -
+1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\mathrm{SST}\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">Regression</td>
+<td style="text-align: center;"><span class="math inline">\(1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\mathrm{SSR}\)</span></td>
+<td style="text-align: center;"><span class="math display">\[\mathrm{MSR} = \frac{\mathrm{SSR}}{1}
+\]</span></td>
+<td style="text-align: center;"><span class="math display">\[
+\frac{\mathrm{MSR}}{\mathrm{MSE}} \]</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">Residuals</td>
+<td style="text-align: center;"><span class="math inline">\(N -
+2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\mathrm{SSE}\)</span></td>
+<td style="text-align: center;"><span class="math display">\[\mathrm{MSE} = \frac{\mathrm{SSE}}{N - 2} =
+S_\varepsilon^2\]</span></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>
+<p>Mean squared error</p>
+<p><span class="math display">\[
+MSE = S_\varepsilon^2 = \frac{1}{N-2} \mathrm{SSE}
+\]</span></p>
+</li>
+<li>
+<p>Coefficient of Determination <span class="math inline">\(R^2\)</span></p>
+<p><span class="math display">\[
+R^2 = \frac{\mathrm{SSR}}{\mathrm{SST}} = 1 -
+\frac{\mathrm{SSE}}{\mathrm{SST}}
+\]</span></p>
+<p><span class="math inline">\(R^2\)</span> measures the fraction of the
+total variance explained by the regression model</p>
+</li>
+<li>
+<p><span class="math inline">\(F\)</span> ratio:</p>
+<p><span class="math display">\[
+F = \frac{\mathrm{MSR}}{\mathrm{MSE}}
+\]</span></p>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="tree-ring-data-1" class="slide level2 eighty"><h2 class="eighty">Tree Ring Data</h2>
+<div class="columns">
+<div class="column">
+<div class="bare max-listing">
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>paleo_res <span class="sc">|&gt;</span> <span class="fu">summarize</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">SST =</span> <span class="fu">sum</span>( (t_obs <span class="sc">-</span> <span class="fu">mean</span>(t_obs))<span class="sc">^</span><span class="dv">2</span> ),</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">SSR =</span> <span class="fu">sum</span>( (t_pred <span class="sc">-</span> <span class="fu">mean</span>(t_obs))<span class="sc">^</span><span class="dv">2</span> ),</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">SSE =</span> <span class="fu">sum</span>(res<span class="sc">^</span><span class="dv">2</span>),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">R_squared =</span> SSR <span class="sc">/</span> SST</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 4
+##     SST   SSR   SSE R_squared
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
+## 1  123.  44.6  78.3     0.363</code></pre>
+</div>
+<ul>
+<li class="fragment"><p>As expected, <span class="math inline">\(\mathrm{SST} =
+\mathrm{SSR} + \mathrm{SSE}\)</span>.</p></li>
+<li class="fragment">
+<p>R lets us generate an ANOVA table automatically:</p>
+<div class="bare max-listing ninety">
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(paleo_model)</span></code></pre></div>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: t_obs
+##               Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+## growth_index   1 44.562  44.562  59.197 8.517e-12 ***
+## Residuals    104 78.289   0.753                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">What does this tell us?
+<ul>
+<li class="fragment"><span class="math inline">\(R^2 = 0.36\)</span>, so the
+regression model explains 36% of the total variance.
+<ul>
+<li class="fragment">This is not a lot. There is a lot of variance in the air
+temperature that does not correlate with tree-ring growth.</li>
+<li class="fragment">But <span class="math inline">\(p &lt; 10^{-11}\)</span>, so we
+have a lot of confidence that the correlation between tree-ring growth
+and air temperature is real.</li>
+<li class="fragment">We can think of <span class="math inline">\(\varepsilon\)</span>
+as “unexplained variance.”</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="interpreting-unexplained-variance" class="slide level2 eighty"><h2 class="eighty">Interpreting Unexplained Variance</h2>
+<div class="ptop-2" style="font-size:125%;font-weight:bold;">
+<p>Statistical and Systems Models</p>
+</div>
+<div class="columns">
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Systems model: tree-ring growth depends on temperature, soil
+moisture, …</p>
+<p><span class="math display">\[
+\text{growth} = f(T, M, \ldots)
+\]</span></p>
+<ul>
+<li class="fragment">
+<p>The dependence is approximately linear near some reference
+values</p>
+<p><span class="math display">\[
+\begin{align}
+\text{growth}\: =&amp;\: \alpha_0 + \alpha_T (T - T_0) + \\
+                 &amp;\: \alpha_M (M - M_0) + \ldots
+\end{align}
+\]</span></p>
+<ul>
+<li>We simplify and look only at the linear terms in <span class="math inline">\(T\)</span> and ignore the rest.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Statistical model</p>
+<p><span class="math display">\[
+\begin{align}
+\text{growth}\: =&amp;\: \alpha_0 + \alpha_T (T - T_0) + \ldots \\
+T =&amp;\: T_0 + \frac{1}{\alpha_T} (\text{growth} - \alpha_0 - \ldots)
+\\
+  =&amp;\:\beta_0 + \beta_g\, \text{growth} + \varepsilon,
+\end{align}
+\]</span></p>
+<p>where <span class="math inline">\(\varepsilon\)</span> represents all
+the terms in the real system that we’re ignoring.</p>
+<ul>
+<li>Thus <span class="math inline">\(\varepsilon\)</span> is the
+unexplained variance in <span class="math inline">\(T\)</span>.
+<ul>
+<li>All the variance that isn’t explained by the growth index.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section>
+</div>
+  </div>
+  <!--
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.js"></script>
+  <!-- -->
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.min.js"></script><!-- --><script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Display the page number of the current slide
+        showSlideNumber: 'speaker',
+        // Push each slide change to the browser history
+        history: true,
+        //  Enable hashing slide content to URL
+        hash: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Don't separate fragments in PDF rendering
+        pdfSeparateFragments: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+      
+        // Optional reveal.js plugins
+        dependencies: [
+                    { src: '../../lecture_lib/library/assets/plugin/chalkboard/chalkboard.js', async: true },
+                                        { src: '../../lecture_lib/library/assets/plugin/reveal-skip-fragments/skip-fragments.js', async: true },
+                    { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/notes/notes.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/math/math.js', async: true }
+        ],
+        shift_keyboard: {
+    	    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'C' is pressed
+    	    66: function() { RevealChalkboard.toggleChalkboard() },	  // toggle chalkboard when 'B' is pressed
+    	    88: function() { RevealChalkboard.clear() },	            // clear chalkboard when 'X' is pressed
+    	    82: function() { RevealChalkboard.reset() },	            // reset chalkboard data on current slide when 'R' is pressed
+    	    68: function() { RevealChalkboard.download() },	          // downlad recorded chalkboard drawing when 'D' is pressed
+        },
+              	// Shortcut for showing all fragments
+      	skipFragmentsShowShortcut: 'S',
+
+      	// Shortcut for hiding all fragments
+      	skipFragmentsHideShortcut: 'H',
+      	      });
+    </script><script>
+  	function createSingletonNodejg( container, tagname, classname, innerHTML ) {
+
+		// Find all nodes matching the description
+		var nodes = container.querySelectorAll( '.' + classname );
+
+		// Check all matches to find one which is a direct child of
+		// the specified container
+		for( var i = 0; i < nodes.length; i++ ) {
+			var testNode = nodes[i];
+			if( testNode.parentNode === container ) {
+				return testNode;
+			}
+		}
+
+		// If no node was found, create it now
+		var node = document.createElement( tagname );
+		node.className = classname;
+		if( typeof innerHTML === 'string' ) {
+			node.innerHTML = innerHTML;
+		}
+		container.appendChild( node );
+
+		return node;
+
+	}
+
+  var dom_wrapper = document.querySelector('.reveal');
+  createSingletonNodejg(dom_wrapper, 'div', 'qrbox',
+  '<div class="qrbox" id="qrbox" style="font-size:90%;">' + '\n' +
+  '<div style="font-size:30%;width:100%;">' + '\n' +
+      '<a href="https://ees5891.jgilligan.org/slides/class_20">' +
+  	'<img src="qrcode.png" alt="https://ees5891.jgilligan.org/slides/class_20"/>' +
+  	'</a>' + '\n' +
+	  '</div>' + '\n' +
+  '<div style="font-size:30%;width:100%;vertical-align:top;">' + '\n' +
+    '<span style="display:inline-block;text-align:left;margin-left:0">' + '\n' +
+        'Live web page: <a href="https://ees5891.jgilligan.org/slides/class_20">https://ees5891.jgilligan.org/slides/class_20</a>' + '\n' +
+              '<br/>' + '\n' +
+        'PDF: <a href="https://ees5891.jgilligan.org/slides/class_20/EES_4891_5891_class_20_slides.pdf" target="_blank">https://ees5891.jgilligan.org/slides/class_20/EES_4891_5891_class_20_slides.pdf</a>' + '\n' +
+          	'</span>' + '\n' +
+  	'<span style="display:inline-block;text-align:right;vertical-align:top;position:absolute;right:0;bottom:0;">' + '\n' +
+  	  'Navigate slides: next: N or &lt;space&gt;; previous: P or &lt;backspace&gt;<br/>' + '\n' +
+  	  'Also: up, down, left, right arrows; overview: o; help: ?' + '\n' +
+  	'</span>' + '\n' +
+	'</div>' + '\n' +
+  '</div>' + '\n'
+  );
+</script><script>
+var MathJax = { jax: ["input/TeX", "output/HTML-CSS"],
+                TeX: {extensions: ["color.js", "mhchem.js"],
+                Macros: {
+                  COO: "\\ce{CO2}",
+                  methane: "\\ce{CH4}",
+                  degC: "^\\circ \\mathrm{C}",
+                  degF: "^\\circ \\mathrm{F}",
+                  water: "\\ce{H2O}",
+                  carb: "\\ce{CO3^2-}",
+                  bicarb: "\\ce{HCO3-}",
+                  carbonic: "\\ce{H2CO3}",
+                  Hplus: "\\ce{H+}",
+                  OH: "\\ce{OH-}",
+                  silica: "\\ce{SiO2}",
+                  calcite: "\\ce{CaCO3}",
+                  Caplus: "\\ce{Ca^2+}",
+                  silicate: "\\ce{SiO3^2-}",
+                  CaSi: "\\ce{CaSiO3}",
+                  pH: "p\\ce{H}",
+                  permil: "\\unicode{x2030}",
+                  pCOO: "\\ce{	ext{p}CO2}",
+                  pwater: "\\ce{	ext{p}H2O}"
+                },
+                  },
+                "HTML-CSS" : {scale: 100 }};
+</script><!-- dynamically load mathjax for compatibility with self-contained --><script type="text/x-mathjax-config">
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["SVG"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+    displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
+    processEscapes: true
+  }
+})
+  </script><script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script><script>
+  var qrbox = document.querySelector("#qrbox");
+  var advance_fragment = 0;
+
+	function isPrintingPDF() {
+	  let printing = ( /print-pdf/gi ).test( window.location.search );
+	  console.log("printing test: " + printing);
+	  return printing;
+	}
+
+
+  if ( qrbox.hasAttribute('qr-box-hide') || Reveal.isOverview() ||
+      ! Reveal.isFirstSlide() || isPrintingPDF()) {
+    console.log("Initializing");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }
+
+  Reveal.addEventListener('overviewshown', function() {
+      console.log("Overview shown");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }, false);
+
+  Reveal.addEventListener('overviewhidden', function() {
+    if (Reveal.isFirstSlide() && ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Overview hidden");
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    console.log("Slide changed...");
+    if (Reveal.isFirstSlide() && ! Reveal.isOverview() &&
+        ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    } else {
+      console.log("Hiding QR box");
+      qrbox.style.visibility="hidden";
+      qrbox.style.display="none";
+    }
+  }, false);
+
+  Reveal.addEventListener('pdf-ready', function() {
+    console.log("hiding qrbox for printing");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+    qrbox.setAttribute('qr-box-hide', 'true');
+  });
+
+  </script><script>
+  Reveal.addEventListener('slidechanged', function() {
+    while (advance_fragment > 0) {
+      // console.log('advancing fragment');
+      Reveal.nextFragment();
+      advance_fragment--;
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    if ( Reveal.getCurrentSlide().hasAttribute('data-skip')) {
+      // console.log("going to next slide...");
+      Reveal.next();
+    }
+  }, false);
+
+  Reveal.addEventListener('skip_slide', function() {
+    Reveal.next();
+  }, false);
+
+  Reveal.addEventListener('advance_fragment', function() {
+    // console.log("setting advance fragment");
+    advance_fragment++;
+    }, false);
+  </script>
+</body>
+</html>

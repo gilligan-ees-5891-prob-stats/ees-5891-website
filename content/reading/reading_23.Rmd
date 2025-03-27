@@ -1,11 +1,11 @@
 ---
 title: Principal Components Analysis
-class_date: '2025-04-01'
+class_date: '2025-04-07'
 class_number: 23
 weight: 23
 slug: reading_23
 pubdate: '2024-12-31'
-date: '2025-04-01'
+date: '2025-04-07'
 pdf_url: /files/reading_asgts/reading_23.pdf
 output:
   blogdown::html_page:
