@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<!-- JG Reveal.js Template --><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta name="author" content="Jonathan Gilligan">
+<title>Multiple Linear Regression</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reset.css">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reveal.min.css">
+<style type="text/css">
+      code{white-space: pre-wrap;}
+      .smallcaps{font-variant: small-caps;}
+      .line-block{white-space: pre-line;}
+      .column{display: inline-block;}  </style>
+<style type="text/css">
+    div.qrbox,
+    aside.qrbox {
+     text-align: left;
+     vertical-align: bottom;
+     width: 95%;
+     position: fixed;
+     left: 2.5%;
+     bottom: 1rem;
+     display: block;
+    }
+  </style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { font-weight: bold; } /* Alert */
+code span.an { font-style: italic; } /* Annotation */
+code span.cf { font-weight: bold; } /* ControlFlow */
+code span.co { font-style: italic; } /* Comment */
+code span.cv { font-style: italic; } /* CommentVar */
+code span.do { font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.er { font-weight: bold; } /* Error */
+code span.in { font-style: italic; } /* Information */
+code span.kw { font-weight: bold; } /* Keyword */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.wa { font-style: italic; } /* Warning */
+  </style>
+<!-- theme = solarized_jg --><link rel="stylesheet" href="../../lecture_lib/library/assets/css/theme/solarized_jg.css" id="theme">
+<!-- Printing and PDF exports --><script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../lecture_lib/library/reveal.js-3.8.0/css/print/pdf.css' : '../../lecture_lib/library/reveal.js-3.8.0/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><!--[if lt IE 9]>
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+  <![endif]--><script src="../../lecture_lib/library/header-attrs-2.29.1.9000/header-attrs.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+            <!-- start title slide -->
+<section class="center" id="title"><h1 class="title">Multiple Linear Regression</h1>
+    <h3 class="author">EES 4891/5891</h3>
+        <h3 class="author">Probability &amp; Statistics for
+Geosciences</h3>
+    <h3 class="author">Jonathan Gilligan</h3>
+    <h3 class="date">
+      Class #21:
+       Sunday, March 30
+      2025
+    </h3>
+	<!-- end title slide -->
+</section><section><section id="getting-started" class="title-slide slide level1 center"><h1 class="center">Getting Started</h1>
+
+</section><section id="getting-started-1" class="slide level2 eighty"><h2 class="eighty">Getting Started</h2>
+<ul>
+<li>Accept the GitHub Classroom assignment at <a href="https://classroom.github.com/a/bLbQzGpS" class="uri">https://classroom.github.com/a/bLbQzGpS</a>
+</li>
+</ul>
+<p><a href="https://classroom.github.com/a/bLbQzGpS"><img data-src="assets/images/qrcode.svg" height="400" alt="https://classroom.github.com/a/bLbQzGpS"></a></p>
+</section></section><section><section id="learning-goals" class="title-slide slide level1 center"><h1 class="center">Learning Goals</h1>
+
+</section><section id="learning-goals-1" class="slide level2 eighty"><h2 class="eighty">Learning Goals</h2>
+<ul>
+<li>Understand multiple linear regression and its relation to simple
+linear regression</li>
+<li>Understand how to use multiple linear regression to fit a polynomial
+or harmonic model to data</li>
+<li>Understand how to assess the quality of a multiple-regression model:
+<ul>
+<li>How to decide which of two models describes your data better</li>
+<li>Understand the bias-variance tradeoff,
+<ul>
+<li>How it relates to the problem of over-fitting models</li>
+<li>Why overfit models look great on your data, but make poor
+predictions of new observations</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Understand how to use information criteria (AIC, BIC, etc.) to
+compare models</li>
+<li>Understand how to use resampling methods to assess models:
+<ul>
+<li>Leave-one-out cross-validation</li>
+<li>
+<span class="math inline">\(k\)</span>-fold cross-validation</li>
+<li>Bootstrapping</li>
+</ul>
+</li>
+</ul></section></section><section><section id="multiple-linear-regression" class="title-slide slide level1 center"><h1 class="center">Multiple Linear Regression</h1>
+
+</section><section id="multiple-linear-regression-1" class="slide level2 eighty"><h2 class="eighty">Multiple Linear Regression</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Basic linear regression:
+<ul>
+<li><p>Single dependent variable</p></li>
+<li>
+<p>Single predictor (independent variable)</p>
+<p><span class="math display">\[
+y_i = \beta_0 + \beta_1 x_i + \varepsilon_i
+\]</span></p>
+</li>
+</ul>
+</li>
+<li class="fragment">Multiple regression:
+<ul>
+<li><p>Single dependent variable</p></li>
+<li>
+<p>Multiple predictors (independent variables)</p>
+<p><span class="math display">\[
+y_i = \beta_0 + \sum_{j = 1}^p \beta_j x_{i,j} + \varepsilon_i
+\]</span></p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Statistical significance:</p>
+<ul>
+<li>Null hypothesis: <span class="math inline">\(H_0: \beta_j =
+0\)</span>
+<ul>
+<li>Test probability that we could see this data <span class="math inline">\((y_i, x_{i,j})\)</span> if <span class="math inline">\(H_0\)</span> were true.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="fragment">
+<p>Multivariate ANOVA</p>
+<table>
+<colgroup>
+<col style="width: 22%">
+<col style="width: 9%">
+<col style="width: 22%">
+<col style="width: 22%">
+<col style="width: 22%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: right;">Source</th>
+<th style="text-align: center;">df</th>
+<th style="text-align: center;">SS</th>
+<th style="text-align: center;">MS</th>
+<th style="text-align: center;">F</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">Total</td>
+<td style="text-align: center;"><span class="math inline">\(N -
+1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\mathrm{SST}\)</span></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">Regression</td>
+<td style="text-align: center;"><span class="math inline">\(p\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\mathrm{SSR}\)</span></td>
+<td style="text-align: center;"><span class="math display">\[\mathrm{MSR} = \frac{\mathrm{SSR}}{p}
+\]</span></td>
+<td style="text-align: center;"><span class="math display">\[
+\frac{\mathrm{MSR}}{\mathrm{MSE}} \]</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">Residuals</td>
+<td style="text-align: center;"><span class="math inline">\(N - p -
+1\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(\mathrm{SSE}\)</span></td>
+<td style="text-align: center;"><span class="math display">\[\mathrm{MSE} = \frac{\mathrm{SSE}}{N - p - 1} =
+S_\varepsilon^2\]</span></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="example-keeling-curve-for-atmospheric-co2" class="slide level2 eighty"><h2 class="eighty">Example: Keeling Curve for Atmospheric
+CO<sub>2</sub>
+</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Load data:</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>keeling <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"keeling.rds"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(keeling)</span></code></pre></div>
+<pre><code>## Rows: 799
+## Columns: 4
+## $ year  &lt;dbl&gt; 1958, 1958, 1958, 1958, …
+## $ month &lt;ord&gt; mar, apr, may, jun, jul,…
+## $ time  &lt;dbl&gt; 1958.208, 1958.292, 1958…
+## $ co2   &lt;dbl&gt; 315.71, 317.45, 317.51, …</code></pre>
+</div>
+</li>
+<li class="fragment" data-fragment-index="1">
+<p>Regressions:</p>
+<ul>
+<li>
+<p>Single</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mdl_1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(co2 <span class="sc">~</span> time, <span class="at">data =</span> keeling)</span></code></pre></div>
+</div>
+</li>
+<li>
+<p>Multiple</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>keeling <span class="ot">&lt;-</span> keeling <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">time_2 =</span> time<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>mdl_2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(co2 <span class="sc">~</span> time <span class="sc">+</span> time_2, <span class="at">data =</span> keeling)</span></code></pre></div>
+<p>or</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>mdl_3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(co2 <span class="sc">~</span> <span class="fu">poly</span>(time, <span class="dv">2</span>, <span class="at">raw =</span> <span class="cn">TRUE</span>), <span class="at">data =</span> keeling)</span></code></pre></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>
+<p>Plot data:</p>
+<div class="bare max-listing">
+<p><img data-src="assets/fig/plot-keeling-plain-1.png"><!-- --></p>
+</div>
+</li>
+<li class="fragment" data-fragment-index="1">
+<p>Plot data with regressions:</p>
+<div class="bare max-listing">
+<p><img data-src="assets/fig/plot-keeling-fit-1.png"><!-- --></p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="harmonic-model" class="slide level2 eighty"><h2 class="eighty">Harmonic Model</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>The quadratic model fits the general trend, but what about the
+annual cycle that creates the wiggles in the data?
+<ul>
+<li>
+<p>Harmonic model:</p>
+<p><span class="math display">\[
+\begin{align}
+y_i =&amp; \beta_0 + \beta_1 t + \beta_2 t^2 + \beta_3 \sin(2 \pi t) \\
+     &amp; + \beta_4 \cos(2 \pi t)
+\end{align}
+\]</span></p>
+</li>
+</ul>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>keeling <span class="ot">&lt;-</span> keeling <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">s =</span> <span class="fu">sin</span>(<span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">*</span> time),</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">c =</span> <span class="fu">cos</span>(<span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">*</span> time))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>mdl_4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(co2 <span class="sc">~</span> <span class="fu">poly</span>(time, <span class="dv">2</span>) <span class="sc">+</span> s <span class="sc">+</span> c, <span class="at">data =</span> keeling)</span></code></pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="column">
+<div class="bare max-listing">
+<p><img data-src="assets/fig/plot-keeling-fit-2-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+</section><section id="comparing-models" class="slide level2 eighty"><h2 class="eighty">Comparing Models</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>How do we decide which linear regression model is best?
+<ul>
+<li>By eye, it’s obvious that the quadratic model is better than the
+linear one, and the harmonic model is best of all.</li>
+<li>But is there a more systematic way to compare models?</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<div class="bare">
+<p><img data-src="assets/fig/unnamed-chunk-3-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+<ul>
+<li class="fragment">
+<p>Broom library <code>glance()</code> function:</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(mdl_1, mdl_3, mdl_4) <span class="sc">|&gt;</span> <span class="fu">map_df</span>(glance)</span></code></pre></div>
+<pre><code>## # A tibble: 3 × 12
+##   r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     0.975         0.975 5.01     31455.       0     1 -2420. 4847. 4861.
+## 2     0.995         0.995 2.23     80705.       0     2 -1775. 3557. 3576.
+## 3     0.999         0.999 0.947   225556.       0     4 -1088. 2187. 2215.
+## # ℹ 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
+</div>
+</li>
+</ul></section><section id="problem" class="slide level2 eighty"><h2 class="eighty">Problem</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>You can always add more variables to a linear-regression model
+<ul>
+<li>But each variable consumes one degree of freedom.</li>
+</ul>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">1.2</span>, <span class="fl">0.1</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>sig <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">20</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">20</span>, <span class="at">length.out =</span> N),</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">y =</span> b[<span class="dv">1</span>] <span class="sc">+</span> b[<span class="dv">2</span>] <span class="sc">*</span> x <span class="sc">+</span> b[<span class="dv">3</span>] <span class="sc">*</span> x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>               <span class="fu">rnorm</span>(N, <span class="dv">0</span>, sig))</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>mdl_1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">2</span>), <span class="at">data =</span> df)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>mdl_2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> <span class="fu">poly</span>(x, <span class="dv">15</span>), <span class="at">data =</span> df)</span></code></pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="column">
+<div class="bare max-listing">
+<p><img data-src="assets/fig/plot-fake-data-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(<span class="st">"poly(x, 2)"</span> <span class="ot">=</span> mdl_1, <span class="st">"poly(x, 15)"</span> <span class="ot">=</span> mdl_2) <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map_dfr</span>(glance, <span class="at">.id =</span> <span class="st">"model"</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 13
+##   model      r.squared adj.r.squared sigma statistic  p.value    df logLik   AIC
+##   &lt;chr&gt;          &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
+## 1 poly(x, 2)     0.961         0.956  4.32     208.  1.13e-12     2  -56.0  120.
+## 2 poly(x, 1…     0.986         0.934  5.28      19.0 5.73e- 3    15  -45.6  125.
+## # ℹ 4 more variables: BIC &lt;dbl&gt;, deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;</code></pre>
+</div>
+</section><section id="what-overfitting-looks-like" class="slide level2 eighty"><h2 class="eighty">What Overfitting Looks Like</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Let’s make some new data:</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df_2 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">x =</span> <span class="fu">runif</span>(N, <span class="dv">0</span>, <span class="dv">20</span>), </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">y =</span> b[<span class="dv">1</span>] <span class="sc">+</span> b[<span class="dv">2</span>] <span class="sc">*</span> x <span class="sc">+</span> b[<span class="dv">3</span>] <span class="sc">*</span> x<span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">rnorm</span>(N, <span class="dv">0</span>, sig) )</span></code></pre></div>
+</div>
+</li>
+<li class="fragment" data-fragment-index="1"><p>Use the original models to predict the new <span class="math inline">\(y_i\)</span> from the new <span class="math inline">\(x_i\)</span></p></li>
+<li class="fragment"><p>The 15th-degree polynomial fit the original data better than
+the quadratic, but it is much worse at predicting the new
+observations.</p></li>
+</ul>
+</div>
+<div class="column fragment" data-fragment-index="1">
+<div class="bare max-listing">
+<p><img data-src="assets/fig/new-overfit-plot-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+</section></section><section><section id="avoiding-overfitting" class="title-slide slide level1 center"><h1 class="center">Avoiding Overfitting</h1>
+
+</section><section id="bias-variance-tradeoff" class="slide level2 eighty"><h2 class="eighty">Bias-Variance Tradeoff</h2>
+<div class="columns bare">
+<div class="column bare" style="width:60%;">
+<ul>
+<li>
+<strong>Bias:</strong> Average errors of model predictions
+<ul>
+<li>Small bias: smaller errors for current &amp; future data</li>
+</ul>
+</li>
+<li>
+<strong>Variance:</strong> Variation in errors from one sample to
+another.
+<ul>
+<li>Small variance: similar errors for current &amp; future data</li>
+<li>Large variance: errors are worse for future data</li>
+</ul>
+</li>
+<li class="fragment" data-fragment-index="2">More complex models (more degrees of freedom)
+<ul>
+<li>
+<strong>Less bias</strong> (smaller errors in estimating current and
+future observations)</li>
+<li>
+<strong>More variance</strong> (greater errors in predicting new
+observations)</li>
+<li class="fragment" data-fragment-index="3">Up to some point, addding complexity reduces bias more than it
+increases variance, so your model gets better at predicting new
+data.</li>
+<li class="fragment" data-fragment-index="4">Eventually, adding complexity doesn’t reduce bias much, but
+increases variance a lot, so predictions get worse.
+(<strong>Overfitting</strong> your data)</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column" style="width:39%;">
+<p><img data-src="assets/images/bias-variance.jpg" height="600" alt="Graph showing bias-variance tradeoff"></p>
+<ul>
+<li>
+<span style="color:#000080;"><strong>blue</strong></span> =
+in-sample error</li>
+<li>
+<span style="color:#800000;"><strong>red</strong></span> =
+out-of-sample error</li>
+</ul>
+<div class="mtop-3 fragment" data-fragment-index="5">
+<ul>
+<li>How do you find the optimum complexity?</li>
+</ul>
+</div>
+</div>
+</div>
+</section><section id="avoiding-overfitting-1" class="slide level2 eighty"><h2 class="eighty">Avoiding Overfitting</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li>
+<p>Use AIC or BIC</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">AIC =</span> <span class="fu">c</span>(<span class="fu">AIC</span>(mdl_1), <span class="fu">AIC</span>(mdl_2)), </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">BIC =</span> <span class="fu">c</span>(<span class="fu">BIC</span>(mdl_1), <span class="fu">BIC</span>(mdl_2)))</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 2
+##     AIC   BIC
+##   &lt;dbl&gt; &lt;dbl&gt;
+## 1  120.  124.
+## 2  125.  142.</code></pre>
+</div>
+<ul>
+<li class="fragment">AIC and BIC are information criteria that account for the
+degrees of freedom used by complex models
+<ul>
+<li>Model comparison: They tell you one model is better or worse than
+another, but tell you nothing about <em>how good</em> either model
+is.</li>
+<li>AIC selects the <em>better model</em>
+</li>
+<li>If you know that one of the models is the “true” model, BIC does
+better at selecting it.</li>
+<li>AIC is usually the better choice.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column" style="width:44%;">
+<div class="bare max-listing">
+<p><img data-src="assets/fig/unnamed-chunk-4-1.png"><!-- --></p>
+</div>
+<ul>
+<li class="fragment">Cross-validation or bootstrapping are often better than AIC or
+BIC for assessing models
+<ul>
+<li>Nonparameteric Resampling Methods</li>
+<li>AIC is asymptotically equivalent to “leave-one-out”
+cross-validation, (Jackknife resampling) as the sample size gets
+large.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="testing-models-by-resampling" class="title-slide slide level1 center"><h1 class="center">Testing Models by Resampling</h1>
+
+</section><section id="cross-validation" class="slide level2 eighty"><h2 class="eighty">Cross-Validation</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Leave-One-Out (LOO)
+<ul>
+<li>If you have <span class="math inline">\(N\)</span> observations
+<span class="math inline">\((x_1, y_1), (x_2, y_2), \ldots, (x_N,
+y_N)\)</span>,
+<ul>
+<li>
+<p>Create <span class="math inline">\(N\)</span> subsets <span class="math inline">\(Z_1, Z_2, \ldots, Z_N\)</span>, where <span class="math inline">\(Z_i\)</span> has all the observations except <span class="math inline">\((x_i, y_i)\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+Z_i =&amp; ((x_1, y_1), (x_2, y_2), \ldots, (x_{i-1}, y_{i-1}), \\
+     &amp; (x_{i+1}, y_{i+1}), \ldots, (x_N, y_N))
+\end{align}
+\]</span></p>
+</li>
+<li class="fragment"><p>For each <span class="math inline">\(Z_i\)</span>, fit the
+parameters of your model to <span class="math inline">\(Z_i\)</span> and
+then use that model to predict <span class="math inline">\(\hat{y}_i\)</span> from <span class="math inline">\(x_i\)</span>.</p></li>
+<li class="fragment">
+<p>Calculate SSE:</p>
+<p><span class="math display">\[
+\mathrm{SSE} = \sum_{i = 1}^N \varepsilon_i^2 =
+  \sum_{i = 1}^N (y_i - \hat{y}_i)^2
+\]</span></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">Each <span class="math inline">\(\varepsilon_i\)</span> and
+<span class="math inline">\(\hat{y}_i\)</span> is calculated from a
+different set of data: <span class="math inline">\(Z_i\)</span>, which
+omits <span class="math inline">\((x_i, y_i)\)</span>.
+<ul>
+<li>This means that we test each prediction on a model fitted to data
+that doesn’t include it.</li>
+<li>This helps protect us from overfitting.</li>
+<li class="fragment">The SSE or MSE we estimate from this procedure is the
+<em>out-of-sample</em> error, not the <em>in-sample</em> error, so it
+includes the effects of increasing variance when the model uses more
+degrees of freedom.</li>
+</ul>
+</li>
+<li class="fragment">I’ve shown the bivariate version, for simplicity, but you can do
+the same with multivariate data that has <span class="math inline">\((x_{i,1}, x_{i,2}, \ldots, x_{i,p},
+y_i)\)</span>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="k-fold-cross-validation" class="slide level2 eighty"><h2 class="eighty">k-fold Cross Validation</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>If you have large data sets, with many observations (large <span class="math inline">\(N\)</span>), it can be computationally expensive
+to fit thousands or millions of models, and LOO cross-validation becomes
+unfeasible.</li>
+<li class="fragment"><span class="math inline">\(k\)</span>-fold cross validation
+divides your data into <span class="math inline">\(k\)</span> sets
+(typically 10), that we call “folds”, where each fold contains <span class="math inline">\(1/k\)</span> of the observations.</li>
+<li class="fragment">We make <span class="math inline">\(k\)</span> subsets <span class="math inline">\(Z_1, Z_2, \ldots, Z_k\)</span>, where <span class="math inline">\(Z_j\)</span> contains all the folds except <span class="math inline">\(j\)</span>. Thus if <span class="math inline">\(k
+= 10\)</span>, each fold contains 10% of the data and each <span class="math inline">\(Z_j\)</span> contains 90%.</li>
+<li class="fragment">Fit the model parameters to each <span class="math inline">\(Z_j\)</span> and use it to predict <span class="math inline">\(\hat{y}_i\)</span> for all <span class="math inline">\(i\)</span> in the hold-out fold <span class="math inline">\(j\)</span>.
+<ul>
+<li>Add up <span class="math inline">\(SSE = \sum_i (y_i -
+\hat{y}_i)^2\)</span>
+</li>
+</ul>
+</li>
+<li class="fragment">LOO is a special case of <span class="math inline">\(k\)</span>-fold cross-validation, where <span class="math inline">\(k = N\)</span>.</li>
+</ul>
+</div>
+<div class="column">
+<p><img data-src="assets/images/k-fold-cv.png" alt="k-fold cross-validation"></p>
+<ul>
+<li class="fragment">In each iteration <span class="math inline">\(j\)</span>, train
+a model by fitting its parameters to the blue “train” folds
+<ul>
+<li>Test it by predicting the dependent variable <span class="math inline">\(\hat{y}_i\)</span> in the “test” fold for
+iteration <span class="math inline">\(j\)</span>.</li>
+<li>Calculate the performance metric for iteration <span class="math inline">\(j\)</span> by comparing <span class="math inline">\(\hat{y}_i\)</span> to the observed <span class="math inline">\(y_i\)</span> in the test fold.</li>
+<li>Sum or average the performance for each fold to get the overall
+model performance.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="bootstrap-model-validation" class="slide level2 eighty"><h2 class="eighty">Bootstrap Model Validation</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Another approach to model validation is bootstrapping.
+<ul>
+<li>This is different from cross-validation because we randomly sample
+from the full data set with replacement.</li>
+<li class="fragment">If my full data set contains <span class="math inline">\(N\)</span> observations, create <span class="math inline">\(k\)</span> bootstrap samples <span class="math inline">\(Z_j\)</span>, each of which contains <span class="math inline">\(N\)</span> random samples from from the full data
+set, but some of them may be duplicated, and for each duplicated value,
+one of the original observations will be missing.</li>
+<li class="fragment">For each <span class="math inline">\(j\)</span>, fit the model
+to <span class="math inline">\(Z_j\)</span> and use it to predict the
+original observations that are missing from <span class="math inline">\(Z_j\)</span>.
+<ul>
+<li>Calculate the performance metrics just as you did with <span class="math inline">\(k\)</span>-fold cross-validation.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>
+<p>Example of bootstrap validation:</p>
+<p><img data-src="assets/images/bootstrap.png" alt="Bootstrap model validation"></p>
+<ul>
+<li>Suppose there are 30 observations</li>
+<li>Each bootstrap iteration is a random sample of 30 values from the
+observations, with possible duplications.</li>
+<li>For each iteration, fit the model to the bootstrap sample and
+predict the observations that are left out.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="testing-models-using-r" class="title-slide slide level1 center"><h1 class="center">Testing Models Using R</h1>
+
+</section><section id="the-tidymodels-package" class="slide level2 eighty"><h2 class="eighty">The <code>tidymodels</code> Package</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li><p>The <code>tidymodels</code> package in R collects several
+packages to make it easy to set up systematic workflows for fitting and
+testing models, and making predictions.</p></li>
+<li>
+<p>If you don’t have <code>tidymodels</code> installed, then install
+it with</p>
+<div class="bare">
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"tidymodels"</span>)</span></code></pre></div>
+</div>
+<p>Load <code>tidymodels</code>:</p>
+<div class="bare">
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidymodels)</span></code></pre></div>
+</div>
+</li>
+<li><p>The basic structure of <code>tidymodels</code> is to create a
+<em>workflow</em>, which consists of <em>recipes</em> for preparing the
+data and defining relationships, and <em>models</em> which are fit using
+the recipes.</p></li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>
+<p>We start by loading a simple data set called
+<code>biomass</code>:</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(biomass)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>biomass <span class="ot">&lt;-</span> <span class="fu">select</span>(biomass, sample, HHV, carbon<span class="sc">:</span>sulfur)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(biomass)</span></code></pre></div>
+<pre><code>## Rows: 536
+## Columns: 7
+## $ sample   &lt;chr&gt; "Akhrot Shell", "Alabama Oak Wo…
+## $ HHV      &lt;dbl&gt; 20.008, 19.228, 18.299, 18.151,…
+## $ carbon   &lt;dbl&gt; 49.81, 49.50, 47.82, 45.10, 46.…
+## $ hydrogen &lt;dbl&gt; 5.64, 5.70, 5.80, 4.97, 5.40, 5…
+## $ oxygen   &lt;dbl&gt; 42.94, 41.30, 46.25, 35.60, 40.…
+## $ nitrogen &lt;dbl&gt; 0.41, 0.20, 0.11, 3.30, 1.00, 2…
+## $ sulfur   &lt;dbl&gt; 0.00, 0.00, 0.02, 0.16, 0.02, 0…</code></pre>
+</div>
+<ul>
+<li>
+<code>biomass</code> gives the energy content (higher heat value,
+<code>HHV</code>), and the weight percentages of <code>carbon</code>,
+<code>hydrogen</code>, …, <code>sulfur</code> for 536 kinds of
+biomass.</li>
+</ul>
+<div class="eighty">
+<ul>
+<li>Source: S.B. Ghugare <em>et al.</em>, <em>BioEnergy Research</em>,
+<strong>7</strong>, 691 (2013). DOI: <a href="https://doi.org/10.1007/s12155-013-9393-5">10.1007/s12155-013-9393-5</a>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="plotting-correlations" class="slide level2 eighty"><h2 class="eighty">Plotting correlations</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Before we start making models, it’s helpful to plot what our data
+look like.
+<ul>
+<li class="fragment"><p>For multivariate data, it’s helpful to plot correlations
+using <em>pairs plots</em>.</p></li>
+<li class="fragment">
+<p>The <code>GGally</code> package has a nice pair plotting
+function that works with <code>ggplot</code>, so let’s install
+<code>GGally</code> if it’s not already installed.</p>
+<div class="bare">
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"GGally"</span>)</span></code></pre></div>
+<ul>
+<li>Then load the library</li>
+</ul>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span></code></pre></div>
+<ul>
+<li>and make the pair plot</li>
+</ul>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>biomass <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>sample) <span class="sc">|&gt;</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggpairs</span>(<span class="at">lower =</span> <span class="fu">list</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">continuous =</span> <span class="fu">wrap</span>(<span class="st">"points"</span>, <span class="at">color =</span> <span class="st">"darkblue"</span>, </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">alpha =</span> <span class="fl">0.01</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    ))</span></code></pre></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<div class="bare max-listing fragment">
+<p><img data-src="assets/fig/unnamed-chunk-10-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+</section><section id="using-pair-plots-for-modeling" class="slide level2 eighty"><h2 class="eighty">Using Pair Plots for Modeling</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>From the pair plot, we can see which elements are strongly
+correlated with HHV:</p>
+<ul>
+<li class="fragment">Carbon, Oxygen, and to a lesser extent, Hydrogen and
+Nitrogen.</li>
+</ul>
+</li>
+<li class="fragment">
+<p>Let’s try some models out:</p>
+<div class="bare ninety">
+<p><span class="math display">\[
+\begin{array}{lrcl}
+1. &amp; \mathrm{HHV} &amp;=&amp; \beta_0 + \beta_C\: \mathrm{C} +
+\varepsilon \\
+2. &amp; \mathrm{HHV} &amp;=&amp; \beta_0 + \beta_C\: \mathrm{C}
++  \beta_H\: \mathrm{H} + \varepsilon \\
+3. &amp; \mathrm{HHV} &amp;=&amp; \beta_0 + \beta_C\: \mathrm{C}
++  \beta_O\: \mathrm{O} + \varepsilon \\
+4. &amp; \mathrm{HHV} &amp;=&amp; \beta_0 + \beta_C\: \mathrm{C}
++  \beta_O\: \mathrm{O} +  \\
+   &amp;              &amp; &amp; \beta_H\: \mathrm{H} + \varepsilon \\
+5. &amp; \mathrm{HHV} &amp;=&amp; \beta_0 + \beta_C\: \mathrm{C}
++  \beta_O\: \mathrm{O} +  \\
+   &amp;              &amp; &amp; \beta_H\: \mathrm{H} + \beta_N\:
+\mathrm{N} + \varepsilon \\
+6. &amp; \mathrm{HHV} &amp;=&amp; \beta_0 + \beta_C\: \mathrm{C}
++  \beta_O\: \mathrm{O} +  \\
+   &amp;              &amp; &amp; \beta_H\: \mathrm{H} + \beta_N\:
+\mathrm{N} +
+                      \beta_S\: \mathrm{S} + \varepsilon
+\end{array}
+\]</span></p>
+</div>
+</li>
+</ul>
+</div>
+<div class="column">
+<div class="bare max-listing">
+<p><img data-src="assets/fig/unnamed-chunk-11-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+</section><section id="using-tidymodels" class="slide level2 eighty"><h2 class="eighty">Using <code>tidymodels</code>
+</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Create the recipes, each of which has a model specification
+formula</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>rec_1 <span class="ot">&lt;-</span> <span class="fu">recipe</span>(biomass, HHV <span class="sc">~</span> carbon)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>rec_2 <span class="ot">&lt;-</span> <span class="fu">recipe</span>(biomass, HHV <span class="sc">~</span> carbon <span class="sc">+</span> hydrogen)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>rec_3 <span class="ot">&lt;-</span> <span class="fu">recipe</span>(biomass, HHV <span class="sc">~</span> carbon <span class="sc">+</span> oxygen)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>rec_4 <span class="ot">&lt;-</span> <span class="fu">recipe</span>(biomass, HHV <span class="sc">~</span> carbon <span class="sc">+</span> oxygen <span class="sc">+</span> hydrogen)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>rec_5 <span class="ot">&lt;-</span> <span class="fu">recipe</span>(biomass, HHV <span class="sc">~</span> carbon <span class="sc">+</span> oxygen <span class="sc">+</span> hydrogen <span class="sc">+</span> </span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>                  nitrogen)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>rec_6 <span class="ot">&lt;-</span> <span class="fu">recipe</span>(biomass, HHV <span class="sc">~</span> carbon <span class="sc">+</span> oxygen <span class="sc">+</span> hydrogen <span class="sc">+</span> </span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>                  nitrogen <span class="sc">+</span> sulfur)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>recipes <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">c =</span> rec_1, <span class="at">ch =</span> rec_2, <span class="at">co =</span> rec_3, </span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">coh =</span> rec_4, <span class="at">cohn =</span> rec_5, </span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">cohns =</span> rec_6)</span></code></pre></div>
+</div>
+</li>
+<li>
+<p>The model is an engine for fitting parameters for a formula from
+the recipes</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>lm_mod <span class="ot">&lt;-</span> <span class="fu">linear_reg</span>() <span class="sc">|&gt;</span> <span class="fu">set_engine</span>(<span class="st">"lm"</span>)</span></code></pre></div>
+</div>
+</li>
+<li>
+<p>Create a set of workflows, each of which has a recipe and a model
+engine</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>workflows <span class="ot">&lt;-</span> <span class="fu">workflow_set</span>(recipes, <span class="fu">list</span>(<span class="at">lm =</span> lm_mod))</span></code></pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Now we create a k-fold cross-validation framework for testing
+the models</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>k_fold <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(biomass, <span class="at">v =</span> <span class="dv">10</span>)</span></code></pre></div>
+</div>
+</li>
+<li class="fragment">
+<p>And we fit all the models using the 10-fold
+cross-validation:</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">control_resamples</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>, <span class="at">allow_par =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">workflow_map</span>(workflows, <span class="st">"fit_resamples"</span>, <span class="at">seed =</span> <span class="dv">1234</span>,</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">resamples =</span> k_fold, <span class="at">control =</span> control)</span></code></pre></div>
+</div>
+<ul>
+<li>
+<code>workflow_map</code> fits each model in <code>recipes</code> to
+the training set in each fold of <code>k_fold</code>, using the
+regression-model engine from <code>lm_mod</code>.</li>
+<li class="fragment"><code>save_pred</code> means to save the predictions from the
+models</li>
+<li class="fragment"><code>allow_par</code> means to attempt to speed up the
+calculations by using parallel processing if the CPU has multiple
+cores.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="results-of-cross-validation" class="slide level2 eighty"><h2 class="eighty">Results of Cross-Validation</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<ul>
+<li>Inspect the results of the cross-validation:</li>
+</ul>
+<div class="bare max-listing ninety">
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>metrics <span class="ot">&lt;-</span> <span class="fu">collect_metrics</span>(results)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>metrics</span></code></pre></div>
+<pre><code>## # A tibble: 12 × 9
+##    wflow_id .config         preproc model .metric .estimator  mean     n std_err
+##    &lt;chr&gt;    &lt;chr&gt;           &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;
+##  1 c_lm     Preprocessor1_… recipe  line… rmse    standard   1.41     10  0.169 
+##  2 c_lm     Preprocessor1_… recipe  line… rsq     standard   0.856    10  0.0349
+##  3 ch_lm    Preprocessor1_… recipe  line… rmse    standard   1.40     10  0.174 
+##  4 ch_lm    Preprocessor1_… recipe  line… rsq     standard   0.856    10  0.0354
+##  5 co_lm    Preprocessor1_… recipe  line… rmse    standard   1.42     10  0.169 
+##  6 co_lm    Preprocessor1_… recipe  line… rsq     standard   0.852    10  0.0347
+##  7 coh_lm   Preprocessor1_… recipe  line… rmse    standard   1.43     10  0.185 
+##  8 coh_lm   Preprocessor1_… recipe  line… rsq     standard   0.849    10  0.0380
+##  9 cohn_lm  Preprocessor1_… recipe  line… rmse    standard   1.44     10  0.188 
+## 10 cohn_lm  Preprocessor1_… recipe  line… rsq     standard   0.848    10  0.0385
+## 11 cohns_lm Preprocessor1_… recipe  line… rmse    standard   1.43     10  0.185 
+## 12 cohns_lm Preprocessor1_… recipe  line… rsq     standard   0.847    10  0.0382</code></pre>
+</div>
+<div class="ninety">
+<ul>
+<li class="fragment" data-fragment-index="1">The best fits should have:
+<ul>
+<li>Smallest RMSE</li>
+<li>Largest R<sup>2</sup>
+</li>
+</ul>
+</li>
+<li class="fragment" data-fragment-index="3">There isn’t a lot of difference between the models
+<ul>
+<li>But both RMSE and R<sup>2</sup> agree that the C+H model is best,
+and the pure C model is 2nd best.</li>
+<li>The models with three, four, or five elements are overfit.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="column" style="width:39%;">
+<ul>
+<li class="fragment" data-fragment-index="2">
+<p>We can clean this up:</p>
+<div class="bare max-listing ninety">
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>metrics <span class="sc">|&gt;</span> <span class="fu">filter</span>(.metric <span class="sc">==</span> <span class="st">"rmse"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(wflow_id, .metric, mean, n, std_err) <span class="sc">|&gt;</span> </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean =</span> <span class="fu">num</span>(mean, <span class="at">digits =</span> <span class="dv">4</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(mean)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 5
+##   wflow_id .metric      mean     n std_err
+##   &lt;chr&gt;    &lt;chr&gt;   &lt;num:.4!&gt; &lt;int&gt;   &lt;dbl&gt;
+## 1 ch_lm    rmse       1.3980    10   0.174
+## 2 c_lm     rmse       1.4087    10   0.169
+## 3 co_lm    rmse       1.4154    10   0.169
+## 4 coh_lm   rmse       1.4302    10   0.185
+## 5 cohns_lm rmse       1.4350    10   0.185
+## 6 cohn_lm  rmse       1.4357    10   0.188</code></pre>
+</div>
+<div class="bare max-listing ninety">
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>metrics <span class="sc">|&gt;</span> <span class="fu">filter</span>(.metric <span class="sc">==</span> <span class="st">"rsq"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(wflow_id, .metric, mean, n, std_err) <span class="sc">|&gt;</span> </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean =</span> <span class="fu">num</span>(mean, <span class="at">digits =</span> <span class="dv">4</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean))</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 5
+##   wflow_id .metric      mean     n std_err
+##   &lt;chr&gt;    &lt;chr&gt;   &lt;num:.4!&gt; &lt;int&gt;   &lt;dbl&gt;
+## 1 ch_lm    rsq        0.8562    10  0.0354
+## 2 c_lm     rsq        0.8559    10  0.0349
+## 3 co_lm    rsq        0.8525    10  0.0347
+## 4 coh_lm   rsq        0.8491    10  0.0380
+## 5 cohn_lm  rsq        0.8481    10  0.0385
+## 6 cohns_lm rsq        0.8473    10  0.0382</code></pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="looking-ahead-with-tidymodels" class="slide level2 eighty"><h2 class="eighty">Looking Ahead with <code>tidymodels</code>
+</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<code>tidymodels</code> is a very powerful package.
+<ul>
+<li>Here, we used 10-fold cross-validation to compare 6 different
+linear-regression models</li>
+<li>We could also use it to compare different kinds of models:
+<ul>
+<li>linear regression</li>
+<li>general linear models</li>
+<li>random forest models</li>
+<li>support-vector machines</li>
+<li>artificial neural networks</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">For sophisticated machine-learning algorithms,
+<ul>
+<li>
+<code>tidymodels</code> allows us to automatically tune parameters
+of the algorithm to find values that produce the best model fits to our
+data</li>
+<li>
+<code>tidymodels</code> allows us to do <em>feature engineering</em>
+to identify the best variables in our data to use for modeling, and to
+explore creating new variables by transforming or combining the original
+variables</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="general-pattern-for-tidymodels-analysis" class="slide level2 eighty"><h2 class="eighty">General Pattern for <code>tidymodels</code>
+Analysis</h2>
+<ul>
+<li>All these fancy methods, the structure remains the same:
+<ol type="1">
+<li>Create <em>recipes</em> that define model formulas, transform
+variables, and combine variables to create new ones.</li>
+<li>Select <em>model engines</em> that fit parameters to the formulas
+from the <em>recipes</em>
+</li>
+<li>Combine <em>recipes</em> and <em>models</em> into
+<em>workflows</em>
+</li>
+<li>Optionally, generate <em>resample</em> sets, such as bootstrap or
+k-fold cross-validation sets</li>
+<li>Run the <em>workflows</em> on your original data or the
+<em>resample</em> sets to fit models, make predictions, and evaluate
+test metrics</li>
+<li>Analyze the output</li>
+</ol>
+</li>
+</ul></section></section>
+</div>
+  </div>
+  <!--
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.js"></script>
+  <!-- -->
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.min.js"></script><!-- --><script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Display the page number of the current slide
+        showSlideNumber: 'speaker',
+        // Push each slide change to the browser history
+        history: true,
+        //  Enable hashing slide content to URL
+        hash: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Don't separate fragments in PDF rendering
+        pdfSeparateFragments: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+      
+        // Optional reveal.js plugins
+        dependencies: [
+                    { src: '../../lecture_lib/library/assets/plugin/chalkboard/chalkboard.js', async: true },
+                                        { src: '../../lecture_lib/library/assets/plugin/reveal-skip-fragments/skip-fragments.js', async: true },
+                    { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/notes/notes.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/math/math.js', async: true }
+        ],
+        shift_keyboard: {
+    	    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'C' is pressed
+    	    66: function() { RevealChalkboard.toggleChalkboard() },	  // toggle chalkboard when 'B' is pressed
+    	    88: function() { RevealChalkboard.clear() },	            // clear chalkboard when 'X' is pressed
+    	    82: function() { RevealChalkboard.reset() },	            // reset chalkboard data on current slide when 'R' is pressed
+    	    68: function() { RevealChalkboard.download() },	          // downlad recorded chalkboard drawing when 'D' is pressed
+        },
+              	// Shortcut for showing all fragments
+      	skipFragmentsShowShortcut: 'S',
+
+      	// Shortcut for hiding all fragments
+      	skipFragmentsHideShortcut: 'H',
+      	      });
+    </script><script>
+  	function createSingletonNodejg( container, tagname, classname, innerHTML ) {
+
+		// Find all nodes matching the description
+		var nodes = container.querySelectorAll( '.' + classname );
+
+		// Check all matches to find one which is a direct child of
+		// the specified container
+		for( var i = 0; i < nodes.length; i++ ) {
+			var testNode = nodes[i];
+			if( testNode.parentNode === container ) {
+				return testNode;
+			}
+		}
+
+		// If no node was found, create it now
+		var node = document.createElement( tagname );
+		node.className = classname;
+		if( typeof innerHTML === 'string' ) {
+			node.innerHTML = innerHTML;
+		}
+		container.appendChild( node );
+
+		return node;
+
+	}
+
+  var dom_wrapper = document.querySelector('.reveal');
+  createSingletonNodejg(dom_wrapper, 'div', 'qrbox',
+  '<div class="qrbox" id="qrbox" style="font-size:90%;">' + '\n' +
+  '<div style="font-size:30%;width:100%;">' + '\n' +
+      '<a href="https://ees5891.jgilligan.org/slides/class_21">' +
+  	'<img src="qrcode.png" alt="https://ees5891.jgilligan.org/slides/class_21"/>' +
+  	'</a>' + '\n' +
+	  '</div>' + '\n' +
+  '<div style="font-size:30%;width:100%;vertical-align:top;">' + '\n' +
+    '<span style="display:inline-block;text-align:left;margin-left:0">' + '\n' +
+        'Live web page: <a href="https://ees5891.jgilligan.org/slides/class_21">https://ees5891.jgilligan.org/slides/class_21</a>' + '\n' +
+              '<br/>' + '\n' +
+        'PDF: <a href="https://ees5891.jgilligan.org/slides/class_21/EES_4891_5891_class_21_slides.pdf" target="_blank">https://ees5891.jgilligan.org/slides/class_21/EES_4891_5891_class_21_slides.pdf</a>' + '\n' +
+          	'</span>' + '\n' +
+  	'<span style="display:inline-block;text-align:right;vertical-align:top;position:absolute;right:0;bottom:0;">' + '\n' +
+  	  'Navigate slides: next: N or &lt;space&gt;; previous: P or &lt;backspace&gt;<br/>' + '\n' +
+  	  'Also: up, down, left, right arrows; overview: o; help: ?' + '\n' +
+  	'</span>' + '\n' +
+	'</div>' + '\n' +
+  '</div>' + '\n'
+  );
+</script><script>
+var MathJax = { jax: ["input/TeX", "output/HTML-CSS"],
+                TeX: {extensions: ["color.js", "mhchem.js"],
+                Macros: {
+                  COO: "\\ce{CO2}",
+                  methane: "\\ce{CH4}",
+                  degC: "^\\circ \\mathrm{C}",
+                  degF: "^\\circ \\mathrm{F}",
+                  water: "\\ce{H2O}",
+                  carb: "\\ce{CO3^2-}",
+                  bicarb: "\\ce{HCO3-}",
+                  carbonic: "\\ce{H2CO3}",
+                  Hplus: "\\ce{H+}",
+                  OH: "\\ce{OH-}",
+                  silica: "\\ce{SiO2}",
+                  calcite: "\\ce{CaCO3}",
+                  Caplus: "\\ce{Ca^2+}",
+                  silicate: "\\ce{SiO3^2-}",
+                  CaSi: "\\ce{CaSiO3}",
+                  pH: "p\\ce{H}",
+                  permil: "\\unicode{x2030}",
+                  pCOO: "\\ce{	ext{p}CO2}",
+                  pwater: "\\ce{	ext{p}H2O}"
+                },
+                  },
+                "HTML-CSS" : {scale: 100 }};
+</script><!-- dynamically load mathjax for compatibility with self-contained --><script type="text/x-mathjax-config">
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["SVG"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+    displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
+    processEscapes: true
+  }
+})
+  </script><script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script><script>
+  var qrbox = document.querySelector("#qrbox");
+  var advance_fragment = 0;
+
+	function isPrintingPDF() {
+	  let printing = ( /print-pdf/gi ).test( window.location.search );
+	  console.log("printing test: " + printing);
+	  return printing;
+	}
+
+
+  if ( qrbox.hasAttribute('qr-box-hide') || Reveal.isOverview() ||
+      ! Reveal.isFirstSlide() || isPrintingPDF()) {
+    console.log("Initializing");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }
+
+  Reveal.addEventListener('overviewshown', function() {
+      console.log("Overview shown");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }, false);
+
+  Reveal.addEventListener('overviewhidden', function() {
+    if (Reveal.isFirstSlide() && ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Overview hidden");
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    console.log("Slide changed...");
+    if (Reveal.isFirstSlide() && ! Reveal.isOverview() &&
+        ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    } else {
+      console.log("Hiding QR box");
+      qrbox.style.visibility="hidden";
+      qrbox.style.display="none";
+    }
+  }, false);
+
+  Reveal.addEventListener('pdf-ready', function() {
+    console.log("hiding qrbox for printing");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+    qrbox.setAttribute('qr-box-hide', 'true');
+  });
+
+  </script><script>
+  Reveal.addEventListener('slidechanged', function() {
+    while (advance_fragment > 0) {
+      // console.log('advancing fragment');
+      Reveal.nextFragment();
+      advance_fragment--;
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    if ( Reveal.getCurrentSlide().hasAttribute('data-skip')) {
+      // console.log("going to next slide...");
+      Reveal.next();
+    }
+  }, false);
+
+  Reveal.addEventListener('skip_slide', function() {
+    Reveal.next();
+  }, false);
+
+  Reveal.addEventListener('advance_fragment', function() {
+    // console.log("setting advance fragment");
+    advance_fragment++;
+    }, false);
+  </script>
+</body>
+</html>
