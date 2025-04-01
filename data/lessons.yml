@@ -92,6 +92,7 @@ lessons:
 - date: '2025-04-01'
   title: Regression with Discrete vs. Continuous Variables
   reading: /reading/reading_22
+  lecture: /slides/class_22
 - date: '2025-04-03'
   title: Exercises with Regression
 - date: '2025-04-07'

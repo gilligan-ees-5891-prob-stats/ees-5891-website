@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<!-- JG Reveal.js Template --><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta name="author" content="Jonathan Gilligan">
+<title>Generalized Linear Models</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reset.css">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reveal.min.css">
+<style type="text/css">
+      code{white-space: pre-wrap;}
+      .smallcaps{font-variant: small-caps;}
+      .line-block{white-space: pre-line;}
+      .column{display: inline-block;}  </style>
+<style type="text/css">
+    div.qrbox,
+    aside.qrbox {
+     text-align: left;
+     vertical-align: bottom;
+     width: 95%;
+     position: fixed;
+     left: 2.5%;
+     bottom: 1rem;
+     display: block;
+    }
+  </style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { font-weight: bold; } /* Alert */
+code span.an { font-style: italic; } /* Annotation */
+code span.cf { font-weight: bold; } /* ControlFlow */
+code span.co { font-style: italic; } /* Comment */
+code span.cv { font-style: italic; } /* CommentVar */
+code span.do { font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.er { font-weight: bold; } /* Error */
+code span.in { font-style: italic; } /* Information */
+code span.kw { font-weight: bold; } /* Keyword */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.wa { font-style: italic; } /* Warning */
+  </style>
+<!-- theme = solarized_jg --><link rel="stylesheet" href="../../lecture_lib/library/assets/css/theme/solarized_jg.css" id="theme">
+<!-- Printing and PDF exports --><script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../lecture_lib/library/reveal.js-3.8.0/css/print/pdf.css' : '../../lecture_lib/library/reveal.js-3.8.0/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><!--[if lt IE 9]>
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+  <![endif]--><script src="../../lecture_lib/library/header-attrs-2.29.1.9000/header-attrs.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+            <!-- start title slide -->
+<section class="center" id="title"><h1 class="title">Generalized Linear Models</h1>
+    <h3 class="author">EES 4891/5891</h3>
+        <h3 class="author">Probability &amp; Statistics for
+Geosciences</h3>
+    <h3 class="author">Jonathan Gilligan</h3>
+    <h3 class="date">
+      Class #22:
+       Tuesday, April 01
+      2025
+    </h3>
+	<!-- end title slide -->
+</section><section><section id="getting-started" class="title-slide slide level1 center"><h1 class="center">Getting Started</h1>
+
+</section><section id="getting-started-1" class="slide level2 eighty"><h2 class="eighty">Getting Started</h2>
+<ul>
+<li>Accept the GitHub Classroom assignment at <a href="https://classroom.github.com/a/WJDv3nRt" class="uri">https://classroom.github.com/a/WJDv3nRt</a>
+</li>
+</ul>
+<p><a href="https://classroom.github.com/a/WJDv3nRt"><img data-src="assets/images/qrcode.svg" height="400" alt="https://classroom.github.com/a/WJDv3nRt"></a></p>
+<ul>
+<li>Note: A lot of the examples and exercises in today’s class come from
+the textbook, <em>Hurricane Climatology</em> by James B. Elsner and
+Thomas H. Jagger (Oxford University Press, 2013).</li>
+</ul></section></section><section><section id="learning-goals" class="title-slide slide level1 center"><h1 class="center">Learning Goals</h1>
+
+</section><section id="learning-goals-1" class="slide level2 eighty"><h2 class="eighty">Learning Goals</h2>
+<ul>
+<li>Learn about how to use regression analysis with discrete
+variables</li>
+<li>Understand what Generalized Linear Modeling is and how it differs
+from Linear Regression Modeling</li>
+<li>Understand the basics of logistic regression
+<ul>
+<li>Understand how to do logistic regression</li>
+</ul>
+</li>
+<li>Understand how to assess logistic regression models
+<ul>
+<li>Know what an ROC curve is, how to plot one in R, and how to
+interpret one</li>
+</ul>
+</li>
+<li>Learn other Generalized Linear Models: Poisson Regression</li>
+<li>What is <em>forecast skill</em> and how would you use it to assess a
+model?</li>
+</ul></section></section><section><section id="linear-regression-with-discrete-variables" class="title-slide slide level1 center"><h1 class="center">Linear Regression with Discrete Variables</h1>
+
+</section><section id="linear-regression-with-discrete-variables-1" class="slide level2 eighty"><h2 class="eighty">Linear Regression with Discrete Variables</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Continuous variables:
+<ul>
+<li>Temperature, mass, pH, silica content, grain size, …</li>
+</ul>
+</li>
+<li>Discrete variables:
+<ul>
+<li>Count data: How may earthquakes, volcanic eruptions, hurricanes,
+…</li>
+<li>Categorical data: Mineral type (quartz, calcite, biotite, …),
+species, fault type, …</li>
+</ul>
+</li>
+<li>Four possibilities:
+<ul>
+<li>Continuous independent, continuous dependent</li>
+<li>Continuous independent, discrete dependent</li>
+<li>Discrete independent, continuous independent</li>
+<li>Discrete independent, discrete dependent</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>Categorical vs. Ordinal discrete variables:
+<ul>
+<li>Ordinal: count, ordered categories (age-range, etc.)
+<ul>
+<li>One measurement can be greater or less than another</li>
+</ul>
+</li>
+<li>This doesn’t make sense with unordered categories:
+<ul>
+<li>Mineral type, species, …</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="discrete-variables" class="slide level2 eighty"><h2 class="eighty">Discrete Variables</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Ordinal independent variables:
+<ul>
+<li>Count,</li>
+<li>Mostly, treat them like continuous variables</li>
+</ul>
+</li>
+<li>Categorical independent variables:
+<ul>
+<li>“One-hot” encoding (dummy variables)
+<ul>
+<li>If <span class="math inline">\(x\)</span> has <span class="math inline">\(k\)</span> possible values, replace <span class="math inline">\(x\)</span> with <span class="math inline">\(k\)</span> different variables,
+<ul>
+<li>One and only one is 1, and the rest are 0</li>
+<li>Instead of one column, “mineral,” have “quartz”, “calcite”,
+“K-feldspar”, “plagioclase feldspar”, “mica”, “amphibole”, …</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>Ordinal dependent variables:
+<ul>
+<li>Count data:
+<ul>
+<li>
+<span class="math inline">\(x \sim \mathcal{D}\)</span>, a discrete
+distribution (Bernoulli, Binomial, Poisson, etc.)</li>
+<li>Parameters:
+<ul>
+<li>Poisson has a continuous parameter <span class="math inline">\(\lambda \ge 0\)</span>.</li>
+<li>Bernoulli, Binomial, etc. have a continuous parameter probability
+<span class="math inline">\(p: 0 \le p \le 1\)</span>.
+<ul>
+<li>Logistic regression</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Categorical dependent variables:
+<ul>
+<li>Multinomial distributions.
+<ul>
+<li>We won’t cover this.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="logistic-regression" class="slide level2 eighty"><h2 class="eighty">Logistic Regression</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Linear regression:</p>
+<p><span class="math display">\[
+y = \beta_0 + \beta_1 x + \varepsilon
+\]</span></p>
+<ul>
+<li class="fragment">
+<p>Count data:</p>
+<div class="ninety">
+<p><span class="math display">\[
+\begin{align}
+y \sim&amp; \text{Binomial}(p(x), n) \\
+\mathbb{P}(y = k | p(x), n) =&amp; \left(n \atop k \right) p(x)^k (1 -
+p(x))^{n - k} \\
+p(x) \sim&amp; \mathcal{D}(\theta, x)
+\end{align}
+\]</span></p>
+</div>
+<p>We’re used to regression of the form</p>
+<p><span class="math display">\[
+p(x) = \beta_0 + \beta_1 x + \varepsilon
+\]</span></p>
+<p>but how do we constrain <span class="math inline">\(p\)</span> to be
+between 0 and 1?</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Logit function:</p>
+<p><span class="math display">\[
+\begin{align}
+\mathrm{logit}(p) =&amp; \ln \frac{p}{1 - p} \\
+\mathrm{logit}^{-1}(x) =&amp; \frac{e^x}{e^x + 1}
+\end{align}
+\]</span></p>
+<ul>
+<li>Logit maps the interval <span class="math inline">\((0,1)\)</span>
+to the interval <span class="math inline">\((-\infty,
+\infty)\)</span>
+</li>
+<li>Inverse-logit maps the interval <span class="math inline">\((-\infty, \infty)\)</span> to the interval <span class="math inline">\((0, 1)\)</span>
+</li>
+</ul>
+</li>
+<li class="fragment">
+<p>Logistic regression:</p>
+<div class="ninety">
+<p><span class="math display">\[
+\begin{align}
+  y \sim&amp; \text{Binomial}(x, n) \\
+  z =&amp; \beta_0 + \beta_1 x + \varepsilon \\
+  p =&amp; \mathrm{logit}^{-1}(z)
+\end{align}
+\]</span></p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="the-logit-function" class="slide level2 eighty"><h2 class="eighty">The Logit Function</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Logit function:</p>
+<p><span class="math display">\[
+\begin{align}
+\mathrm{logit}(p) =&amp; \ln \frac{p}{1 - p} \\
+\mathrm{logit}^{-1}(x) =&amp; \frac{e^x}{e^x + 1}
+\end{align}
+\]</span></p>
+</li>
+<li class="fragment">
+<p>Logistic regression:</p>
+<div class="ninety">
+<p><span class="math display">\[
+\begin{align}
+  y \sim&amp; \text{Binomial}(x, n) \\
+  z =&amp; \beta_0 + \beta_1 x + \varepsilon \\
+  p =&amp; \mathrm{logit}^{-1}(z)
+\end{align}
+\]</span></p>
+</div>
+<ul>
+<li>
+<span class="math inline">\(z\)</span> ranges anywhere between <span class="math inline">\(-\infty\)</span> and <span class="math inline">\(\infty\)</span>.</li>
+<li>The <span class="math inline">\(\mathrm{logit}^{-1}(z)\)</span>
+function maps it onto the <span class="math inline">\((0,1)\)</span>
+interval suitable for a probability.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<div class="bare max-listing">
+<p><img data-src="assets/fig/logit-plot-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+</section></section><section><section id="generalized-linear-models" class="title-slide slide level1 center"><h1 class="center">Generalized Linear Models</h1>
+
+</section><section id="generalized-linear-models-1" class="slide level2 eighty"><h2 class="eighty">Generalized Linear Models</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Linear Regression Model:</p>
+<p><span class="math display">\[
+\begin{align}
+y_i =&amp; \beta_0 + \sum{j = 1}^p \beta_j\: x_{i,j} + \varepsilon_i \\
+E(Y | X) =&amp; \beta_0 + \sum{j = 1}^p \beta_j\: x_{i,j}
+\end{align}
+\]</span></p>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>Generalized Linear Model:
+<ul>
+<li>Three parts:
+<ol type="1">
+<li>A distribution <span class="math inline">\(\mathcal{D}\)</span> for
+<span class="math inline">\(Y\)</span>
+<ul>
+<li>Bernoulli (coin-toss), Binomial, Poisson, etc.</li>
+</ul>
+</li>
+<li>A linear predictor <span class="math inline">\(\eta_i = \beta_0 +
+\sum_j \beta_j\: x_{i,j}\)</span>
+</li>
+<li>A link function <span class="math inline">\(g(\eta)\)</span>
+<ul>
+<li>logit, logarithm, etc.</li>
+</ul>
+</li>
+</ol>
+<span class="math display">\[
+\begin{align}
+y_i \sim&amp; \mathcal{D}\left(\mu = g^{-1}(\eta_i)\right) \\
+\eta_i =&amp; \beta_0 + \sum_{j = 1}^p \beta_j\: x_{i,j} +
+\varepsilon_i\\
+E(y_i | x_{i,j}) =&amp; g^{-1}\left( \beta_0 + \sum_{j = 1}^p \beta_j\:
+x_{i,j} \right)
+\end{align}
+\]</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="link-functions-probability-distributions" class="slide level2 eighty"><h2 class="eighty">Link Functions &amp; Probability Distributions</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Three parts:
+<ol type="1">
+<li>A distribution <span class="math inline">\(\mathcal{D}\)</span> for
+<span class="math inline">\(Y\)</span>
+<ul>
+<li>Bernoulli (coin-toss), Binomial, Poisson, etc.</li>
+</ul>
+</li>
+<li>A linear predictor <span class="math inline">\(\eta_i = \beta_0 +
+\sum_j \beta_j\: x_{i,j}\)</span>
+</li>
+<li>A link function <span class="math inline">\(g(\eta)\)</span>
+<ul>
+<li>logit, logarithm, etc.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>The parameters <span class="math inline">\(\theta\)</span> of <span class="math inline">\(\mathcal{D}(\theta)\)</span> should be related to
+<span class="math inline">\(g\)</span> so <span class="math inline">\(\mu = g^{-1}(\eta_i)\)</span> is the mean for the
+probability distribution <span class="math inline">\(\mathcal{D}(\theta)\)</span>.
+<ul>
+<li>This means <span class="math inline">\(\mu = g^{-1}(\eta_i)\)</span>
+is the expectation value for <span class="math inline">\(y_i\)</span>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>
+<p>Examples:</p>
+<table>
+<colgroup>
+<col style="width: 32%">
+<col style="width: 18%">
+<col style="width: 13%">
+<col style="width: 34%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">Distribution</th>
+<th style="text-align: center;">Values</th>
+<th style="text-align: center;">Link</th>
+<th style="text-align: center;">Link function</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Normal</td>
+<td style="text-align: center;"><span class="math inline">\((-\infty,
+\infty)\)</span></td>
+<td style="text-align: center;">Identity</td>
+<td style="text-align: center;"><span class="math inline">\(g(\mu) =
+\mu\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Gamma</td>
+<td style="text-align: center;"><span class="math inline">\([0,
+\infty)\)</span></td>
+<td style="text-align: center;">Negative inverse</td>
+<td style="text-align: center;"><span class="math inline">\(g(\mu) = -1
+/ \mu\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Poisson</td>
+<td style="text-align: center;">0, 1, 2, …</td>
+<td style="text-align: center;">Log</td>
+<td style="text-align: center;"><span class="math inline">\(g(\mu) =
+\ln(\mu)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Bernoulli</td>
+<td style="text-align: center;">0, 1</td>
+<td style="text-align: center;">Logit</td>
+<td style="text-align: center;"><span class="math inline">\(g(\mu) = \ln
+\left( \frac{\mu}{1 - \mu} \right)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Binomial</td>
+<td style="text-align: center;">0, 1, …, N</td>
+<td style="text-align: center;">Logit</td>
+<td style="text-align: center;"><span class="math inline">\(g(\mu) = \ln
+\left( \frac{\mu}{N - \mu} \right)\)</span></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="logistic-regression-in-r" class="title-slide slide level1 center"><h1 class="center">Logistic Regression in R</h1>
+
+</section><section id="hurricane-climatology" class="slide level2 eighty"><h2 class="eighty">Hurricane Climatology</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Cyclonic storm systems can be categorized as
+<ul>
+<li>
+<strong>Tropical</strong> (warm-core, <em>barotropic</em>).</li>
+<li>
+<strong>Extratropical</strong> (cold-core,
+<em>baroclinic</em>).</li>
+<li>
+<em>barotropic</em> systems don’t exhibit wind shear,
+<em>baroclinic</em> systems do.</li>
+</ul>
+</li>
+<li class="fragment">Hurricanes are barotropic tropical cyclones, but they can have
+baroclinic influences.</li>
+<li class="fragment">Challenge: Use logistic regression to predict which hurricanes
+have baroclinic influences.</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">Theoretical basis:
+<ul>
+<li>Most hurricanes form in the deep tropics, over uniformly warm seas:
+barotropic, no wind shear.</li>
+<li>Some hurricanes form at higher latitudes, where interaction with
+midlatitude jet streams affect them (baroclinic).</li>
+</ul>
+</li>
+<li class="fragment">Use logistic regression against the latitude at which the
+hurricane formed to predict baroclinic influence.</li>
+</ul>
+</div>
+</div>
+</section><section id="hurricane-data" class="slide level2 eighty"><h2 class="eighty">Hurricane Data</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Load data:
+<ul>
+<li>
+<p>A data set for 337 hurricanes. The column <code>Type</code> is a
+factor indicating whether the cyclone is tropical or baroclinic.
+<code>FirstLat</code> gives the latitude at which the hurricane
+formed.</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>bh <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"bh.rds"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(bh)</span></code></pre></div>
+<pre><code>## Rows: 337
+## Columns: 10
+## $ Name     &lt;chr&gt; "NOTNAMED", "NOTNAMED", "NOTNAM…
+## $ Year     &lt;dbl&gt; 1944, 1944, 1944, 1944, 1944, 1…
+## $ Type     &lt;fct&gt; Baroclinic, Tropical, Tropical,…
+## $ FirstLat &lt;dbl&gt; 30.2, 25.6, 14.2, 20.8, 20.0, 2…
+## $ FirstLon &lt;dbl&gt; -76.1, -74.9, -65.2, -58.0, -84…
+## $ MaxLat   &lt;dbl&gt; 32.1, 31.0, 16.6, 26.3, 20.6, 3…
+## $ MaxLon   &lt;dbl&gt; -74.8, -78.1, -72.2, -72.3, -84…
+## $ LastLat  &lt;dbl&gt; 35.1, 32.6, 20.6, 42.1, 19.1, 5…
+## $ LastLon  &lt;dbl&gt; -69.2, -78.2, -88.5, -71.5, -93…
+## $ MaxInt   &lt;dbl&gt; 80, 80, 105, 120, 70, 85, 105, …</code></pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Begin by plotting data</p>
+<div class="bare max-listing">
+<p><img data-src="assets/fig/boxplot-bh-1.png"><!-- --></p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="logistic-regression-model" class="slide level2 eighty"><h2 class="eighty">Logistic Regression Model</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Make the model, using logistic regression with R’s “glm” engine
+for fitting the parameters:</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(bh, Type <span class="sc">~</span> FirstLat)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">logistic_reg</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set_engine</span>(<span class="st">"glm"</span>, <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>wflow <span class="ot">&lt;-</span> <span class="fu">workflow</span>(recipe) <span class="sc">|&gt;</span> <span class="fu">add_model</span>(model)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> wflow <span class="sc">|&gt;</span> <span class="fu">fit</span>(<span class="at">data =</span> bh)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(results)</span></code></pre></div>
+<pre><code>## # A tibble: 2 × 5
+##   term        estimate std.error statistic  p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)   -9.08     0.961      -9.45 3.50e-21
+## 2 FirstLat       0.373    0.0395      9.45 3.49e-21</code></pre>
+</div>
+</li>
+</ul>
+</div>
+<div class="column">
+<p><img data-src="assets/fig/plot-binom-fit-1.png"><!-- --></p>
+</div>
+</div>
+</section><section id="assessing-the-quality-of-a-logistic-model" class="slide level2 eighty"><h2 class="eighty">Assessing the Quality of a Logistic Model</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>We measure linear regression models by the sum of the squares of the
+residuals (errors)</li>
+<li class="fragment">But a logistic model predicts a probability of something that’s
+0 or 1. How do you measure the error?</li>
+<li class="fragment">One way: ROC (Receiver Operating Characteristic) curves.
+<ol type="1">
+<li class="fragment">Split your data into <em>training</em> and <em>test</em> sets.
+<ul>
+<li>You can also use <span class="math inline">\(k\)</span>-fold
+cross-validation.</li>
+</ul>
+</li>
+<li class="fragment">Fit your model to the <em>training</em> set.</li>
+<li class="fragment">Generate predictions for the <em>test</em> set.
+<ul>
+<li>Now you have a list of predicted <em>probabilities</em> and observed
+categories</li>
+</ul>
+</li>
+<li class="fragment">Vary a <em>threshold</em> <span class="math inline">\(x\)</span>: Predict that a hurricane is baroclinic
+if <span class="math inline">\(p_{\text{baroclinic}} &gt; x\)</span>.
+<ul>
+<li>For each value of <span class="math inline">\(x\)</span>, count
+false positives and false negatives.</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">ROC Curve
+<ol start="5" type="1">
+<li>Plot <em>sensitivity</em> vs <em>1 − specificity</em>.
+<ul>
+<li>
+<em>sensitivity</em>: Probability of correct test if <span class="math inline">\(H_0\)</span> is false.
+<ul>
+<li>True positive if “positive” is the correct answer.</li>
+<li>Probability of correctly identifying Baroclinic storms.</li>
+</ul>
+</li>
+<li>
+<em>specificity</em>: Probability of correct test if <span class="math inline">\(H_0\)</span> is true.
+<ul>
+<li>True negative if “negative” is the correct answer.</li>
+<li>Probability of correctly identifying Tropical storms.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="roc-curves-in-r" class="slide level2 eighty"><h2 class="eighty">ROC Curves in R</h2>
+<div class="columns">
+<div class="column">
+<div class="bare max-listing">
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12345</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># strata=Type ensures that each fold has a good balance of </span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Tropical and Baroclinic cyclones.</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>k_fold <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(bh, <span class="dv">5</span>, <span class="at">strata =</span> Type)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">control_resamples</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">fit_resamples</span>(wflow, k_fold, <span class="at">control =</span> control)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">|&gt;</span> <span class="fu">collect_predictions</span>() <span class="sc">|&gt;</span> <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 337
+## Columns: 7
+## $ .pred_class      &lt;fct&gt; Baroclinic, Tropical, T…
+## $ .pred_Tropical   &lt;dbl&gt; 0.1500488, 0.8752090, 0…
+## $ .pred_Baroclinic &lt;dbl&gt; 0.84995117, 0.12479104,…
+## $ id               &lt;chr&gt; "Fold1", "Fold1", "Fold…
+## $ .row             &lt;int&gt; 6, 10, 15, 16, 17, 19, …
+## $ Type             &lt;fct&gt; Baroclinic, Tropical, T…
+## $ .config          &lt;chr&gt; "Preprocessor1_Model1",…</code></pre>
+</div>
+<div class="bare max-listing fragment" data-fragment-index="2">
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">|&gt;</span> <span class="fu">collect_metrics</span>() <span class="sc">|&gt;</span> <span class="fu">filter</span>(.metric <span class="sc">==</span> <span class="st">"roc_auc"</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 6
+##   .metric .estimator  mean     n std_err .config             
+##   &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;               
+## 1 roc_auc binary     0.927     5  0.0148 Preprocessor1_Model1</code></pre>
+</div>
+</div>
+<div class="column">
+<div class="bare max-listing">
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">|&gt;</span> <span class="fu">collect_predictions</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">roc_curve</span>(<span class="at">truth =</span> Type, .pred_Baroclinic, </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">event_level =</span> <span class="st">"second"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span> </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))</span></code></pre></div>
+<p><img data-src="assets/fig/plot-roc-1.png"><!-- --></p>
+</div>
+<div class="bare">
+<ul>
+<li class="fragment" data-fragment-index="1">
+<p>The area under the curve (AUC) measures how accurate the
+predictions are.</p>
+<div class="bare ninety">
+<ul>
+<li>1 = perfect</li>
+<li>0.5 = like tossing a coin</li>
+<li>0 = perversely gets every prediction wrong</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</section></section><section><section id="poisson-regression" class="title-slide slide level1 center"><h1 class="center">Poisson Regression</h1>
+
+</section><section id="hurricane-landfalls-on-us" class="slide level2 eighty"><h2 class="eighty">Hurricane Landfalls on US</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li><p>Here, we are going to study climatic influences on the number of
+hurricanes that make landfall in the US</p></li>
+<li class="fragment">
+<p>First, load the data, with the number of hurricanes each year
+from 1866 to 2010</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>hurricanes <span class="ot">&lt;-</span> <span class="fu">read_rds</span>(<span class="st">"hurricanes.rds"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(hurricanes)</span></code></pre></div>
+<pre><code>## Rows: 145
+## Columns: 10
+## $ Year &lt;dbl&gt; 1866, 1867, 1868, 1869, 1870, 1871,…
+## $ All  &lt;dbl&gt; 1, 1, 0, 4, 2, 3, 0, 2, 1, 1, 2, 2,…
+## $ MUS  &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1,…
+## $ G    &lt;dbl&gt; 1, 1, 0, 2, 1, 0, 0, 0, 0, 1, 0, 1,…
+## $ FL   &lt;dbl&gt; 0, 0, 0, 0, 1, 2, 0, 2, 1, 0, 1, 2,…
+## $ E    &lt;dbl&gt; 0, 0, 0, 2, 0, 1, 0, 0, 1, 0, 1, 0,…
+## $ NAO  &lt;dbl&gt; -0.860, -1.775, 1.725, -1.345, 1.05…
+## $ SOI  &lt;dbl&gt; 0.2666667, -0.1333333, -4.0000000, …
+## $ SST  &lt;dbl&gt; -0.02873733, -0.19373733, -0.126737…
+## $ SSN  &lt;dbl&gt; 7.3, 9.8, 47.2, 80.6, 136.0, 80.3, …</code></pre>
+</div>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>Plot hurricane frequency:</p>
+<div class="bare max-listing">
+<p><img data-src="assets/fig/unnamed-chunk-10-1.png"><!-- --><img data-src="assets/fig/unnamed-chunk-11-1.png"><!-- --></p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="modeling-hurricanes" class="slide level2 eighty"><h2 class="eighty">Modeling Hurricanes</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Hurricane landfalls clearly follow a Poisson distribution. The
+average rate of landfalls is 1.737931.</li>
+<li class="fragment">However, we don’t think the number is purely random: climate
+factors are likely to influence the number of hurricanes.
+<ul>
+<li>SST: Average Sea-Surface Temperature in the Atlantic Ocean.</li>
+<li>NAO: North-Atlantic Oscillation Index.</li>
+<li>SOI: Southern Oscillation Index (related to El Niño).</li>
+<li>SSN: Sun-spot number, which correlates with the brightness of the
+sun.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<div class="bare max-listing fragment">
+<p><img data-src="assets/fig/plot-landfalls-vs-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+</section><section id="poisson-regression-1" class="slide level2 eighty"><h2 class="eighty">Poisson Regression</h2>
+<div class="columns">
+<div class="column">
+<div class="bare max-listing">
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(poissonreg)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>rec <span class="ot">&lt;-</span> <span class="fu">recipe</span>(hurricanes, All <span class="sc">~</span> SST <span class="sc">+</span> NAO <span class="sc">+</span> SOI <span class="sc">+</span> SSN)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>mdl <span class="ot">&lt;-</span> <span class="fu">poisson_reg</span>(<span class="at">engine =</span> <span class="st">"glm"</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>wflow <span class="ot">&lt;-</span> <span class="fu">workflow</span>(rec) <span class="sc">|&gt;</span> <span class="fu">add_model</span>(mdl)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">fit</span>(wflow, hurricanes)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit)</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 5
+##   term        estimate std.error statistic       p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;
+## 1 (Intercept)  0.595     0.103       5.76  0.00000000839
+## 2 SST          0.229     0.255       0.897 0.370        
+## 3 NAO         -0.167     0.0644     -2.59  0.00972      
+## 4 SOI          0.0619    0.0213      2.90  0.00371      
+## 5 SSN         -0.00231   0.00137    -1.68  0.0928</code></pre>
+</div>
+<ul>
+<li class="fragment">
+<p>SST doesn’t make a significant contribution, so make a new
+model without SST</p>
+<div class="max-listing">
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>rec_new <span class="ot">&lt;-</span> <span class="fu">recipe</span>(hurricanes, All <span class="sc">~</span> NAO <span class="sc">+</span> SOI <span class="sc">+</span> SSN)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>wflow_new <span class="ot">&lt;-</span> <span class="fu">workflow</span>(rec_new) <span class="sc">|&gt;</span> <span class="fu">add_model</span>(mdl)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>fit_new <span class="ot">&lt;-</span> <span class="fu">fit</span>(wflow_new, hurricanes)</span></code></pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>New model fit:</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tidy</span>(fit_new)</span></code></pre></div>
+<pre><code>## # A tibble: 4 × 5
+##   term        estimate std.error statistic      p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;
+## 1 (Intercept)  0.585     0.103        5.69 0.0000000131
+## 2 NAO         -0.177     0.0633      -2.80 0.00507     
+## 3 SOI          0.0615    0.0213       2.89 0.00387     
+## 4 SSN         -0.00220   0.00137     -1.60 0.109</code></pre>
+</div>
+</li>
+<li class="fragment">
+<p>Test model performance with cross-validation</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>k_fold <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(hurricanes, <span class="dv">5</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>control <span class="ot">&lt;-</span> <span class="fu">control_resamples</span>(<span class="at">save_pred =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">fit_resamples</span>(wflow_new, k_fold, </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">control =</span> control)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>results <span class="sc">|&gt;</span> <span class="fu">collect_metrics</span>()</span></code></pre></div>
+<pre class="ninety"><code>## # A tibble: 2 × 6
+##   .metric .estimator  mean     n std_err .config  
+##   &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;    
+## 1 rmse    standard   1.46      5  0.122  Preproce…
+## 2 rsq     standard   0.128     5  0.0602 Preproce…</code></pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="forecast-skill" class="slide level2 eighty"><h2 class="eighty">Forecast Skill</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>How do we know how good a forecasting model is?</li>
+<li class="fragment">Skill: how does the forecast model compare to a naïve model?
+<ul>
+<li><p>Naïve model: Every year has the same forecast: the average number
+of hurricanes 1.7</p></li>
+<li>
+<p>RMSE for the naive model is</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>MSE_naive <span class="ot">&lt;-</span> hurricanes <span class="sc">|&gt;</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">MSE =</span> <span class="fu">sum</span>( (All <span class="sc">-</span> <span class="fu">mean</span>(All))<span class="sc">^</span><span class="dv">2</span> ) <span class="sc">/</span> (<span class="fu">n</span>() <span class="sc">-</span> <span class="dv">1</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(MSE)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>MSE_naive</span></code></pre></div>
+<pre><code>## [1] 2.194732</code></pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">
+<p>MSE for our predictive model is</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>MSE_skilled <span class="ot">&lt;-</span> <span class="fu">collect_metrics</span>(results) <span class="sc">|&gt;</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(.metric <span class="sc">==</span> <span class="st">"rmse"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">MSE =</span> mean<span class="sc">^</span><span class="dv">2</span>) <span class="sc">|&gt;</span> <span class="fu">pull</span>(MSE)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>MSE_skilled</span></code></pre></div>
+<pre><code>## [1] 2.119829</code></pre>
+</div>
+</li>
+<li class="fragment"><p>So, MSE for the naïve model is 2.19 and MSE for the
+predictive model is 2.12, which is 3.4% better.</p></li>
+</ul>
+</div>
+</div>
+</section></section>
+</div>
+  </div>
+  <!--
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.js"></script>
+  <!-- -->
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.min.js"></script><!-- --><script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Display the page number of the current slide
+        showSlideNumber: 'speaker',
+        // Push each slide change to the browser history
+        history: true,
+        //  Enable hashing slide content to URL
+        hash: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Don't separate fragments in PDF rendering
+        pdfSeparateFragments: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+      
+        // Optional reveal.js plugins
+        dependencies: [
+                    { src: '../../lecture_lib/library/assets/plugin/chalkboard/chalkboard.js', async: true },
+                                        { src: '../../lecture_lib/library/assets/plugin/reveal-skip-fragments/skip-fragments.js', async: true },
+                    { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/notes/notes.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/math/math.js', async: true }
+        ],
+        shift_keyboard: {
+    	    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'C' is pressed
+    	    66: function() { RevealChalkboard.toggleChalkboard() },	  // toggle chalkboard when 'B' is pressed
+    	    88: function() { RevealChalkboard.clear() },	            // clear chalkboard when 'X' is pressed
+    	    82: function() { RevealChalkboard.reset() },	            // reset chalkboard data on current slide when 'R' is pressed
+    	    68: function() { RevealChalkboard.download() },	          // downlad recorded chalkboard drawing when 'D' is pressed
+        },
+              	// Shortcut for showing all fragments
+      	skipFragmentsShowShortcut: 'S',
+
+      	// Shortcut for hiding all fragments
+      	skipFragmentsHideShortcut: 'H',
+      	      });
+    </script><script>
+  	function createSingletonNodejg( container, tagname, classname, innerHTML ) {
+
+		// Find all nodes matching the description
+		var nodes = container.querySelectorAll( '.' + classname );
+
+		// Check all matches to find one which is a direct child of
+		// the specified container
+		for( var i = 0; i < nodes.length; i++ ) {
+			var testNode = nodes[i];
+			if( testNode.parentNode === container ) {
+				return testNode;
+			}
+		}
+
+		// If no node was found, create it now
+		var node = document.createElement( tagname );
+		node.className = classname;
+		if( typeof innerHTML === 'string' ) {
+			node.innerHTML = innerHTML;
+		}
+		container.appendChild( node );
+
+		return node;
+
+	}
+
+  var dom_wrapper = document.querySelector('.reveal');
+  createSingletonNodejg(dom_wrapper, 'div', 'qrbox',
+  '<div class="qrbox" id="qrbox" style="font-size:90%;">' + '\n' +
+  '<div style="font-size:30%;width:100%;">' + '\n' +
+      '<a href="https://ees5891.jgilligan.org/slides/class_22">' +
+  	'<img src="qrcode.png" alt="https://ees5891.jgilligan.org/slides/class_22"/>' +
+  	'</a>' + '\n' +
+	  '</div>' + '\n' +
+  '<div style="font-size:30%;width:100%;vertical-align:top;">' + '\n' +
+    '<span style="display:inline-block;text-align:left;margin-left:0">' + '\n' +
+        'Live web page: <a href="https://ees5891.jgilligan.org/slides/class_22">https://ees5891.jgilligan.org/slides/class_22</a>' + '\n' +
+              '<br/>' + '\n' +
+        'PDF: <a href="https://ees5891.jgilligan.org/slides/class_22/EES_4891_5891_class_22_slides.pdf" target="_blank">https://ees5891.jgilligan.org/slides/class_22/EES_4891_5891_class_22_slides.pdf</a>' + '\n' +
+          	'</span>' + '\n' +
+  	'<span style="display:inline-block;text-align:right;vertical-align:top;position:absolute;right:0;bottom:0;">' + '\n' +
+  	  'Navigate slides: next: N or &lt;space&gt;; previous: P or &lt;backspace&gt;<br/>' + '\n' +
+  	  'Also: up, down, left, right arrows; overview: o; help: ?' + '\n' +
+  	'</span>' + '\n' +
+	'</div>' + '\n' +
+  '</div>' + '\n'
+  );
+</script><script>
+var MathJax = { jax: ["input/TeX", "output/HTML-CSS"],
+                TeX: {extensions: ["color.js", "mhchem.js"],
+                Macros: {
+                  COO: "\\ce{CO2}",
+                  methane: "\\ce{CH4}",
+                  degC: "^\\circ \\mathrm{C}",
+                  degF: "^\\circ \\mathrm{F}",
+                  water: "\\ce{H2O}",
+                  carb: "\\ce{CO3^2-}",
+                  bicarb: "\\ce{HCO3-}",
+                  carbonic: "\\ce{H2CO3}",
+                  Hplus: "\\ce{H+}",
+                  OH: "\\ce{OH-}",
+                  silica: "\\ce{SiO2}",
+                  calcite: "\\ce{CaCO3}",
+                  Caplus: "\\ce{Ca^2+}",
+                  silicate: "\\ce{SiO3^2-}",
+                  CaSi: "\\ce{CaSiO3}",
+                  pH: "p\\ce{H}",
+                  permil: "\\unicode{x2030}",
+                  pCOO: "\\ce{	ext{p}CO2}",
+                  pwater: "\\ce{	ext{p}H2O}"
+                },
+                  },
+                "HTML-CSS" : {scale: 100 }};
+</script><!-- dynamically load mathjax for compatibility with self-contained --><script type="text/x-mathjax-config">
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["SVG"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+    displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
+    processEscapes: true
+  }
+})
+  </script><script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script><script>
+  var qrbox = document.querySelector("#qrbox");
+  var advance_fragment = 0;
+
+	function isPrintingPDF() {
+	  let printing = ( /print-pdf/gi ).test( window.location.search );
+	  console.log("printing test: " + printing);
+	  return printing;
+	}
+
+
+  if ( qrbox.hasAttribute('qr-box-hide') || Reveal.isOverview() ||
+      ! Reveal.isFirstSlide() || isPrintingPDF()) {
+    console.log("Initializing");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }
+
+  Reveal.addEventListener('overviewshown', function() {
+      console.log("Overview shown");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }, false);
+
+  Reveal.addEventListener('overviewhidden', function() {
+    if (Reveal.isFirstSlide() && ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Overview hidden");
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    console.log("Slide changed...");
+    if (Reveal.isFirstSlide() && ! Reveal.isOverview() &&
+        ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    } else {
+      console.log("Hiding QR box");
+      qrbox.style.visibility="hidden";
+      qrbox.style.display="none";
+    }
+  }, false);
+
+  Reveal.addEventListener('pdf-ready', function() {
+    console.log("hiding qrbox for printing");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+    qrbox.setAttribute('qr-box-hide', 'true');
+  });
+
+  </script><script>
+  Reveal.addEventListener('slidechanged', function() {
+    while (advance_fragment > 0) {
+      // console.log('advancing fragment');
+      Reveal.nextFragment();
+      advance_fragment--;
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    if ( Reveal.getCurrentSlide().hasAttribute('data-skip')) {
+      // console.log("going to next slide...");
+      Reveal.next();
+    }
+  }, false);
+
+  Reveal.addEventListener('skip_slide', function() {
+    Reveal.next();
+  }, false);
+
+  Reveal.addEventListener('advance_fragment', function() {
+    // console.log("setting advance fragment");
+    advance_fragment++;
+    }, false);
+  </script>
+</body>
+</html>
