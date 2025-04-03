@@ -95,10 +95,10 @@ lessons:
   lecture: /slides/class_22
 - date: '2025-04-03'
   title: Exercises with Regression
+  lecture: /slides/class_23
 - date: '2025-04-07'
   title: Principal Components Analysis
   reading: /reading/reading_23
-  lecture: /slides/class_23
 - date: '2025-04-08'
   title: 'Time Series Data: Fourier Analysis'
   reading: /reading/reading_25
