@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<!-- JG Reveal.js Template --><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta name="author" content="Jonathan Gilligan">
+<title>Time Series and Fourier Analysis</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reset.css">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reveal.min.css">
+<style type="text/css">
+      code{white-space: pre-wrap;}
+      .smallcaps{font-variant: small-caps;}
+      .line-block{white-space: pre-line;}
+      .column{display: inline-block;}  </style>
+<style type="text/css">
+    div.qrbox,
+    aside.qrbox {
+     text-align: left;
+     vertical-align: bottom;
+     width: 95%;
+     position: fixed;
+     left: 2.5%;
+     bottom: 1rem;
+     display: block;
+    }
+  </style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { font-weight: bold; } /* Alert */
+code span.an { font-style: italic; } /* Annotation */
+code span.cf { font-weight: bold; } /* ControlFlow */
+code span.co { font-style: italic; } /* Comment */
+code span.cv { font-style: italic; } /* CommentVar */
+code span.do { font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.er { font-weight: bold; } /* Error */
+code span.in { font-style: italic; } /* Information */
+code span.kw { font-weight: bold; } /* Keyword */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.wa { font-style: italic; } /* Warning */
+  </style>
+<!-- theme = solarized_jg --><link rel="stylesheet" href="../../lecture_lib/library/assets/css/theme/solarized_jg.css" id="theme">
+<!-- Printing and PDF exports --><script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../lecture_lib/library/reveal.js-3.8.0/css/print/pdf.css' : '../../lecture_lib/library/reveal.js-3.8.0/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><!--[if lt IE 9]>
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+  <![endif]--><script src="../../lecture_lib/library/header-attrs-2.29.1.9000/header-attrs.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+            <!-- start title slide -->
+<section class="center" id="title"><h1 class="title">Time Series and Fourier Analysis</h1>
+    <h3 class="author">EES 4891/5891</h3>
+        <h3 class="author">Probability &amp; Statistics for
+Geosciences</h3>
+    <h3 class="author">Jonathan Gilligan</h3>
+    <h3 class="date">
+      Class #25:
+       Tuesday, April 08
+      2025
+    </h3>
+	<!-- end title slide -->
+</section><section><section id="learning-goals" class="title-slide slide level1 center"><h1 class="center">Learning Goals</h1>
+
+</section><section id="learning-goals-1" class="slide level2 eighty"><h2 class="eighty">Learning Goals</h2>
+<ul>
+<li>Learn what makes time series data different from other kinds of
+data.</li>
+<li>Learn what autocorrelation is, and why it matters.</li>
+<li>Focus on periodic variations:
+<ul>
+<li>Sources of periodic signals in environmental data</li>
+<li>Fourier’s Theorem</li>
+<li>Fourier Transforms</li>
+<li>POwer spectra and spectral power density</li>
+</ul>
+</li>
+<li>Doing Fourier Transforms in R with Fast Fourier Transforms
+(FFT)</li>
+<li>Learn what aliasing is
+<ul>
+<li>Why it’s a problem</li>
+<li>How to avoid it</li>
+</ul>
+</li>
+</ul></section></section><section><section id="time-series" class="title-slide slide level1 center"><h1 class="center">Time Series</h1>
+
+</section><section id="time-series-1" class="slide level2 eighty"><h2 class="eighty">Time Series</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Time Series:
+<ul>
+<li>Observations that are ordered in time
+<ul>
+<li class="fragment">We will only consider data that are evenly spaced</li>
+<li class="fragment">There are advanced methods for irregularly spaced data, but we
+won’t study them in this course</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="fragment">Why are time series different?
+<ul>
+<li class="fragment">Causal relationships
+<ul>
+<li>Earlier events may influence later ones</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">Independent, identically distributed (iid) data
+<ul>
+<li>Each observation is independent of all the others</li>
+<li>It doesn’t matter in what order they occur</li>
+</ul>
+</li>
+<li class="fragment">Time series:
+<ul>
+<li class="fragment">Observations may not be independent</li>
+<li class="fragment">Later observations may correlated with earlier ones</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="example" class="slide level2 eighty"><h2 class="eighty">Example</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Example:
+<ul>
+<li>Concentration of nitrate in a pond of volume <span class="math inline">\(V\)</span>
+<ul>
+<li>Fed by one stream, drained by another:
+<ul>
+<li>Volume <span class="math inline">\(Q\)</span> exchanged every
+day</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img data-src="assets/images/pond.jpg"></p>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">Time zero, a rainstorm washes mass <span class="math inline">\(M\)</span> of nitrate into the pond
+<ul>
+<li><p>Initial concentration <span class="math inline">\(M /
+V\)</span></p></li>
+<li class="fragment">
+<p>1 day later</p>
+<p><span class="math display">\[
+\frac{M}{V}\: \left( \frac{V - Q}{V} \right) =
+  \frac{M}{V}\: \left( 1 - \frac{Q}{V} \right)
+\]</span></p>
+</li>
+<li class="fragment">
+<p>2 days later:</p>
+<p><span class="math display">\[
+\frac{M}{V} \left( 1 - \frac{Q}{V} \right)^2
+\]</span></p>
+</li>
+<li class="fragment">
+<p>3 days later:</p>
+<p><span class="math display">\[
+\frac{M}{V} \left( 1 - \frac{Q}{V} \right)^3
+\]</span></p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="more-complicated-example" class="slide level2"><h2>More Complicated Example</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>What does a “100-year flood” mean?
+<ul>
+<li class="fragment" data-fragment-index="1">A probability of 0.01 that there will be a flood in any
+year.</li>
+</ul>
+</li>
+<li class="fragment" data-fragment-index="2">If there is a 100-year flood this year, what is the probability
+that there will be another 100-year flood next year?
+<ul>
+<li class="fragment" data-fragment-index="3">Most people will say 0.01</li>
+<li class="fragment" data-fragment-index="4">In fact, a 100-year flood is slightly more likely if there was
+a big flood the year before</li>
+<li class="fragment" data-fragment-index="5">And slightly less likely if there wasn’t a flood the year
+before.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<p><img data-src="assets/images/mandelbrot.jpg" class="fragment" data-fragment-index="4"></p>
+<ul>
+<li class="fragment" data-fragment-index="6">Autocorrelated noise
+<ul>
+<li>Regular regression: <span class="math inline">\(y_j = f(x_j) +
+\epsilon_j\)</span>,
+<ul>
+<li>
+<span class="math inline">\(\epsilon_j\)</span> are iid: no
+correlation</li>
+</ul>
+</li>
+<li>Time-series: <span class="math inline">\(\epsilon_{j + 1}\)</span>
+may be correlated with <span class="math inline">\(\epsilon_j\)</span>
+<ul>
+<li>Autocorrelation</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="fragment">Wet years follow wet years</li>
+<li class="fragment">Dry years follow dry years</li>
+</ul>
+</div>
+</div>
+</section><section id="periodic-variations" class="slide level2 eighty"><h2 class="eighty">Periodic Variations</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Many environmental time series show periodic variations:
+<ul>
+<li class="fragment" data-fragment-index="1">Hourly data show diurnal cycles</li>
+<li class="fragment" data-fragment-index="1">Daily or monthly data show annual cycles</li>
+<li class="fragment" data-fragment-index="1">Brightness of the sun has an 11-year cycle</li>
+<li class="fragment" data-fragment-index="1">Ice-ages have Milankovitch cycles (41 kyear, 100 kyear,
+etc.)</li>
+</ul>
+</li>
+<li class="fragment" data-fragment-index="2">Time-frequency duality
+<ul>
+<li>Any time-series <span class="math inline">\(x_j\)</span>, with <span class="math inline">\(N\)</span> observations sampled at intervals <span class="math inline">\(\tau\)</span> can be expressed as a sum of <span class="math inline">\(N\)</span> periodic functions with frequencies
+from <span class="math inline">\(1/\tau\)</span> to <span class="math inline">\(N/\tau\)</span>.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment" data-fragment-index="3">
+<p>Time-series: <span class="math inline">\(x_j\)</span>, <span class="math inline">\(j = 1, \ldots, N\)</span>,</p>
+<ul>
+<li>Sampled at intervals <span class="math inline">\(\tau\)</span>:
+<span class="math inline">\(t_j\)</span> = <span class="math inline">\(j
+\tau\)</span>
+</li>
+</ul>
+</li>
+<li class="fragment" data-fragment-index="4">
+<p>Periodic representation (Fourier Theorem):</p>
+<div>
+<p><span class="math display">\[
+\begin{align}
+x_j =&amp; \frac{a_0}{2} + \sum_{k = 1}^N a_k \cos(k \omega t_j) + b_k
+\sin(k \omega t_j) \\
+\omega =&amp; \frac{2\pi}{N \tau} \\
+a_k =&amp; \frac{2}{N} \sum_{j = 1}^N x_j \cos(k \omega t_j) \\
+b_k =&amp; \frac{2}{N} \sum_{j = 1}^N x_j \sin(k \omega t_j) \\
+\end{align}
+\]</span></p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="complex-numbers" class="slide level2 eighty"><h2 class="eighty">Complex Numbers</h2>
+<ul>
+<li>
+<p>Complex number <span class="math inline">\(z = u + i v,\)</span>
+where <span class="math inline">\(i = \sqrt{-1}\)</span></p>
+<p><span class="math display">\[
+e^{i x} = \cos(x) + i \sin(x)
+\]</span></p>
+</li>
+<li class="fragment">
+<p>Fourier Theorem with complex numbers:</p>
+<p><span class="math display">\[
+\begin{align}
+x_j =&amp; \sum_{k = -N}^N c_k e^{i k \omega t_j} \\
+\omega =&amp; \frac{2 \pi}{N \tau} \\
+c_k =&amp; \left\{
+              \frac{1}{2} (a_k - i b_k) \quad k \ge 0
+              \atop
+              \frac{1}{2} (a_k + i b_k) \quad k &lt; 0
+              \right.
+\end{align}
+\]</span></p>
+</li>
+</ul></section><section id="fourier-transform" class="slide level2"><h2>Fourier Transform</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Continuous function <span class="math inline">\(f(t)\)</span>,
+<span class="math inline">\(t\)</span> varies continuously from <span class="math inline">\(-\infty\)</span> to <span class="math inline">\(+\infty\)</span>:</p>
+<ul>
+<li>
+<p>Fourier transform <span class="math inline">\(g(\omega)\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+f(t) =&amp; \frac{1}{2\pi} \int_{-\infty}^{+\infty} g(\omega) e^{+i
+\omega t} \mathrm{d}\omega \\
+g(\omega) =&amp; \int_{-\infty}^{+\infty} f(t) e^{-i \omega t}
+\mathrm{d}t
+\end{align}
+\]</span></p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>
+<p>Discrete observations: <span class="math inline">\(x_j\)</span>
+sampled at <span class="math inline">\(N\)</span> evenly-spaced
+intervals <span class="math inline">\(t_i = i \tau\)</span></p>
+<ul>
+<li>
+<p>Discrete Fourier transform <span class="math inline">\(z_k\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+x_j =&amp; \frac{1}{N} \sum_{k = 0}^{N - 1} z_k e^{+i k \omega t_j} \\
+z_k =&amp; \sum_{j = 1}^N x_j e^{-i k \omega t_j} \\
+\omega =&amp; \frac{2\pi}{N \tau}
+\end{align}
+\]</span></p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="power-spectrum" class="slide level2 eighty"><h2 class="eighty">Power Spectrum</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<p>Parseval’s Theorem:</p>
+<ul>
+<li>
+<p>Energy in a signal <span class="math inline">\(f(t)\)</span></p>
+<p><span class="math display">\[
+\begin{align}
+E &amp;= \int_{-\infty}^{+\infty} \left| f(t) \right|^2 \mathrm{d}t \\
+  &amp;= \frac{1}{2\pi} \int_{-\infty}^{\infty} \left| g(\omega)
+\right|^2  \mathrm{d} \omega
+\end{align}
+\]</span></p>
+</li>
+<li class="fragment" data-fragment-index="1">
+<p>Power spectral density</p>
+<p><span class="math display">\[
+S(\omega) = \left| g(\omega) \right|^2
+\]</span></p>
+<ul>
+<li>Energy per interval of frequency</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>
+<p>Discrete Parsival’s Theorem:</p>
+<ul>
+<li>
+<p>Energy in a signal <span class="math inline">\(x_j\)</span></p>
+<p><span class="math display">\[
+\begin{align}
+E &amp;= \sum_{j = 1}^N | x_j |^2 \\
+  &amp;= \frac{1}{N} \sum_{k = 0}^{N - 1} \left| z_k \right|^2
+\end{align}
+\]</span></p>
+</li>
+<li class="fragment" data-fragment-index="1">
+<p>Power spectral density</p>
+<p><span class="math display">\[
+\begin{align}
+S(k \omega) &amp;= \left| z_k \right|^2 \\
+\omega      &amp;= \frac{2\pi}{N \tau}
+\end{align}
+\]</span></p>
+<ul>
+<li>Energy per unit of frequency</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="fourier-transforms-in-r" class="title-slide slide level1 center"><h1 class="center">Fourier Transforms in R</h1>
+
+</section><section id="fourier-transforms-in-r-1" class="slide level2 eighty"><h2 class="eighty">Fourier Transforms in R</h2>
+<div class="columns">
+<div class="column bare">
+<ul>
+<li>
+<p><code>fft()</code>: Fast Fourier Transform</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">i =</span> <span class="fu">seq</span>(<span class="dv">200</span>), </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">t =</span> <span class="dv">2</span> <span class="sc">*</span> i <span class="sc">/</span> <span class="fu">length</span>(i), </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fl">0.7</span> <span class="sc">*</span> <span class="fu">cos</span>(<span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">*</span> t <span class="sc">*</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>      <span class="fl">1.2</span> <span class="sc">*</span> <span class="fu">cos</span>(<span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">*</span> t <span class="sc">*</span> <span class="dv">6</span>) <span class="sc">+</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      <span class="fl">0.9</span> <span class="sc">*</span> <span class="fu">sin</span>(<span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">*</span> t <span class="sc">*</span> <span class="dv">5</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>df_ft <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">z =</span> <span class="fu">fft</span>(df<span class="sc">$</span>x), </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">i =</span> <span class="fu">seq_along</span>(z),</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">f =</span> i <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ps =</span> <span class="fu">Mod</span>(z <span class="sc">*</span> <span class="fu">Conj</span>(z)) <span class="sc">/</span> <span class="fu">n</span>(),</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">f =</span> <span class="fu">ifelse</span>(f <span class="sc">&gt;</span> <span class="fu">n</span>()<span class="sc">/</span><span class="dv">2</span>, f <span class="sc">-</span> <span class="fu">n</span>(), f) <span class="sc">/</span> <span class="fu">max</span>(df<span class="sc">$</span>t)) <span class="sc">|&gt;</span> </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">relocate</span>(i, f, z, ps)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df_ft)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##       i     f z                                 ps
+##   &lt;int&gt; &lt;dbl&gt; &lt;cpl&gt;                          &lt;dbl&gt;
+## 1     1   0   -6.128431e-14+0.000000e+00i 1.88e-29
+## 2     2   0.5  2.409184e-14+1.942890e-15i 2.92e-30
+## 3     3   1   -6.883383e-15+3.974598e-14i 8.14e-30
+## 4     4   1.5 -2.495226e-14-6.661338e-15i 3.33e-30
+## 5     5   2    6.944803e+01+8.773326e+00i 2.45e+ 1
+## 6     6   2.5  3.367053e-14-1.406289e-15i 5.68e-30</code></pre>
+</div>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>
+<p>Note: We can interpret the higher frequencies (<span class="math inline">\(k &gt; N/2\)</span>) as negative frequencies
+(<span class="math inline">\(k \rightarrow k - N\)</span>)</p>
+<p><span class="math display">\[\begin{align}
+  z_k =&amp; \sum_{j = 1}^N x_j e^{-i k \omega t_j} \\
+  \omega =&amp; \frac{2\pi}{N \tau} \\
+  k \omega t_j =&amp; k \frac{2\pi}{N\tau} j \tau = 2\pi jk / N \\
+  e^{i (k + N) \omega t_j} =&amp; e^{i 2\pi j (k + N) / N } = e^{i 2\pi
+j (k/N + 1)} \\
+  e^{i 2\pi (v + 1)} =&amp; e^{i 2\pi v}, \\
+  \text{so} &amp; \\
+  z_{k \pm N} =&amp; z_{k}
+\end{align}\]</span></p>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="plotting-data-and-fourier-transform" class="slide level2 eighty"><h2 class="eighty">Plotting Data and Fourier Transform</h2>
+<div class="columns">
+<div class="column">
+<p><img data-src="assets/fig/unnamed-chunk-2-1.png"><!-- --></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(df, <span class="at">power =</span> <span class="fu">sum</span>(x<span class="sc">^</span><span class="dv">2</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 1
+##   power
+##   &lt;dbl&gt;
+## 1   274</code></pre>
+</div>
+<div class="column">
+<p><img data-src="assets/fig/unnamed-chunk-4-1.png"><!-- --></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summarize</span>(df_ft, <span class="at">power =</span> <span class="fu">sum</span>(ps))</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 1
+##   power
+##   &lt;dbl&gt;
+## 1   274</code></pre>
+</div>
+</div>
+</section><section id="inverse-fourier-transform" class="slide level2 eighty"><h2 class="eighty">Inverse Fourier Transform</h2>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">x2 =</span> <span class="fu">Re</span>(<span class="fu">fft</span>(df_ft<span class="sc">$</span>z, <span class="at">inverse =</span> <span class="cn">TRUE</span>)) <span class="sc">/</span> <span class="fu">n</span>())</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df2 <span class="sc">|&gt;</span> <span class="fu">summarize</span>(<span class="at">rmse =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((x <span class="sc">-</span> x2)<span class="sc">^</span><span class="dv">2</span>)))</span></code></pre></div>
+<pre><code>## # A tibble: 1 × 1
+##       rmse
+##      &lt;dbl&gt;
+## 1 4.12e-16</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df2 <span class="sc">|&gt;</span> <span class="fu">pivot_longer</span>(<span class="fu">c</span>(x, x2), <span class="at">names_to =</span> <span class="st">"signal"</span>, <span class="at">values_to =</span> <span class="st">"x"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> t, <span class="at">y =</span> x, <span class="at">color =</span> signal, <span class="at">linetype =</span> signal)) <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">"Dark2"</span>) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p><img data-src="assets/fig/unnamed-chunk-6-1.png"><!-- --></p>
+</div>
+</section></section><section><section id="sampling" class="title-slide slide level1 center"><h1 class="center">Sampling</h1>
+
+</section><section id="sampling-1" class="slide level2 eighty"><h2 class="eighty">Sampling</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Remember that <span class="math inline">\(z_k = z_{k \pm N}\)</span>
+<ul>
+<li class="fragment">This creates a problem called “aliasing”</li>
+</ul>
+</li>
+<li class="fragment">If we sample <span class="math inline">\(N\)</span> points with
+time interval <span class="math inline">\(\tau\)</span>, <span class="math inline">\(\omega = 2\pi / (N \tau)\)</span>
+<ul>
+<li>
+<span class="math inline">\(z_0\)</span> is the coefficient for
+zero-frequency, <span class="math inline">\(0 \times
+\omega\)</span>
+</li>
+<li>
+<span class="math inline">\(z_N\)</span> is the coefficient for
+<span class="math inline">\(N \omega = 2 \pi / \tau\)</span>, which
+means one cycle per period <span class="math inline">\(\tau\)</span>.</li>
+<li>But <span class="math inline">\(z_0 = z_{0 + N}\)</span>, so our
+discrete Fourier transform can’t tell the difference between constant
+data and data that’s oscillating with period <span class="math inline">\(\tau\)</span>.</li>
+</ul>
+</li>
+<li class="fragment">All frequencies between <span class="math inline">\(k =
+N/2\)</span> and <span class="math inline">\(k = N\)</span> will appear
+like negative frequencies between <span class="math inline">\(-N/2\)</span> and <span class="math inline">\(0\)</span>.</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li class="fragment">The highest frequency we can reliably measure is <span class="math inline">\(k = N / 2\)</span>, which has period <span class="math inline">\(2 \tau\)</span>
+</li>
+<li class="fragment">When we sample with interval <span class="math inline">\(\tau\)</span>, any signal with frequency <span class="math inline">\(f &gt; 1 / (2 \tau)\)</span> will be “aliased” and
+will appear in our sampled data with a frequency between <span class="math inline">\(-1 / (2 \tau)\)</span> and <span class="math inline">\(1 / (2 \tau)\)</span>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="example-of-aliasing" class="slide level2 eighty"><h2 class="eighty">Example of Aliasing</h2>
+<div class="columns">
+<div class="column">
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>tau <span class="ot">=</span> <span class="fl">0.2</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>omega <span class="ot">=</span> <span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">*</span> <span class="fl">3.2</span> <span class="sc">/</span> tau</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>fast <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">time =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">10</span> <span class="sc">*</span> tau, tau <span class="sc">/</span> <span class="dv">30</span>),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">x =</span> <span class="fu">sin</span>(time <span class="sc">*</span> omega),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">sampling =</span> <span class="st">"fast"</span>)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>slow <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">time =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">10</span> <span class="sc">*</span> tau, tau),</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">x =</span> <span class="fu">sin</span>(time <span class="sc">*</span> omega),</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">sampling =</span> <span class="st">"slow"</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(fast, slow)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">x =</span> time, <span class="at">y =</span> x, <span class="at">color =</span> sampling)) <span class="sc">+</span> </span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> slow, <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_brewer</span>(<span class="at">palette =</span> <span class="st">"Dark2"</span>) <span class="sc">+</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Time"</span>, <span class="at">y =</span> <span class="st">"x"</span>)</span></code></pre></div>
+</div>
+<div class="column">
+<p><img data-src="assets/fig/unnamed-chunk-7-1.png"><!-- --></p>
+<ul>
+<li>Rule: Make sure that you sample at least twice as fast as the
+highesst frequency that appears in the signal.
+<ul>
+<li>With electronic instruments, use electronic filters to remove
+frequencies higher than half your sampling frequency.</li>
+<li>Good data loggers will do this automatically.</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section>
+</div>
+  </div>
+  <!--
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.js"></script>
+  <!-- -->
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.min.js"></script><!-- --><script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Display the page number of the current slide
+        showSlideNumber: 'speaker',
+        // Push each slide change to the browser history
+        history: true,
+        //  Enable hashing slide content to URL
+        hash: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Don't separate fragments in PDF rendering
+        pdfSeparateFragments: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+      
+        // Optional reveal.js plugins
+        dependencies: [
+                    { src: '../../lecture_lib/library/assets/plugin/chalkboard/chalkboard.js', async: true },
+                                        { src: '../../lecture_lib/library/assets/plugin/reveal-skip-fragments/skip-fragments.js', async: true },
+                    { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/notes/notes.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/math/math.js', async: true }
+        ],
+        shift_keyboard: {
+    	    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'C' is pressed
+    	    66: function() { RevealChalkboard.toggleChalkboard() },	  // toggle chalkboard when 'B' is pressed
+    	    88: function() { RevealChalkboard.clear() },	            // clear chalkboard when 'X' is pressed
+    	    82: function() { RevealChalkboard.reset() },	            // reset chalkboard data on current slide when 'R' is pressed
+    	    68: function() { RevealChalkboard.download() },	          // downlad recorded chalkboard drawing when 'D' is pressed
+        },
+              	// Shortcut for showing all fragments
+      	skipFragmentsShowShortcut: 'S',
+
+      	// Shortcut for hiding all fragments
+      	skipFragmentsHideShortcut: 'H',
+      	      });
+    </script><script>
+  	function createSingletonNodejg( container, tagname, classname, innerHTML ) {
+
+		// Find all nodes matching the description
+		var nodes = container.querySelectorAll( '.' + classname );
+
+		// Check all matches to find one which is a direct child of
+		// the specified container
+		for( var i = 0; i < nodes.length; i++ ) {
+			var testNode = nodes[i];
+			if( testNode.parentNode === container ) {
+				return testNode;
+			}
+		}
+
+		// If no node was found, create it now
+		var node = document.createElement( tagname );
+		node.className = classname;
+		if( typeof innerHTML === 'string' ) {
+			node.innerHTML = innerHTML;
+		}
+		container.appendChild( node );
+
+		return node;
+
+	}
+
+  var dom_wrapper = document.querySelector('.reveal');
+  createSingletonNodejg(dom_wrapper, 'div', 'qrbox',
+  '<div class="qrbox" id="qrbox" style="font-size:90%;">' + '\n' +
+  '<div style="font-size:30%;width:100%;">' + '\n' +
+      '<a href="https://ees5891.jgilligan.org/slides/class_25">' +
+  	'<img src="qrcode.png" alt="https://ees5891.jgilligan.org/slides/class_25"/>' +
+  	'</a>' + '\n' +
+	  '</div>' + '\n' +
+  '<div style="font-size:30%;width:100%;vertical-align:top;">' + '\n' +
+    '<span style="display:inline-block;text-align:left;margin-left:0">' + '\n' +
+        'Live web page: <a href="https://ees5891.jgilligan.org/slides/class_25">https://ees5891.jgilligan.org/slides/class_25</a>' + '\n' +
+              '<br/>' + '\n' +
+        'PDF: <a href="https://ees5891.jgilligan.org/slides/class_25/EES_4891_5891_class_25_slides.pdf" target="_blank">https://ees5891.jgilligan.org/slides/class_25/EES_4891_5891_class_25_slides.pdf</a>' + '\n' +
+          	'</span>' + '\n' +
+  	'<span style="display:inline-block;text-align:right;vertical-align:top;position:absolute;right:0;bottom:0;">' + '\n' +
+  	  'Navigate slides: next: N or &lt;space&gt;; previous: P or &lt;backspace&gt;<br/>' + '\n' +
+  	  'Also: up, down, left, right arrows; overview: o; help: ?' + '\n' +
+  	'</span>' + '\n' +
+	'</div>' + '\n' +
+  '</div>' + '\n'
+  );
+</script><script>
+var MathJax = { jax: ["input/TeX", "output/HTML-CSS"],
+                TeX: {extensions: ["color.js", "mhchem.js"],
+                Macros: {
+                  COO: "\\ce{CO2}",
+                  methane: "\\ce{CH4}",
+                  degC: "^\\circ \\mathrm{C}",
+                  degF: "^\\circ \\mathrm{F}",
+                  water: "\\ce{H2O}",
+                  carb: "\\ce{CO3^2-}",
+                  bicarb: "\\ce{HCO3-}",
+                  carbonic: "\\ce{H2CO3}",
+                  Hplus: "\\ce{H+}",
+                  OH: "\\ce{OH-}",
+                  silica: "\\ce{SiO2}",
+                  calcite: "\\ce{CaCO3}",
+                  Caplus: "\\ce{Ca^2+}",
+                  silicate: "\\ce{SiO3^2-}",
+                  CaSi: "\\ce{CaSiO3}",
+                  pH: "p\\ce{H}",
+                  permil: "\\unicode{x2030}",
+                  pCOO: "\\ce{	ext{p}CO2}",
+                  pwater: "\\ce{	ext{p}H2O}"
+                },
+                  },
+                "HTML-CSS" : {scale: 100 }};
+</script><!-- dynamically load mathjax for compatibility with self-contained --><script type="text/x-mathjax-config">
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["SVG"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+    displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
+    processEscapes: true
+  }
+})
+  </script><script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script><script>
+  var qrbox = document.querySelector("#qrbox");
+  var advance_fragment = 0;
+
+	function isPrintingPDF() {
+	  let printing = ( /print-pdf/gi ).test( window.location.search );
+	  console.log("printing test: " + printing);
+	  return printing;
+	}
+
+
+  if ( qrbox.hasAttribute('qr-box-hide') || Reveal.isOverview() ||
+      ! Reveal.isFirstSlide() || isPrintingPDF()) {
+    console.log("Initializing");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }
+
+  Reveal.addEventListener('overviewshown', function() {
+      console.log("Overview shown");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }, false);
+
+  Reveal.addEventListener('overviewhidden', function() {
+    if (Reveal.isFirstSlide() && ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Overview hidden");
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    console.log("Slide changed...");
+    if (Reveal.isFirstSlide() && ! Reveal.isOverview() &&
+        ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    } else {
+      console.log("Hiding QR box");
+      qrbox.style.visibility="hidden";
+      qrbox.style.display="none";
+    }
+  }, false);
+
+  Reveal.addEventListener('pdf-ready', function() {
+    console.log("hiding qrbox for printing");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+    qrbox.setAttribute('qr-box-hide', 'true');
+  });
+
+  </script><script>
+  Reveal.addEventListener('slidechanged', function() {
+    while (advance_fragment > 0) {
+      // console.log('advancing fragment');
+      Reveal.nextFragment();
+      advance_fragment--;
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    if ( Reveal.getCurrentSlide().hasAttribute('data-skip')) {
+      // console.log("going to next slide...");
+      Reveal.next();
+    }
+  }, false);
+
+  Reveal.addEventListener('skip_slide', function() {
+    Reveal.next();
+  }, false);
+
+  Reveal.addEventListener('advance_fragment', function() {
+    // console.log("setting advance fragment");
+    advance_fragment++;
+    }, false);
+  </script>
+</body>
+</html>
