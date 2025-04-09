@@ -33,6 +33,9 @@ continue to use RStudio to develop your project.)
 You will use R to import data, analyze it, and answer some questions
 about it.
 
+The GitHub Classroom assignment for the project is 
+<https://classroom.github.com/a/pGhugW_l>.
+
 ## Details
 
 ### Choosing a data set
@@ -109,7 +112,10 @@ The project will include the following parts:
   
    * You will turn in your final report by rendering the Quarto 
      document to HTML, PDF, or Word format and pushing it to GitHub.
-     * I will create a template for you on GitHub Classroom.
+     * I have created 
+       [a template](https://classroom.github.com/a/pGhugW_l) 
+       for you on GitHub Classroom at 
+       <https://classroom.github.com/a/pGhugW_l>
    
    There isn't a definite length for the report. I expect that 
    the report will be somewhere in the range of 10--20 pages, but 
