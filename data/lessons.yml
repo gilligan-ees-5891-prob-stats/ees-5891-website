@@ -107,6 +107,7 @@ lessons:
 - date: '2025-04-10'
   title: Modeling Time Series
   reading: /reading/reading_26
+  lecture: /slides/class_26
 - date: '2025-04-15'
   title: Exercises in Time Series Analysis
 - date: '2025-04-17'
