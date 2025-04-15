@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<!-- JG Reveal.js Template --><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="pandoc">
+<meta name="author" content="Jonathan Gilligan">
+<title>Exercises with Time Series</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimal-ui">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reset.css">
+<link rel="stylesheet" href="../../lecture_lib/library/reveal.js-3.8.0/css/reveal.min.css">
+<style type="text/css">
+      code{white-space: pre-wrap;}
+      .smallcaps{font-variant: small-caps;}
+      .line-block{white-space: pre-line;}
+      .column{display: inline-block;}  </style>
+<style type="text/css">
+    div.qrbox,
+    aside.qrbox {
+     text-align: left;
+     vertical-align: bottom;
+     width: 95%;
+     position: fixed;
+     left: 2.5%;
+     bottom: 1rem;
+     display: block;
+    }
+  </style>
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { font-weight: bold; } /* Alert */
+code span.an { font-style: italic; } /* Annotation */
+code span.cf { font-weight: bold; } /* ControlFlow */
+code span.co { font-style: italic; } /* Comment */
+code span.cv { font-style: italic; } /* CommentVar */
+code span.do { font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.er { font-weight: bold; } /* Error */
+code span.in { font-style: italic; } /* Information */
+code span.kw { font-weight: bold; } /* Keyword */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.wa { font-style: italic; } /* Warning */
+  </style>
+<!-- theme = solarized_jg --><link rel="stylesheet" href="../../lecture_lib/library/assets/css/theme/solarized_jg.css" id="theme">
+<!-- Printing and PDF exports --><script>
+    var link = document.createElement( 'link' );
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match( /print-pdf/gi ) ? '../../lecture_lib/library/reveal.js-3.8.0/css/print/pdf.css' : '../../lecture_lib/library/reveal.js-3.8.0/css/print/paper.css';
+    document.getElementsByTagName( 'head' )[0].appendChild( link );
+  </script><!--[if lt IE 9]>
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/lib/js/html5shiv.js"></script>
+  <![endif]--><script src="../../lecture_lib/library/header-attrs-2.29.1.9000/header-attrs.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+            <!-- start title slide -->
+<section class="center" id="title"><h1 class="title">Exercises with Time Series</h1>
+    <h3 class="author">EES 4891/5891</h3>
+        <h3 class="author">Probability &amp; Statistics for
+Geosciences</h3>
+    <h3 class="author">Jonathan Gilligan</h3>
+    <h3 class="date">
+      Class #27:
+       Tuesday, April 15
+      2025
+    </h3>
+	<!-- end title slide -->
+</section><section><section id="learning-goals" class="title-slide slide level1 center"><h1 class="center">Learning Goals</h1>
+
+</section><section id="learning-goals-1" class="slide level2 eighty"><h2 class="eighty">Learning Goals</h2>
+<ul>
+<li>Learn about using unit-root tests to determine whether a time-series
+is stationary or nonstationary.</li>
+<li>Learn how to use the Box-Jenkins method to identify for <span class="math inline">\(\mathrm{AR}(p)\)</span>, <span class="math inline">\(\mathrm{MA}(q)\)</span>, and <span class="math inline">\(\mathrm{ARMA}(p,q)\)</span> processees
+<ul>
+<li>Estimate <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span> for <span class="math inline">\(\mathrm{AR}(p)\)</span> and <span class="math inline">\(\mathrm{MA}(q)\)</span> processes</li>
+</ul>
+</li>
+<li>Learn how to use <span class="math inline">\(R\)</span> functions
+from the <span class="math inline">\(feasts\)</span> and <span class="math inline">\(modeltime\)</span> packages to fit parameters for
+<span class="math inline">\(\mathrm{AR}(p)\)</span>, <span class="math inline">\(\mathrm{MA}(q)\)</span>, and <span class="math inline">\(\mathrm{ARMA}(p, q)\)</span> models and to
+identify the best model to describe a process.</li>
+</ul></section></section><section><section id="getting-started" class="title-slide slide level1 center"><h1 class="center">Getting Started</h1>
+
+</section><section id="getting-started-1" class="slide level2 eighty"><h2 class="eighty">Getting Started</h2>
+<ul>
+<li>Accept the GitHub Classroom assignment at <a href="https://classroom.github.com/a/90GLihzx" class="uri">https://classroom.github.com/a/90GLihzx</a>
+</li>
+</ul>
+<p><a href="https://classroom.github.com/a/90GLihzx"><img data-src="assets/images/qrcode.svg" height="400" alt="https://classroom.github.com/a/90GLihzx"></a></p>
+</section></section><section><section id="ar-ma-and-arma" class="title-slide slide level1 center"><h1 class="center">AR, MA, and ARMA</h1>
+
+</section><section id="definitions" class="slide level2 eighty"><h2 class="eighty">Definitions</h2>
+<ul>
+<li>
+<p><span class="math inline">\(\mathrm{AR}(p)\)</span></p>
+<p><span class="math display">\[
+(y_i - \mu) = \sum_{j = 1}^p \phi_j (y_{i - j} - \mu) + \varepsilon_i
+\]</span></p>
+</li>
+<li>
+<p><span class="math inline">\(\mathrm{MA}(q)\)</span></p>
+<p><span class="math display">\[
+y_i - \mu = \sum_{k = 1}^q \theta_k \varepsilon_{i - k} + \varepsilon_i
+\]</span></p>
+</li>
+<li>
+<p><span class="math inline">\(\mathrm{ARMA}(p, q)\)</span></p>
+<p><span class="math display">\[
+(y_i - \mu) = \sum_{j = 1}^p \phi_j (y_{i - j} - \mu) +
+              \sum_{k = 1}^q \theta_k \varepsilon_{i - k} +
+\varepsilon_i
+\]</span></p>
+</li>
+</ul></section><section id="tests-for-stationarity" class="slide level2 eighty"><h2 class="eighty">Tests for Stationarity</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>We use “unit-root” tests for stationarity of <span class="math inline">\(\mathrm{AR}(p)\)</span> processes:
+<ul>
+<li>The reference is to the <em>characteristic equation</em> for the
+autoregressive process with coefficients <span class="math inline">\(\phi_i\)</span>
+<ul>
+<li>The characteristic equation is a polynomial of degree <span class="math inline">\(p\)</span>
+</li>
+<li>For a stationary process, all the roots of the characteristic
+equation will be less than one.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>All <span class="math inline">\(\mathrm{MA}(q)\)</span> processes
+are stationary, as long as <span class="math inline">\(\varepsilon \sim
+\mathcal{N}(0, \sigma)\)</span>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>Unit-root tests in R:
+<ul>
+<li>For a data frame <span class="math inline">\(df\)</span> with
+columns <span class="math inline">\(t\)</span> for the time and <span class="math inline">\(y\)</span> for the value.</li>
+<li>Use the package <code>feasts</code>
+<ul>
+<li>Kwiatkowski–Phillips–Schmidt–Shin (KPSS) test:
+<code>unitroot_kpss(df$y)</code>
+<ul>
+<li>Null hypothesis <span class="math inline">\(H_0\)</span>:
+stationary</li>
+<li>Alternate hypothesis <span class="math inline">\(H_a\)</span>:
+nonstationary</li>
+</ul>
+</li>
+<li>Phillips-Perron (PP) test: <code>unitroot_pp(df$y)</code>
+<ul>
+<li>Null hypothesis <span class="math inline">\(H_0\)</span>:
+nonstationary</li>
+<li>Alternate hypothesis <span class="math inline">\(H_a\)</span>:
+stationary</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>This can be confusing because we have to interpret the tests in
+opposite ways:
+<ul>
+<li>KPSS: <span class="math inline">\(p &lt; 0.05\)</span> means
+nonstationary</li>
+<li>PP: <span class="math inline">\(p &lt; 0.05\)</span> means
+stationary</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section><section><section id="box-jenkins-method" class="title-slide slide level1 center"><h1 class="center">Box-Jenkins Method</h1>
+
+</section><section id="box-jenkins-method-1" class="slide level2 eighty"><h2 class="eighty">Box-Jenkins Method</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>Plot ACF and PACF
+<ul>
+<li>Stationarity:
+<ul>
+<li>Stationary: ACF decays to zero fairly quickly</li>
+<li>Nonstationary: ACF decays very slowly</li>
+</ul>
+</li>
+<li>AR(p):
+<ul>
+<li>ACF is decaying exponential or oscillation</li>
+<li>PACF is significant at lag <span class="math inline">\(p\)</span>,
+maybe earlier too, but nothing after <span class="math inline">\(p\)</span>
+</li>
+</ul>
+</li>
+<li>MA(q):
+<ul>
+<li>PACF is decaying exponential or oscillation</li>
+<li>ACF is significant at lag <span class="math inline">\(q\)</span>,
+maybe earlier too, but nothing after <span class="math inline">\(q\)</span>
+</li>
+</ul>
+</li>
+<li>ARMA(p,q):
+<ul>
+<li>Both ACF and PACF are decaying exponential or oscillation</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<div class="bare">
+<p><img data-src="assets/fig/plot-ar-1.png"><!-- --><img data-src="assets/fig/plot-ma-1.png"><!-- --><img data-src="assets/fig/plot-arma-1.png"><!-- --></p>
+</div>
+</div>
+</div>
+</section><section id="arma-processes" class="slide level2 eighty"><h2 class="eighty">ARMA Processes</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>
+<span class="math inline">\(\mathrm{AR}(p)\)</span> and <span class="math inline">\(\mathrm{MA}(q)\)</span> processes let you estimate
+<span class="math inline">\(p\)</span> or <span class="math inline">\(q\)</span> from ACF and PACF using
+Box-Jenkins</li>
+<li>It’s hard to estimate <span class="math inline">\(p\)</span> and
+<span class="math inline">\(q\)</span> for an ARMA process
+<ul>
+<li>Use regression and estimate AIC for different <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>.
+<ul>
+<li>Choose the model with smallest AIC</li>
+</ul>
+</li>
+<li>Use cross-validation and estimate <span class="math inline">\(R^2\)</span> and RMSE,
+<ul>
+<li>Choose the model with largest <span class="math inline">\(R^2\)</span> or smallest RMSE.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>
+<p>R: <code>fable</code> and <code>feasts</code> packages:</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fable)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(feasts)</span></code></pre></div>
+</div>
+</li>
+<li>
+<p>Automatically select model:</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model</span>(df_arma, <span class="fu">ARIMA</span>(y <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">0</span><span class="sc">:</span><span class="dv">5</span>)))</span></code></pre></div>
+<pre><code>## # A mable: 1 x 1
+##   `ARIMA(y ~ pdq(0:5, 0, 0:5))`
+##                         &lt;model&gt;
+## 1        &lt;ARIMA(1,0,1) w/ mean&gt;</code></pre>
+</div>
+</li>
+<li>
+<p>Compare models:</p>
+<div class="bare max-listing">
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model</span>(df_arma, <span class="at">arma_11 =</span> <span class="fu">ARIMA</span>(y <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>)),</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>               <span class="at">arma_21 =</span> <span class="fu">ARIMA</span>(y <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>)),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">arma_12 =</span> <span class="fu">ARIMA</span>(y <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>)),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">arma_22 =</span> <span class="fu">ARIMA</span>(y <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">2</span>))) <span class="sc">|&gt;</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glance</span>() <span class="sc">|&gt;</span> <span class="fu">arrange</span>(AIC)</span></code></pre></div>
+<pre class="sixty"><code>## # A tibble: 4 × 8
+##   .model   sigma2 log_lik    AIC   AICc    BIC ar_roots  ma_roots 
+##   &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;list&gt;    &lt;list&gt;   
+## 1 arma_11 0.00249   1578. -3149. -3149. -3129. &lt;cpl [1]&gt; &lt;cpl [1]&gt;
+## 2 arma_21 0.00249   1579. -3148. -3148. -3124. &lt;cpl [2]&gt; &lt;cpl [1]&gt;
+## 3 arma_12 0.00250   1578. -3148. -3148. -3128. &lt;cpl [1]&gt; &lt;cpl [2]&gt;
+## 4 arma_22 0.00250   1578. -3146. -3146. -3121. &lt;cpl [2]&gt; &lt;cpl [2]&gt;</code></pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section><section id="feasts-vs.-modeltime" class="slide level2 eighty"><h2 class="eighty">
+<code>feasts</code> vs. <code>modeltime</code>
+</h2>
+<div class="columns">
+<div class="column">
+<ul>
+<li>There are two important families of packages for statistical
+modeling of time series:
+<ul>
+<li>
+<code>tidyverts</code> by Rob Hyndeman, consists of
+<code>tsibble</code>, <code>fable</code>, and <code>feasts</code>. These
+packages provide one way to integrate time-series models into the
+<code>tidyverse</code>.
+<ul>
+<li>They are very powerful, but don’t integrate with the
+<code>tidymodels</code> framework.</li>
+<li>To use the model-analysis in <code>fable</code> and
+<code>feasts</code>, you need to convert your data frames into
+<code>tsibble</code>s, which extend the <code>tibble</code> data frame
+into a time-series</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="column">
+<ul>
+<li>
+<code>modeltime</code> integrates time-series models with
+<code>tidymodels</code>, but it isn’t as flexible about time-series:
+<ul>
+<li>All time series have to convert the time variable to
+<code>date</code> or <code>datetime</code> formats.
+<ul>
+<li>They don’t work with time-series that have numerical values for the
+time veriable.</li>
+<li>They have powerful functions for cross-validation and model
+selection that are not available in the <code>tidyverts</code>
+framework.</li>
+<li>The <code>timetk</code> package has a lot of useful functions for
+working with <code>modeltime</code> time-series.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</section></section>
+</div>
+  </div>
+  <!--
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.js"></script>
+  <!-- -->
+  <script src="../../lecture_lib/library/reveal.js-3.8.0/js/reveal.min.js"></script><!-- --><script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: false,
+        // Display a presentation progress bar
+        progress: true,
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+        // Display the page number of the current slide
+        showSlideNumber: 'speaker',
+        // Push each slide change to the browser history
+        history: true,
+        //  Enable hashing slide content to URL
+        hash: true,
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+        // Enable the slide overview mode
+        overview: true,
+        // Vertical centering of slides
+        center: false,
+        // Enables touch navigation on devices with touch input
+        touch: true,
+        // Turns fragments on and off globally
+        fragments: true,
+        // Don't separate fragments in PDF rendering
+        pdfSeparateFragments: false,
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+        // Transition style
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+        // Transition speed
+        transitionSpeed: 'default', // default/fast/slow
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+        height: 1080,
+      
+        // Optional reveal.js plugins
+        dependencies: [
+                    { src: '../../lecture_lib/library/assets/plugin/chalkboard/chalkboard.js', async: true },
+                                        { src: '../../lecture_lib/library/assets/plugin/reveal-skip-fragments/skip-fragments.js', async: true },
+                    { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/zoom-js/zoom.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/notes/notes.js', async: true },
+          { src: '../../lecture_lib/library/reveal.js-3.8.0/plugin/math/math.js', async: true }
+        ],
+        shift_keyboard: {
+    	    67: function() { RevealChalkboard.toggleNotesCanvas() },	// toggle notes canvas when 'C' is pressed
+    	    66: function() { RevealChalkboard.toggleChalkboard() },	  // toggle chalkboard when 'B' is pressed
+    	    88: function() { RevealChalkboard.clear() },	            // clear chalkboard when 'X' is pressed
+    	    82: function() { RevealChalkboard.reset() },	            // reset chalkboard data on current slide when 'R' is pressed
+    	    68: function() { RevealChalkboard.download() },	          // downlad recorded chalkboard drawing when 'D' is pressed
+        },
+              	// Shortcut for showing all fragments
+      	skipFragmentsShowShortcut: 'S',
+
+      	// Shortcut for hiding all fragments
+      	skipFragmentsHideShortcut: 'H',
+      	      });
+    </script><script>
+  	function createSingletonNodejg( container, tagname, classname, innerHTML ) {
+
+		// Find all nodes matching the description
+		var nodes = container.querySelectorAll( '.' + classname );
+
+		// Check all matches to find one which is a direct child of
+		// the specified container
+		for( var i = 0; i < nodes.length; i++ ) {
+			var testNode = nodes[i];
+			if( testNode.parentNode === container ) {
+				return testNode;
+			}
+		}
+
+		// If no node was found, create it now
+		var node = document.createElement( tagname );
+		node.className = classname;
+		if( typeof innerHTML === 'string' ) {
+			node.innerHTML = innerHTML;
+		}
+		container.appendChild( node );
+
+		return node;
+
+	}
+
+  var dom_wrapper = document.querySelector('.reveal');
+  createSingletonNodejg(dom_wrapper, 'div', 'qrbox',
+  '<div class="qrbox" id="qrbox" style="font-size:90%;">' + '\n' +
+  '<div style="font-size:30%;width:100%;">' + '\n' +
+      '<a href="https://ees5891.jgilligan.org/slides/class_27">' +
+  	'<img src="qrcode.png" alt="https://ees5891.jgilligan.org/slides/class_27"/>' +
+  	'</a>' + '\n' +
+	  '</div>' + '\n' +
+  '<div style="font-size:30%;width:100%;vertical-align:top;">' + '\n' +
+    '<span style="display:inline-block;text-align:left;margin-left:0">' + '\n' +
+        'Live web page: <a href="https://ees5891.jgilligan.org/slides/class_27">https://ees5891.jgilligan.org/slides/class_27</a>' + '\n' +
+              '<br/>' + '\n' +
+        'PDF: <a href="https://ees5891.jgilligan.org/slides/class_27/EES_4891_5891_class_27_slides.pdf" target="_blank">https://ees5891.jgilligan.org/slides/class_27/EES_4891_5891_class_27_slides.pdf</a>' + '\n' +
+          	'</span>' + '\n' +
+  	'<span style="display:inline-block;text-align:right;vertical-align:top;position:absolute;right:0;bottom:0;">' + '\n' +
+  	  'Navigate slides: next: N or &lt;space&gt;; previous: P or &lt;backspace&gt;<br/>' + '\n' +
+  	  'Also: up, down, left, right arrows; overview: o; help: ?' + '\n' +
+  	'</span>' + '\n' +
+	'</div>' + '\n' +
+  '</div>' + '\n'
+  );
+</script><script>
+var MathJax = { jax: ["input/TeX", "output/HTML-CSS"],
+                TeX: {extensions: ["color.js", "mhchem.js"],
+                Macros: {
+                  COO: "\\ce{CO2}",
+                  methane: "\\ce{CH4}",
+                  degC: "^\\circ \\mathrm{C}",
+                  degF: "^\\circ \\mathrm{F}",
+                  water: "\\ce{H2O}",
+                  carb: "\\ce{CO3^2-}",
+                  bicarb: "\\ce{HCO3-}",
+                  carbonic: "\\ce{H2CO3}",
+                  Hplus: "\\ce{H+}",
+                  OH: "\\ce{OH-}",
+                  silica: "\\ce{SiO2}",
+                  calcite: "\\ce{CaCO3}",
+                  Caplus: "\\ce{Ca^2+}",
+                  silicate: "\\ce{SiO3^2-}",
+                  CaSi: "\\ce{CaSiO3}",
+                  pH: "p\\ce{H}",
+                  permil: "\\unicode{x2030}",
+                  pCOO: "\\ce{	ext{p}CO2}",
+                  pwater: "\\ce{	ext{p}H2O}"
+                },
+                  },
+                "HTML-CSS" : {scale: 100 }};
+</script><!-- dynamically load mathjax for compatibility with self-contained --><script type="text/x-mathjax-config">
+MathJax.Hub.Register.StartupHook("HTML-CSS Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["HTML-CSS"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Register.StartupHook("SVG Jax Ready",function () {
+    var VARIANT = MathJax.OutputJax["SVG"].FONTDATA.VARIANT;
+    VARIANT["normal"].fonts.unshift("MathJax_SansSerif");
+	  VARIANT["bold"].fonts.unshift("MathJax_SansSerif-bold");
+	  VARIANT["italic"].fonts.unshift("MathJax_SansSerif-italic");
+	  VARIANT["-tex-mathit"].fonts.unshift("MathJax_SansSerif-italic");
+	});
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+    displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
+    processEscapes: true
+  }
+})
+  </script><script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script><script>
+  var qrbox = document.querySelector("#qrbox");
+  var advance_fragment = 0;
+
+	function isPrintingPDF() {
+	  let printing = ( /print-pdf/gi ).test( window.location.search );
+	  console.log("printing test: " + printing);
+	  return printing;
+	}
+
+
+  if ( qrbox.hasAttribute('qr-box-hide') || Reveal.isOverview() ||
+      ! Reveal.isFirstSlide() || isPrintingPDF()) {
+    console.log("Initializing");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }
+
+  Reveal.addEventListener('overviewshown', function() {
+      console.log("Overview shown");
+    console.log("Hiding QR box");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+  }, false);
+
+  Reveal.addEventListener('overviewhidden', function() {
+    if (Reveal.isFirstSlide() && ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Overview hidden");
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    console.log("Slide changed...");
+    if (Reveal.isFirstSlide() && ! Reveal.isOverview() &&
+        ! qrbox.hasAttribute('qr-box-hide') &&
+        ! isPrintingPDF()) {
+      console.log("Showing QR box");
+      qrbox.style.visibility="visible";
+      qrbox.style.display="block";
+    } else {
+      console.log("Hiding QR box");
+      qrbox.style.visibility="hidden";
+      qrbox.style.display="none";
+    }
+  }, false);
+
+  Reveal.addEventListener('pdf-ready', function() {
+    console.log("hiding qrbox for printing");
+    qrbox.style.visibility="hidden";
+    qrbox.style.display="none";
+    qrbox.setAttribute('qr-box-hide', 'true');
+  });
+
+  </script><script>
+  Reveal.addEventListener('slidechanged', function() {
+    while (advance_fragment > 0) {
+      // console.log('advancing fragment');
+      Reveal.nextFragment();
+      advance_fragment--;
+    }
+  }, false);
+
+  Reveal.addEventListener('slidechanged', function() {
+    if ( Reveal.getCurrentSlide().hasAttribute('data-skip')) {
+      // console.log("going to next slide...");
+      Reveal.next();
+    }
+  }, false);
+
+  Reveal.addEventListener('skip_slide', function() {
+    Reveal.next();
+  }, false);
+
+  Reveal.addEventListener('advance_fragment', function() {
+    // console.log("setting advance fragment");
+    advance_fragment++;
+    }, false);
+  </script>
+</body>
+</html>
