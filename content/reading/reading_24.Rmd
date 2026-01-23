@@ -1,5 +1,5 @@
 ---
-title: Principal Components Analysis
+title: 'Time Series Data: Fourier Analysis'
 subtitle: '`r params$par_subtitle`'
 class_date: '`r params$par_date`'
 class_number: 24
@@ -19,5 +19,5 @@ output:
 
 ### Required Reading (everyone):
 
-* Data Analysis for the Earth & Environmental Sciences, Ch. 12.
+* Data Analysis for the Earth & Environmental Sciences, Ch. 7.
 

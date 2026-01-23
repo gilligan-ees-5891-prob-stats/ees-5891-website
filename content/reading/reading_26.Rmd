@@ -1,5 +1,5 @@
 ---
-title: Modeling Time Series
+title: Geospatial Analysis
 subtitle: '`r params$par_subtitle`'
 class_date: '`r params$par_date`'
 class_number: 26
@@ -17,7 +17,8 @@ output:
 ---
 ## Reading:
 
-### Required Reading (everyone):
+No new reading for today.
 
-* Data Analysis for the Earth & Environmental Sciences, Ch. 8.
+### Notes:
+
 

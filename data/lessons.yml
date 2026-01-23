@@ -89,25 +89,25 @@ lessons:
   reading: /reading/reading_21
   lecture: /slides/class_21
 - date: '2027-04-01'
-  title: Regression with Discrete vs. Continuous Variables
-  reading: /reading/reading_22
+  title: Exercises with Regression
   lecture: /slides/class_22
 - date: '2027-04-06'
-  title: Exercises with Regression
+  title: Principal Components Analysis
+  reading: /reading/reading_23
   lecture: /slides/class_23
 - date: '2027-04-08'
-  title: Principal Components Analysis
+  title: 'Time Series Data: Fourier Analysis'
   reading: /reading/reading_24
 - date: '2027-04-13'
-  title: 'Time Series Data: Fourier Analysis'
+  title: Modeling Time Series
   reading: /reading/reading_25
   lecture: /slides/class_25
 - date: '2027-04-15'
-  title: Modeling Time Series
+  title: Geospatial Analysis
   reading: /reading/reading_26
   lecture: /slides/class_26
 - date: '2027-04-20'
-  title: Exercises in Time Series Analysis
+  title: Exercises in Time Series and Geospatial Analysis
   lecture: /slides/class_27
 - date: '2027-04-22'
   title: Review of the Semester
