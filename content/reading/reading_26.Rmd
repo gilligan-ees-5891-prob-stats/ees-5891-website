@@ -1,11 +1,15 @@
 ---
 title: Modeling Time Series
-class_date: '2025-04-10'
+subtitle: '`r params$par_subtitle`'
+class_date: '`r params$par_date`'
 class_number: 26
 weight: 26
 slug: reading_26
-pubdate: '2024-12-31'
-date: '2025-04-10'
+pubdate: '2026-01-22'
+date: '`r params$par_date`'
+params:
+  par_date: '2027-04-15'
+  par_subtitle: ~
 pdf_url: /files/reading_asgts/reading_26.pdf
 output:
   blogdown::html_page:

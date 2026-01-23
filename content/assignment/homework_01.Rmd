@@ -1,14 +1,19 @@
 ---
 title: Setup software
-due_date: '2025-01-14'
+subtitle: '`r params$par_subtitle`'
+due_date: '`r params$par_date`'
 assignment_type: Homework
 short_assignment_type: HW
+med_assignment_type: Homework
 assignment_number: 1
 weight: 1
 github_classroom_assignment_url: https://classroom.github.com/a/SdzYvx3b
 slug: homework_01
-pubdate: '2024-12-31'
-date: '2025-01-14'
+pubdate: '2026-01-22'
+date: '`r params$par_date`'
+params:
+  par_date: '2027-01-15'
+  par_subtitle: ~
 pdf_url: /files/homework_asgts/homework_01.pdf
 output:
   blogdown::html_page:

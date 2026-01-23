@@ -1,11 +1,15 @@
 ---
 title: Multivariate Analysis
-class_date: '2025-03-20'
+subtitle: '`r params$par_subtitle`'
+class_date: '`r params$par_date`'
 class_number: 18
 weight: 18
 slug: reading_18
-pubdate: '2024-12-31'
-date: '2025-03-20'
+pubdate: '2026-01-22'
+date: '`r params$par_date`'
+params:
+  par_date: '2027-03-11'
+  par_subtitle: ~
 pdf_url: /files/reading_asgts/reading_18.pdf
 output:
   blogdown::html_page:

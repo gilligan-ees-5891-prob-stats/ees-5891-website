@@ -564,12 +564,13 @@ instructions I may not notice your email.
 \section[Description]{Course Description}
 
 \textbf{\ShortCourseName.}
-Fundamentals of probability and statistics for the Earth \& Envirommental
-Sciences, with applications in \Rstats. Probability distributions, descriptive
-statistics, statistical testing, regression analysis, elements of time-series
-analysis and multivariate statistics, principal components analysis,
-reproducible research methods, principles of statistical computing using \Rstats.
-[3](MNS)
+Fundamentals of probability and statistics, with applications to
+geosciences.
+Probability distributions, descriptive statistics, statistical testing,
+regression analysis, elements of time-series and geospatial analysis,
+principal components analysis, reproducible research methods,
+principles of statistical computing using R, and epistemology of
+statistical testing. [3]
 
 \subsection{Prerequisites}
 
@@ -697,15 +698,20 @@ submitted by the beginning of class on the day it's due.
 You will turn in homework to Brightspace or \GitHub\ as indicated on the
 assignment.
 
+For most homework assignments, you will apply the principles of reproducible
+research by using \verb+git+ and \verb+quarto+ to integrate writing, computer
+code, and data analysis.
+
 \subsubsection{Project}
 
-In the second half of the semester, you will do a research project, in which you
-will choose a data set that's interesting to you and apply statistical methods to
-analyze it. You will present the results of your project in class during the
-last week of the semester and turn in a written report about your project.
+In the second half of the semester, you will do a research project,
+in which you will choose a data set that's interesting to you and apply
+statistical methods to analyze it. You will present the results of your
+project in class and turn in a written report about your project.
 
-You may examine data from a research project you're working on, or it can be data
-from a public data source that you are interested in understanding better.
+You may examine data from a research project you're working on, or it
+can be data from a public data source that you are interested in
+understanding better.
 
 \subsubsection[Tests \& Exams]{Tests and Examinations}
 
@@ -730,7 +736,7 @@ assess how things are going, and may change the assignments and sequence of
 readings to help you get the most out of it.
 %
 %
-\iftrue
+\iffalse
 % \pagebreak
 \include*{MeetYourProf}
 \fi

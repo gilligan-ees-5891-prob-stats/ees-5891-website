@@ -1,11 +1,15 @@
 ---
 title: Confirmatory Data Analysis
-class_date: '2025-02-20'
+subtitle: '`r params$par_subtitle`'
+class_date: '`r params$par_date`'
 class_number: 14
 weight: 14
 slug: reading_14
-pubdate: '2024-12-31'
-date: '2025-02-20'
+pubdate: '2026-01-22'
+date: '`r params$par_date`'
+params:
+  par_date: '2027-02-25'
+  par_subtitle: ~
 pdf_url: /files/reading_asgts/reading_14.pdf
 output:
   blogdown::html_page:

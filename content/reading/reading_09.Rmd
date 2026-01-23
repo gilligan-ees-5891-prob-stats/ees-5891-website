@@ -1,11 +1,15 @@
 ---
 title: Importing Data into R
-class_date: '2025-02-04'
+subtitle: '`r params$par_subtitle`'
+class_date: '`r params$par_date`'
 class_number: 9
 weight: 9
 slug: reading_09
-pubdate: '2024-12-31'
-date: '2025-02-04'
+pubdate: '2026-01-22'
+date: '`r params$par_date`'
+params:
+  par_date: '2027-02-09'
+  par_subtitle: ~
 pdf_url: /files/reading_asgts/reading_09.pdf
 output:
   blogdown::html_page:

@@ -1,11 +1,15 @@
 ---
 title: 'Time Series Data: Fourier Analysis'
-class_date: '2025-04-08'
+subtitle: '`r params$par_subtitle`'
+class_date: '`r params$par_date`'
 class_number: 25
 weight: 25
 slug: reading_25
-pubdate: '2024-12-31'
-date: '2025-04-08'
+pubdate: '2026-01-22'
+date: '`r params$par_date`'
+params:
+  par_date: '2027-04-13'
+  par_subtitle: ~
 pdf_url: /files/reading_asgts/reading_25.pdf
 output:
   blogdown::html_page:

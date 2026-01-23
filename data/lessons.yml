@@ -1,115 +1,113 @@
 lessons:
-- date: '2025-01-07'
+- date: '2027-01-12'
   title: Introduction
   lecture: /slides/class_01
-- date: '2025-01-09'
+- date: '2027-01-14'
   title: What is Probability?
   reading: /reading/reading_02
   lecture: /slides/class_02
-- date: '2025-01-14'
+- date: '2027-01-15'
+  assignment: /assignment/homework_01
+- date: '2027-01-19'
   title: The R Statistical Programming Language
   reading: /reading/reading_03
-  assignment: /assignment/homework_01
   lecture: /slides/class_03
-- date: '2025-01-16'
+- date: '2027-01-21'
   title: Mathematics of Probability
   reading: /reading/reading_04
   lecture: /slides/class_04
-- date: '2025-01-21'
+- date: '2027-01-26'
   title: Reproducible Research in R
   reading: /reading/reading_05
   lecture: /slides/class_05
-- date: '2025-01-23'
+- date: '2027-01-28'
   title: Probability Distributions
   reading: /reading/reading_06
   lecture: /slides/class_06
-- date: '2025-01-28'
+- date: '2027-02-02'
   title: Transforming Data in R
   reading: /reading/reading_07
   lecture: /slides/class_07
-- date: '2025-01-30'
+- date: '2027-02-04'
   title: Working with Data in R
   reading: /reading/reading_08
   lecture: /slides/class_08
-- date: '2025-02-04'
+- date: '2027-02-05'
+  assignment: /assignment/homework_02
+- date: '2027-02-09'
   title: Importing Data into R
   reading: /reading/reading_09
+  assignment: /assignment/homework_03
   lecture: /slides/class_09
-- date: '2025-02-06'
+- date: '2027-02-11'
   title: The Normal Distribution
   reading: /reading/reading_10
-  assignment: /assignment/homework_02
   lecture: /slides/class_10
-- date: '2025-02-07'
-  assignment: /assignment/homework_03
-- date: '2025-02-11'
+- date: '2027-02-16'
   title: Error Theory
   reading: /reading/reading_11
   lecture: /slides/class_11
-- date: '2025-02-13'
+- date: '2027-02-18'
   title: Statistical Estimation
   reading: /reading/reading_12
   lecture: /slides/class_12
-- date: '2025-02-18'
+- date: '2027-02-23'
   title: Exercises with Estimation
   lecture: /slides/class_13
-- date: '2025-02-20'
+- date: '2027-02-25'
   title: Confirmatory Data Analysis
   reading: /reading/reading_14
   lecture: /slides/class_14
-- date: '2025-03-04'
+- date: '2027-03-02'
   title: Statistical Testing
   reading: /reading/reading_15
   lecture: /slides/class_15
-- date: '2025-03-06'
-  title: Exercises with Hypothesis Testing
-  reading: /reading/reading_16
-  lecture: /slides/class_16
-- date: '2025-03-11'
-  title: Spring Break
-- date: '2025-03-13'
-  title: Spring Break
-- date: '2025-03-18'
+- date: '2027-03-04'
   title: Review
-  reading: /reading/reading_17
   lecture: /slides/class_17
-- date: '2025-03-20'
+- date: '2027-03-09'
+  title: Exercises with Hypothesis Testing
+  lecture: /slides/class_16
+- date: '2027-03-11'
   title: Multivariate Analysis
   reading: /reading/reading_18
   lecture: /slides/class_18
-- date: '2025-03-24'
+- date: '2027-03-16'
+  title: Spring Break
+- date: '2027-03-18'
+  title: Spring Break
+- date: '2027-03-23'
   title: Least Squares Analysis
   reading: /reading/reading_19
   lecture: /slides/class_19
-- date: '2025-03-27'
+- date: '2027-03-25'
   title: Linear Regression
   reading: /reading/reading_20
   lecture: /slides/class_20
-- date: '2025-03-31'
+- date: '2027-03-30'
   title: Multiple Linear Regression
   reading: /reading/reading_21
   lecture: /slides/class_21
-- date: '2025-04-01'
+- date: '2027-04-01'
   title: Regression with Discrete vs. Continuous Variables
   reading: /reading/reading_22
   lecture: /slides/class_22
-- date: '2025-04-03'
+- date: '2027-04-06'
   title: Exercises with Regression
-  reading: /reading/reading_23
   lecture: /slides/class_23
-- date: '2025-04-07'
+- date: '2027-04-08'
   title: Principal Components Analysis
   reading: /reading/reading_24
-- date: '2025-04-08'
+- date: '2027-04-13'
   title: 'Time Series Data: Fourier Analysis'
   reading: /reading/reading_25
   lecture: /slides/class_25
-- date: '2025-04-10'
+- date: '2027-04-15'
   title: Modeling Time Series
   reading: /reading/reading_26
   lecture: /slides/class_26
-- date: '2025-04-15'
+- date: '2027-04-20'
   title: Exercises in Time Series Analysis
   lecture: /slides/class_27
-- date: '2025-04-17'
+- date: '2027-04-22'
   title: Review of the Semester
